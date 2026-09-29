@@ -101,6 +101,27 @@ Objetivos:
 - Tablet: completamente operativa.
 - Mobile: funcional y comprensible.
 
+### Datos y tablas
+
+- El scroll horizontal no es la solución principal para tablas. La configuración estándar debe caber en el ancho disponible mediante prioridades de columna y densidad compacta.
+- Desktop muestra los campos de máxima prioridad y ofrece selector de columnas para el resto. Notebook oculta automáticamente columnas secundarias; tablet conserva sólo los campos esenciales.
+- En mobile, los listados de varias columnas se representan como registros compactos expandibles. Las acciones esenciales y el estado deben permanecer visibles; la información secundaria se revela bajo demanda.
+- El scroll horizontal es un fallback excepcional y debe estar justificado por una tarea que requiera comparar una matriz amplia.
+- Cada tabla declara metadatos de campos agrupables. La agrupación debe actualizar conteo, subtotal y presentación, y nunca puede sumar importes de monedas distintas.
+
+### Fechas
+
+- Toda fecha visible usa `DD/MM/AAAA`; fecha y hora usa `DD/MM/AAAA HH:mm`.
+- El formato se resuelve con helpers reutilizables del design system; no se formatean fechas manualmente en cada pantalla.
+
+### Evitar apariencia genérica de IA
+
+- Evitar exceso de cards, iconos puramente decorativos y grids artificialmente simétricos.
+- No usar badges para datos que no expresan estados.
+- Evitar grandes espacios vacíos, títulos de estilo landing y redondeo excesivo.
+- Priorizar contenido, jerarquía y herramientas operativas sobre superficies decorativas.
+- Usar terminología real del dominio. La estructura responde al trabajo del usuario, no a una plantilla visual.
+
 ## Accesibilidad
 
 Piso obligatorio: WCAG 2.2 AA.

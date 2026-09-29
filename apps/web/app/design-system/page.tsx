@@ -1,18 +1,14 @@
 import Image from "next/image"
 import {
   AlertCircle,
-  ArrowRight,
-  CalendarDays,
   CheckCircle2,
   CircleAlert,
-  Clock3,
   FileWarning,
   Info,
+  LoaderCircle,
   PackageOpen,
   Plus,
   Search,
-  Truck,
-  XCircle,
 } from "lucide-react"
 
 import {
@@ -25,142 +21,118 @@ import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { Label } from "@workspace/ui/components/label"
 import { Separator } from "@workspace/ui/components/separator"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@workspace/ui/components/table"
+import { formatDate, formatDateTime } from "@workspace/ui/lib/date"
 
-const operations = [
-  {
-    reference: "IM-2026-0842",
-    type: "Importación",
-    client: "Industrias Delta",
-    supplier: "Ningbo Atlas Co.",
-    status: "En curso",
-    eta: "14 oct 2026",
-    amount: "USD 84.250",
-  },
-  {
-    reference: "EX-2026-0317",
-    type: "Exportación",
-    client: "Frigorífico del Sur",
-    supplier: "—",
-    status: "Pendiente",
-    eta: "18 oct 2026",
-    amount: "USD 42.800",
-  },
-  {
-    reference: "IM-2026-0835",
-    type: "Importación",
-    client: "Tecnoenvases SA",
-    supplier: "Guangzhou Flex",
-    status: "Requiere atención",
-    eta: "09 oct 2026",
-    amount: "USD 16.920",
-  },
-  {
-    reference: "EX-2026-0312",
-    type: "Exportación",
-    client: "Molinos Andinos",
-    supplier: "—",
-    status: "Completado",
-    eta: "02 oct 2026",
-    amount: "USD 128.600",
-  },
-]
+import { OperationsWorkspace } from "./data/operations-workspace"
+
+const navigation = [
+  ["Fundamentos", "fundamentos"],
+  ["Componentes", "componentes"],
+  ["Formularios", "formularios"],
+  ["Feedback", "feedback"],
+  ["Filtros y datos", "tablas-datos"],
+  ["Gráficos", "graficos"],
+  ["Responsive", "responsive"],
+] as const
 
 function Section({
+  id,
   title,
   description,
   children,
-}: Readonly<{
+}: {
+  id: string
   title: string
   description: string
   children: React.ReactNode
-}>) {
+}) {
   return (
     <section
-      aria-labelledby={title.toLowerCase().replaceAll(" ", "-")}
-      className="border-t border-border py-8 sm:py-10"
+      id={id}
+      aria-labelledby={`${id}-title`}
+      className="scroll-mt-4 border-t border-border py-8 sm:py-10"
     >
       <div className="mb-5 max-w-2xl">
-        <h2
-          id={title.toLowerCase().replaceAll(" ", "-")}
-          className="text-lg font-semibold tracking-tight"
-        >
+        <h2 id={`${id}-title`} className="text-lg font-semibold tracking-tight">
           {title}
         </h2>
-        <p className="mt-1 text-sm text-muted-foreground">{description}</p>
+        <p className="mt-1 text-sm leading-6 text-muted-foreground">
+          {description}
+        </p>
       </div>
       {children}
     </section>
   )
 }
 
-function StatusBadge({ status }: Readonly<{ status: string }>) {
-  const config = {
-    "En curso": { variant: "info" as const, icon: Clock3 },
-    Pendiente: { variant: "warning" as const, icon: CircleAlert },
-    Completado: { variant: "success" as const, icon: CheckCircle2 },
-    "Requiere atención": { variant: "destructive" as const, icon: AlertCircle },
-    Cancelado: { variant: "secondary" as const, icon: XCircle },
-  }[status] ?? { variant: "secondary" as const, icon: Clock3 }
-  const Icon = config.icon
-
-  return (
-    <Badge variant={config.variant}>
-      <Icon aria-hidden="true" />
-      {status}
-    </Badge>
-  )
+function StatusBadge({
+  status,
+}: {
+  status: "En curso" | "Pendiente" | "Completado" | "Requiere atención"
+}) {
+  const variants = {
+    "En curso": "info",
+    Pendiente: "warning",
+    Completado: "success",
+    "Requiere atención": "destructive",
+  } as const
+  return <Badge variant={variants[status]}>{status}</Badge>
 }
 
 export default function DesignSystemPage() {
   return (
     <main className="min-h-svh bg-background">
       <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
-        <header className="flex flex-col gap-6 border-b border-border pb-8 sm:flex-row sm:items-start sm:justify-between">
-          <div>
-            <p className="text-xs font-medium tracking-widest text-primary uppercase">
-              ABT Comex · Interno
-            </p>
-            <h1 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
-              Design System ABT v1
-            </h1>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
-              Referencia visual de fundamentos para interfaces de gestión de
-              comercio exterior.
-            </p>
+        <header className="border-b border-border pb-6">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="text-xs font-medium tracking-widest text-primary uppercase">
+                ABT Comex · Referencia interna
+              </p>
+              <h1 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+                Design System ABT
+              </h1>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
+                Fundamentos y patrones operativos para el producto de comercio
+                exterior. Esta es la única referencia visual del frontend.
+              </p>
+            </div>
+            <Image
+              src="/brand/ABT_COMEX_logo_green_transparent.png"
+              alt="ABT Comex"
+              width={1983}
+              height={793}
+              priority
+              className="h-auto w-32 shrink-0 object-contain sm:w-36"
+            />
           </div>
-          <Image
-            src="/brand/ABT_COMEX_logo_green_transparent.png"
-            alt="ABT Comex"
-            width={1983}
-            height={793}
-            priority
-            className="h-auto w-32 shrink-0 object-contain sm:w-36"
-          />
+          <nav
+            aria-label="Secciones del design system"
+            className="mt-6 flex gap-x-5 gap-y-2 overflow-x-auto border-t border-border pt-3 text-sm whitespace-nowrap"
+          >
+            {navigation.map(([label, id]) => (
+              <a
+                key={id}
+                href={`#${id}`}
+                className="text-foreground/80 underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-2 focus-visible:outline-primary"
+              >
+                {label}
+              </a>
+            ))}
+          </nav>
         </header>
 
         <Section
-          title="Branding"
-          description="Paleta semántica para información operativa y estados del sistema."
+          id="fundamentos"
+          title="Fundamentos y branding"
+          description="Identidad sobria, legible y orientada a tareas. El verde ABT identifica acciones y foco; los estados usan color, texto y contexto."
         >
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {[
               [
-                "Primary brand",
+                "Primary",
                 "bg-primary text-primary-foreground",
                 "Acción principal y navegación activa",
-              ],
-              [
-                "Neutral",
-                "bg-secondary text-secondary-foreground",
-                "Superficies auxiliares y contexto",
               ],
               [
                 "Success",
@@ -182,10 +154,15 @@ export default function DesignSystemPage() {
                 "bg-destructive text-white",
                 "Bloqueo, error o acción irreversible",
               ],
+              [
+                "Neutral",
+                "bg-secondary text-secondary-foreground",
+                "Superficies auxiliares y contexto",
+              ],
             ].map(([name, color, use]) => (
               <div
                 key={name}
-                className="flex min-h-24 overflow-hidden rounded-lg border border-border"
+                className="flex min-h-22 overflow-hidden border border-border"
               >
                 <div className={`w-12 shrink-0 ${color}`} aria-hidden="true" />
                 <div className="p-3">
@@ -196,35 +173,8 @@ export default function DesignSystemPage() {
                 </div>
               </div>
             ))}
-            <div className="flex min-h-24 overflow-hidden rounded-lg border border-border">
-              <div
-                className="w-12 shrink-0 border-r border-border bg-background"
-                aria-hidden="true"
-              />
-              <div className="p-3">
-                <p className="text-sm font-medium">Blanco</p>
-                <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                  Superficie base
-                </p>
-              </div>
-            </div>
-            <div className="flex min-h-24 overflow-hidden rounded-lg border border-border">
-              <div className="w-12 shrink-0 bg-foreground" aria-hidden="true" />
-              <div className="p-3">
-                <p className="text-sm font-medium">Texto principal</p>
-                <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                  Contenido operativo
-                </p>
-              </div>
-            </div>
           </div>
-        </Section>
-
-        <Section
-          title="Tipografía"
-          description="Inter prioriza legibilidad y densidad útil en tareas de operación diaria."
-        >
-          <div className="grid gap-6 lg:grid-cols-2">
+          <div className="mt-7 grid gap-6 lg:grid-cols-2">
             <div className="space-y-5">
               <div>
                 <p className="text-2xl font-semibold tracking-tight">
@@ -248,23 +198,7 @@ export default function DesignSystemPage() {
                   arribo previsto.
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Texto de cuerpo · 14 px
-                </p>
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">
-                  Última actualización: hoy, 10:42 h
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  Texto secundario · 14 px
-                </p>
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">
-                  Los campos marcados con * son obligatorios.
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  Caption · 12 px
+                  Texto operativo · 14 px
                 </p>
               </div>
             </div>
@@ -276,15 +210,20 @@ export default function DesignSystemPage() {
                 USD 128.600,00
               </p>
               <p className="mt-1 font-mono text-sm text-muted-foreground tabular-nums">
-                Ref. IM-2026-0842 · 14 OCT 2026
+                Ref. IM-2026-0842 · {formatDate("2026-10-14")}
+              </p>
+              <p className="mt-5 text-xs text-muted-foreground">
+                Fecha: {formatDate("2026-10-14")} · Fecha y hora:{" "}
+                {formatDateTime("2026-10-14T10:42:00")}
               </p>
             </div>
           </div>
         </Section>
 
         <Section
-          title="Botones"
-          description="Las acciones principales se reservan para avanzar tareas; las destructivas requieren contexto claro."
+          id="componentes"
+          title="Botones y componentes"
+          description="Las acciones priorizan el flujo de trabajo. Los badges se reservan para estados, no para cualquier dato."
         >
           <div className="flex flex-wrap items-center gap-3">
             <Button>Crear operación</Button>
@@ -305,11 +244,19 @@ export default function DesignSystemPage() {
               <Search aria-hidden="true" />
             </Button>
           </div>
+          <Separator className="my-6" />
+          <div className="flex flex-wrap gap-3">
+            <StatusBadge status="En curso" />
+            <StatusBadge status="Pendiente" />
+            <StatusBadge status="Completado" />
+            <StatusBadge status="Requiere atención" />
+          </div>
         </Section>
 
         <Section
-          title="Formularios"
-          description="Etiquetas visibles, ayuda contextual y validaciones asociadas al campo."
+          id="formularios"
+          title="Formularios y validación"
+          description="Labels visibles, ayuda contextual y errores que explican el problema y el siguiente paso."
         >
           <div className="grid max-w-4xl gap-x-6 gap-y-5 sm:grid-cols-2">
             <div className="space-y-2">
@@ -328,16 +275,6 @@ export default function DesignSystemPage() {
               <p className="text-xs text-muted-foreground">
                 Identificá al titular de la operación.
               </p>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="eta">ETA estimada</Label>
-              <div className="relative">
-                <CalendarDays
-                  aria-hidden="true"
-                  className="pointer-events-none absolute top-2 left-2.5 size-4 text-muted-foreground"
-                />
-                <Input id="eta" type="date" className="pl-9" />
-              </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="amount">
@@ -364,36 +301,17 @@ export default function DesignSystemPage() {
                 disabled
                 defaultValue="Se habilita al seleccionar tipo importación"
               />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="customs-office">
-                Aduana de ingreso
-                <span className="text-muted-foreground">(solo lectura)</span>
-              </Label>
-              <Input id="customs-office" readOnly defaultValue="Buenos Aires" />
               <p className="text-xs text-muted-foreground">
-                Dato informado por la operación.
+                El estado deshabilitado comunica una dependencia, no un error.
               </p>
             </div>
           </div>
         </Section>
 
         <Section
-          title="Estados"
-          description="Cada estado combina texto, icono y color para una lectura rápida y accesible."
-        >
-          <div className="flex flex-wrap gap-3">
-            <StatusBadge status="En curso" />
-            <StatusBadge status="Pendiente" />
-            <StatusBadge status="Completado" />
-            <StatusBadge status="Requiere atención" />
-            <StatusBadge status="Cancelado" />
-          </div>
-        </Section>
-
-        <Section
-          title="Feedback"
-          description="Mensajes directos que indican qué ocurrió y cuál es el próximo paso."
+          id="feedback"
+          title="Feedback y estados"
+          description="Cada estado informa qué ocurrió y permite recuperar o continuar con seguridad."
         >
           <div className="grid gap-3 lg:grid-cols-2">
             <Alert variant="info">
@@ -422,116 +340,90 @@ export default function DesignSystemPage() {
               <FileWarning aria-hidden="true" />
               <AlertTitle>No se pudo registrar el despacho</AlertTitle>
               <AlertDescription>
-                Verificá el número de permiso y volvé a intentarlo. Si el
-                problema continúa, contactá a Operaciones.
+                Verificá el número de permiso y volvé a intentarlo. Si continúa,
+                contactá a Operaciones.
               </AlertDescription>
             </Alert>
           </div>
-        </Section>
-
-        <Section
-          title="Tabla empresarial"
-          description="Listado compacto para seguimiento diario de operaciones de comercio exterior."
-        >
-          <div className="overflow-hidden rounded-lg border border-border">
-            <Table>
-              <TableHeader>
-                <TableRow className="hover:bg-transparent">
-                  <TableHead>Referencia</TableHead>
-                  <TableHead>Tipo</TableHead>
-                  <TableHead>Cliente</TableHead>
-                  <TableHead>Proveedor</TableHead>
-                  <TableHead>Estado</TableHead>
-                  <TableHead>ETA</TableHead>
-                  <TableHead className="text-right">Importe</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {operations.map((operation) => (
-                  <TableRow key={operation.reference}>
-                    <TableCell className="font-mono text-xs font-medium">
-                      {operation.reference}
-                    </TableCell>
-                    <TableCell>{operation.type}</TableCell>
-                    <TableCell>{operation.client}</TableCell>
-                    <TableCell className="text-muted-foreground">
-                      {operation.supplier}
-                    </TableCell>
-                    <TableCell>
-                      <StatusBadge status={operation.status} />
-                    </TableCell>
-                    <TableCell className="tabular-nums">
-                      {operation.eta}
-                    </TableCell>
-                    <TableCell className="text-right font-mono text-xs tabular-nums">
-                      {operation.amount}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </Section>
-
-        <Section
-          title="Estados de interfaz"
-          description="Representaciones claras para ausencia de datos, carga y fallas recuperables."
-        >
-          <div className="grid gap-4 lg:grid-cols-3">
-            <div className="flex min-h-52 flex-col items-center justify-center border border-dashed border-border p-6 text-center">
+          <div className="mt-5 grid gap-4 lg:grid-cols-3">
+            <div className="flex min-h-44 flex-col items-center justify-center border border-dashed border-border p-5 text-center">
               <PackageOpen
                 aria-hidden="true"
-                className="size-7 text-muted-foreground"
+                className="size-6 text-muted-foreground"
               />
-              <h3 className="mt-3 text-sm font-medium">
-                No hay operaciones asignadas
+              <h3 className="mt-2 text-sm font-medium">
+                Sin operaciones asignadas
               </h3>
-              <p className="mt-1 max-w-56 text-xs leading-5 text-muted-foreground">
-                Cuando se asignen operaciones a este equipo, aparecerán aquí.
+              <p className="mt-1 text-xs text-muted-foreground">
+                Aparecerán cuando se asignen al equipo.
               </p>
-              <Button variant="outline" size="sm" className="mt-4">
-                <Plus aria-hidden="true" />
-                Crear operación
-              </Button>
             </div>
             <div
-              className="min-h-52 border border-border p-5"
-              aria-label="Cargando operaciones"
+              className="min-h-44 border border-border p-5"
+              aria-live="polite"
             >
-              <div className="flex items-center gap-2 text-sm font-medium">
-                <Truck
+              <p className="flex items-center gap-2 text-sm font-medium">
+                <LoaderCircle
                   aria-hidden="true"
-                  className="size-4 text-muted-foreground"
+                  className="size-4 animate-spin"
                 />
                 Cargando operaciones
-              </div>
-              <div className="mt-5 space-y-3">
-                <div className="h-3 w-2/5 animate-pulse rounded bg-muted" />
-                <div className="h-3 animate-pulse rounded bg-muted" />
-                <div className="h-3 w-4/5 animate-pulse rounded bg-muted" />
-                <Separator className="my-4" />
-                <div className="h-3 w-3/5 animate-pulse rounded bg-muted" />
-              </div>
-              <p className="mt-4 text-xs text-muted-foreground">
-                Obteniendo el último estado disponible.
               </p>
+              <div className="mt-5 space-y-3">
+                <div className="h-3 w-2/5 animate-pulse bg-muted" />
+                <div className="h-3 animate-pulse bg-muted" />
+                <div className="h-3 w-4/5 animate-pulse bg-muted" />
+              </div>
             </div>
-            <div className="flex min-h-52 flex-col items-start justify-center border border-border p-6">
+            <div className="flex min-h-44 flex-col items-start justify-center border border-border p-5">
               <AlertCircle
                 aria-hidden="true"
                 className="size-6 text-destructive"
               />
-              <h3 className="mt-3 text-sm font-medium">
-                No se pudieron cargar las operaciones
+              <h3 className="mt-2 text-sm font-medium">
+                No se pudo actualizar
               </h3>
-              <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                La consulta venció antes de recibir una respuesta. Revisá tu
-                conexión e intentá nuevamente.
+              <p className="mt-1 text-xs text-muted-foreground">
+                Revisá la conexión e intentá nuevamente.
               </p>
-              <Button variant="outline" size="sm" className="mt-4">
+              <Button size="sm" variant="outline" className="mt-3">
                 Reintentar
-                <ArrowRight aria-hidden="true" />
               </Button>
+            </div>
+          </div>
+        </Section>
+
+        <OperationsWorkspace />
+
+        <Section
+          id="responsive"
+          title="Responsive"
+          description="La información se adapta a la tarea y al ancho, en vez de delegar legibilidad al scroll horizontal."
+        >
+          <div className="grid divide-y divide-border border-y border-border text-sm sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4">
+            <div className="p-4">
+              <p className="font-medium">Desktop</p>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                Campos prioritarios y selector de columnas.
+              </p>
+            </div>
+            <div className="p-4">
+              <p className="font-medium">Notebook</p>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                Oculta automáticamente datos secundarios.
+              </p>
+            </div>
+            <div className="p-4">
+              <p className="font-medium">Tablet</p>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                Conserva referencia, cliente, estado y valor.
+              </p>
+            </div>
+            <div className="p-4">
+              <p className="font-medium">Mobile</p>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                Registro compacto expandible; sin tabla ancha.
+              </p>
             </div>
           </div>
         </Section>

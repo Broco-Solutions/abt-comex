@@ -37,9 +37,7 @@ function DataTableFrame({
       )}
       {...props}
     >
-      <div className="w-full overflow-x-auto overscroll-x-contain">
-        {children}
-      </div>
+      {children}
     </section>
   )
 }

@@ -1,4 +1,5 @@
 import { Geist_Mono, Inter } from "next/font/google"
+import type { Metadata } from "next"
 
 import "@workspace/ui/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -14,6 +15,11 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
+export const metadata: Metadata = {
+  title: "ABT Comex",
+  description: "Sistema de gestión empresarial de ABT Comex.",
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -23,11 +29,7 @@ export default function RootLayout({
     <html
       lang="es-AR"
       suppressHydrationWarning
-      className={cn(
-        "font-sans antialiased",
-        inter.variable,
-        fontMono.variable,
-      )}
+      className={cn("font-sans antialiased", inter.variable, fontMono.variable)}
     >
       <body>
         <ThemeProvider>{children}</ThemeProvider>
