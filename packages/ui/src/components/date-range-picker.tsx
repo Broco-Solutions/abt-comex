@@ -45,7 +45,8 @@ function DateRangePicker({
           <Button
             id={id}
             variant="outline"
-            size="sm"
+            size="lg"
+            className="w-full min-w-0 justify-start overflow-hidden font-normal"
             aria-label={`Período: ${labelForRange(value)}`}
           />
         }
@@ -58,6 +59,7 @@ function DateRangePicker({
           Desde y hasta
         </p>
         <Calendar
+          className="mt-1"
           mode="range"
           selected={value as DateRange}
           onSelect={(range) => onChange(range ?? {})}

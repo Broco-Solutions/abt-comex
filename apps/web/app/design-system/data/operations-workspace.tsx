@@ -18,10 +18,10 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
   Columns3,
   Filter,
   Search,
-  SlidersHorizontal,
   X,
 } from "lucide-react"
 
@@ -118,6 +118,7 @@ const columnDefinitions = [
 ] as const
 
 type OptionalColumn = (typeof columnDefinitions)[number]["id"]
+type SortKey = "date" | "amount" | "reference"
 
 function money(amount: number, currency: Operation["currency"]) {
   return new Intl.NumberFormat("es-AR", {
@@ -204,12 +205,14 @@ export function OperationsWorkspace() {
   const [preset, setPreset] = React.useState<DatePeriodPreset | "">("")
   const [period, setPeriod] = React.useState<DateRangeValue>()
   const [groupBy, setGroupBy] = React.useState<GroupField | "">("")
-  const [sort, setSort] = React.useState<"date" | "amount" | "reference">(
-    "date"
-  )
+  const [sort, setSort] = React.useState<SortKey | null>(null)
   const [sortDescending, setSortDescending] = React.useState(false)
   const [page, setPage] = React.useState(0)
   const [columnsOpen, setColumnsOpen] = React.useState(false)
+  const [selectedIds, setSelectedIds] = React.useState<Set<string>>(
+    () => new Set()
+  )
+  const [bulkNotice, setBulkNotice] = React.useState("")
   const [visibleColumns, setVisibleColumns] = React.useState<OptionalColumn[]>([
     "type",
     "counterpart",
@@ -249,6 +252,7 @@ export function OperationsWorkspace() {
   const sorted = React.useMemo(
     () =>
       [...filtered].sort((a, b) => {
+        if (!sort) return 0
         const value =
           sort === "date"
             ? a.relevantDate.localeCompare(b.relevantDate)
@@ -269,6 +273,12 @@ export function OperationsWorkspace() {
 
   const perPage = 8
   const pageItems = sorted.slice(page * perPage, (page + 1) * perPage)
+  const selectedVisibleIds = React.useMemo(() => {
+    const filteredIds = new Set(filtered.map((operation) => operation.id))
+    return new Set(
+      [...selectedIds].filter((operationId) => filteredIds.has(operationId))
+    )
+  }, [filtered, selectedIds])
   const activeFilterCount = [search, status, owner, type, period?.from].filter(
     Boolean
   ).length
@@ -286,12 +296,44 @@ export function OperationsWorkspace() {
     setPeriod(undefined)
     setPage(0)
   }
-  const toggleSort = (next: typeof sort) => {
-    if (sort === next) setSortDescending((value) => !value)
-    else {
+  const toggleSort = (next: SortKey) => {
+    if (sort !== next) {
       setSort(next)
       setSortDescending(false)
+    } else if (!sortDescending) {
+      setSortDescending(true)
+    } else {
+      setSort(null)
+      setSortDescending(false)
     }
+  }
+  const toggleSelection = (operationId: string) => {
+    setSelectedIds((current) => {
+      const next = new Set(current)
+      if (next.has(operationId)) next.delete(operationId)
+      else next.add(operationId)
+      return next
+    })
+    setBulkNotice("")
+  }
+  const toggleAll = (items: Operation[]) => {
+    setSelectedIds((current) => {
+      const next = new Set(current)
+      const allSelected = items.every((item) => next.has(item.id))
+      items.forEach((item) => {
+        if (allSelected) next.delete(item.id)
+        else next.add(item.id)
+      })
+      return next
+    })
+    setBulkNotice("")
+  }
+  const clearSelection = () => {
+    setSelectedIds(new Set())
+    setBulkNotice("")
+  }
+  const mockBulkAction = (action: string) => {
+    setBulkNotice(action)
   }
 
   return (
@@ -373,7 +415,7 @@ export function OperationsWorkspace() {
         </div>
 
         <div className="mt-4 border border-border bg-card p-3 sm:p-4">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-end">
             <label className="relative min-w-0 flex-1">
               <span className="sr-only">Buscar operaciones</span>
               <Search
@@ -390,7 +432,7 @@ export function OperationsWorkspace() {
                 placeholder="Buscar referencia, cliente, proveedor o ruta"
               />
             </label>
-            <div className="flex flex-wrap gap-2">
+            <div className="grid gap-2 sm:grid-cols-2 lg:w-80">
               <label className="grid gap-1 text-xs font-medium text-muted-foreground">
                 Agrupar por
                 <select
@@ -399,7 +441,7 @@ export function OperationsWorkspace() {
                     setGroupBy(event.target.value as GroupField | "")
                     setPage(0)
                   }}
-                  className="h-9 rounded-md border border-input bg-background px-2 text-sm font-normal text-foreground focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none"
+                  className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm font-normal text-foreground focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none"
                 >
                   <option value="">Sin agrupación</option>
                   {groupableFields.map((field) => (
@@ -409,15 +451,18 @@ export function OperationsWorkspace() {
                   ))}
                 </select>
               </label>
-              <div className="relative self-end">
+              <div className="relative grid gap-1 text-xs font-medium text-muted-foreground">
+                <span>Columnas</span>
                 <Button
                   variant="outline"
-                  size="sm"
+                  size="lg"
+                  className="w-full justify-start font-normal"
                   aria-expanded={columnsOpen}
+                  aria-haspopup="menu"
                   onClick={() => setColumnsOpen((open) => !open)}
                 >
                   <Columns3 aria-hidden="true" />
-                  Columnas
+                  Configurar columnas
                 </Button>
                 {columnsOpen ? (
                   <div className="absolute right-0 z-20 mt-2 w-60 rounded-md border border-border bg-popover p-2 shadow-md">
@@ -538,42 +583,82 @@ export function OperationsWorkspace() {
           ) : null}
         </div>
 
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm">
+        {selectedVisibleIds.size ? (
+          <div
+            className="mt-4 flex flex-wrap items-center gap-2 border border-primary/30 bg-primary/5 px-3 py-2 text-sm"
+            role="region"
+            aria-label="Acciones para operaciones seleccionadas"
+          >
+            <strong>{selectedVisibleIds.size} operaciones seleccionadas</strong>
+            <span className="text-xs text-muted-foreground">
+              Acciones masivas de demostración
+            </span>
+            <div className="flex w-full flex-wrap gap-2 sm:ml-auto sm:w-auto">
+              <Button
+                variant="outline"
+                size="xs"
+                onClick={() => mockBulkAction("exportar")}
+              >
+                Exportar
+              </Button>
+              <Button
+                variant="outline"
+                size="xs"
+                onClick={() => mockBulkAction("asignar responsable")}
+              >
+                Asignar responsable
+              </Button>
+              <Button variant="ghost" size="xs" onClick={clearSelection}>
+                Limpiar selección
+              </Button>
+            </div>
+            {bulkNotice ? (
+              <p className="basis-full text-xs text-muted-foreground" role="status">
+                Acción simulada: {bulkNotice} para {selectedVisibleIds.size}{" "}
+                operaciones.
+              </p>
+            ) : null}
+          </div>
+        ) : null}
+
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-y border-border py-2.5 text-sm">
           <p>
             <strong>{filtered.length}</strong> de {operations.length}{" "}
             operaciones
           </p>
-          <div className="flex items-center gap-2">
-            <SlidersHorizontal
-              aria-hidden="true"
-              className="size-4 text-muted-foreground"
-            />
-            <span className="text-xs text-muted-foreground">Ordenar:</span>
-            {(["date", "amount", "reference"] as const).map((option) => (
-              <Button
-                key={option}
-                variant={sort === option ? "secondary" : "ghost"}
-                size="xs"
-                onClick={() => toggleSort(option)}
-              >
-                {option === "date"
-                  ? "Fecha"
-                  : option === "amount"
-                    ? "Importe"
-                    : "Referencia"}
-                {sort === option ? (sortDescending ? " ↓" : " ↑") : null}
-              </Button>
-            ))}
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
+            <span className="text-muted-foreground">Total general filtrado</span>
+            <span className="font-mono font-medium tabular-nums">
+              {totalByCurrency(filtered) || "—"}
+            </span>
           </div>
         </div>
 
         {filtered.length === 0 ? (
           <EmptyFiltered onClear={clearFilters} />
         ) : groupBy ? (
-          <GroupedRows groups={groups} visibleColumns={visibleColumns} />
+          <GroupedRows
+            groups={groups}
+            visibleColumns={visibleColumns}
+            selectedIds={selectedVisibleIds}
+            onToggleSelection={toggleSelection}
+            onToggleAll={toggleAll}
+            sort={sort}
+            sortDescending={sortDescending}
+            onSort={toggleSort}
+          />
         ) : (
           <>
-            <OperationList items={pageItems} visibleColumns={visibleColumns} />
+            <OperationList
+              items={pageItems}
+              visibleColumns={visibleColumns}
+              selectedIds={selectedVisibleIds}
+              onToggleSelection={toggleSelection}
+              onToggleAll={toggleAll}
+              sort={sort}
+              sortDescending={sortDescending}
+              onSort={toggleSort}
+            />
             <Pagination
               page={page}
               pageCount={Math.ceil(sorted.length / perPage)}
@@ -633,12 +718,108 @@ function groupOperations(
   }))
 }
 
+function SelectionCheckbox({
+  label,
+  checked,
+  indeterminate = false,
+  onChange,
+  stopPropagation = false,
+}: {
+  label: string
+  checked: boolean
+  indeterminate?: boolean
+  onChange: () => void
+  stopPropagation?: boolean
+}) {
+  const ref = React.useRef<HTMLInputElement>(null)
+
+  React.useEffect(() => {
+    if (ref.current) ref.current.indeterminate = indeterminate
+  }, [indeterminate])
+
+  return (
+    <input
+      ref={ref}
+      type="checkbox"
+      checked={checked}
+      aria-label={label}
+      onChange={onChange}
+      onClick={
+        stopPropagation ? (event) => event.stopPropagation() : undefined
+      }
+      onKeyDown={
+        stopPropagation ? (event) => event.stopPropagation() : undefined
+      }
+      className="size-4 rounded border-input accent-primary focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none"
+    />
+  )
+}
+
+function SortableHeader({
+  label,
+  sortKey,
+  sort,
+  sortDescending,
+  onSort,
+  className = "",
+  align = "left",
+}: {
+  label: string
+  sortKey: SortKey
+  sort: SortKey | null
+  sortDescending: boolean
+  onSort: (sortKey: SortKey) => void
+  className?: string
+  align?: "left" | "right"
+}) {
+  const active = sort === sortKey
+  const direction = active
+    ? sortDescending
+      ? "descendente"
+      : "ascendente"
+    : "sin orden"
+  return (
+    <th
+      aria-sort={active ? (sortDescending ? "descending" : "ascending") : "none"}
+      className={`${className} ${align === "right" ? "text-right" : "text-left"} px-3 py-2 font-medium`}
+    >
+      <button
+        type="button"
+        className={`inline-flex min-h-7 items-center gap-1 rounded-md focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none ${align === "right" ? "justify-end" : "justify-start"}`}
+        onClick={() => onSort(sortKey)}
+        aria-label={`Ordenar por ${label}: ${direction}. Activar para cambiar el orden`}
+      >
+        {label}
+        {active ? (
+          sortDescending ? (
+            <ChevronDown aria-hidden="true" className="size-3.5" />
+          ) : (
+            <ChevronUp aria-hidden="true" className="size-3.5" />
+          )
+        ) : null}
+      </button>
+    </th>
+  )
+}
+
 function GroupedRows({
   groups,
   visibleColumns,
+  selectedIds,
+  onToggleSelection,
+  onToggleAll,
+  sort,
+  sortDescending,
+  onSort,
 }: {
   groups: { label: string; items: Operation[] }[]
   visibleColumns: OptionalColumn[]
+  selectedIds: Set<string>
+  onToggleSelection: (operationId: string) => void
+  onToggleAll: (items: Operation[]) => void
+  sort: SortKey | null
+  sortDescending: boolean
+  onSort: (sortKey: SortKey) => void
 }) {
   return (
     <div className="mt-3 space-y-3">
@@ -654,12 +835,18 @@ function GroupedRows({
               {group.items.length} operaciones
             </span>
             <span className="ml-auto font-mono text-xs tabular-nums">
-              Subtotal: {totalByCurrency(group.items)}
+              Subtotal: {totalByCurrency(group.items) || "—"}
             </span>
           </summary>
           <OperationList
             items={group.items}
             visibleColumns={visibleColumns}
+            selectedIds={selectedIds}
+            onToggleSelection={onToggleSelection}
+            onToggleAll={onToggleAll}
+            sort={sort}
+            sortDescending={sortDescending}
+            onSort={onSort}
             grouped
           />
         </details>
@@ -671,13 +858,27 @@ function GroupedRows({
 function OperationList({
   items,
   visibleColumns,
+  selectedIds,
+  onToggleSelection,
+  onToggleAll,
+  sort,
+  sortDescending,
+  onSort,
   grouped = false,
 }: {
   items: Operation[]
   visibleColumns: OptionalColumn[]
+  selectedIds: Set<string>
+  onToggleSelection: (operationId: string) => void
+  onToggleAll: (items: Operation[]) => void
+  sort: SortKey | null
+  sortDescending: boolean
+  onSort: (sortKey: SortKey) => void
   grouped?: boolean
 }) {
   const column = (id: OptionalColumn) => visibleColumns.includes(id)
+  const selectedCount = items.filter((item) => selectedIds.has(item.id)).length
+  const allSelected = items.length > 0 && selectedCount === items.length
   return (
     <>
       <div
@@ -686,7 +887,22 @@ function OperationList({
         <table className="w-full table-fixed text-left text-xs">
           <thead className="bg-muted">
             <tr>
-              <th className="w-30 px-3 py-2 font-medium">Referencia</th>
+              <th className="w-10 px-3 py-2">
+                <SelectionCheckbox
+                  label="Seleccionar todas las operaciones visibles"
+                  checked={allSelected}
+                  indeterminate={selectedCount > 0 && !allSelected}
+                  onChange={() => onToggleAll(items)}
+                />
+              </th>
+              <SortableHeader
+                label="Referencia"
+                sortKey="reference"
+                sort={sort}
+                sortDescending={sortDescending}
+                onSort={onSort}
+                className="w-30"
+              />
               <th className="px-3 py-2 font-medium">Cliente</th>
               {column("type") ? (
                 <th className="hidden px-3 py-2 font-medium lg:table-cell">
@@ -705,105 +921,138 @@ function OperationList({
                 </th>
               ) : null}
               {column("date") ? (
-                <th className="hidden w-28 px-3 py-2 font-medium lg:table-cell">
-                  ETA / fecha
-                </th>
+                <SortableHeader
+                  label="ETA / fecha"
+                  sortKey="date"
+                  sort={sort}
+                  sortDescending={sortDescending}
+                  onSort={onSort}
+                  className="hidden w-28 lg:table-cell"
+                />
               ) : null}
               {column("amount") ? (
-                <th className="w-28 px-3 py-2 text-right font-medium">
-                  Importe
-                </th>
+                <SortableHeader
+                  label="Importe"
+                  sortKey="amount"
+                  sort={sort}
+                  sortDescending={sortDescending}
+                  onSort={onSort}
+                  className="w-28"
+                  align="right"
+                />
               ) : null}
             </tr>
           </thead>
           <tbody>
-            {items.map((operation) => (
-              <tr
-                key={operation.id}
-                className="border-t border-border align-middle hover:bg-muted/40"
-              >
-                <td className="px-3 py-2.5 font-mono font-medium tabular-nums">
-                  {operation.reference}
-                </td>
-                <td className="px-3 py-2.5 font-medium">{operation.client}</td>
-                {column("type") ? (
-                  <td className="hidden px-3 py-2.5 lg:table-cell">
-                    {operation.type}
+            {items.map((operation) => {
+              const selected = selectedIds.has(operation.id)
+              return (
+                <tr
+                  key={operation.id}
+                  aria-selected={selected}
+                  className={`border-t border-border align-middle hover:bg-muted/40 ${selected ? "bg-muted/60" : ""}`}
+                >
+                  <td className="px-3 py-2.5">
+                    <SelectionCheckbox
+                      label={`Seleccionar operación ${operation.reference}`}
+                      checked={selected}
+                      onChange={() => onToggleSelection(operation.id)}
+                    />
                   </td>
-                ) : null}
-                {column("counterpart") ? (
-                  <td className="hidden px-3 py-2.5 text-muted-foreground xl:table-cell">
-                    {operation.counterpart}
+                  <td className="px-3 py-2.5 font-mono font-medium tabular-nums">
+                    {operation.reference}
                   </td>
-                ) : null}
-                <td className="px-3 py-2.5">
-                  <StatusLabel status={operation.status} />
-                </td>
-                {column("owner") ? (
-                  <td className="hidden px-3 py-2.5 xl:table-cell">
-                    {operation.owner}
+                  <td className="px-3 py-2.5 font-medium">{operation.client}</td>
+                  {column("type") ? (
+                    <td className="hidden px-3 py-2.5 lg:table-cell">
+                      {operation.type}
+                    </td>
+                  ) : null}
+                  {column("counterpart") ? (
+                    <td className="hidden px-3 py-2.5 text-muted-foreground xl:table-cell">
+                      {operation.counterpart}
+                    </td>
+                  ) : null}
+                  <td className="px-3 py-2.5">
+                    <StatusLabel status={operation.status} />
                   </td>
-                ) : null}
-                {column("date") ? (
-                  <td className="hidden px-3 py-2.5 font-mono tabular-nums lg:table-cell">
-                    {formatDate(operation.relevantDate)}
-                  </td>
-                ) : null}
-                {column("amount") ? (
-                  <td className="px-3 py-2.5 text-right font-mono tabular-nums">
-                    {money(operation.amount, operation.currency)}
-                  </td>
-                ) : null}
-              </tr>
-            ))}
+                  {column("owner") ? (
+                    <td className="hidden px-3 py-2.5 xl:table-cell">
+                      {operation.owner}
+                    </td>
+                  ) : null}
+                  {column("date") ? (
+                    <td className="hidden px-3 py-2.5 font-mono tabular-nums lg:table-cell">
+                      {formatDate(operation.relevantDate)}
+                    </td>
+                  ) : null}
+                  {column("amount") ? (
+                    <td className="px-3 py-2.5 text-right font-mono tabular-nums">
+                      {money(operation.amount, operation.currency)}
+                    </td>
+                  ) : null}
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>
       <div
         className={`${grouped ? "" : "mt-3"} divide-y divide-border border-y border-border md:hidden`}
       >
-        {items.map((operation) => (
-          <details key={operation.id} className="group">
-            <summary className="flex min-h-16 cursor-pointer list-none items-center gap-3 px-3 py-2 focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none">
-              <span className="min-w-0 flex-1">
-                <span className="block font-mono text-xs font-medium">
-                  {operation.reference}
-                </span>
-                <span className="mt-1 block truncate text-sm font-medium">
-                  {operation.client}
-                </span>
-                <span className="mt-1 block text-xs text-muted-foreground">
-                  {formatDate(operation.relevantDate)} ·{" "}
-                  {money(operation.amount, operation.currency)}
-                </span>
-              </span>
-              <span className="flex flex-col items-end gap-2">
-                <StatusLabel status={operation.status} />
-                <ChevronDown
-                  aria-hidden="true"
-                  className="size-4 text-muted-foreground transition-transform group-open:rotate-180"
+        {items.map((operation) => {
+          const selected = selectedIds.has(operation.id)
+          return (
+            <details key={operation.id} className="group">
+              <summary
+                className={`flex min-h-16 cursor-pointer list-none items-center gap-3 px-3 py-2 focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none ${selected ? "bg-muted/60" : ""}`}
+              >
+                <SelectionCheckbox
+                  label={`Seleccionar operación ${operation.reference}`}
+                  checked={selected}
+                  onChange={() => onToggleSelection(operation.id)}
+                  stopPropagation
                 />
-              </span>
-            </summary>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-3 border-t border-border bg-muted/30 px-3 py-3 text-xs">
-              <Detail label="Tipo" value={operation.type} />
-              <Detail
-                label="Proveedor / destino"
-                value={operation.counterpart}
-              />
-              <Detail label="Origen / destino" value={operation.route} />
-              <Detail label="Responsable" value={operation.owner} />
-              <Detail
-                label="Documentos pendientes"
-                value={
-                  operation.documentsPending
-                    ? String(operation.documentsPending)
-                    : "Sin pendientes"
-                }
-              />
-            </div>
-          </details>
-        ))}
+                <span className="min-w-0 flex-1">
+                  <span className="block font-mono text-xs font-medium">
+                    {operation.reference}
+                  </span>
+                  <span className="mt-1 block truncate text-sm font-medium">
+                    {operation.client}
+                  </span>
+                  <span className="mt-1 block text-xs text-muted-foreground">
+                    {formatDate(operation.relevantDate)} ·{" "}
+                    {money(operation.amount, operation.currency)}
+                  </span>
+                </span>
+                <span className="flex flex-col items-end gap-2">
+                  <StatusLabel status={operation.status} />
+                  <ChevronDown
+                    aria-hidden="true"
+                    className="size-4 text-muted-foreground transition-transform group-open:rotate-180"
+                  />
+                </span>
+              </summary>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-3 border-t border-border bg-muted/30 px-3 py-3 text-xs">
+                <Detail label="Tipo" value={operation.type} />
+                <Detail
+                  label="Proveedor / destino"
+                  value={operation.counterpart}
+                />
+                <Detail label="Origen / destino" value={operation.route} />
+                <Detail label="Responsable" value={operation.owner} />
+                <Detail
+                  label="Documentos pendientes"
+                  value={
+                    operation.documentsPending
+                      ? String(operation.documentsPending)
+                      : "Sin pendientes"
+                  }
+                />
+              </div>
+            </details>
+          )
+        })}
       </div>
     </>
   )

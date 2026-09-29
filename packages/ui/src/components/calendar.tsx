@@ -8,13 +8,13 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
   return (
     <DayPicker
       showOutsideDays
-      className={cn("p-1 text-sm", className)}
+      className={cn("relative p-1 text-sm", className)}
       classNames={{
         months: "flex flex-col",
         month: "space-y-3",
         month_caption:
-          "relative flex h-8 items-center justify-center text-sm font-medium",
-        nav: "absolute inset-x-0 top-0 flex items-center justify-between",
+          "relative flex h-8 items-center justify-center px-10 text-sm font-medium",
+        nav: "absolute inset-x-1 top-0 z-10 flex items-center justify-between",
         button_previous:
           "inline-flex size-8 items-center justify-center rounded-md hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none",
         button_next:
