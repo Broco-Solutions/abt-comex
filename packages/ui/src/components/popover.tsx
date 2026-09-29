@@ -12,6 +12,10 @@ function PopoverTrigger(props: PopoverPrimitive.Trigger.Props) {
   return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />
 }
 
+function PopoverClose(props: PopoverPrimitive.Close.Props) {
+  return <PopoverPrimitive.Close data-slot="popover-close" {...props} />
+}
+
 function PopoverContent({
   className,
   align = "center",
@@ -26,12 +30,12 @@ function PopoverContent({
         align={align}
         side={side}
         sideOffset={sideOffset}
-        className="z-50"
+        className="z-50 max-w-[calc(100vw-2rem)]"
       >
         <PopoverPrimitive.Popup
           data-slot="popover-content"
           className={cn(
-            "w-fit rounded-lg border border-border bg-popover p-3 text-popover-foreground shadow-lg outline-none",
+            "max-h-[calc(100vh-2rem)] w-fit max-w-full overflow-y-auto rounded-lg border border-border bg-popover p-3 text-popover-foreground shadow-lg outline-none",
             className
           )}
           {...props}
@@ -41,4 +45,4 @@ function PopoverContent({
   )
 }
 
-export { Popover, PopoverContent, PopoverTrigger }
+export { Popover, PopoverClose, PopoverContent, PopoverTrigger }

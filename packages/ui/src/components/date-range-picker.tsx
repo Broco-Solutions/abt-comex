@@ -33,13 +33,17 @@ function DateRangePicker({
   value,
   onChange,
   id = "date-period",
+  open,
+  onOpenChange,
 }: {
   value: DateRangeValue
   onChange: (range: DateRangeValue) => void
   id?: string
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }) {
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger
         render={
           <Button

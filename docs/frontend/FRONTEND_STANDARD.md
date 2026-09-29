@@ -104,10 +104,21 @@ Objetivos:
 ### Datos y tablas
 
 - El scroll horizontal no es la solución principal para tablas. La configuración estándar debe caber en el ancho disponible mediante prioridades de columna y densidad compacta.
-- Desktop muestra los campos de máxima prioridad y ofrece selector de columnas para el resto. Notebook oculta automáticamente columnas secundarias; tablet conserva sólo los campos esenciales.
+- Desktop y notebook respetan las columnas que la persona seleccionó. Tablet usa un preset compacto explícito de campos esenciales; no se ocultan columnas progresivamente durante un resize.
 - En mobile, los listados de varias columnas se representan como registros compactos expandibles. Las acciones esenciales y el estado deben permanecer visibles; la información secundaria se revela bajo demanda.
 - El scroll horizontal es un fallback excepcional y debe estar justificado por una tarea que requiera comparar una matriz amplia.
 - Cada tabla declara metadatos de campos agrupables. La agrupación debe actualizar conteo, subtotal y presentación, y nunca puede sumar importes de monedas distintas.
+
+#### Política de anchos de columna
+
+- Las tablas operativas usan `DataTable` y cada columna declara metadata de layout: exactamente uno de `fixed` (ancho estable en px, incluido el padding de celda) o `flexible` (absorbe una parte igual del espacio restante), más `priority`, `truncate` y `align` (`left`, `center` o `right`). No se usan `size`, `minSize` ni `maxSize` de TanStack como restricciones CSS del layout.
+- `DataTable` renderiza un `colgroup` con `table-layout: fixed` y ancho total del contenedor. Las columnas `fixed` se definen en el `col`; las `flexible` no reciben ancho y el motor de tablas reparte entre ellas el espacio sobrante. Nunca se aplican anchos, mínimos o máximos independientes a cada `th` y `td`.
+- Prioridades responsive: `critical` y `high` forman el preset compacto de tablet; `medium`, `low` y `tertiary` permanecen disponibles en desktop y notebook cuando la persona las selecciona. La prioridad no se reevalúa ante cada resize ni anula la selección explícita. Mobile usa el patrón resumido y expandible.
+- Selección, referencia, fecha, moneda, importe y estado son fijas. Cliente, proveedor/destino y responsable son flexibles; tipo y otros campos compactos usan anchos fijos. Importe es tabular, alineado a la derecha y nunca repite la moneda si ésta tiene una columna propia.
+- Sólo se trunca texto variable de cliente, proveedor/destino, responsable y campos equivalentes. Cada valor truncable conserva el texto completo mediante `title` o un tooltip accesible. Nunca se truncan checkbox, referencia, estado, fecha, moneda ni importe.
+- La tabla ocupa el 100% del contenedor y no depende de un `min-width` global ni de scroll horizontal como solución normal. En desktop y notebook, las columnas flexibles se reducen mediante truncado; sólo el cambio explícito al preset tablet reduce los campos visibles.
+- Todo encabezado ordenable expone el control en toda su superficie y mantiene un indicador visible en estado neutro, ascendente y descendente, además de `aria-sort`, foco visible y ciclo sin orden → ascendente → descendente → sin orden.
+- Cuando una tabla operativa habilita ajuste manual de anchos, sólo se ofrece en su versión de escritorio/notebook mediante un tirador visible al foco y operable con teclado. El ancho elegido se aplica exclusivamente al `colgroup`; no se agregan anchos a celdas individuales ni se usa scroll horizontal como consecuencia normal. La selección de columnas y el preset compacto de tablet se mantienen independientes.
 
 ### Fechas
 
