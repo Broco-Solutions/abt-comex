@@ -2,82 +2,99 @@
 
 > Documento vivo · Última actualización: 08/10/2026
 >
-> Este documento traduce `docs/product/ALCANCE_FUNCIONAL.md` a arquitectura de información, patrones de interacción, pantallas, estados y criterios de experiencia.
+> Traduce `docs/product/ALCANCE_FUNCIONAL.md` a arquitectura de información, patrones de interacción, pantallas, estados y criterios de experiencia.
 
 ## 1. Propósito
 
-Esta especificación define **cómo se materializa el alcance funcional en la aplicación**.
+Esta especificación define **cómo se materializa el alcance funcional en la experiencia**.
 
 No reemplaza:
 
-- el alcance funcional;
-- los requerimientos detallados;
-- los flujos AS IS / TO BE;
-- el design system y sus estándares visuales.
+- alcance funcional;
+- requerimientos detallados;
+- flujos AS IS / TO BE;
+- Design System;
+- especificaciones por pantalla;
+- estrategia de pruebas.
 
-Su función es evitar que cada pantalla se diseñe de forma aislada y asegurar una experiencia consistente, clara, accesible y operativamente eficiente.
+Su función es impedir que cada pantalla se diseñe de forma aislada y asegurar una experiencia clara, premium, consistente, accesible y operativamente eficiente.
 
-## 2. Documentos obligatorios
+## 2. Gobierno y documentos obligatorios
 
-Antes de diseñar o implementar una pantalla, leer:
+Antes de diseñar o implementar:
 
 1. `docs/product/ALCANCE_FUNCIONAL.md` — qué producto construimos.
 2. `docs/frontend/ESPECIFICACION_FUNCIONAL_FRONTEND.md` — cómo se expresa en la experiencia.
-3. `docs/frontend/FRONTEND_STANDARD.md` — reglas visuales, responsive, formularios y tablas.
-4. `docs/frontend/DECISIONS.md` — decisiones ya tomadas.
-5. `docs/frontend/PLAN_IMPLEMENTACION.md` — orden y gates de ejecución.
+3. `docs/frontend/FRONTEND_STANDARD.md` — reglas visuales y de interacción.
+4. `docs/frontend/TEST_STRATEGY.md` — evidencia de calidad.
+5. `docs/frontend/BRAND_USAGE.md` — uso de marcas.
+6. `docs/frontend/CODEX_RUNBOOK.md` — proceso de ejecución.
+7. `docs/frontend/PLAN_IMPLEMENTACION.md` — orden y gates.
+8. `docs/frontend/DECISIONS.md` — decisiones permanentes.
+9. La especificación aplicable en `docs/frontend/screens/`.
 
-La ruta interna `/design-system` es la referencia visual y funcional de patrones reutilizables.
+`/design-system` es la referencia visual y funcional de patrones reutilizables.
+
+### Regla documental
+
+Una decisión funcional o UX importante no puede quedar sólo en código o chat. Debe actualizar la fuente de verdad correspondiente.
+
+Toda pantalla relevante necesita especificación antes de implementarse.
 
 ## 3. Visión de experiencia
 
 ABT Comex debe sentirse como una herramienta empresarial de uso diario:
 
 - clara antes que llamativa;
-- potente sin trasladar complejidad al usuario;
+- potente sin trasladar complejidad;
 - densa pero legible;
 - orientada a pendientes, excepciones y próximos pasos;
 - consistente entre áreas y canales;
-- usable por personas nuevas y eficiente para usuarios frecuentes;
-- preparada para desktop, notebook, tablet y mobile;
-- accesible según WCAG 2.2 AA.
+- simple para personas nuevas y eficiente para usuarios frecuentes;
+- accesible según WCAG 2.2 AA;
+- premium por su precisión, no por decoración.
 
 ### Pregunta rectora
 
-Toda pantalla debe responder con claridad:
+Toda pantalla debe responder:
 
 > ¿Qué está pasando, qué requiere atención y qué puede hacer la persona ahora?
 
+### Criterio de calidad
+
+La interfaz es la carta de presentación del producto. No se aceptan pantallas “funcionales pero provisorias” que luego requieran rehacer jerarquía, responsive, estados, accesibilidad o consistencia.
+
 ## 4. Principios de usabilidad
 
-La experiencia debe aplicar de forma explícita las heurísticas de Nielsen.
+La experiencia aplica explícitamente las heurísticas de Nielsen.
 
-### 4.1 Visibilidad del estado del sistema
+### 4.1 Visibilidad del estado
 
-- Mostrar guardado, sincronización, carga, progreso y resultado.
-- Indicar si un dato proviene de ABT, Alpha2000 u otra fuente.
-- Mostrar fecha de última actualización cuando sea relevante.
-- Diferenciar información completa, parcial, pendiente o desactualizada.
+- Mostrar carga, progreso, guardado, sincronización y resultado.
+- Identificar fuente de datos cuando afecte decisiones.
+- Mostrar última actualización cuando corresponda.
+- Diferenciar completo, parcial, pendiente, desactualizado o bloqueado.
 
 ### 4.2 Correspondencia con el mundo real
 
-- Usar terminología real de ABT: Operación, provisorio, oficialización, cumplido, carpeta, lista para facturar, segundo control.
-- No exponer términos técnicos de implementación.
-- Reflejar el proceso real sin copiar literalmente planillas actuales.
+- Usar terminología real de ABT.
+- No exponer lenguaje técnico de implementación.
+- Reflejar procesos reales sin copiar planillas literalmente.
 
 ### 4.3 Control y libertad
 
-- Permitir cancelar o volver atrás sin perder datos.
+- Volver o cancelar sin perder datos.
 - Guardar borrador cuando corresponda.
-- Pedir confirmación sólo para acciones de impacto.
-- Facilitar correcciones trazables y deshacer cuando sea viable.
-- Evitar dialogs sin salida clara o flujos que atrapen al usuario.
+- Confirmar sólo acciones de impacto.
+- Facilitar correcciones trazables.
+- Evitar dialogs o recorridos sin salida clara.
 
 ### 4.4 Consistencia y estándares
 
-- Mismas acciones, estados, filtros y componentes se comportan igual en todos los módulos.
-- El estado no se comunica sólo con color.
-- No crear un patrón nuevo si existe uno equivalente en el design system.
+- Misma acción, mismo comportamiento.
+- Mismos estados, filtros y patrones entre módulos.
+- No crear un patrón si existe uno equivalente.
+- No usar color como única señal.
 
 ### 4.5 Prevención de errores
 
@@ -86,12 +103,12 @@ La experiencia debe aplicar de forma explícita las heurísticas de Nielsen.
 - Seleccionar antes que escribir libremente.
 - Validar relaciones entre datos.
 - Advertir antes de bloquear.
-- Explicar el motivo de cada bloqueo y cómo resolverlo.
-- Separar errores del usuario, errores de integración y falta de permisos.
+- Explicar motivo y resolución del bloqueo.
+- Separar error de usuario, integración y permisos.
 
 ### 4.6 Reconocimiento antes que memoria
 
-El sistema debe mostrar:
+El sistema muestra:
 
 - próximos pasos;
 - documentos requeridos;
@@ -101,21 +118,19 @@ El sistema debe mostrar:
 - antecedentes reutilizables;
 - acciones disponibles.
 
-La persona no debería recordar requisitos que el sistema ya conoce.
-
 ### 4.7 Flexibilidad y eficiencia
 
-Para usuarios frecuentes:
+Usuarios frecuentes:
 
 - búsqueda rápida;
 - vistas guardadas;
-- filtros persistentes cuando tenga sentido;
+- filtros persistentes;
 - acciones masivas;
-- reutilización de antecedentes;
 - navegación por teclado;
-- accesos a registros recientes.
+- registros recientes;
+- reutilización de antecedentes.
 
-Para usuarios nuevos:
+Usuarios nuevos:
 
 - creación guiada;
 - ayuda contextual;
@@ -125,31 +140,35 @@ Para usuarios nuevos:
 
 ### 4.8 Diseño minimalista
 
-Minimalista no significa vacío. Mostrar la información necesaria para decidir y actuar, evitando:
+Minimalista no significa vacío.
+
+Evitar:
 
 - cards decorativas;
 - iconos sin función;
-- simetría artificial de dashboard;
+- dashboards artificialmente simétricos;
 - datos repetidos;
 - secciones sin prioridad;
-- formularios con todos los campos posibles visibles al mismo tiempo.
+- todos los campos visibles al mismo tiempo;
+- copy de landing dentro del producto.
 
 ### 4.9 Recuperación frente a errores
 
-Todo error debe indicar:
+Todo error relevante indica:
 
 1. qué ocurrió;
-2. dónde ocurrió;
+2. dónde;
 3. qué se preservó;
-4. cómo continuar o corregirlo;
-5. si requiere intervención de otra persona o sistema.
+4. cómo continuar;
+5. si depende de otra persona, permiso o sistema.
 
 ### 4.10 Ayuda y documentación
 
-- Ayuda contextual en la pantalla y acción correspondiente.
+- Ayuda contextual en la acción correspondiente.
 - Guías breves para tareas críticas.
-- Estados y conceptos explicables sin abrir un manual externo.
-- Ayuda buscable y accesible desde cualquier módulo.
+- Conceptos comprensibles sin manual externo.
+- Ayuda accesible desde cualquier módulo.
+- No usar tours para compensar una interfaz confusa.
 
 ## 5. Arquitectura de información
 
@@ -169,17 +188,17 @@ Gestión
 Configuración
 ```
 
-Esta navegación es conceptual y se validará con pantallas reales. No agregar módulos principales sin necesidad demostrada.
+La navegación es conceptual y se valida con pantallas reales. No agregar módulos principales sin necesidad demostrada.
 
 ### 5.2 Experiencias externas
 
-- **Portal de clientes:** experiencia y autenticación separadas.
-- **Canales asistidos:** no son un módulo del menú; consumen servicios autorizados.
-- **Integraciones:** se administran desde configuración o herramientas técnicas específicas.
+- Portal de clientes: experiencia, identidad y navegación separadas.
+- Canales asistidos: consumen servicios autorizados; no son módulo del menú.
+- Integraciones: se administran en contextos técnicos o configuración.
 
 ### 5.3 Capacidades contextuales
 
-No requieren inicialmente una sección principal:
+No requieren inicialmente navegación principal:
 
 - Documentos.
 - Alertas.
@@ -189,79 +208,83 @@ No requieren inicialmente una sección principal:
 - Proveedores.
 - Reportes.
 
-Aparecen dentro del contexto que les da sentido y pueden elevarse posteriormente sin cambiar el modelo.
+Aparecen dentro del contexto que les da sentido.
 
 ## 6. Application Shell
 
-El shell debe ser reusable, sobrio y estable.
+El shell debe ser estable, reusable y sobrio.
 
 ### Desktop y notebook
 
-- Sidebar con navegación principal.
-- Logo oficial ABT.
-- Estado activo inequívoco.
-- Posibilidad de colapsar sólo si aporta espacio real.
-- Header compacto con breadcrumb, contexto y usuario.
-- Área de contenido con ancho y padding consistentes.
+- sidebar con navegación principal;
+- logo ABT;
+- estado activo inequívoco;
+- header compacto;
+- breadcrumb;
+- usuario y ayuda;
+- contenido con ancho y padding consistentes;
+- atribución Broco secundaria.
 
 ### Tablet
 
-- Navegación adaptada sin comprimir controles críticos.
-- Sidebar reducido o drawer según ancho.
-- Acciones importantes visibles y secundarias agrupadas.
+- navegación adaptada sin comprimir controles críticos;
+- acciones principales visibles;
+- acciones secundarias agrupadas.
 
 ### Mobile
 
-- Drawer accesible.
-- Navegación simple y targets táctiles adecuados.
-- Sin intentar reproducir la densidad desktop.
-- Registros complejos resumidos con detalle expandible.
+- drawer accesible;
+- targets táctiles;
+- foco administrado;
+- densidad adecuada;
+- registros complejos resumidos y expandibles.
 
-### Componentes del shell
+### Componentes base
 
-- `AppShell`
-- `AppSidebar`
-- `AppHeader`
-- `Breadcrumbs`
-- `PageHeader`
-- `GlobalSearch` — inicialmente acotada y ampliable.
-- `UserMenu`
-- `HelpEntryPoint`
-- `NotificationEntryPoint` — cuando tenga alcance definido.
+- `AppShell`;
+- `AppSidebar`;
+- `AppHeader`;
+- `Breadcrumbs`;
+- `PageHeader`;
+- `GlobalSearch` acotada;
+- `UserMenu`;
+- `HelpEntryPoint`;
+- `BrandAttribution`;
+- `NotificationEntryPoint` cuando exista alcance.
 
-`/design-system` permanece fuera del shell de producto.
+`/design-system` permanece fuera del shell.
 
 ## 7. Patrones de pantalla
 
 ### 7.1 Inicio — cockpit personal
 
-Objetivo: responder **qué necesita atención ahora**.
+Responde: **¿qué necesita atención ahora?**
 
-Contenido potencial, según permisos:
+Contenido potencial según permisos:
 
 - operaciones que requieren atención;
-- próximos vencimientos;
-- controles y aprobaciones pendientes;
+- vencimientos;
+- controles y aprobaciones;
 - elementos de Mi trabajo;
-- operaciones recientes;
+- actividad relevante;
 - alertas críticas;
-- indicadores breves y accionables.
+- indicadores accionables.
 
 Reglas:
 
-- No es un dashboard decorativo.
-- Cada indicador lleva a los registros concretos.
-- No mostrar información económica sin permiso.
-- Priorizar excepción y acción sobre volumen general.
+- no es dashboard decorativo;
+- cada indicador lleva a registros concretos;
+- no expone información económica sin permiso;
+- prioriza excepción y acción.
 
 ### 7.2 Mi trabajo — bandeja de ejecución
 
-Objetivo: reunir acciones concretas asignadas a una persona o equipo.
+Responde: **¿qué debo hacer, revisar o aprobar?**
 
-Vistas iniciales:
+Vistas:
 
 - asignado a mí;
-- asignado a mi equipo;
+- mi equipo;
 - próximo a vencer;
 - vencido;
 - aprobaciones;
@@ -269,9 +292,9 @@ Vistas iniciales:
 - excepciones;
 - trabajo interno sin Operación.
 
-Cada elemento muestra como mínimo:
+Cada elemento muestra:
 
-- qué hay que hacer;
+- acción;
 - contexto;
 - responsable;
 - prioridad;
@@ -282,98 +305,107 @@ Cada elemento muestra como mínimo:
 
 ### 7.3 Listado operativo
 
-Aplicable a Operaciones, Clientes, Cotizaciones y colas administrativas.
+Aplica a Operaciones, Clientes, Cotizaciones y colas administrativas.
 
-Incluye cuando corresponda:
+Incluye cuando corresponde:
 
 - búsqueda;
-- filtros combinables;
-- período y rango personalizado;
-- indicadores clickeables;
-- ordenamiento desde headers;
-- selección y acciones masivas;
+- filtros;
+- período y rango;
+- KPI clickeables;
+- ordenamiento en headers;
+- selección;
 - agrupación;
-- columnas visibles;
+- columnas;
 - vistas guardadas;
 - paginación;
-- totales y subtotales por moneda;
-- estados loading, empty, filtered-empty y error.
+- totales por moneda;
+- estados alternativos;
+- URL state.
 
-Usar `DataTable` y su política de anchos. No usar scroll horizontal como solución principal.
+Usar `DataTable`. El scroll horizontal no es solución principal.
 
-### 7.4 Detalle de objeto
+### 7.4 Página de objeto
 
-Aplicable a Operación, Cliente, Cotización y Trámite.
-
-Estructura:
+Aplica a Operación, Cliente, Cotización y Trámite.
 
 ```text
 Cabecera estable
-  identidad · estado · situaciones · responsable · acciones
+  identidad · estados · situaciones · responsable · acciones
 
-Resumen / siguiente paso
+Resumen y próximo paso
 
-Navegación por secciones
+Secciones
   información general
   seguimiento
   documentación
   controles
   administración
   actividad
-  bloques específicos del objeto
+  bloques específicos
 ```
 
 Reglas:
 
-- La cabecera debe explicar rápidamente de qué objeto se trata.
-- El próximo paso y bloqueos deben ser visibles.
-- Evitar una sucesión extensa de cards equivalentes.
-- Revelar información según contexto y permisos.
-- Visualización y edición deben mantener estructura reconocible.
+- explica rápidamente qué objeto es;
+- muestra siguiente paso y bloqueos;
+- evita una sucesión infinita de cards;
+- revela según contexto y permisos;
+- edición y lectura mantienen estructura reconocible.
 
 ### 7.5 Creación guiada
 
-Usar cuando la tarea tenga decisiones condicionales o múltiples caminos.
+Usar cuando existen decisiones condicionales.
 
-Creación inicial de Operación:
+Creación de Operación:
 
-1. Origen: directa o desde Cotización.
-2. Cliente y tipo: Importación o Exportación.
-3. Contexto inicial: modalidad, mercadería, origen/destino y datos disponibles.
-4. Responsabilidad: responsable principal y participantes.
-5. Requisitos derivados: documentos, campos y controles.
-6. Revisión: inconsistencias, faltantes y confirmación.
+1. origen;
+2. Cliente y tipo;
+3. contexto inicial;
+4. responsabilidad;
+5. requisitos derivados;
+6. revisión.
 
 Reglas:
 
-- Mostrar sólo pasos necesarios.
-- Permitir volver sin perder datos.
-- Permitir guardar borrador si el proceso lo requiere.
-- Resumir qué se creará antes de confirmar.
-- Si nace de una Cotización, reutilizar datos y mostrar su origen.
+- sólo pasos necesarios;
+- volver sin perder;
+- borrador si se valida;
+- resumen antes de confirmar;
+- mostrar origen de datos reutilizados.
 
-### 7.6 Gestión y Dirección
+### 7.6 Cola administrativa
 
-Objetivo: convertir información operativa y administrativa en decisiones.
+Responde: **¿qué debo revisar o procesar?**
 
-Patrones:
+- por revisar;
+- con pendientes;
+- lista para facturar;
+- facturada;
+- con diferencias.
+
+Debe distinguir facturación, cobranza y cierre documental.
+
+### 7.7 Gestión y Dirección
+
+Responde: **¿qué ocurre en el negocio y qué datos lo explican?**
 
 - resumen ejecutivo;
-- indicadores accionables;
+- KPI accionables;
 - comparación de períodos;
-- filtros globales coherentes;
-- gráficos con tabla o registros explicativos;
-- drill-down hasta el dato de origen;
+- filtros coherentes;
+- gráficos con registros explicativos;
+- drill-down;
 - exportación controlada;
-- permisos sensibles aplicados en todos los niveles.
+- permisos sensibles.
 
 No construir un generador universal de reportes en esta etapa.
 
-### 7.7 Configuración
+### 7.8 Configuración
 
-Debe distinguir:
+Distinguir:
 
-- configuración general;
+- general;
 - catálogos;
 - reglas;
 - documentos requeridos;
@@ -381,82 +413,68 @@ Debe distinguir:
 - integraciones;
 - parámetros por cliente.
 
-Evitar mezclar configuración técnica con tareas operativas diarias.
+No mezclar configuración técnica con operación diaria.
 
 ## 8. Onboarding, inducción y ayuda continua
 
-La inducción forma parte de la arquitectura de experiencia desde el inicio. No se agrega al final como un tour superficial.
+Forma parte de la arquitectura desde el inicio.
 
-### 8.1 Principios
+### Principios
 
-- Derivar capacidades desde permisos; no pedir a la persona que elija su rol.
-- No bloquear el acceso con un recorrido largo.
-- Permitir omitir, retomar y reiniciar guías.
-- Mostrar ayuda en el momento y lugar donde se necesita.
-- No explicar con un tour lo que la interfaz debería hacer evidente.
+- Derivar capacidades desde permisos.
+- No bloquear con tours largos.
+- Permitir omitir, retomar y reiniciar.
+- Ayuda en momento y lugar relevantes.
+- No explicar lo que la interfaz debe hacer evidente.
 
-### 8.2 Primer acceso
+### Primer acceso
 
-- Bienvenida breve.
-- Qué puede hacer la persona según sus permisos.
-- Orientación a Inicio y Mi trabajo.
-- Preferencias iniciales de notificación cuando existan.
-- Checklist de primeras acciones.
+- bienvenida breve;
+- capacidades disponibles;
+- orientación a Inicio y Mi trabajo;
+- preferencias de notificación cuando existan;
+- checklist inicial.
 
-### 8.3 Checklists por capacidad
+### Checklists por capacidad
 
-Ejemplo Operaciones:
+Operaciones:
 
-1. Revisar operaciones asignadas.
-2. Abrir una Operación.
-3. Identificar etapa, pendientes y próximo hito.
-4. Completar una tarea o control.
-5. Revisar documentación.
+1. revisar asignadas;
+2. abrir Operación;
+3. identificar etapa, pendientes e hito;
+4. completar tarea/control;
+5. revisar documentación.
 
-Ejemplo Administración:
+Administración:
 
-1. Revisar operaciones listas para facturar.
-2. Detectar carpetas con pendientes.
-3. Consultar gastos y rendiciones.
-4. Ver referencias integradas de Alpha2000.
+1. revisar listas para facturar;
+2. detectar pendientes;
+3. consultar gastos/rendiciones;
+4. ver referencias Alpha2000.
 
-Ejemplo Dirección:
+Dirección:
 
-1. Revisar alertas críticas.
-2. Abrir el resumen ejecutivo.
-3. Bajar de un indicador a los registros.
-4. Resolver una aprobación pendiente.
+1. revisar alertas;
+2. abrir resumen;
+3. bajar de KPI a registros;
+4. resolver aprobación.
 
-### 8.4 Guías de tareas críticas
-
-Preparar soporte para guías sobre:
+### Guías críticas futuras
 
 - crear Operación directa;
 - crear desde Cotización;
-- hacer segundo control;
-- resolver documentación pendiente;
+- segundo control;
+- documentación faltante;
 - reasignar responsable;
-- marcar lista para facturar;
+- lista para facturar;
 - aprobar Cotización;
-- registrar excepción autorizada.
+- excepción autorizada.
 
 Las guías se implementan cuando el flujo está estable.
 
-### 8.5 Portal
-
-El onboarding externo incluye:
-
-- invitación y verificación;
-- explicación del alcance del acceso;
-- operaciones habilitadas;
-- documentos compartidos;
-- carga documental;
-- notificaciones;
-- soporte y contacto.
-
 ## 9. Estados transversales
 
-Diseñar explícitamente cuando correspondan:
+Diseñar cuando correspondan:
 
 - loading;
 - loaded;
@@ -473,177 +491,224 @@ Diseñar explícitamente cuando correspondan:
 - borrador;
 - guardando;
 - guardado;
-- conflicto de actualización;
-- offline o conectividad degradada cuando sea relevante.
+- conflicto;
+- conectividad degradada.
 
-## 10. Permisos y visibilidad
+## 10. Permisos y sensibilidad
 
-El frontend no decide autorización; representa lo autorizado por los servicios.
+El frontend representa autorización; no la decide.
 
 Debe:
 
-- ocultar o deshabilitar según el caso;
-- explicar por qué una acción no está disponible;
-- evitar revelar datos sensibles en KPIs, búsquedas, exportaciones, tooltips, activity feeds o errores;
-- distinguir “no existe” de “no tiene permiso” sólo cuando la política de seguridad lo permita;
-- aplicar la misma política en aplicación interna y Portal.
+- ocultar o deshabilitar según criterio;
+- explicar indisponibilidad;
+- no revelar datos sensibles en KPI, búsqueda, exportación, tooltip, actividad o error;
+- aplicar misma política en aplicación interna, Portal y canales asistidos;
+- no inferir perfiles definitivos.
 
-No inferir perfiles definitivos hasta que ABT los valide.
+## 11. Integraciones y frescura
 
-## 11. Integraciones y frescura del dato
-
-Cuando una pantalla muestre información externa debe poder expresar:
+Cuando existe información externa mostrar, si aporta valor:
 
 - sistema de origen;
 - última actualización;
-- estado de sincronización;
-- dato pendiente o parcial;
-- error de integración;
-- acción disponible: reintentar, consultar detalle o informar a soporte.
+- sincronización;
+- dato parcial;
+- error;
+- acción: reintentar, ver detalle o informar.
 
-No mezclar silenciosamente datos locales y externos sin identificar la fuente cuando pueda afectar decisiones.
+No mezclar silenciosamente datos locales y externos.
 
 ## 12. Responsive y accesibilidad
 
-Aplican íntegramente `FRONTEND_STANDARD.md` y WCAG 2.2 AA.
+Aplican `FRONTEND_STANDARD.md` y WCAG 2.2 AA.
 
-Validar conceptualmente:
+Viewports mínimos:
 
-- desktop amplio;
-- notebook;
-- tablet;
-- mobile de referencia de 390 px.
+- 1440;
+- 1280;
+- 1024;
+- 768;
+- 390.
 
-La revisión visual humana es obligatoria. `agent-browser` se utiliza sólo cuando se solicite explícitamente o el riesgo justifique su costo.
+La revisión visual humana es obligatoria. `agent-browser` sólo por pedido explícito.
 
-## 13. Inventario inicial de pantallas
+## 13. Branding
 
-### Fundamentos
+Aplicar `BRAND_USAGE.md`.
 
-- Application Shell.
-- Inicio.
-- Mi trabajo.
-- Búsqueda global inicial.
-- Infraestructura de onboarding y ayuda.
+- ABT es marca principal.
+- Broco es atribución secundaria.
+- `BrandAttribution` vive en sidebar/drawer/footer según superficie.
+- No repetir logos dentro de contenido.
+- No usar assets no oficiales.
 
-### Operaciones
-
-- Listado de todas las operaciones.
-- Vistas filtradas de Importaciones y Exportaciones.
-- Detalle común de Operación.
-- Crear Operación.
-- Bloques específicos de Importación.
-- Bloques específicos de Exportación.
-- Controles, documentos, actividad y Administración dentro de la Operación.
-
-### Clientes
-
-- Listado.
-- Detalle.
-- Operaciones y Cotizaciones relacionadas.
-- Contactos y datos básicos.
-- Configuraciones y requisitos habituales cuando sean validados.
-
-### Cotizaciones
-
-- Listado.
-- Detalle y versiones.
-- Creación/edición.
-- Aprobación.
-- Conversión a Operación.
-
-### Administración y Finanzas
-
-- Cola de operaciones por revisar.
-- Pendientes y diferencias.
-- Listas para facturar.
-- Referencias de facturación y cobranza.
-- Gastos, anticipos y rendiciones.
-
-### Gestión
-
-- Resumen ejecutivo.
-- Operación y productividad.
-- Clientes.
-- Carga de trabajo.
-- Información económica autorizada.
-- Reportes definidos.
-
-### Portal
-
-- Invitación y acceso.
-- Inicio del cliente.
-- Operaciones habilitadas.
-- Detalle externo de Operación.
-- Documentos y pendientes.
-- Notificaciones y ayuda.
-
-## 14. Ficha de especificación por pantalla
-
-Toda nueva pantalla debe documentarse con este formato:
+## 14. Arquitectura de features y datos mock
 
 ```text
-Vista
-Objetivo
-Trabajo principal del usuario
-Usuarios/capacidades
-Información primaria
-Información secundaria
-Acciones principales
-Acciones secundarias
-Reglas y validaciones
-Estados
-Permisos y sensibilidad
-Errores y recuperación
-Ayuda / onboarding
-Responsive
-Relaciones con otras vistas
-Fuente de datos e integraciones
-Pendientes
+apps/web/features/<feature>
+├── components
+├── data
+├── types
+├── tests
+└── index.ts cuando aporte valor
 ```
 
-## 15. Criterios de aceptación UX
+```text
+UI
+↓
+source/adapter simple
+↓
+fixtures determinísticos
+```
 
-Una pantalla no está lista para validación si no cumple:
+No crear API ficticia, repositorios genéricos ni contratos compartidos prematuros.
+
+## 15. Inventario inicial de pantallas
+
+Fundamentos:
+
+- Application Shell;
+- Inicio;
+- Mi trabajo;
+- búsqueda inicial;
+- onboarding/ayuda.
+
+Operaciones:
+
+- listado;
+- Impo/Expo filtradas;
+- detalle común;
+- creación;
+- bloques Impo;
+- bloques Expo;
+- controles/documentos/actividad/Administración.
+
+Clientes:
+
+- listado;
+- detalle;
+- contactos;
+- Operaciones/Cotizaciones;
+- configuraciones validadas.
+
+Cotizaciones:
+
+- listado;
+- detalle/versiones;
+- creación/edición;
+- aprobación;
+- conversión.
+
+Administración y Finanzas:
+
+- cola;
+- pendientes/diferencias;
+- lista para facturar;
+- referencias externas;
+- gastos/anticipos/rendiciones.
+
+Gestión:
+
+- resumen;
+- operación/productividad;
+- clientes;
+- carga;
+- información económica autorizada;
+- reportes definidos.
+
+Portal:
+
+- invitación/acceso;
+- Inicio Cliente;
+- Operaciones habilitadas;
+- detalle externo;
+- documentos/pendientes;
+- notificaciones/ayuda.
+
+## 16. Especificación por pantalla
+
+Toda pantalla usa `docs/frontend/screens/SCREEN_TEMPLATE.md`.
+
+Debe definir:
+
+- objetivo;
+- trabajo principal;
+- capacidades;
+- información primaria/secundaria;
+- acciones;
+- reglas;
+- estados;
+- permisos;
+- errores;
+- ayuda;
+- responsive;
+- fuentes;
+- pruebas;
+- fuera de alcance;
+- pendientes.
+
+## 17. Calidad y pruebas
+
+Aplicar `TEST_STRATEGY.md`.
+
+Cada pantalla debe tener el nivel de evidencia correspondiente a su riesgo:
+
+- lógica unitaria;
+- interacción de componentes;
+- integración de pantalla;
+- E2E crítico;
+- accesibilidad;
+- responsive;
+- revisión visual.
+
+No considerar terminada una feature crítica sin pruebas porque use fixtures.
+
+## 18. Criterios de aceptación UX
+
+Una pantalla no está lista si no cumple:
 
 - propósito entendible;
 - próximo paso visible;
-- terminología de ABT;
+- terminología ABT;
 - jerarquía clara;
-- prevención de errores relevante;
+- consistencia;
+- prevención de errores;
 - estados alternativos;
-- permisos contemplados;
+- permisos;
 - responsive;
-- teclado y focus visible;
+- teclado/foco;
 - mensajes accionables;
-- reutilización del design system;
-- sin apariencia genérica de dashboard o demo.
+- Design System;
+- marca correcta;
+- pruebas requeridas;
+- sin apariencia genérica.
 
-## 16. Decisiones pendientes
+## 19. Decisiones pendientes
 
-- Identificador visible de Operación.
-- Catálogo de etapas y condiciones de avance.
-- Datos mínimos de creación.
-- Información básica reutilizable del Cliente.
-- Cardinalidad Cotización → Operación.
-- Perfiles y permisos definitivos.
-- Campos y documentos visibles al cliente.
-- Contenido inicial de onboarding por capacidad.
-- Alcance inicial de búsqueda global.
-- Notificaciones y canales prioritarios.
-- Casos de uso iniciales de canales asistidos.
+- identificador visible de Operación;
+- etapas y condiciones de avance;
+- datos mínimos de creación;
+- información reutilizable del Cliente;
+- cardinalidad Cotización → Operación;
+- perfiles/permisos;
+- campos/documentos visibles al Cliente;
+- contenido inicial de onboarding;
+- búsqueda global;
+- notificaciones;
+- casos iniciales de canales asistidos.
 
-## 17. Próximo corte de diseño
+## 20. Próximo corte de diseño
 
-El primer corte coherente de producto debe incluir:
+El primer corte funcional de producto, después de Frontend Foundation, incluye:
 
 1. Application Shell.
-2. Infraestructura básica de onboarding y ayuda.
+2. Base de onboarding/ayuda.
 3. Inicio.
 4. Mi trabajo.
 5. Listado de Operaciones.
-6. Detalle común de Operación.
-7. Creación guiada de Operación.
+6. Detalle común.
+7. Creación guiada.
 8. Primera vertical de Importación.
 
-Este corte permitirá validar navegación, relación Cliente–Operación, responsables, estados, documentación, reglas, controles, excepciones, accesibilidad y responsive antes de profundizar otros módulos.
+Cada punto se implementa y aprueba por etapa; no en un único lote.

@@ -2,146 +2,272 @@
 
 > Documento vivo · Última actualización: 08/10/2026
 >
-> Plan maestro para trabajar con Codex y revisión humana, construyendo el producto de forma incremental sin perder alcance, consistencia ni calidad.
+> Plan maestro para transformar el alcance y el Design System en un frontend premium, navegable, consistente y validable con ABT.
 
 ## 1. Objetivo
 
-Transformar el alcance funcional y el Design System aprobado en un frontend real, navegable y validable con ABT, manteniendo:
+Construir el frontend de ABT Comex como producto real y reutilizable, no como prototipo descartable.
 
-- foco en la gestión de Operaciones;
-- simplicidad para el usuario;
-- arquitectura preparada para backend, Portal, integraciones y canales asistidos;
-- mínima complejidad implementada antes de necesitarla;
-- trazabilidad entre requerimiento, pantalla y decisión;
-- revisión humana después de cada incremento coherente.
+Debe servir para:
 
-## 2. Orden obligatorio de lectura para Codex
+- validar alcance y procesos con ABT;
+- demostrar una experiencia empresarial de alta calidad;
+- detectar reglas, estados y excepciones antes del backend;
+- definir contratos futuros sin inventar infraestructura;
+- conservar consistencia entre pantallas;
+- permitir reemplazar fixtures por API sin reescribir la experiencia;
+- sostener Portal, integraciones y canales asistidos sobre la misma base.
 
-Antes de cualquier cambio de producto o frontend:
+## 2. Decisión de ejecución
+
+Una ejecución larga de Codex está permitida **sólo para una etapa coherente y verificable**.
+
+La primera ejecución grande recomendada es:
+
+```text
+Etapa 0 — Frontend Foundation
+```
+
+Puede tomar tiempo porque instala gobierno, pruebas, estructura y branding. No debe incluir Application Shell ni varias pantallas de producto.
+
+No ejecutar todas las etapas del sistema en un único prompt. La duración no define el alcance; la cohesión y posibilidad de revisión sí.
+
+## 3. Orden obligatorio de lectura
+
+Antes de trabajar:
 
 1. `AGENTS.md`
 2. `docs/product/ALCANCE_FUNCIONAL.md`
 3. `docs/frontend/ESPECIFICACION_FUNCIONAL_FRONTEND.md`
 4. `docs/frontend/FRONTEND_STANDARD.md`
-5. `docs/frontend/DECISIONS.md`
-6. `docs/architecture/README.md`
-7. este plan
-8. `/design-system` y componentes de `packages/ui`
+5. `docs/frontend/TEST_STRATEGY.md`
+6. `docs/frontend/BRAND_USAGE.md`
+7. `docs/frontend/CODEX_RUNBOOK.md`
+8. `docs/frontend/DECISIONS.md`
+9. `docs/architecture/README.md`
+10. este plan
+11. la especificación aplicable en `docs/frontend/screens/`
+12. `/design-system` y componentes de `packages/ui`
 
 No usar como requisito funcional los datos mock del Design System.
 
-## 3. Forma de trabajo
+## 4. Gobierno de cada incremento
 
-### 3.1 Incrementos pequeños y coherentes
+```text
+Definir
+→ especificar pantalla/flujo
+→ planificar
+→ implementar
+→ probar
+→ revisar visual y funcionalmente
+→ actualizar documentos
+→ aprobar
+→ commit/merge
+```
 
-Cada etapa debe producir algo que pueda revisarse de punta a punta. Evitar implementar muchas rutas incompletas en paralelo.
+### Definition of Ready
 
-### 3.2 Gate humano
+Antes de implementar:
 
-Al final de cada etapa:
+- propósito y trabajo principal;
+- alcance y fuera de alcance;
+- especificación de pantalla;
+- información y acciones;
+- reglas, estados y permisos conocidos o marcados como pendientes;
+- responsive esperado;
+- ayuda/onboarding;
+- escenarios de prueba;
+- gate humano.
 
-1. Codex ejecuta checks técnicos.
-2. Informa decisiones y pendientes.
-3. El usuario revisa visual y funcionalmente.
-4. Se ajusta.
-5. Recién después se hace commit/merge y se avanza.
+### Definition of Done
 
-### 3.3 Reglas de ejecución
+Antes de cerrar:
+
+- funcionalidad completa del corte;
+- consistencia con otras pantallas;
+- estados alternativos;
+- responsive;
+- WCAG 2.2 AA;
+- pruebas requeridas;
+- checks técnicos;
+- documentos sincronizados;
+- marca correcta;
+- revisión humana.
+
+## 5. Reglas de ejecución
 
 - No hacer commit ni push salvo pedido explícito.
-- No crear backend, base de datos, auth real o paquetes de contratos hasta definir su arquitectura.
-- No inventar roles, campos, estados o reglas no validadas.
-- No introducir dependencias sin justificar su necesidad.
-- No rediseñar el Design System durante una feature; un patrón reusable nuevo se incorpora primero allí.
-- No usar `agent-browser` salvo pedido explícito o riesgo concreto que lo justifique.
-- La revisión visual principal la realiza el usuario en localhost.
-- Mantener datos mock realistas y claramente separados de la UI.
+- No crear backend, base de datos, auth real o paquetes de contratos antes de definir arquitectura.
+- No inventar roles, campos, estados, fórmulas o reglas.
+- No introducir dependencias sin justificar y documentar.
+- No rediseñar el Design System durante una feature.
+- Un patrón reusable nuevo se incorpora primero al Design System.
+- No usar `agent-browser` salvo pedido explícito.
+- La revisión visual principal se realiza manualmente en localhost o preview.
+- Mantener fixtures realistas y determinísticos, separados de la UI.
+- Cada entrega informa impacto documental.
+- `main` debe permanecer compilable y navegable.
 
-### 3.4 Checks mínimos
+## 6. Arquitectura frontend objetivo de esta etapa
+
+```text
+apps/web/
+├── app/
+│   ├── design-system/
+│   └── (app)/
+│
+├── components/
+│   ├── app-shell/
+│   ├── brand/
+│   ├── navigation/
+│   └── onboarding/
+│
+├── features/
+│   ├── home/
+│   ├── work/
+│   ├── operations/
+│   ├── clients/
+│   ├── quotes/
+│   ├── administration/
+│   └── management/
+│
+├── test/
+│   ├── factories/
+│   ├── fixtures/
+│   ├── utils/
+│   └── setup.ts
+│
+└── e2e/
+    ├── fixtures/
+    ├── pages/
+    └── specs/
+
+packages/ui/
+├── components genéricos
+├── hooks genéricos
+├── utilidades
+└── pruebas del Design System
+```
+
+### Frontera de datos durante mocks
+
+```text
+pantalla / componente
+        ↓
+fuente o adapter simple de la feature
+        ↓
+fixtures determinísticos
+```
+
+No hardcodear datasets extensos dentro de páginas.
+
+## 7. Checks y scripts esperados
+
+Controles base:
 
 ```bash
 pnpm lint
 pnpm typecheck
 pnpm build
+pnpm test
 git diff --check
 ```
 
-Además:
-
-- sin errores evitables de consola;
-- navegación por teclado;
-- focus visible;
-- desktop, notebook, tablet y mobile;
-- estados alternativos relevantes.
-
-## 4. Arquitectura frontend provisional
-
-Mientras no exista backend:
+La Etapa 0 debe dejar comandos claros para:
 
 ```text
-apps/web
-├── app
-│   ├── design-system
-│   └── (app)
-│       ├── layout.tsx
-│       ├── inicio
-│       ├── operaciones
-│       ├── clientes
-│       ├── cotizaciones
-│       ├── mi-trabajo
-│       ├── administracion
-│       ├── gestion
-│       └── configuracion
-│
-├── components
-│   ├── app-shell
-│   ├── navigation
-│   └── onboarding
-│
-├── features
-│   ├── operations
-│   ├── clients
-│   ├── quotes
-│   ├── work
-│   ├── administration
-│   └── management
-│
-└── lib
-    ├── mock-data
-    ├── permissions
-    └── navigation
+test unitario
+watch
+E2E
+E2E UI
+accesibilidad
+verificación completa
 ```
 
-Criterios:
+Ver `TEST_STRATEGY.md`.
 
-- componentes visuales genéricos viven en `packages/ui`;
-- composición y lógica de producto viven en `apps/web`;
-- tipos y datos mock permanecen cerca de la feature;
-- crear una interfaz simple de lectura de datos sólo cuando evite acoplar la UI a mocks;
-- no anticipar un repositorio genérico, SDK o capa de contratos compartidos sin necesidad real.
-
-## 5. Plan por etapas
+# Plan por etapas
 
 ---
 
-## Etapa 0 — Contexto y preparación
+## Etapa 0 — Frontend Foundation
 
 ### Objetivo
 
-Dejar el repositorio preparado para que Codex trabaje con el mismo contexto funcional y UX.
+Instalar una base operativa que obligue a mantener calidad, pruebas, documentación, consistencia y marca antes de producir pantallas.
 
-### Entregables
+### Esta etapa puede ejecutarse completa en una única corrida larga de Codex
 
-- `docs/product/ALCANCE_FUNCIONAL.md`
-- `docs/frontend/ESPECIFICACION_FUNCIONAL_FRONTEND.md`
-- `docs/frontend/PLAN_IMPLEMENTACION.md`
-- `AGENTS.md` actualizado con orden de lectura y reglas de producto.
+Debe detenerse al terminar y esperar revisión humana.
 
-### Gate
+### Entregables documentales
 
-- Documentos consistentes entre sí.
-- Ninguna contradicción con el Design System.
-- Decisiones pendientes explícitas.
+- verificar consistencia de los documentos base;
+- actualizar `DECISIONS.md` con decisiones de gobierno, testing y marca;
+- crear la especificación `screens/01-foundation-application-shell.md` usando la plantilla;
+- registrar cualquier contradicción sin resolverla silenciosamente.
+
+### Entregables de testing
+
+- instalar Vitest y Testing Library;
+- configurar matchers y setup;
+- incorporar axe;
+- instalar y configurar Playwright;
+- crear scripts coherentes en workspaces y raíz;
+- crear una prueba unitaria de referencia;
+- crear una prueba de componente accesible de referencia;
+- crear un E2E smoke de referencia;
+- configurar datos y reloj determinísticos;
+- agregar documentación de comandos;
+- incorporar workflow CI para lint, typecheck, tests y build si no existe uno equivalente.
+
+### Entregables de estructura
+
+- crear sólo directorios y utilidades base que se utilicen en la propia etapa;
+- establecer convención de `features` y tests sin generar módulos vacíos innecesarios;
+- crear helpers de render para pruebas;
+- establecer frontera simple de fixtures;
+- no crear repositorios o contratos genéricos.
+
+### Entregables de marca
+
+- verificar assets ABT;
+- incorporar asset oficial Broco Solutions;
+- documentar fuente maestra y copia servida;
+- crear `BrandAttribution` reusable;
+- enlazar a `https://brocosolutions.com`;
+- agregar pruebas de accesibilidad del componente;
+- no insertar aún el componente en un shell inexistente.
+
+### Entregables de calidad
+
+- agregar comando de verificación integral;
+- revisar configuración de TypeScript y ESLint sólo si existe un hueco real;
+- no actualizar dependencias no relacionadas;
+- documentar cualquier limitación del entorno.
+
+### Fuera de alcance
+
+- Application Shell;
+- rutas de producto;
+- onboarding visual;
+- dashboards;
+- lógica de Operaciones;
+- backend;
+- auth;
+- Portal;
+- integración real.
+
+### Gate humano
+
+- comandos comprensibles;
+- suite rápida y estable;
+- CI razonable;
+- estructura no sobrediseñada;
+- documentación consistente;
+- logo Broco correcto;
+- `BrandAttribution` sutil y reusable;
+- sin regresiones del Design System.
 
 ---
 
@@ -149,7 +275,7 @@ Dejar el repositorio preparado para que Codex trabaje con el mismo contexto func
 
 ### Objetivo
 
-Crear la estructura real de la aplicación interna sin inventar funcionalidades de los módulos.
+Crear la estructura real de la aplicación interna sin inventar funcionalidades profundas.
 
 ### Entregables
 
@@ -162,42 +288,49 @@ Crear la estructura real de la aplicación interna sin inventar funcionalidades 
 - `PageHeader`;
 - menú de usuario mock;
 - entrada de ayuda;
-- estructura de búsqueda global inicial sin lógica profunda;
-- rutas placeholder reales:
-  - `/inicio`
-  - `/operaciones`
-  - `/clientes`
-  - `/cotizaciones`
-  - `/mi-trabajo`
-  - `/administracion`
-  - `/gestion`
-  - `/configuracion`
+- búsqueda global inicial sin lógica profunda;
+- rutas placeholder:
+  - `/inicio`;
+  - `/operaciones`;
+  - `/clientes`;
+  - `/cotizaciones`;
+  - `/mi-trabajo`;
+  - `/administracion`;
+  - `/gestion`;
+  - `/configuracion`;
 - `/` redirige a `/inicio`;
-- `/design-system` queda fuera del shell.
+- `/design-system` queda fuera del shell;
+- logo ABT;
+- `BrandAttribution` al pie de sidebar/drawer;
+- 404, error boundary, loading y acceso denegado base.
 
 ### Onboarding base
 
 - estado mock de primer acceso;
-- componente de bienvenida no bloqueante;
-- estructura de checklist;
-- posibilidad de omitir y retomar;
-- ayuda contextual reusable.
+- bienvenida breve y no bloqueante;
+- checklist reusable;
+- omitir y retomar;
+- ayuda contextual base.
 
-### No hacer
+### Pruebas mínimas
 
-- dashboards inventados;
-- lógica real de permisos;
-- notificaciones reales;
-- backend o auth;
-- Portal.
+- navegación activa;
+- breadcrumbs;
+- drawer y foco;
+- teclado;
+- onboarding omitir/retomar;
+- branding;
+- E2E smoke de navegación;
+- snapshots selectivos desktop/mobile.
 
 ### Gate humano
 
 - navegación clara;
-- estado activo correcto;
+- jerarquía premium;
 - densidad empresarial;
-- mobile usable;
+- responsive real;
 - ayuda no invasiva;
+- ABT protagonista y Broco secundario;
 - sin apariencia genérica de template.
 
 ---
@@ -206,18 +339,23 @@ Crear la estructura real de la aplicación interna sin inventar funcionalidades 
 
 ### Objetivo
 
-Validar el modelo mental principal: “qué requiere mi atención” y “qué tengo que hacer”.
+Validar el modelo mental principal:
 
-### Inicio
+- Inicio: qué requiere atención.
+- Mi trabajo: qué debe hacer la persona.
+
+### Entregables
+
+Inicio:
 
 - operaciones que requieren atención;
 - próximos vencimientos;
-- controles y aprobaciones;
-- actividad reciente relevante;
+- controles/aprobaciones;
+- actividad relevante;
 - indicadores accionables;
 - contenido condicionado por capacidades mock.
 
-### Mi trabajo
+Mi trabajo:
 
 - asignado a mí;
 - mi equipo;
@@ -228,54 +366,47 @@ Validar el modelo mental principal: “qué requiere mi atención” y “qué t
 - excepciones;
 - trabajo interno sin Operación.
 
-### Reglas
-
-- Inicio resume; Mi trabajo permite operar.
-- Un indicador filtra o navega al conjunto que explica su valor.
-- Evitar duplicar la misma información sin propósito.
-
-### Gate humano
+### Gate
 
 - en menos de 10 segundos se entiende qué requiere atención;
 - cada elemento tiene contexto, responsable, vencimiento y acción;
-- no se necesita recordar dónde ir para resolverlo.
+- Inicio resume; Mi trabajo permite operar;
+- KPI y filtros comparten una fuente de verdad.
 
 ---
 
-## Etapa 3 — Listado real de Operaciones
+## Etapa 3 — Listado de Operaciones
 
 ### Objetivo
 
-Construir la primera pantalla operativa principal reutilizando el patrón aprobado de datos.
+Construir la primera pantalla operativa principal.
 
 ### Entregables
 
-- `/operaciones`;
-- tabs o vistas Todas / Importaciones / Exportaciones;
+- Todas / Importaciones / Exportaciones;
 - búsqueda;
-- filtros por tipo, estado/situación, responsable, cliente, período;
-- rango personalizado;
+- filtros combinables;
+- período y rango personalizado;
 - indicadores clickeables;
+- URL state;
 - sorting desde headers;
 - selección;
 - agrupación;
 - columnas visibles;
+- vistas guardadas cuando se valide;
 - paginación;
-- totales sin mezclar monedas cuando correspondan;
-- vistas loading, empty, filtered-empty y error;
+- totales por moneda;
+- estados alternativos;
 - mobile resumido/expandible;
 - navegación al detalle.
 
-### Datos
-
-Mocks realistas basados en el dominio, no en el Design System demo.
-
-### Gate humano
+### Gate
 
 - encontrar una Operación es rápido;
-- se distinguen etapa, situaciones y responsable;
-- filtros e indicadores tienen una única fuente de verdad;
-- no hay columnas cortadas ni scroll horizontal como solución normal.
+- etapa, situaciones y responsable se distinguen;
+- no hay columnas cortadas;
+- no hay scroll horizontal normal;
+- filtros sobreviven recarga y retorno cuando corresponde.
 
 ---
 
@@ -283,30 +414,24 @@ Mocks realistas basados en el dominio, no en el Design System demo.
 
 ### Objetivo
 
-Definir el objeto central del producto antes de especializar Impo y Expo.
+Definir el objeto central antes de especializar Impo y Expo.
 
-### Estructura inicial
+### Entregables
 
-- cabecera: referencia, cliente, tipo, estado general, etapa, responsable, situaciones;
+- cabecera estable;
+- cliente, tipo, estado general, etapa, responsable y situaciones;
 - bloque “qué sigue”;
 - resumen;
-- seguimiento / hitos;
+- seguimiento/hitos;
 - documentación;
 - controles;
 - Administración relacionada;
 - actividad;
 - acciones contextuales.
 
-### Reglas
+### Gate
 
-- El próximo paso y los bloqueos son visibles.
-- Estados multidimensionales no se reducen a un único badge.
-- Información sensible se representa mediante capacidades mock.
-- Evitar una página infinita de cards.
-
-### Gate humano
-
-La pantalla responde:
+La pantalla responde rápidamente:
 
 - qué Operación es;
 - de qué Cliente;
@@ -322,33 +447,25 @@ La pantalla responde:
 
 ### Objetivo
 
-Validar el inicio del proceso y la prevención de errores.
+Validar inicio de proceso y prevención de errores.
 
 ### Flujo
 
-1. creación directa o desde Cotización;
+1. origen: directa o desde Cotización;
 2. Cliente y tipo;
 3. contexto inicial;
 4. responsables;
 5. requisitos derivados;
 6. revisión.
 
-### Comportamientos
-
-- revelado progresivo;
-- reutilización de datos conocidos;
-- validación contextual;
-- resumen antes de confirmar;
-- volver sin perder información;
-- borrador si se valida como necesidad;
-- mensajes accionables.
-
-### Gate humano
+### Gate
 
 - no hay campos innecesarios;
-- se entiende qué información falta y por qué;
-- no se puede generar una inconsistencia obvia;
-- la creación desde Cotización muestra el origen de los datos.
+- reutiliza información conocida;
+- muestra origen de datos;
+- permite volver sin perder;
+- detecta inconsistencias obvias;
+- mensajes claros y accionables.
 
 ---
 
@@ -356,52 +473,52 @@ Validar el inicio del proceso y la prevención de errores.
 
 ### Objetivo
 
-Definir el contexto persistente que se reutiliza en Operaciones y Cotizaciones.
+Definir contexto persistente reutilizable.
 
-### Pantallas
+### Entregables
 
 - listado;
 - detalle;
-- datos básicos y contactos;
-- Operaciones relacionadas;
-- Cotizaciones relacionadas;
+- datos y contactos;
+- Operaciones;
+- Cotizaciones;
 - actividad;
-- configuraciones/requisitos sólo cuando estén validados.
+- configuraciones/requisitos sólo validados.
 
-### Gate humano
+### Gate
 
-- Cliente es importante sin convertirse en un CRM genérico;
-- se puede entender la relación completa con ABT;
-- la información económica respeta capacidades sensibles.
+- Cliente es importante sin convertirse en CRM genérico;
+- relación completa con ABT comprensible;
+- datos económicos respetan sensibilidad.
 
 ---
 
-## Etapa 7 — Primera vertical completa: Importación
+## Etapa 7 — Importación
 
 ### Objetivo
 
-Validar el modelo común con el proceso operativo más relevado.
+Primera vertical operativa completa.
 
 ### Cobertura
 
 - inicio y clasificación;
 - pre-embarque;
 - documentación condicional;
-- preparación/provisorio;
-- doble control bloqueante;
-- arribo, ETA e hitos;
+- provisorio;
+- doble control;
+- arribo/ETA;
 - oficialización;
 - canal/liberación;
-- demoras internas/externas;
+- demoras;
 - cierre documental;
 - pase a Administración.
 
-### Gate humano
+### Gate
 
-- la UI acompaña el proceso sin rigidizarlo;
-- reglas y checklists dependen del contexto;
-- el doble control es claro y trazable;
-- Alpha2000/MARÍA se representa como fuente externa, no se duplica.
+- acompaña sin rigidizar;
+- reglas dependen del contexto;
+- doble control es bloqueante y trazable;
+- Alpha2000/MARÍA aparece como fuente externa.
 
 ---
 
@@ -409,27 +526,27 @@ Validar el modelo común con el proceso operativo más relevado.
 
 ### Objetivo
 
-Validar la especialización del modelo y relaciones no triviales.
+Validar especialización y relaciones complejas.
 
 ### Cobertura
 
 - instrucción;
-- provisorio y doble control;
-- oficialización y legajo;
+- provisorio/doble control;
+- oficialización/legajo;
 - carga;
 - certificados;
-- DJVE con ciclo propio;
-- relación DJVE ↔ permisos/operaciones;
+- DJVE;
+- permisos/operaciones;
 - pase a Facturación;
 - cumplido;
 - post-embarque;
-- documentación original y archivo.
+- custodia documental.
 
-### Gate humano
+### Gate
 
-- una Operación puede estar facturada y seguir activa;
+- Operación puede estar facturada y seguir activa;
 - DJVE no se fuerza como Operación;
-- la documentación física/digital tiene estado y custodia.
+- documentación física/digital tiene estado.
 
 ---
 
@@ -437,26 +554,25 @@ Validar la especialización del modelo y relaciones no triviales.
 
 ### Objetivo
 
-Construir el circuito comercial previo a la Operación.
+Construir circuito comercial previo.
 
 ### Cobertura
 
 - listado;
-- creación y edición;
 - líneas y servicios;
-- cálculos automáticos;
+- cálculos;
 - condiciones;
 - versiones;
 - aprobación;
 - envío/aceptación;
-- conversión explícita a Operación.
+- conversión a Operación.
 
-### Gate humano
+### Gate
 
-- cantidad × unitario siempre produce el total;
-- no puede enviarse sin aprobación;
-- se distingue borrador, versión aprobada y versión aceptada;
-- no se recargan datos al crear la Operación.
+- cantidad × unitario produce total;
+- no se envía sin aprobación;
+- versiones se entienden;
+- conversión no recarga datos.
 
 ---
 
@@ -464,7 +580,7 @@ Construir el circuito comercial previo a la Operación.
 
 ### Objetivo
 
-Diseñar el pase operativo-administrativo sin duplicar Alpha2000.
+Diseñar pase operativo-administrativo sin duplicar Alpha2000.
 
 ### Cobertura
 
@@ -473,17 +589,17 @@ Diseñar el pase operativo-administrativo sin duplicar Alpha2000.
 - listas para facturar;
 - facturadas;
 - diferencias;
-- servicios/honorarios;
-- gastos, anticipos y rendiciones;
-- referencias de factura/cobranza;
-- necesidades de fondos y aprobaciones.
+- honorarios;
+- gastos/anticipos/rendiciones;
+- referencias externas;
+- necesidades de fondos.
 
-### Gate humano
+### Gate
 
-- “lista para facturar” tiene condiciones explícitas;
-- facturar, cobrar y cerrar documentación son estados separados;
-- datos sensibles están protegidos;
-- la fuente Alpha2000 es visible.
+- “lista para facturar” es explícita;
+- facturar, cobrar y cerrar documentación son distintos;
+- datos sensibles protegidos;
+- fuente Alpha2000 visible.
 
 ---
 
@@ -491,26 +607,26 @@ Diseñar el pase operativo-administrativo sin duplicar Alpha2000.
 
 ### Objetivo
 
-Convertir información estructurada en decisiones.
+Convertir información en decisiones.
 
 ### Cobertura
 
 - resumen ejecutivo;
-- operación y productividad;
-- clientes y concentración;
+- operación/productividad;
+- clientes/concentración;
 - carga de trabajo;
-- demoras y vencimientos;
+- demoras/vencimientos;
 - facturación/cobranzas;
 - costos/márgenes;
-- comparaciones de períodos;
+- períodos;
 - reportes definidos.
 
-### Gate humano
+### Gate
 
-- cada indicador permite drill-down;
-- no se copian pantallas de `2025ABT.xlsx`;
-- fórmulas y fuentes son explícitas;
-- permisos se aplican en KPI, tabla, gráfico y exportación.
+- cada KPI permite drill-down;
+- no replica `2025ABT.xlsx`;
+- fórmulas/fuentes explícitas;
+- permisos en KPI, tabla, gráfico y exportación.
 
 ---
 
@@ -518,32 +634,32 @@ Convertir información estructurada en decisiones.
 
 ### Objetivo
 
-Construir una experiencia externa separada sobre el mismo núcleo.
+Experiencia externa separada sobre el mismo núcleo.
 
 ### Primera etapa
 
-- invitación y acceso;
+- invitación/acceso;
 - Inicio del Cliente;
 - Operaciones habilitadas;
 - detalle externo limitado;
-- hitos compartidos;
-- documentos compartidos;
-- pendientes del Cliente;
-- ayuda y notificaciones básicas.
+- hitos;
+- documentos;
+- pendientes;
+- ayuda/notificaciones básicas.
 
 ### Segunda etapa
 
 - carga documental;
 - acciones simples;
 - comunicaciones estructuradas;
-- preferencias de notificación.
+- preferencias.
 
-### Gate humano
+### Gate
 
-- ninguna información interna se filtra;
-- la visibilidad se define explícitamente;
-- el Cliente entiende el estado sin conocer la complejidad interna;
-- aplicación interna y Portal no comparten navegación por accidente.
+- no filtra información interna;
+- visibilidad explícita;
+- estado comprensible para Cliente;
+- navegación separada de aplicación interna.
 
 ---
 
@@ -551,23 +667,23 @@ Construir una experiencia externa separada sobre el mismo núcleo.
 
 ### Objetivo
 
-Preparar y validar casos de interacción mediante modelos de lenguaje o mensajería, sin depender de un proveedor.
+Validar consultas y futuras acciones sin depender de proveedor.
 
 ### Primera etapa
 
-- consultas de sólo lectura;
+- sólo lectura;
 - operaciones que requieren atención;
-- estado de una Operación;
+- estado;
 - documentos faltantes;
 - vencimientos;
 - indicadores autorizados.
 
 ### Requisitos
 
-- misma identidad y permisos;
-- servicios del producto como única vía;
-- fuente y fecha del dato;
-- abstención ante falta de información;
+- misma identidad/permisos;
+- servicios del producto;
+- fuente y fecha;
+- abstención;
 - auditoría;
 - límites de uso.
 
@@ -576,139 +692,76 @@ Preparar y validar casos de interacción mediante modelos de lenguaje o mensajer
 - acciones simples;
 - confirmación;
 - idempotencia;
-- escrituras sensibles aprobadas por caso de uso.
+- escrituras sensibles aprobadas por caso.
 
-## 6. Infraestructura de onboarding
+## 8. Revisión de cada etapa
 
-Implementar progresivamente:
+### Funcional
 
-1. primer acceso no bloqueante;
-2. checklist por capacidades;
-3. ayuda contextual reusable;
-4. guías de tareas críticas cuando el flujo esté estable;
-5. registro local/mock de avance en frontend;
-6. persistencia real cuando exista arquitectura de usuario.
+- representa trabajo real;
+- respeta alcance;
+- no introduce reglas silenciosas;
+- acciones pertenecen al objeto correcto.
 
-No construir un tour completo antes de que existan pantallas estables.
+### UX
 
-## 7. Estrategia de revisión
+- propósito claro;
+- siguiente paso visible;
+- prevención de errores;
+- reconocimiento sobre memoria;
+- recuperación;
+- eficiencia para usuarios frecuentes.
 
-### Revisión funcional
-
-- ¿representa el trabajo real?
-- ¿respeta el alcance?
-- ¿introduce una regla no validada?
-- ¿la acción pertenece a este objeto?
-
-### Revisión UX
-
-- ¿el propósito es claro?
-- ¿el próximo paso es visible?
-- ¿previene errores?
-- ¿reduce memoria?
-- ¿ofrece recuperación?
-- ¿es eficiente para usuarios frecuentes?
-
-### Revisión visual
+### Visual
 
 - jerarquía;
 - densidad;
 - alineación;
-- responsive;
 - consistencia;
-- ausencia de “AI look”.
+- responsive;
+- marca;
+- ausencia de apariencia genérica.
 
-### Revisión técnica
+### Técnica
 
-- componentes reutilizados;
-- límites entre `packages/ui` y `apps/web`;
+- límites de componentes;
 - TypeScript;
 - lint;
 - build;
+- pruebas;
 - consola;
-- accesibilidad.
-
-## 8. Protocolo de trabajo para Codex
-
-Para cada etapa, Codex debe:
-
-1. leer los documentos obligatorios;
-2. inspeccionar código y componentes existentes;
-3. resumir el entendimiento y señalar decisiones pendientes;
-4. proponer un plan pequeño antes de modificar;
-5. implementar sólo la etapa solicitada;
-6. reutilizar el Design System;
-7. contemplar estados, errores, permisos mock, responsive y onboarding contextual;
-8. ejecutar checks;
-9. no hacer commit ni push;
-10. informar:
-   - arquitectura;
-   - archivos modificados;
-   - decisiones;
-   - estados contemplados;
-   - responsive;
-   - accesibilidad;
-   - checks;
-   - revisión visual humana necesaria;
-   - pendientes.
-
-## 9. Prompt maestro para iniciar una etapa
-
-```text
-Continuamos con ABT Comex.
-
-Antes de trabajar leé obligatoriamente:
-- AGENTS.md
-- docs/product/ALCANCE_FUNCIONAL.md
-- docs/frontend/ESPECIFICACION_FUNCIONAL_FRONTEND.md
-- docs/frontend/FRONTEND_STANDARD.md
-- docs/frontend/DECISIONS.md
-- docs/frontend/PLAN_IMPLEMENTACION.md
-- docs/architecture/README.md
-
-Revisá también /design-system y reutilizá los componentes y patrones existentes.
-
-ETAPA
-<nombre exacto de la etapa>
-
-OBJETIVO
-<objetivo de producto>
-
-ALCANCE
-<entregables concretos>
-
-FUERA DE ALCANCE
-<qué no debe implementarse>
-
-REGLAS
-- No inventar roles, reglas, estados o campos no validados.
-- No agregar dependencias sin necesidad real.
-- No crear backend, DB o auth real.
-- Mantener responsive, WCAG 2.2 AA y estados alternativos.
-- Incorporar ayuda contextual sólo donde aporte valor.
-- No usar agent-browser salvo pedido explícito.
-- No hacer commit ni push.
-
-VALIDACIÓN
-pnpm lint
-pnpm typecheck
-pnpm build
-git diff --check
-
-Al finalizar informar:
-- qué se implementó;
-- decisiones tomadas;
-- archivos modificados;
-- comportamiento responsive;
 - accesibilidad;
-- estados contemplados;
-- checks;
-- puntos para revisión humana;
-- pendientes o dudas concretas.
-```
+- performance razonable.
+
+## 9. Estado de etapas
+
+| Etapa | Estado |
+|---|---|
+| 0 — Frontend Foundation | Próxima |
+| 1 — Application Shell | Pendiente |
+| 2 — Inicio y Mi trabajo | Pendiente |
+| 3 — Operaciones listado | Pendiente |
+| 4 — Operación detalle | Pendiente |
+| 5 — Crear Operación | Pendiente |
+| 6 — Clientes | Pendiente |
+| 7 — Importación | Pendiente |
+| 8 — Exportación/DJVE | Pendiente |
+| 9 — Cotizaciones | Pendiente |
+| 10 — Administración/Finanzas | Pendiente |
+| 11 — Gestión/Dirección | Pendiente |
+| 12 — Portal | Pendiente |
+| 13 — Canales asistidos | Pendiente |
 
 ## 10. Próximo paso
 
-El siguiente incremento recomendado es **Etapa 1 — Application Shell e infraestructura de experiencia**.
+Ejecutar únicamente **Etapa 0 — Frontend Foundation** con el prompt de trabajo generado a partir de `CODEX_RUNBOOK.md`.
 
-No avanzar a Operaciones hasta que el shell y la base de onboarding hayan sido revisados y aprobados visualmente.
+Después:
+
+1. revisar diff;
+2. ejecutar comandos localmente;
+3. revisar el componente de atribución;
+4. validar que no exista sobrearquitectura;
+5. corregir;
+6. autorizar commit;
+7. recién entonces iniciar Application Shell.
