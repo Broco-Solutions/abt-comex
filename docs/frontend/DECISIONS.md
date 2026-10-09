@@ -125,3 +125,7 @@ La próxima etapa es `Frontend Foundation`.
 Incluye gobierno, configuración de pruebas, estructura mínima, CI, asset oficial de Broco, componente de atribución y especificación del Application Shell.
 
 No incluye todavía Application Shell ni pantallas de producto.
+
+## 2026-10-09 — Infraestructura de pruebas de frontend
+
+Las pruebas rápidas se ejecutan por workspace con Vitest: jsdom para componentes de `web` y Node para lógica pura de `packages/ui`. Playwright usa Chromium, Firefox y WebKit localmente; CI ejecuta el smoke en Chromium y conserva la matriz local para futuros flujos críticos. El snapshot visual inicial se limita al encabezado de `/design-system`. El contraste se valida manualmente cuando axe corre en jsdom.

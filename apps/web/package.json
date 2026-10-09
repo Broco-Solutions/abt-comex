@@ -9,7 +9,12 @@
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:unit": "vitest run --exclude '**/*.a11y.tsx'",
+    "test:watch": "vitest",
+    "test:a11y": "vitest run components/brand/brand-attribution.a11y.tsx",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "@workspace/ui": "workspace:*",

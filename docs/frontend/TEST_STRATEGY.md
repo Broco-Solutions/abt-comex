@@ -364,6 +364,14 @@ Una etapa no puede aprobarse hasta que:
 
 ## 20. Implementación inicial
 
+### Comandos y convenciones de la Etapa 0
+
+`pnpm test` ejecuta unitarias/componentes y luego accesibilidad. `pnpm test:unit` ejecuta la suite de ambos workspaces sin auditorías axe; `pnpm test:watch` observa las pruebas de `web`. `pnpm test:a11y` ejecuta la auditoría de componente con axe. `pnpm test:e2e` ejecuta Chromium, Firefox y WebKit; para el smoke rápido, `pnpm test:e2e --project=chromium`. `pnpm test:e2e:ui` abre la interfaz local de Playwright. `pnpm test:all` recorre lint, tipos, pruebas rápidas, build y E2E. Antes de E2E local: `pnpm exec playwright install` y `pnpm build` (Playwright inicia `next start` en el puerto 3100). Para actualizar la única referencia visual, ejecutar `pnpm test:e2e --project=chromium --update-snapshots` y revisar el diff de imagen.
+
+Vitest usa jsdom en `apps/web` y Node en `packages/ui`; las pruebas de feature se ubican junto a su feature. `apps/web/test/setup.ts` registra jest-dom y limpieza. El helper de render sólo centraliza la entrada a Testing Library. Fechas de prueba: literales fijos o `vi.setSystemTime`; IDs fijos y fixtures por feature cuando haya consumidor. No se crearon factories ni fixtures globales vacíos. La frontera futura es componente → fuente simple de la feature → fixture determinístico, sin API simulada.
+
+La auditoría axe de componente desactiva `color-contrast` únicamente en jsdom porque no hay canvas real. Contraste, foco visible, zoom y responsive requieren revisión humana. Playwright captura el encabezado de `/design-system` en Chromium con una referencia selectiva. CI instala sólo Chromium y ejecuta `@smoke`; el snapshot `@visual` queda para el entorno local de referencia, ya que diferencias de fuentes del runner pueden producir falsos cambios. La matriz completa queda disponible localmente. En Linux, las bibliotecas faltantes se instalan mediante `pnpm exec playwright install-deps firefox webkit` con privilegios del sistema. Los reportes HTML y `test-results` son generados e ignorados por Git.
+
 La Etapa 0 debe:
 
 1. instalar y configurar Vitest y Testing Library;

@@ -7,15 +7,30 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "turbo format",
-    "typecheck": "turbo typecheck"
+    "typecheck": "turbo typecheck",
+    "test": "pnpm test:unit && pnpm test:a11y",
+    "test:unit": "turbo test:unit",
+    "test:watch": "pnpm --filter web test:watch",
+    "test:e2e": "pnpm --filter web test:e2e",
+    "test:e2e:ui": "pnpm --filter web test:e2e:ui",
+    "test:a11y": "pnpm --filter web test:a11y",
+    "test:all": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm test:e2e"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.0",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
     "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
+    "jsdom": "^26.1.0",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "turbo": "^2.9.18",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^2.1.9",
+    "vitest-axe": "^0.1.0"
   },
   "packageManager": "pnpm@10.33.4",
   "engines": {
