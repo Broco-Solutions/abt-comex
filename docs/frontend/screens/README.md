@@ -48,7 +48,7 @@ El número expresa orden de trabajo, no ruta ni prioridad eterna.
 
 | Orden | Área | Vista / flujo | Etapa | Estado |
 |---:|---|---|---:|---|
-| 01 | Fundamentos | Application Shell | 1 | Draft |
+| 01 | Fundamentos | Application Shell | 1 | Ready |
 | 02 | Fundamentos | Inicio | 2 | Draft |
 | 03 | Trabajo | Mi trabajo | 2 | Draft |
 | 04 | Operaciones | Listado | 3 | Draft |

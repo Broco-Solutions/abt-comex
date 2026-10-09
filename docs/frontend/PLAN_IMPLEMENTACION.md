@@ -737,7 +737,7 @@ Validar consultas y futuras acciones sin depender de proveedor.
 
 | Etapa | Estado |
 |---|---|
-| 0 — Frontend Foundation | Próxima |
+| 0 — Frontend Foundation | Under review — pendiente revisión humana |
 | 1 — Application Shell | Pendiente |
 | 2 — Inicio y Mi trabajo | Pendiente |
 | 3 — Operaciones listado | Pendiente |
@@ -754,7 +754,7 @@ Validar consultas y futuras acciones sin depender de proveedor.
 
 ## 10. Próximo paso
 
-Ejecutar únicamente **Etapa 0 — Frontend Foundation** con el prompt de trabajo generado a partir de `CODEX_RUNBOOK.md`.
+Revisar la implementación de **Etapa 0 — Frontend Foundation** y su evidencia técnica; no iniciar Etapa 1 antes del gate humano.
 
 Después:
 
