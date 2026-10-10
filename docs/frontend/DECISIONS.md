@@ -129,3 +129,75 @@ No incluye todavía Application Shell ni pantallas de producto.
 ## 2026-10-09 — Infraestructura de pruebas de frontend
 
 Las pruebas rápidas se ejecutan por workspace con Vitest: jsdom para componentes de `web` y Node para lógica pura de `packages/ui`. Playwright usa Chromium, Firefox y WebKit localmente; CI ejecuta el smoke en Chromium y conserva la matriz local para futuros flujos críticos. El snapshot visual inicial se limita al encabezado de `/design-system`. El contraste se valida manualmente cuando axe corre en jsdom.
+
+## 2026-10-09 — Inicio y Mi trabajo como destinos separados
+
+Inicio y Mi trabajo son destinos principales distintos y consecutivos en la
+navegación. Inicio sintetiza qué está pasando y qué requiere atención; Mi
+trabajo concentra la ejecución completa de tareas, revisiones, aprobaciones,
+controles y excepciones.
+
+Inicio podrá mostrar una vista resumida con acceso a registros concretos y la
+acción “Ver todo en Mi trabajo”. Mi trabajo permanece en `/mi-trabajo` y no
+será un submenú ni una ruta anidada de Inicio. Una separación visual sutil
+distingue estos dos destinos personales de los dominios del negocio.
+
+## 2026-10-09 — Jerarquía de Operaciones y estados de navegación
+
+Operaciones es el enlace principal a la vista completa en `/operaciones`. No
+existe un ítem redundante “Todas”. Importaciones y Exportaciones son vistas
+filtradas del mismo dominio mediante `?tipo=importacion` y
+`?tipo=exportacion`.
+
+En la vista completa, Operaciones es el único destino seleccionado. En una
+vista filtrada, Operaciones comunica sección activa y sólo el hijo
+correspondiente comunica destino seleccionado y expone `aria-current="page"`.
+Padre activo y destino seleccionado no usan representaciones visualmente
+equivalentes.
+
+La navegación principal no utiliza bajo contraste para comunicar inactividad:
+un destino inactivo debe percibirse disponible y diferenciarse de un futuro
+estado disabled. Peso, indentación, espaciado, fondo, indicador e iconografía
+complementan al color para expresar la jerarquía.
+
+## 2026-10-09 — Sidebar adaptable e isotipo oficial ABT
+
+En desktop y notebook (desde 1024 px) la sidebar inicia expandida y puede
+contraerse manualmente a un rail permanente de 4.5rem (72 px), sin resize
+libre. La preferencia `expanded`/`compact` se guarda temporalmente en
+`localStorage` detrás del provider del shell. Tablet y mobile usan siempre el
+drawer completo y nunca convierten esa preferencia en rail.
+
+El modo compacto conserva la misma fuente de navegación, targets de 44 × 44
+px, nombres accesibles, tooltips en hover/foco e indicadores de estado.
+Operaciones sigue enlazando a `/operaciones` y expone un flyout accesible para
+Importaciones y Exportaciones; Escape lo cierra y devuelve el foco al enlace.
+
+El wordmark completo se usa en modo expandido. El modo compacto usa el globo
+oficial extraído mediante recorte lossless y común desde los logos maestros,
+en variantes verde y blanca. No se recorta el wordmark dinámicamente con CSS,
+no se recolorea el derivado y la variante blanca queda reservada para fondos
+oscuros. Si se obtiene el vector oficial, reemplazará al raster sin cambiar
+este patrón de uso.
+
+## 2026-10-09 — Atribución Broco por modo de navegación
+
+ABT y Broco comparten el patrón de navegación: marca completa en expandida y
+drawer; isotipo en rail compacto. La atribución Broco expandida usa el texto
+visible `Powered by` junto con `BROCO_SOLUTIONS_logo_gradient.svg`; no repite
+`Broco Solutions` fuera del logo. El rail compacto usa exclusivamente
+`BROCO_SOLUTIONS_isotype_gradient.svg`, sin texto visible, con tooltip y nombre
+accesible `Powered by Broco Solutions`.
+
+## 2026-10-09 — Onboarding global con panel contextual en Inicio
+
+El estado y el progreso de la inducción pertenecen al Application Shell y se
+mantienen globales, con persistencia local temporal. Su panel completo se
+muestra exclusivamente en `/inicio`; ningún otro módulo reserva altura ni
+monta una copia del panel.
+
+Ayuda permanece disponible en todas las rutas para consultar el progreso,
+reiniciar o retomar. Retomar desde otro módulo navega declarativamente a
+`/inicio` y conserva el avance existente. La inducción puede omitirse o
+completarse, nunca bloquea la navegación, no redirige accesos directos y se
+desmonta sin dejar espacio residual.

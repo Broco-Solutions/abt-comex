@@ -1,6 +1,6 @@
 # ABT Comex — Especificación funcional de Frontend
 
-> Documento vivo · Última actualización: 08/10/2026
+> Documento vivo · Última actualización: 09/10/2026
 >
 > Traduce `docs/product/ALCANCE_FUNCIONAL.md` a arquitectura de información, patrones de interacción, pantallas, estados y criterios de experiencia.
 
@@ -176,19 +176,29 @@ Todo error relevante indica:
 
 ```text
 Inicio
+Mi trabajo
+
 Operaciones
-  Todas
   Importaciones
   Exportaciones
 Clientes
 Cotizaciones
-Mi trabajo
 Administración y Finanzas
 Gestión
 Configuración
 ```
 
 La navegación es conceptual y se valida con pantallas reales. No agregar módulos principales sin necesidad demostrada.
+
+Inicio y Mi trabajo permanecen como destinos principales separados. Se ubican
+consecutivamente al comienzo y se distinguen de los dominios del negocio con
+una separación visual sutil, sin títulos de grupo ni jerarquías anidadas.
+
+La fila Operaciones es el acceso a la vista completa en `/operaciones`.
+Importaciones y Exportaciones son accesos subordinados a vistas filtradas; no
+se agrega un destino redundante “Todas”. Cuando una vista filtrada está
+seleccionada, Operaciones comunica la sección activa sin competir con el único
+destino que expone `aria-current="page"`.
 
 ### 5.2 Experiencias externas
 
@@ -216,8 +226,13 @@ El shell debe ser estable, reusable y sobrio.
 
 ### Desktop y notebook
 
-- sidebar con navegación principal;
-- logo ABT;
+- sidebar expandida por defecto, con opción manual de rail compacto;
+- preferencia expandida/compacta persistida localmente de forma temporal;
+- logo ABT completo en modo expandido e isotipo oficial en modo compacto;
+- atribución Broco con `Powered by` más marca completa en modo expandido y
+  sólo isotipo con nombre accesible completo en el rail;
+- navegación completa en ambos modos; Operaciones ofrece un flyout accesible
+  hacia Importaciones y Exportaciones cuando las etiquetas no están visibles;
 - estado activo inequívoco;
 - header compacto;
 - breadcrumb;
@@ -227,13 +242,15 @@ El shell debe ser estable, reusable y sobrio.
 
 ### Tablet
 
+- drawer completo por debajo de 1024 px, sin heredar la preferencia compacta;
 - navegación adaptada sin comprimir controles críticos;
 - acciones principales visibles;
 - acciones secundarias agrupadas.
 
 ### Mobile
 
-- drawer accesible;
+- drawer accesible con wordmark ABT y atribución Broco expandida (`Powered by`
+  más marca completa);
 - targets táctiles;
 - foco administrado;
 - densidad adecuada;
@@ -253,6 +270,10 @@ El shell debe ser estable, reusable y sobrio.
 - `NotificationEntryPoint` cuando exista alcance.
 
 `/design-system` permanece fuera del shell.
+
+No existe resize manual de la sidebar. El rail compacto conserva targets de al
+menos 44 × 44 px, nombres accesibles y tooltips en hover y foco; no reemplaza
+las etiquetas del drawer ni se usa como estado inicial obligatorio.
 
 ## 7. Patrones de pantalla
 
@@ -274,12 +295,16 @@ Reglas:
 
 - no es dashboard decorativo;
 - cada indicador lleva a registros concretos;
+- ofrece “Ver todo en Mi trabajo” cuando resume trabajo accionable;
 - no expone información económica sin permiso;
 - prioriza excepción y acción.
 
 ### 7.2 Mi trabajo — bandeja de ejecución
 
 Responde: **¿qué debo hacer, revisar o aprobar?**
+
+Es un destino principal en `/mi-trabajo`, no un submenú ni una vista anidada
+de Inicio.
 
 Vistas:
 
@@ -426,6 +451,13 @@ Forma parte de la arquitectura desde el inicio.
 - Permitir omitir, retomar y reiniciar.
 - Ayuda en momento y lugar relevantes.
 - No explicar lo que la interfaz debe hacer evidente.
+- Mantener el estado de inducción global, pero mostrar su panel completo sólo
+  en Inicio para no competir con el trabajo de otros módulos.
+- Desde cualquier módulo, Ayuda permite consultar el progreso y retomar la
+  orientación mediante navegación a `/inicio`, sin recarga completa ni pérdida
+  del avance.
+- Omitir o completar desmonta el panel sin reservar espacio; la inducción no
+  bloquea navegación ni redirige accesos directos a otros módulos.
 
 ### Primer acceso
 
@@ -540,6 +572,8 @@ Aplicar `BRAND_USAGE.md`.
 - ABT es marca principal.
 - Broco es atribución secundaria.
 - `BrandAttribution` vive en sidebar/drawer/footer según superficie.
+- Broco sigue el patrón expandido = marca completa / compacto = isotipo, sin
+  duplicar `Broco Solutions` como texto visible junto al logo completo.
 - No repetir logos dentro de contenido.
 - No usar assets no oficiales.
 

@@ -1,6 +1,6 @@
 # ABT Comex — Plan de implementación de Frontend
 
-> Documento vivo · Última actualización: 08/10/2026
+> Documento vivo · Última actualización: 10/10/2026
 >
 > Plan maestro para transformar el alcance y el Design System en un frontend premium, navegable, consistente y validable con ABT.
 
@@ -281,8 +281,9 @@ Crear la estructura real de la aplicación interna sin inventar funcionalidades 
 
 - route group `(app)`;
 - `AppShell`;
-- sidebar desktop/notebook;
-- drawer mobile;
+- sidebar desktop/notebook expandida por defecto y rail compacto opcional con
+  preferencia local temporal;
+- drawer completo para tablet/mobile por debajo de 1024 px;
 - header compacto;
 - breadcrumbs;
 - `PageHeader`;
@@ -300,7 +301,7 @@ Crear la estructura real de la aplicación interna sin inventar funcionalidades 
   - `/configuracion`;
 - `/` redirige a `/inicio`;
 - `/design-system` queda fuera del shell;
-- logo ABT;
+- logo ABT completo e isotipo oficial derivado lossless según el modo;
 - `BrandAttribution` al pie de sidebar/drawer;
 - 404, error boundary, loading y acceso denegado base.
 
@@ -310,13 +311,16 @@ Crear la estructura real de la aplicación interna sin inventar funcionalidades 
 - bienvenida breve y no bloqueante;
 - checklist reusable;
 - omitir y retomar;
-- ayuda contextual base.
+- ayuda contextual base;
+- panel completo limitado a `/inicio`, con estado global y reanudación desde
+  Ayuda en cualquier módulo sin reservar espacio fuera de Inicio.
 
 ### Pruebas mínimas
 
 - navegación activa;
 - breadcrumbs;
 - drawer y foco;
+- toggle, persistencia, tooltips y flyout accesible del rail compacto;
 - teclado;
 - onboarding omitir/retomar;
 - branding;
@@ -354,6 +358,7 @@ Inicio:
 - actividad relevante;
 - indicadores accionables;
 - contenido condicionado por capacidades mock.
+- acceso “Ver todo en Mi trabajo” desde el resumen de trabajo accionable.
 
 Mi trabajo:
 
@@ -371,6 +376,7 @@ Mi trabajo:
 - en menos de 10 segundos se entiende qué requiere atención;
 - cada elemento tiene contexto, responsable, vencimiento y acción;
 - Inicio resume; Mi trabajo permite operar;
+- Inicio y Mi trabajo son destinos principales separados y consecutivos;
 - KPI y filtros comparten una fuente de verdad.
 
 ---
@@ -383,7 +389,7 @@ Construir la primera pantalla operativa principal.
 
 ### Entregables
 
-- Todas / Importaciones / Exportaciones;
+- vista completa de Operaciones / Importaciones / Exportaciones filtradas;
 - búsqueda;
 - filtros combinables;
 - período y rango personalizado;
@@ -737,8 +743,8 @@ Validar consultas y futuras acciones sin depender de proveedor.
 
 | Etapa | Estado |
 |---|---|
-| 0 — Frontend Foundation | Under review — pendiente revisión humana |
-| 1 — Application Shell | Pendiente |
+| 0 — Frontend Foundation | Complete with environment limitation |
+| 1 — Application Shell | Complete with environment limitation |
 | 2 — Inicio y Mi trabajo | Pendiente |
 | 3 — Operaciones listado | Pendiente |
 | 4 — Operación detalle | Pendiente |
@@ -752,16 +758,21 @@ Validar consultas y futuras acciones sin depender de proveedor.
 | 12 — Portal | Pendiente |
 | 13 — Canales asistidos | Pendiente |
 
-## 10. Próximo paso
+## 10. Cierre de Etapa 1
 
-Revisar la implementación de **Etapa 0 — Frontend Foundation** y su evidencia técnica; no iniciar Etapa 1 antes del gate humano.
+La revisión visual humana de **Etapa 1 — Application Shell e infraestructura de
+experiencia** fue aprobada el 10/10/2026. El cierre se publica para revisión
+de código mediante Pull Request hacia `main`; no se inicia Etapa 2 en este
+incremento. Esta aprobación corresponde a la experiencia del Shell y no
+resuelve las decisiones funcionales pendientes de ABT para los módulos futuros.
 
-Después:
+Chromium cubre localmente los recorridos E2E y snapshots selectivos del Shell.
+Firefox y WebKit siguen sin una ejecución local concluyente por dependencias
+del host; esta limitación del entorno no constituye un fallo comprobado del
+producto. La matriz de esos navegadores queda pendiente de un entorno apto.
 
-1. revisar diff;
-2. ejecutar comandos localmente;
-3. revisar el componente de atribución;
-4. validar que no exista sobrearquitectura;
-5. corregir;
-6. autorizar commit;
-7. recién entonces iniciar Application Shell.
+### Evidencia de cierre de Etapa 0
+
+Chromium pasó localmente y en CI. Firefox y WebKit continúan limitados por
+dependencias disponibles en el host; no existe una falla conocida del código
+asociada a esos navegadores.

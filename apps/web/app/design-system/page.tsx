@@ -21,12 +21,25 @@ import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { Label } from "@workspace/ui/components/label"
 import { Separator } from "@workspace/ui/components/separator"
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogClose,
+  DialogDescription,
+  DialogPopup,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+  DialogViewport,
+} from "@workspace/ui/components/dialog"
 import { formatDate, formatDateTime } from "@workspace/ui/lib/date"
 
 import { OperationsWorkspace } from "./data/operations-workspace"
+import { NavigationPatternReference } from "@/components/app-shell/navigation-pattern-reference"
 
 const navigation = [
   ["Fundamentos", "fundamentos"],
+  ["Navegación", "navegacion-shell"],
   ["Componentes", "componentes"],
   ["Formularios", "formularios"],
   ["Feedback", "feedback"],
@@ -221,6 +234,14 @@ export default function DesignSystemPage() {
         </Section>
 
         <Section
+          id="navegacion-shell"
+          title="Application Shell / Navigation"
+          description="La misma fuente de navegación alimenta sidebar expandida, rail compacto y drawer. Foco, tooltips y flyout mantienen disponibles todos los destinos."
+        >
+          <NavigationPatternReference />
+        </Section>
+
+        <Section
           id="componentes"
           title="Botones y componentes"
           description="Las acciones priorizan el flujo de trabajo. Los badges se reservan para estados, no para cualquier dato."
@@ -250,6 +271,30 @@ export default function DesignSystemPage() {
             <StatusBadge status="Pendiente" />
             <StatusBadge status="Completado" />
             <StatusBadge status="Requiere atención" />
+          </div>
+          <div className="mt-6 border-t border-border pt-6">
+            <Dialog>
+              <DialogTrigger render={<Button variant="outline" />}>
+                Abrir diálogo de referencia
+              </DialogTrigger>
+              <DialogPortal>
+                <DialogBackdrop />
+                <DialogViewport>
+                  <DialogPopup>
+                    <DialogTitle>Confirmar contexto</DialogTitle>
+                    <DialogDescription className="mt-2">
+                      Los overlays administran foco, Escape, backdrop y retorno
+                      al disparador de forma consistente.
+                    </DialogDescription>
+                    <div className="mt-5 flex justify-end">
+                      <DialogClose render={<Button variant="outline" />}>
+                        Cerrar
+                      </DialogClose>
+                    </div>
+                  </DialogPopup>
+                </DialogViewport>
+              </DialogPortal>
+            </Dialog>
           </div>
         </Section>
 

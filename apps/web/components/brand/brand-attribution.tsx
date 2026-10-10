@@ -1,22 +1,60 @@
+"use client"
+
 import Image from "next/image"
 
-export function BrandAttribution() {
-  return (
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@workspace/ui/components/tooltip"
+
+export function BrandAttribution({ compact = false }: { compact?: boolean }) {
+  const attributionLink = (
     <a
       href="https://brocosolutions.com"
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Powered by Broco Solutions, enlace externo"
-      className="inline-flex min-h-11 items-center gap-2 rounded-md bg-background px-2 py-1 text-xs text-muted-foreground underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      aria-label={
+        compact
+          ? "Powered by Broco Solutions"
+          : "Powered by Broco Solutions, enlace externo"
+      }
+      data-brand-attribution={compact ? "compact" : "full"}
+      className={
+        compact
+          ? "inline-flex size-11 items-center justify-center rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          : "inline-flex flex-col items-start rounded-md px-1 py-1 text-xs text-muted-foreground underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      }
     >
-      <span>Powered by Broco Solutions</span>
+      {compact ? null : <span>Powered by</span>}
       <Image
-        src="/brand/BROCO_SOLUTIONS_logo_navy_transparent.png"
         alt=""
-        width={67}
-        height={72}
-        className="h-auto w-[67px] shrink-0 object-contain"
+        src={
+          compact
+            ? "/brand/BROCO_SOLUTIONS_isotype_gradient.svg"
+            : "/brand/BROCO_SOLUTIONS_logo_gradient.svg"
+        }
+        width={compact ? 588 : 1810}
+        height={705}
+        unoptimized
+        className={
+          compact
+            ? "h-6 w-auto shrink-0 object-contain"
+            : "h-auto w-16 shrink-0 object-contain"
+        }
       />
     </a>
+  )
+
+  if (!compact) return attributionLink
+
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger render={attributionLink} />
+        <TooltipContent>Powered by Broco Solutions</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }
