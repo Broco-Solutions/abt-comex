@@ -1,6 +1,6 @@
 # ABT Comex — Alcance funcional
 
-> Documento vivo · Última sincronización con el documento funcional de Drive: 08/10/2026
+> Documento vivo · Última sincronización con el documento funcional de Drive: 09/10/2026
 >
 > Fuente de trabajo para implementación: este archivo.
 > Documento visual y de validación con negocio: [Alcance funcional — ABT Comex](https://docs.google.com/document/d/1xMiET79fBh0_B3mPHj7yylq0capL-tkMqFJBVBJcRAQ/edit)
@@ -468,17 +468,27 @@ La navegación inicial propuesta para la aplicación interna es:
 
 ```text
 Inicio
+Mi trabajo
+
 Operaciones
-  Todas
   Importaciones
   Exportaciones
 Clientes
 Cotizaciones
-Mi trabajo
 Administración y Finanzas
 Gestión
 Configuración
 ```
+
+Inicio y Mi trabajo son destinos distintos y consecutivos. Inicio sintetiza
+qué está pasando y qué requiere atención; Mi trabajo concentra la ejecución
+completa de tareas, revisiones, aprobaciones, controles y excepciones. Inicio
+puede ofrecer una vista resumida que conduzca a registros concretos y a “Ver
+todo en Mi trabajo”; Mi trabajo no es un submenú de Inicio.
+
+Operaciones enlaza a la vista completa en `/operaciones`; no existe un ítem
+redundante “Todas”. Importaciones y Exportaciones son vistas filtradas de ese
+mismo dominio.
 
 El Portal tiene identidad y navegación separadas. Los canales asistidos no son módulos del negocio: utilizan la misma capa de servicios, permisos, reglas y auditoría.
 

@@ -1,6 +1,6 @@
 # ABT Comex — Uso de Marca
 
-> Documento vivo · Última actualización: 08/10/2026
+> Documento vivo · Última actualización: 09/10/2026
 
 ## 1. Objetivo
 
@@ -34,7 +34,10 @@ Fuentes maestras:
 assets/brand/
 ├── ABT_COMEX_logo_green_transparent.png
 ├── ABT_COMEX_logo_white_transparent.png
-└── BROCO_SOLUTIONS_logo_navy_transparent.png
+├── ABT_COMEX_isotype_green_transparent.png
+├── ABT_COMEX_isotype_white_transparent.png
+├── BROCO_SOLUTIONS_logo_gradient.svg
+└── BROCO_SOLUTIONS_isotype_gradient.svg
 ```
 
 Cuando una aplicación necesite servir un asset desde web, se copia explícitamente a:
@@ -76,17 +79,46 @@ Usar sobre:
 - Mantener proporciones y área de seguridad.
 - Usar tamaño legible, sin convertirlo en elemento decorativo dominante.
 
+### Isotipo ABT
+
+Los assets `ABT_COMEX_isotype_green_transparent.png` y
+`ABT_COMEX_isotype_white_transparent.png` son recortes lossless del globo de
+los masters oficiales homólogos. Conservan sus píxeles, canal alpha, escala y
+proporción originales sobre un canvas transparente común de 796 × 717 px; no
+son una recreación ni un vector generado.
+
+- Usar la variante verde sobre fondos claros y la blanca sobre fondos oscuros.
+- Usar el wordmark completo en sidebar expandida y drawer; reservar el isotipo
+  para el rail compacto.
+- No recolorear, filtrar, deformar ni recortar dinámicamente con CSS.
+- No ampliar por encima de su tamaño útil original; reducirlo sólo conservando
+  proporción y nitidez.
+- Mantener como área de seguridad, como mínimo, el margen transparente incluido
+  en el asset y no superponer otros elementos.
+- Si se incorpora el vector oficial, reemplaza el raster derivado sin cambiar
+  estas reglas.
+
 ## 5. Logo Broco Solutions
 
-El asset oficial de uso inicial es:
+Los assets oficiales de atribución son:
 
 ```text
-BROCO_SOLUTIONS_logo_navy_transparent.png
+BROCO_SOLUTIONS_logo_gradient.svg
+BROCO_SOLUTIONS_isotype_gradient.svg
 ```
 
-Está optimizado para superficies claras. En una navegación oscura, la atribución debe vivir dentro de una pequeña superficie clara o neutra; no recolorear el logo de forma improvisada.
+El SVG `logo` contiene la marca completa y el SVG `isotype` contiene sólo el
+símbolo. Se sirven como SVG, sin rasterizar ni alterar sus colores.
 
-Si se incorpora una variante oficial blanca en el futuro, debe agregarse como asset separado y documentarse.
+Sobre la superficie clara de la navegación, el patrón es:
+
+- expandida y drawer: texto visible `Powered by` más logo completo;
+- rail compacto: sólo isotipo con tooltip y nombre accesible completos.
+
+No repetir `Broco Solutions` en texto visible junto al logo completo, porque el
+nombre ya forma parte del asset. La atribución no agrega una tarjeta ni fondo
+blanco propio: usa la superficie del sidebar/drawer. Se mantiene claramente
+menor que la marca ABT. No recolorear, deformar ni rasterizar los SVG.
 
 ## 6. Powered by Broco Solutions
 
@@ -142,6 +174,10 @@ No repetir la atribución en el cuerpo de cada pantalla.
 - sin slogans adicionales dentro del shell;
 - margen suficiente alrededor del logo.
 
+En modo expandido, el texto visible se limita a `Powered by`; el enlace anuncia
+`Powered by Broco Solutions, enlace externo`. En modo compacto, el isotipo no
+tiene texto visible y el enlace/tooltip anuncian `Powered by Broco Solutions`.
+
 ## 7. Aplicación por superficie
 
 ### Sidebar desktop
@@ -149,7 +185,8 @@ No repetir la atribución en el cuerpo de cada pantalla.
 - ABT en la cabecera.
 - Navegación como contenido principal.
 - `BrandAttribution` al pie.
-- Si el sidebar es oscuro y el logo Broco es navy, usar superficie clara sutil.
+- La atribución usa la superficie existente; no sumar una card o fondo blanco
+  sólo para Broco.
 
 ### Drawer mobile
 
@@ -198,7 +235,9 @@ El producto debe hablar como ABT:
 - sin grandilocuencia;
 - sin jerga técnica innecesaria.
 
-“Powered by Broco Solutions” es la única fórmula de atribución inicial aprobada.
+`Powered by Broco Solutions` es la fórmula accesible aprobada. Junto al logo
+completo, el texto visible se reduce a `Powered by` para no duplicar el nombre
+contenido en la marca.
 
 No usar:
 

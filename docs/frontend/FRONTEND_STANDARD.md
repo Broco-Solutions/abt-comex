@@ -1,6 +1,6 @@
 # ABT Comex — Frontend Standard
 
-> Documento vivo · Última actualización: 08/10/2026
+> Documento vivo · Última actualización: 09/10/2026
 
 ## Objetivo
 
@@ -116,9 +116,39 @@ No combinar varios patrones sin una razón funcional clara.
 
 Cada vista debe tener especificación en `docs/frontend/screens/` antes de considerarse lista para implementación.
 
+### Composición y ancho de lectura
+
+- Los bloques relacionados deben percibirse como una única experiencia y
+  conservar proximidad visual.
+- No distribuir contenido relacionado en extremos opuestos de una superficie
+  amplia mediante `space-between`.
+- Usar anchos de lectura controlados y grillas explícitas para definir la
+  relación entre columnas.
+- Evitar grandes vacíos sin propósito que transmitan sensación de contenido
+  faltante.
+- La densidad útil y la composición deliberada forman parte de la calidad
+  visual; no se compensan con altura mínima, cards o decoración.
+
 ## Navegación y estado en URL
 
 - La navegación debe ser predecible y mantener contexto.
+- Los destinos principales inactivos deben parecer disponibles, no disabled;
+  no usar texto secundario excesivamente tenue como color principal del menú.
+- Destino seleccionado, sección activa e inactividad deben diferenciarse con
+  múltiples señales: peso, indentación, espaciado, fondo, indicador e icono,
+  además del color. Sólo el destino seleccionado usa `aria-current="page"`.
+- Hover y foco deben ser inequívocos, y el foco visible no puede depender del
+  estado hover.
+- En desktop/notebook, una navegación compacta opcional mantiene un rail
+  permanente, destinos completos mediante nombre accesible y tooltip, targets
+  mínimos de 44 × 44 px y acceso por teclado a cualquier subnivel. La variante
+  expandida es el estado inicial; tablet/mobile usan drawer completo.
+- El rail de referencia mide 4.5rem (72 px): deriva de un target de 44 px más
+  espacio lateral del sistema y libera espacio real sin comprometer zoom ni
+  foco. No se ofrece resize manual.
+- La preferencia visual puede persistirse localmente detrás de un provider
+  aislado mientras no exista identidad; un valor inválido vuelve a expandida y
+  el modo overlay nunca se persiste.
 - Breadcrumbs expresan jerarquía, no historial del navegador.
 - Filtros, búsqueda, período, agrupación, ordenamiento y paginación relevantes deben reflejarse en URL cuando permitan compartir, recargar o volver sin perder contexto.
 - Una acción desde Inicio, Gestión o un indicador debe llevar a una vista filtrada explicable.
@@ -236,6 +266,9 @@ Viewports de revisión manual mínimos:
 - 1440 px;
 - 1280 px;
 - 1024 px;
+- 960 px;
+- 900 px;
+- 820 px;
 - 768 px;
 - 390 px.
 
@@ -325,6 +358,11 @@ No considerar accesible una pantalla sólo porque una auditoría automática no 
 - La interfaz debe ser comprensible sin depender de un tour.
 - Primer acceso y checklists son no bloqueantes.
 - La persona puede omitir, retomar y reiniciar ayuda.
+- El estado de inducción puede ser global, pero un panel extenso se muestra
+  sólo en la ruta designada para orientación; no reserva espacio en el resto
+  de las pantallas ni fuerza redirecciones.
+- La ayuda global puede conducir declarativamente a esa ruta conservando el
+  progreso existente.
 - Las guías se implementan cuando el flujo real está estable.
 - La ayuda contextual explica conceptos, bloqueos y próximos pasos sin repetir información evidente.
 - No pedir a la persona que elija su rol; la experiencia deriva de capacidades.
@@ -337,6 +375,9 @@ Aplicar íntegramente `BRAND_USAGE.md`.
 - ABT Comex es la marca principal.
 - Usar únicamente logos oficiales.
 - El patrón “Powered by Broco Solutions” es atribución secundaria y se implementa mediante un componente reusable.
+- En navegación adaptable, las marcas secundarias siguen el patrón expandido =
+  marca completa / compacto = isotipo; el texto visible no repite un nombre ya
+  contenido en el logo.
 - No colocar atribución repetida en el cuerpo de cada pantalla.
 - No deformar, recrear ni recolorear logos arbitrariamente.
 - No cargar logos desde dominios externos.
