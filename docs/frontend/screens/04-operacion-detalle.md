@@ -26,6 +26,7 @@ Dar una ficha común desde la que la persona reconoce la operación, su cliente,
 - Si el registro se abrió durante la sesión local, muestra su contexto inicial y si nació de alta directa o de una versión de Cotización aceptada; el vínculo conserva el ID y versión de origen.
 - “Próximo paso” reproduce la orientación sintética existente; no crea una tarea ni afirma una acción cumplida.
 - “Documentación”, “Controles y seguimiento” y “Administración” explicitan qué no está modelado aún y qué etapas lo completarán; no son botones inertes.
+- En Importación hay un destino útil al workspace específico, desde la acción principal y las secciones de documentos/controles; el retorno conserva el contexto de esta ficha. Exportación mantiene el límite de etapa futura.
 - “Volver a resultados” conserva filtros del listado o el contexto de Mi trabajo. La ruta de retorno sólo admite paths internos de esas listas; ruta inválida vuelve al listado.
 - El enlace de tipo conduce al listado filtrado, destino existente y útil.
 - Edición se presenta deshabilitada con motivo. Ninguna acción escribe o contacta fuentes externas.
@@ -66,6 +67,6 @@ La ficha reutiliza la fuente de operaciones sintéticas de Etapa 3, compartida e
 ## Implementación y revisión
 
 - Código: `apps/web/features/operations/components/operation-detail.tsx`; ruta `apps/web/app/(app)/operaciones/[operationId]/page.tsx`.
-- Integración: enlaces de Operaciones y Mi trabajo reemplazan el contexto temporal por esta ficha, conservando retorno.
+- Integración: enlaces de Operaciones y Mi trabajo reemplazan el contexto temporal por esta ficha, conservando retorno; Importación abre su workspace específico `/operaciones/[operationId]/importacion` sin consultar Alpha2000/MARÍA.
 - Estado técnico: PR #9 integrado (`80d7714`), checks requeridos verdes; deployment `dpl_AqoCyjYC3CYEnwNwz86kA1VZi2P7` READY. Lint, typecheck, 49 unitarias, 12 axe, build, validador documental y 17 E2E smoke Chromium pasan; revisión visual automatizada observada a 1440×1000 y 390×844, sin overflow horizontal. Revisión humana integral pendiente.
 - Validación formal/funcional ABT: pendiente.

@@ -105,15 +105,25 @@ export function OperationDetail({
         title={operation.reference}
         description="Ficha común de demostración · datos sintéticos, sin conexión con sistemas externos"
         secondaryActions={
-          <Link
-            href={`/operaciones?tipo=${operation.kind === "Importación" ? "importacion" : "exportacion"}`}
-            className={cn(buttonVariants({ variant: "outline" }))}
-          >
-            Ver{" "}
-            {operation.kind === "Importación"
-              ? "Importaciones"
-              : "Exportaciones"}
-          </Link>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href={`/operaciones?tipo=${operation.kind === "Importación" ? "importacion" : "exportacion"}`}
+              className={cn(buttonVariants({ variant: "outline" }))}
+            >
+              Ver{" "}
+              {operation.kind === "Importación"
+                ? "Importaciones"
+                : "Exportaciones"}
+            </Link>
+            {operation.kind === "Importación" ? (
+              <Link
+                href={`/operaciones/${operation.id}/importacion?returnTo=${encodeURIComponent(`/operaciones/${operation.id}?returnTo=${encodeURIComponent(returnTo)}`)}`}
+                className={cn(buttonVariants({ variant: "outline" }))}
+              >
+                Abrir espacio de Importación
+              </Link>
+            ) : null}
+          </div>
         }
       />
 
@@ -242,10 +252,18 @@ export function OperationDetail({
             Documentación
           </h2>
           <p className="text-sm text-muted-foreground">
-            El inventario y la custodia documental se incorporan con las
-            experiencias de Importación, Exportación y Administración. Esta
-            ficha no implica que la operación carezca de documentos.
+            {operation.kind === "Importación"
+              ? "El seguimiento particular de Importación se consulta en su workspace. Esta ficha común no implica que la operación carezca de documentos."
+              : "El inventario y la custodia documental se incorporan con las experiencias específicas. Esta ficha no implica que la operación carezca de documentos."}
           </p>
+          {operation.kind === "Importación" ? (
+            <Link
+              href={`/operaciones/${operation.id}/importacion?returnTo=${encodeURIComponent(`/operaciones/${operation.id}?returnTo=${encodeURIComponent(returnTo)}`)}`}
+              className="inline-flex min-h-9 items-center text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
+            >
+              Abrir seguimiento de Importación
+            </Link>
+          ) : null}
         </section>
         <section
           aria-labelledby="controls-title"
@@ -259,9 +277,9 @@ export function OperationDetail({
             Controles y seguimiento
           </h2>
           <p className="text-sm text-muted-foreground">
-            El fixture no contiene eventos ni controles registrados. No se
-            infieren aprobaciones, bloqueos regulatorios ni hitos a partir de la
-            situación resumida.
+            {operation.kind === "Importación"
+              ? "El doble control bloqueante previo a oficialización se aborda en el workspace de Importación y sólo como estado local de demostración. No se infieren eventos aduaneros."
+              : "El fixture no contiene eventos ni controles registrados. No se infieren aprobaciones, bloqueos regulatorios ni hitos a partir de la situación resumida."}
           </p>
         </section>
       </div>

@@ -92,17 +92,17 @@ Las rutas `/inicio` y `/mi-trabajo` fueron aprobadas en Etapa 1. Esta especifica
 
 ### Navegación temporal del corte (propuesta para revisión)
 
-| Origen/destino | Comportamiento en Etapa 2 | Evolución |
-|---|---|---|
-| Resumen de Inicio | Abrir Mi trabajo con filtro equivalente; un caso concreto selecciona/expande su contexto en la bandeja. | Mantener coherencia de conteos y retorno. |
-| Operación con destino útil existente | “Abrir operación” navega a `/operaciones/[operationId]`, conservando búsqueda/vista/contexto para volver. | No habilita acciones del proceso ni expone bloques de otros dominios aún no implementados. |
-| Cliente, cotización, DJVE/permiso o Administración sin detalle útil existente | Acción “Ver contexto”: expansión del elemento en Mi trabajo con referencia ficticia, motivo, responsable conocido, fecha/fuente, bloqueo y próxima acción descrita. | “Abrir objeto” sólo cuando exista una ruta útil que resuelva ese objeto. |
-| Tarea sin operación | Mismo contexto local, con origen explícito; no exige referencia operativa ni crea operación artificial. | Vinculación posterior sólo con regla validada. |
-| Acción profunda futura | Texto visible “Disponible en una etapa posterior” y límite concreto; no mostrar botón que aparente aprobar, oficializar, resolver, reasignar o guardar. | Sustituir por acción real en la etapa del objeto, tras definir capacidad/regla. |
-| Destino existente pero sólo placeholder del Shell | Puede servir como acceso al módulo, claramente rotulado; no satisface “Abrir objeto” ni se presenta como ficha del registro. | Reemplazar al existir contenido útil. |
-| Referencia ausente, eliminada o restringida | Conservar bandeja/filtros; explicar contexto no disponible sin filtrar datos protegidos. | No fabricar URL, ID o detalles. |
+| Origen/destino                                                                | Comportamiento en Etapa 2                                                                                                                                                                                                 | Evolución                                                                                        |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Resumen de Inicio                                                             | Abrir Mi trabajo con filtro equivalente; un caso concreto selecciona/expande su contexto en la bandeja.                                                                                                                   | Mantener coherencia de conteos y retorno.                                                        |
+| Operación con destino útil existente                                          | Abre `/operaciones/[operationId]` y conserva búsqueda/vista/contexto. La tarea de doble control de Importación abre directamente el workspace específico, que permite volver primero a la operación y luego al pendiente. | Acciones de otros procesos sólo al existir un destino útil; la oficialización permanece externa. |
+| Cliente, cotización, DJVE/permiso o Administración sin detalle útil existente | Acción “Ver contexto”: expansión del elemento en Mi trabajo con referencia ficticia, motivo, responsable conocido, fecha/fuente, bloqueo y próxima acción descrita.                                                       | “Abrir objeto” sólo cuando exista una ruta útil que resuelva ese objeto.                         |
+| Tarea sin operación                                                           | Mismo contexto local, con origen explícito; no exige referencia operativa ni crea operación artificial.                                                                                                                   | Vinculación posterior sólo con regla validada.                                                   |
+| Acción profunda futura                                                        | Texto visible “Disponible en una etapa posterior” y límite concreto; no mostrar botón que aparente aprobar, oficializar, resolver, reasignar o guardar.                                                                   | Sustituir por acción real en la etapa del objeto, tras definir capacidad/regla.                  |
+| Destino existente pero sólo placeholder del Shell                             | Puede servir como acceso al módulo, claramente rotulado; no satisface “Abrir objeto” ni se presenta como ficha del registro.                                                                                              | Reemplazar al existir contenido útil.                                                            |
+| Referencia ausente, eliminada o restringida                                   | Conservar bandeja/filtros; explicar contexto no disponible sin filtrar datos protegidos.                                                                                                                                  | No fabricar URL, ID o detalles.                                                                  |
 
-En la primera pasada integral, al existir detalles útiles en Etapas 4, 6, 9, 8 y 10, actualizar las salidas y probar navegación de punta a punta; no conservar el fallback temporal como sustituto del objeto ya implementado. La activación depende del destino real y autorizado, no sólo de marcar una etapa terminada.
+En la primera pasada integral, al existir detalles útiles en Etapas 4, 5, 6, 7 y 9, actualizar las salidas y probar navegación de punta a punta; no conservar el fallback temporal como sustituto del objeto ya implementado. La tarea IMP-004 abre el workspace `/operaciones/[operationId]/importacion`; completar el control sólo cambia el escenario local y no habilita oficialización. La activación depende del destino real y autorizado, no sólo de marcar una etapa terminada.
 
 La expansión reutiliza el patrón de registro expandible de DataTable; no incorpora una ficha completa ni un panel permanente. Justificación: permite comprender qué origina el pendiente sin anticipar las Etapas 4, 8 o 9. Enlaces/botones visibles deben producir navegación o feedback útil; nunca href vacío, 404 o acción inerte.
 
@@ -177,15 +177,15 @@ No se incluyen en el primer corte. Pueden evaluarse cuando exista una acción se
 
 ## 9. Reglas y validaciones
 
-| ID / fuente | Regla | Respuesta de la interfaz | Bloquea | Excepción |
-|---|---|---|---:|---|
-| Alcance §7.3; `COV-007` | Toda alerta accionable identifica objeto, motivo y próxima acción cuando exista | Resumen y fila enlazables; mensaje cercano | No por sí sola | Depende de la regla origen |
-| E1:Operación/Reglas transversales confirmadas; Alcance §7.1; `IMP-004`; `EXP-003` | Importación y Exportación requieren doble control por dos personas diferentes antes de oficializar | Estado bloqueado, personas/evidencia ficticias permitidas y contexto del control | Sí, oficialización | Tratamiento excepcional pendiente de validación; no se simula |
-| `WRK-003`; `OPE-006` | Puede existir trabajo sin operación | Tipo y origen explícitos; no exige `operationId` | No | Puede vincularse después si se valida |
-| `COV-008` | Un dato externo que afecta una decisión informa fuente y frescura | Etiqueta textual, fecha y recuperación | Según regla de negocio | Umbral pendiente |
-| `COV-006` | La interfaz representa capacidades, no concede autorización | Contenido omitido o estado sin permiso con explicación segura | Sí, acción protegida | Política definitiva pendiente |
-| `WRK-005` | Inicio y Mi trabajo comparten la misma fuente conceptual | Conteo y filtro equivalentes; enlace conserva contexto | No | Diferencias sólo por resumen o permiso explícito |
-| `COV-003` | Bloqueo, vencimiento, excepción, error y dato desactualizado son dimensiones distintas | Texto, iconografía y jerarquía; no sólo color | Según dimensión | Catálogo pendiente |
+| ID / fuente                                                                       | Regla                                                                                              | Respuesta de la interfaz                                                         |                Bloquea | Excepción                                                     |
+| --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ---------------------: | ------------------------------------------------------------- |
+| Alcance §7.3; `COV-007`                                                           | Toda alerta accionable identifica objeto, motivo y próxima acción cuando exista                    | Resumen y fila enlazables; mensaje cercano                                       |         No por sí sola | Depende de la regla origen                                    |
+| E1:Operación/Reglas transversales confirmadas; Alcance §7.1; `IMP-004`; `EXP-003` | Importación y Exportación requieren doble control por dos personas diferentes antes de oficializar | Estado bloqueado, personas/evidencia ficticias permitidas y contexto del control |     Sí, oficialización | Tratamiento excepcional pendiente de validación; no se simula |
+| `WRK-003`; `OPE-006`                                                              | Puede existir trabajo sin operación                                                                | Tipo y origen explícitos; no exige `operationId`                                 |                     No | Puede vincularse después si se valida                         |
+| `COV-008`                                                                         | Un dato externo que afecta una decisión informa fuente y frescura                                  | Etiqueta textual, fecha y recuperación                                           | Según regla de negocio | Umbral pendiente                                              |
+| `COV-006`                                                                         | La interfaz representa capacidades, no concede autorización                                        | Contenido omitido o estado sin permiso con explicación segura                    |   Sí, acción protegida | Política definitiva pendiente                                 |
+| `WRK-005`                                                                         | Inicio y Mi trabajo comparten la misma fuente conceptual                                           | Conteo y filtro equivalentes; enlace conserva contexto                           |                     No | Diferencias sólo por resumen o permiso explícito              |
+| `COV-003`                                                                         | Bloqueo, vencimiento, excepción, error y dato desactualizado son dimensiones distintas             | Texto, iconografía y jerarquía; no sólo color                                    |        Según dimensión | Catálogo pendiente                                            |
 
 ## 10. Estados del objeto de trabajo
 
@@ -234,13 +234,13 @@ Los nombres son vocabulario de interfaz propuesto para fixtures. No constituyen 
 
 ## 12. Errores y recuperación
 
-| Caso | Qué ocurrió | Qué se preserva | Recuperación | Mensaje propuesto |
-|---|---|---|---|---|
-| Resumen no disponible | Falló la lectura de uno o más bloques de Inicio | Navegación, período y bloques cargados | Reintentar bloque o abrir Mi trabajo | “No pudimos actualizar este resumen. El resto de la información sigue disponible.” |
-| Lista no disponible | Falló la lectura de Mi trabajo | URL, filtros, orden y contexto local | Reintentar | “No pudimos cargar tus pendientes. Conservamos los filtros para que vuelvas a intentar.” |
-| Fuente desactualizada | La fuente externa no confirmó datos recientes | Último dato y su fecha, si está autorizado | Actualizar o consultar fuente | “Este dato fue actualizado por última vez el {fecha}. Revisá la fuente antes de actuar.” |
-| Acción rechazada (futura, fuera del corte) | Permiso, conflicto o regla impidió completar la acción | Datos ingresados y contexto | Corregir, recargar o solicitar capacidad según causa | Mensaje específico con causa y próximo paso |
-| Objeto ya cambió (futuro, fuera del corte) | Otra persona o fuente actualizó el caso | Filtros y contenido no conflictivo | Recargar objeto y comparar | “El caso cambió desde que lo abriste. Revisá la versión actual antes de continuar.” |
+| Caso                                       | Qué ocurrió                                            | Qué se preserva                            | Recuperación                                         | Mensaje propuesto                                                                        |
+| ------------------------------------------ | ------------------------------------------------------ | ------------------------------------------ | ---------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Resumen no disponible                      | Falló la lectura de uno o más bloques de Inicio        | Navegación, período y bloques cargados     | Reintentar bloque o abrir Mi trabajo                 | “No pudimos actualizar este resumen. El resto de la información sigue disponible.”       |
+| Lista no disponible                        | Falló la lectura de Mi trabajo                         | URL, filtros, orden y contexto local       | Reintentar                                           | “No pudimos cargar tus pendientes. Conservamos los filtros para que vuelvas a intentar.” |
+| Fuente desactualizada                      | La fuente externa no confirmó datos recientes          | Último dato y su fecha, si está autorizado | Actualizar o consultar fuente                        | “Este dato fue actualizado por última vez el {fecha}. Revisá la fuente antes de actuar.” |
+| Acción rechazada (futura, fuera del corte) | Permiso, conflicto o regla impidió completar la acción | Datos ingresados y contexto                | Corregir, recargar o solicitar capacidad según causa | Mensaje específico con causa y próximo paso                                              |
+| Objeto ya cambió (futuro, fuera del corte) | Otra persona o fuente actualizó el caso                | Filtros y contenido no conflictivo         | Recargar objeto y comparar                           | “El caso cambió desde que lo abriste. Revisá la versión actual antes de continuar.”      |
 
 Los textos finales deben validar el vocabulario de ABT. Nunca se atribuye a un fallo del producto una indisponibilidad externa no comprobada.
 
@@ -351,20 +351,20 @@ Esta frontera permite que Inicio resuma los mismos elementos que Mi trabajo pres
 
 ### Modelo mock propuesto
 
-| Campo conceptual | Uso | Límite |
-|---|---|---|
-| `id` | Estabilidad de pruebas y navegación | Identificador ficticio, sin formato contractual |
-| `type` | Acción, tarea, revisión, aprobación, control, excepción o vencimiento | Taxonomía provisional |
-| `title` / `reason` | Lenguaje de trabajo y motivo de atención | Sin datos reales |
-| `origin` | Operación, cotización, cliente, DJVE/permiso, Administración, documento u otro | Puede no tener operación |
-| `subjectRef` | Referencia del origen y disponibilidad del destino | No generar href si no existe destino útil; contexto local según §5 |
-| `assignee` / `participants` | Responsabilidad mock | Personas ficticias; no perfiles definitivos |
-| `dueAt` / `age` | Vencimiento o antigüedad, ambos opcionales | Reloj fijo; “próximo” explícito, sin umbral ABT |
-| `priority` | Orden de escenarios | Valor demostrativo, no fórmula ABT |
-| `situation` | Contexto operativo o administrativo | No reemplaza estados del objeto |
-| `nextAction` | Acción de lectura disponible o descripción de acción futura/bloqueo | Capacidad mock explícita; no habilita escrituras de negocio |
-| `source` / `freshness` | Origen, última actualización y error | No promete disponibilidad de Alpha2000 |
-| `sensitivity` / `capability` | Ocultar o restringir dato/acción | Capacidades ficticias y documentadas |
+| Campo conceptual             | Uso                                                                            | Límite                                                             |
+| ---------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| `id`                         | Estabilidad de pruebas y navegación                                            | Identificador ficticio, sin formato contractual                    |
+| `type`                       | Acción, tarea, revisión, aprobación, control, excepción o vencimiento          | Taxonomía provisional                                              |
+| `title` / `reason`           | Lenguaje de trabajo y motivo de atención                                       | Sin datos reales                                                   |
+| `origin`                     | Operación, cotización, cliente, DJVE/permiso, Administración, documento u otro | Puede no tener operación                                           |
+| `subjectRef`                 | Referencia del origen y disponibilidad del destino                             | No generar href si no existe destino útil; contexto local según §5 |
+| `assignee` / `participants`  | Responsabilidad mock                                                           | Personas ficticias; no perfiles definitivos                        |
+| `dueAt` / `age`              | Vencimiento o antigüedad, ambos opcionales                                     | Reloj fijo; “próximo” explícito, sin umbral ABT                    |
+| `priority`                   | Orden de escenarios                                                            | Valor demostrativo, no fórmula ABT                                 |
+| `situation`                  | Contexto operativo o administrativo                                            | No reemplaza estados del objeto                                    |
+| `nextAction`                 | Acción de lectura disponible o descripción de acción futura/bloqueo            | Capacidad mock explícita; no habilita escrituras de negocio        |
+| `source` / `freshness`       | Origen, última actualización y error                                           | No promete disponibilidad de Alpha2000                             |
+| `sensitivity` / `capability` | Ocultar o restringir dato/acción                                               | Capacidades ficticias y documentadas                               |
 
 ### Conjunto mínimo de casos
 
@@ -447,15 +447,15 @@ No se instrumentan métricas de producto en Etapa 2. Para evaluación manual se 
 
 ### Enlace de necesidades a escenarios (todavía sin implementar)
 
-| Escenario | Necesidades / reglas | Comprobación prevista |
-|---|---|---|
-| T02-01 | WRK-001, WRK-002, WRK-005, COV-010 | Inicio → conjunto equivalente de Mi trabajo; mismos permisos y conteos. Integración/E2E. |
-| T02-02 | WRK-002, OPE-002, OPE-005, COV-004 | Contexto de origen, responsable conocido o ausente, retorno/recarga y referencia inválida. Componentes/integración/E2E. |
-| T02-03 | WRK-003, OPE-006 | Tarea sin operación con contexto útil y sin URL operativa inventada. Integración/E2E. |
-| T02-04 | WRK-004, IMP-004, EXP-003, COV-003, COV-007 | Control segregado representado como bloqueado, revisión condicional diferenciada; sin ejecución/oficialización. Componentes/E2E. |
-| T02-05 | COV-006, COV-008 | Datos/conteos restringidos omitidos; ser responsable/jefe o poder ver valores aduaneros no habilita honorarios/costos/márgenes. Origen, no conectada, stale, parcial, error y sin permiso; reintento sólo cuando aplica. Unitarias/integración y E2E negativo. |
-| T02-06 | WRK-002, COV-004 | Orden explícito, vencimientos determinísticos, fecha/responsable ausentes y prioridad sin fórmula ABT. Unitarias/componentes. |
-| T02-07 | COV-011 | Estados alternativos, teclado, foco, textos extremos y anchos de §14. Componentes/axe y revisión manual. |
+| Escenario | Necesidades / reglas                        | Comprobación prevista                                                                                                                                                                                                                                          |
+| --------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T02-01    | WRK-001, WRK-002, WRK-005, COV-010          | Inicio → conjunto equivalente de Mi trabajo; mismos permisos y conteos. Integración/E2E.                                                                                                                                                                       |
+| T02-02    | WRK-002, OPE-002, OPE-005, COV-004          | Contexto de origen, responsable conocido o ausente, retorno/recarga y referencia inválida. Componentes/integración/E2E.                                                                                                                                        |
+| T02-03    | WRK-003, OPE-006                            | Tarea sin operación con contexto útil y sin URL operativa inventada. Integración/E2E.                                                                                                                                                                          |
+| T02-04    | WRK-004, IMP-004, EXP-003, COV-003, COV-007 | Control segregado representado como bloqueado, revisión condicional diferenciada; sin ejecución/oficialización. Componentes/E2E.                                                                                                                               |
+| T02-05    | COV-006, COV-008                            | Datos/conteos restringidos omitidos; ser responsable/jefe o poder ver valores aduaneros no habilita honorarios/costos/márgenes. Origen, no conectada, stale, parcial, error y sin permiso; reintento sólo cuando aplica. Unitarias/integración y E2E negativo. |
+| T02-06    | WRK-002, COV-004                            | Orden explícito, vencimientos determinísticos, fecha/responsable ausentes y prioridad sin fórmula ABT. Unitarias/componentes.                                                                                                                                  |
+| T02-07    | COV-011                                     | Estados alternativos, teclado, foco, textos extremos y anchos de §14. Componentes/axe y revisión manual.                                                                                                                                                       |
 
 Al implementar, enlazar cada escenario con el archivo/test y su resultado real. Estos IDs son locales a esta especificación; no son requisitos nuevos.
 
@@ -493,23 +493,23 @@ Al implementar, enlazar cada escenario con el archivo/test y su resultado real. 
 
 ### Bloquean un compromiso funcional o una automatización
 
-| Pregunta | Impacto | Tratamiento para fixtures | Responsable / instancia |
-|---|---|---|---|
-| ¿Qué catálogo de work items, estados y transiciones usa ABT? | Lenguaje, filtros y acciones | Taxonomía provisional documentada | ABT / revisión funcional |
-| ¿Cómo se asigna, reasigna, delega o cubre una ausencia? | Responsabilidad, auditoría y “Mi equipo” | Sólo casos ficticios; ocultar “Mi equipo” si no se valida | ABT / permisos |
-| ¿Qué capacidades habilitan cada dato y acción? | Sensibilidad y seguridad | Capacidades mock mínimas y no sensibles | ABT / arquitectura de permisos |
-| ¿Qué reglas determinan prioridad, severidad, vencimiento y escalamiento? | Orden y alertas | Orden fijo de fixtures, rotulado como demostrativo | ABT por proceso |
-| ¿Qué evento y fuente crean o completan cada work item? | Coherencia, duplicación y auditoría | Fuente conceptual local, sin automatización | ABT / arquitectura futura |
+| Pregunta                                                                 | Impacto                                  | Tratamiento para fixtures                                 | Responsable / instancia        |
+| ------------------------------------------------------------------------ | ---------------------------------------- | --------------------------------------------------------- | ------------------------------ |
+| ¿Qué catálogo de work items, estados y transiciones usa ABT?             | Lenguaje, filtros y acciones             | Taxonomía provisional documentada                         | ABT / revisión funcional       |
+| ¿Cómo se asigna, reasigna, delega o cubre una ausencia?                  | Responsabilidad, auditoría y “Mi equipo” | Sólo casos ficticios; ocultar “Mi equipo” si no se valida | ABT / permisos                 |
+| ¿Qué capacidades habilitan cada dato y acción?                           | Sensibilidad y seguridad                 | Capacidades mock mínimas y no sensibles                   | ABT / arquitectura de permisos |
+| ¿Qué reglas determinan prioridad, severidad, vencimiento y escalamiento? | Orden y alertas                          | Orden fijo de fixtures, rotulado como demostrativo        | ABT por proceso                |
+| ¿Qué evento y fuente crean o completan cada work item?                   | Coherencia, duplicación y auditoría      | Fuente conceptual local, sin automatización               | ABT / arquitectura futura      |
 
 ### Pueden esperar a la validación funcional posterior
 
-| Pregunta | Impacto | Recomendación provisional | Responsable / instancia |
-|---|---|---|---|
-| ¿Qué bloques y orden prefiere cada persona en Inicio? | Jerarquía y personalización | Un orden común, sin personalización | Revisión visual ABT |
-| ¿Se habilitan vistas guardadas? | Eficiencia de usuarios frecuentes | Diferir hasta Etapa 3 o necesidad comprobada | ABT / UX |
-| ¿Qué filtros merecen presets visibles? | Densidad de Mi trabajo | Empezar con tipos, tiempo y responsabilidad autorizada | Revisión funcional |
-| ¿Qué nivel de actividad reciente aparece en Inicio? | Ruido y contexto | Mostrar sólo cambios accionables del fixture | Revisión visual ABT |
-| ¿Qué umbral define un dato stale? | Mensaje y posible bloqueo | Mostrar fecha sin inventar umbral | Dueño de integración |
+| Pregunta                                              | Impacto                           | Recomendación provisional                              | Responsable / instancia |
+| ----------------------------------------------------- | --------------------------------- | ------------------------------------------------------ | ----------------------- |
+| ¿Qué bloques y orden prefiere cada persona en Inicio? | Jerarquía y personalización       | Un orden común, sin personalización                    | Revisión visual ABT     |
+| ¿Se habilitan vistas guardadas?                       | Eficiencia de usuarios frecuentes | Diferir hasta Etapa 3 o necesidad comprobada           | ABT / UX                |
+| ¿Qué filtros merecen presets visibles?                | Densidad de Mi trabajo            | Empezar con tipos, tiempo y responsabilidad autorizada | Revisión funcional      |
+| ¿Qué nivel de actividad reciente aparece en Inicio?   | Ruido y contexto                  | Mostrar sólo cambios accionables del fixture           | Revisión visual ABT     |
+| ¿Qué umbral define un dato stale?                     | Mensaje y posible bloqueo         | Mostrar fecha sin inventar umbral                      | Dueño de integración    |
 
 ## 24. Definition of Ready y resultado técnico de Etapa 2
 

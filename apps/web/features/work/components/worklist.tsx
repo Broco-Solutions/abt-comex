@@ -449,18 +449,26 @@ function WorkRow({
                     Ver contexto
                   </Link>
                 )}
-                <span className="self-center text-xs text-muted-foreground">
-                  La acción del proceso estará disponible en una etapa
-                  posterior.
-                </span>
+                {relatedOperation?.kind !== "Importación" ? (
+                  <span className="self-center text-xs text-muted-foreground">
+                    La acción del proceso estará disponible en una etapa
+                    posterior.
+                  </span>
+                ) : null}
                 {relatedOperation ? (
                   <Link
-                    href={`/operaciones/${relatedOperation.id}?returnTo=${encodeURIComponent(queryHref(filters, filters.view, item.id))}`}
+                    href={
+                      relatedOperation.kind === "Importación"
+                        ? `/operaciones/${relatedOperation.id}/importacion?returnTo=${encodeURIComponent(`/operaciones/${relatedOperation.id}?returnTo=${encodeURIComponent(queryHref(filters, filters.view, item.id))}`)}`
+                        : `/operaciones/${relatedOperation.id}?returnTo=${encodeURIComponent(queryHref(filters, filters.view, item.id))}`
+                    }
                     className={cn(
                       buttonVariants({ variant: "outline", size: "sm" })
                     )}
                   >
-                    Abrir operación
+                    {relatedOperation.kind === "Importación"
+                      ? "Abrir espacio de Importación"
+                      : "Abrir operación"}
                   </Link>
                 ) : null}
               </div>

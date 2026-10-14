@@ -22,7 +22,14 @@ test("@smoke Inicio resume Mi trabajo and opens its local context safely", async
   await expect(
     page.getByRole("link", { name: "Cerrar contexto" })
   ).toBeVisible()
-  await page.getByRole("link", { name: "Abrir operación" }).click()
+  await page.getByRole("link", { name: "Abrir espacio de Importación" }).click()
+  await expect(page).toHaveURL(
+    /\/operaciones\/op-demo-2048\/importacion\?returnTo=/
+  )
+  await expect(
+    page.getByRole("heading", { name: "Importación · OP-DEM-2048" })
+  ).toBeVisible()
+  await page.getByRole("link", { name: "Volver a la operación" }).click()
   await expect(page).toHaveURL(/\/operaciones\/op-demo-2048\?returnTo=/)
   await expect(page.getByRole("heading", { name: "OP-DEM-2048" })).toBeVisible()
   await page.getByRole("link", { name: "Volver a resultados" }).click()
