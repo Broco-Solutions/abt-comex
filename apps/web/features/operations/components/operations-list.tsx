@@ -296,7 +296,7 @@ export function OperationsList({
             return (
               <Link
                 key={situation}
-                className="flex min-h-11 items-center justify-between border-l-2 border-border px-3 text-sm hover:bg-muted/40 focus-visible:outline-2 focus-visible:outline-ring"
+                className={`flex min-h-11 items-center justify-between rounded-md border px-3 text-sm font-medium hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${filters.situation === situation ? "border-primary bg-primary/10 text-primary" : "border-input bg-background"}`}
                 href={operationHref(filters, {
                   situation: filters.situation === situation ? "" : situation,
                   page: 1,
@@ -412,6 +412,8 @@ export function OperationsList({
           className="flex items-center gap-2 text-xs"
         >
           {hiddenFilterInputs(filters)}
+          <input type="hidden" name="orden" value={filters.sort} />
+          <input type="hidden" name="direccion" value={filters.direction} />
           <label htmlFor="operations-group">Agrupar por</label>
           <select
             id="operations-group"

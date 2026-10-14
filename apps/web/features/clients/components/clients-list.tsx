@@ -1,5 +1,7 @@
 "use client"
 
+import { formatRecordedDate } from "@workspace/ui/lib/date"
+
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
@@ -156,7 +158,7 @@ export function ClientsList({
                       </p>
                       <p className="mt-1 text-xs text-muted-foreground">
                         Fuente: {client.source} · actualización simulada{" "}
-                        {client.updatedOn}
+                        {formatRecordedDate(client.updatedOn)}
                       </p>
                     </div>
                     <Link

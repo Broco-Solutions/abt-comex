@@ -1,5 +1,7 @@
 "use client"
 
+import { formatRecordedDate } from "@workspace/ui/lib/date"
+
 import Link from "next/link"
 import { ArrowLeft, CircleAlert, FileText, ShieldCheck } from "lucide-react"
 
@@ -23,7 +25,11 @@ function safeReturnTo(
   value: string,
   operations: DemonstrationOperation[] = demonstrationOperations
 ) {
-  if (!/^\/(operaciones|mi-trabajo|clientes)(\?.*)?(#.*)?$/.test(value)) {
+  if (
+    !/^\/(operaciones|mi-trabajo|clientes|cotizaciones|administracion|gestion|inicio)(?:\/[a-z0-9-]+)?(\?.*)?(#.*)?$/.test(
+      value
+    )
+  ) {
     return "/operaciones"
   }
   const operationId = /^\/operaciones\/([^/?#]+)/.exec(value)?.[1]
@@ -188,7 +194,9 @@ export function OperationDetail({
               Actualización del escenario
             </dt>
             <dd className="mt-1 font-medium">
-              <time dateTime={operation.updatedOn}>{operation.updatedOn}</time>
+              <time dateTime={operation.updatedOn}>
+                {formatRecordedDate(operation.updatedOn)}
+              </time>
             </dd>
           </div>
         </dl>
@@ -248,8 +256,8 @@ export function OperationDetail({
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
           Escenario sintético local · última actualización del registro:{" "}
-          {operation.updatedOn}. Alpha2000 no está conectada; no se consultaron
-          fuentes externas.
+          {formatRecordedDate(operation.updatedOn)}. Alpha2000 no está
+          conectada; no se consultaron fuentes externas.
         </p>
       </section>
 

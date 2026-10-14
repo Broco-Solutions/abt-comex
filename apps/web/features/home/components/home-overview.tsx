@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { ArrowRight, CircleAlert, Clock3, ShieldCheck } from "lucide-react"
 
@@ -5,12 +7,15 @@ import { PageHeader } from "@/components/navigation/page-header"
 import { buttonVariants } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
 
-import { getWorkSummary, visibleWorkItems } from "../../work/data/work-items"
+import { getWorkSummary } from "../../work/data/work-items"
+
+import { useWorkItems } from "@/features/work/state/use-work-items"
+import { formatDate } from "@workspace/ui/lib/date"
 
 const viewHref = (view: string) => `/mi-trabajo?vista=${view}`
 
 export function HomeOverview() {
-  const items = visibleWorkItems()
+  const items = useWorkItems()
   const summary = getWorkSummary(items)
   const attention = items
     .filter(
@@ -160,8 +165,11 @@ export function HomeOverview() {
             <p className="font-medium">Dato de referencia desactualizado</p>
             <p className="mt-1 text-muted-foreground">
               {staleSource.reference}: {staleSource.source}; última fecha
-              simulada {staleSource.sourceUpdatedAt}. No confirma el estado
-              actual.
+              simulada{" "}
+              {staleSource.sourceUpdatedAt
+                ? formatDate(staleSource.sourceUpdatedAt)
+                : "Sin fecha"}
+              . No confirma el estado actual.
             </p>
           </div>
         ) : null}

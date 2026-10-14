@@ -743,3 +743,49 @@ producto. La matriz de esos navegadores queda pendiente de un entorno apto.
 Chromium pasó localmente y en CI. Firefox y WebKit continúan limitados por
 dependencias disponibles en el host; no existe una falla conocida del código
 asociada a esos navegadores.
+
+## Iteración UX/UI V2
+
+Autorización interna del responsable (14/10/2026): siete bloques frontend por PR a main, con gates técnicos y revisión humana integral al final. Etapas 2–13 siguen Under review; no constituye aprobación ABT.
+
+| Bloque | Alcance / dependencia | Estado |
+|---|---|---|
+| UX-01 | Coherencia funcional, retorno, URL, fechas e interactividad | Under review — gates locales; CI pendiente |
+| UX-02 | Listados selectivos, DataTable y responsive; UX-01 | Pendiente |
+| UX-03 | Acceso y escenarios, ayuda secundaria; UX-02 | Pendiente |
+| UX-04 | Inicio contextual y preparación Dirección; UX-03 | Pendiente |
+| UX-05 | G1–G5 y registros; completa Dirección junto a UX-04 | Pendiente |
+| UX-06 | Fichas, procesos, documentos, Portal y limpieza transversal | Pendiente |
+| UX-07 | Regresión 32 experiencias/J1–J10, capacidades y responsive | Pendiente |
+
+Gates por bloque: lint, tipos, pruebas proporcionales, build, E2E, inspección visual, validador y diff; CI verde antes de squash, contenido comprobado en main y deployment existente. Comandos en [estrategia de pruebas](TEST_STRATEGY.md).
+
+### Seguimiento V01–V21
+
+| ID | Hallazgo | Bloque | Estado |
+|---|---|---|---|
+| V01 | Control completado sigue bloqueante | UX-01 | Corregido técnicamente; revisión pendiente |
+| V02 | Tarea comercial sin destino útil | UX-01 | Corregido técnicamente; revisión pendiente |
+| V03 | Relación DJVE/permiso contradictoria | UX-01 | Corregido técnicamente; revisión pendiente |
+| V04 | Compresión a 1024 px | UX-02 | Pendiente |
+| V05 | Resultados demasiado bajos en móvil | UX-02 | Pendiente |
+| V06 | Apertura administrativa fuera del ancho | UX-02 | Pendiente |
+| V07 | Comparación Clientes/Cotizaciones | UX-02 | Pendiente |
+| V08 | Filtros rápidos poco reconocibles | UX-01/02 | Corregido técnicamente; revisión pendiente |
+| V09 | Agrupación pierde orden | UX-01/02 | Corregido técnicamente; revisión pendiente |
+| V10 | Retornos inconsistentes | UX-01/04 | Corregido técnicamente; revisión pendiente |
+| V11 | Fichas demasiado extensas | UX-04/06 | Pendiente |
+| V12 | Pasos y errores de formularios | UX-06 | Pendiente |
+| V13 | Fechas y referencias inconsistentes | UX-01/02 | Corregido técnicamente; revisión pendiente |
+| V14 | Iconografía ambigua | UX-01 | Corregido técnicamente; revisión pendiente |
+| V15 | Ayuda y textos reiterativos | UX-03/06 | Pendiente |
+| V16 | Ausencia de analítica financiera | UX-05 | Pendiente |
+| V17 | Inicio poco contextual | UX-04 | Pendiente |
+| V18 | Gestión sin propósito diferencial | UX-04/05 | Pendiente |
+| V19 | Evaluación por capacidades | UX-03 | Pendiente |
+| V20 | Documentación/Portal limitados | UX-06 | Pendiente |
+| V21 | Semántica riesgosa en gráficos DS | UX-05 | Pendiente |
+
+### Evidencia UX-01
+
+85 unitarias web + 3 UI, 26 axe, lint/tipos/build y regresiones Chromium de control, cotización, cliente y agrupación. Capturas locales a 1440 y 390 px inspeccionadas; geometría de tablas se corrige en UX-02. Se ajustan selectores de tests al texto de retorno correcto sin reducir aserciones del destino. Validador conserva cobertura. CI/merge/deployment se registran tras verificación.

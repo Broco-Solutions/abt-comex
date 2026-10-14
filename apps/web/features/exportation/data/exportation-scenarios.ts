@@ -46,6 +46,7 @@ export const demonstrationPermits: ExportPermit[] = [
     id: "permit-demo-1404",
     reference: "PE-DEM-1404",
     operationId: "op-demo-3133",
+    djveId: "djve-demo-2026-02",
     declaredQuantity: "2.400",
     affectedQuantity: "1.100",
     quantityUnit: "t (fixture)",
@@ -53,7 +54,7 @@ export const demonstrationPermits: ExportPermit[] = [
   },
 ]
 
-export const demonstrationDjves: DemonstrationDjve[] = [
+const djveFixtures: Omit<DemonstrationDjve, "permitIds">[] = [
   {
     id: "djve-demo-2026-01",
     reference: "DJVE-DEM-2026-01",
@@ -62,7 +63,6 @@ export const demonstrationDjves: DemonstrationDjve[] = [
     declaredQuantity: "1.800",
     affectedQuantity: "420",
     quantityUnit: "t (fixture)",
-    permitIds: ["permit-demo-1401", "permit-demo-1402"],
     autonomous: true,
   },
   {
@@ -73,10 +73,18 @@ export const demonstrationDjves: DemonstrationDjve[] = [
     declaredQuantity: "2.400",
     affectedQuantity: "1.100",
     quantityUnit: "t (fixture)",
-    permitIds: ["permit-demo-1404"],
     autonomous: false,
   },
 ]
+
+export const demonstrationDjves: DemonstrationDjve[] = djveFixtures.map(
+  (djve) => ({
+    ...djve,
+    permitIds: demonstrationPermits
+      .filter((permit) => permit.djveId === djve.id)
+      .map((permit) => permit.id),
+  })
+)
 
 export function isValidExportReviewerPair(
   firstReviewer: string,

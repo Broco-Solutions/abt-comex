@@ -137,3 +137,7 @@ DJVE→Exportación; error/ausencia externos; viewports responsive y axe.
   HTTP 200. Revisión funcional/visual integral y validación ABT pendientes.
 - Estado de especificación y Etapa 8: `Under review`; no implica aprobación de
   ABT ni aptitud productiva.
+
+## UX-01 — relaciones
+
+PE-DEM-1404 referencia DJVE-DEM-2026-02. Los permisos son la autoridad relacional del fixture; DJVE deriva sus IDs de esa relación. PE-DEM-1403 conserva ausencia de DJVE. Sin tolerancias ni transiciones nuevas. Regresión bidireccional en work-projection.test.ts.

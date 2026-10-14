@@ -1,5 +1,7 @@
 "use client"
 
+import { formatRecordedDate } from "@workspace/ui/lib/date"
+
 import Link from "next/link"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
@@ -78,7 +80,9 @@ export function ClientDetail({
         className="inline-flex min-h-9 items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
       >
         <ArrowLeft aria-hidden="true" className="size-4" />
-        Volver a Clientes
+        {returnTo.startsWith("/clientes")
+          ? "Volver a Clientes"
+          : "Volver al contexto anterior"}
       </Link>
 
       <PageHeader
@@ -109,7 +113,9 @@ export function ClientDetail({
               Última actualización simulada
             </dt>
             <dd className="mt-1 font-medium">
-              <time dateTime={client.updatedOn}>{client.updatedOn}</time>
+              <time dateTime={client.updatedOn}>
+                {formatRecordedDate(client.updatedOn)}
+              </time>
             </dd>
           </div>
           <div>
@@ -164,7 +170,7 @@ export function ClientDetail({
         {operations.length ? (
           <ul className="divide-y divide-border">
             {operations.map((operation) => {
-              const operationReturn = `/operaciones/${operation.id}?returnTo=${encodeURIComponent(returnTo)}`
+              const operationReturn = `/operaciones/${operation.id}?returnTo=${encodeURIComponent(`/clientes/${client.id}?returnTo=${encodeURIComponent(returnTo)}`)}`
               return (
                 <li
                   key={operation.id}

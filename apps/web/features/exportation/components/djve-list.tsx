@@ -1,5 +1,7 @@
 "use client"
 
+import { formatRecordedDate } from "@workspace/ui/lib/date"
+
 import { useMemo, useState } from "react"
 import Link from "next/link"
 import { PageHeader } from "@/components/navigation/page-header"
@@ -99,7 +101,8 @@ export function DjveList({
                       : "Ninguno en el fixture"}
                   </p>
                   <p className="mt-1 text-muted-foreground">
-                    Vencimiento ilustrativo: {djve.expirationDate}
+                    Vencimiento ilustrativo:{" "}
+                    {formatRecordedDate(djve.expirationDate)}
                   </p>
                 </div>
                 <Link

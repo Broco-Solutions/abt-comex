@@ -1,5 +1,7 @@
 "use client"
 
+import { formatRecordedDate } from "@workspace/ui/lib/date"
+
 import Link from "next/link"
 import { ArrowLeft, ArrowRight, CircleAlert } from "lucide-react"
 
@@ -25,7 +27,8 @@ function first(value: string | string[] | undefined) {
 }
 
 function safeReturnTo(value: string) {
-  if (/^\/cotizaciones(\?[^#]*)?(#.*)?$/.test(value)) return value
+  if (/^\/(?:mi-trabajo|cotizaciones)(\?[^#]*)?(#.*)?$/.test(value))
+    return value
   return "/cotizaciones"
 }
 
@@ -188,7 +191,7 @@ export function QuoteDetail({
               Fuente y actualización
             </dt>
             <dd className="mt-1 font-medium">
-              Fixture local · {version.updatedOn}
+              Fixture local · {formatRecordedDate(version.updatedOn)}
             </dd>
           </div>
         </dl>
@@ -294,7 +297,7 @@ export function QuoteDetail({
                   className="text-xs text-muted-foreground"
                   dateTime={historical.updatedOn}
                 >
-                  {historical.updatedOn}
+                  {formatRecordedDate(historical.updatedOn)}
                 </time>
               </li>
             ))}

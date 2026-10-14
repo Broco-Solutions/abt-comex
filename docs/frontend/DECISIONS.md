@@ -338,3 +338,7 @@ Autoridades vigentes: [plan](PLAN_IMPLEMENTACION.md), [runbook](CODEX_RUNBOOK.md
 Autoridad de inclusión/exclusión: [alcance §8](../product/ALCANCE_FUNCIONAL.md#8-sistemas-externos-y-fuentes-de-verdad); arquitectura técnica consume esa decisión, matriz conserva evidencia y plan gobierna seguimiento. Sincronización posterior del Google Doc funcional pendiente en §§3, 8, 10 y 11, además de §7.2 previamente pendiente. No se modificaron Drive ni Miro; cualquier adecuación de TO BE externos requiere una sesión autorizada.
 
 Sin cambios a confidencialidad económica, secuencia integral 2 → 3 → 4 → 6 → 9 → 5 → 7 → 8 → 10 → 11 → 12 → 13, cierres históricos 0/1 ni gates técnicos/documentales. Etapa 2 permanece sin implementar y su especificación Draft. Los contratos externos pendientes no bloquean fixtures sintéticos coherentes y explícitamente demostrativos.
+
+## 2026-10-14 — UX/UI V2 autorizada internamente
+
+El responsable autoriza UX-01–UX-07, PR y squash con gates verdes y revisión humana final. Seguimiento y V01–V21 en [plan](PLAN_IMPLEMENTACION.md#iteración-uxui-v2); criterios en [estándar](FRONTEND_STANDARD.md#criterios-uxui-v2). Se aprueban internamente acceso demostrativo /acceso, presets sintéticos de capacidades, ayuda secundaria y redefinir Gestión como Dirección conservando /gestion, sólo junto al contenido analítico G1–G5. No son roles ni reglas financieras aprobadas por ABT. Alcance exclusivamente frontend.

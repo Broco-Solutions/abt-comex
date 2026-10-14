@@ -1,3 +1,4 @@
+import { formatRecordedDate } from "@workspace/ui/lib/date"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 
@@ -102,7 +103,9 @@ export function DjveDetail({
               Vencimiento ilustrativo
             </dt>
             <dd className="mt-1 font-medium">
-              <time dateTime={djve.expirationDate}>{djve.expirationDate}</time>
+              <time dateTime={djve.expirationDate}>
+                {formatRecordedDate(djve.expirationDate)}
+              </time>
             </dd>
           </div>
           <div>
@@ -143,7 +146,8 @@ export function DjveDetail({
                 <div>
                   <p className="font-medium">{permit.reference}</p>
                   <p className="text-xs text-muted-foreground">
-                    Referencia sintética · vence {permit.expirationDate}
+                    Referencia sintética · vence{" "}
+                    {formatRecordedDate(permit.expirationDate)}
                   </p>
                 </div>
                 <p className="text-sm text-muted-foreground">

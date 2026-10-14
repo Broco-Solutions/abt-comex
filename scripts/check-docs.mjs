@@ -80,7 +80,8 @@ const requirements = unique(definitions(corpus.get(matrixPath)), matrixPath, err
 const experiences = unique(uiDefinitions(corpus.get(mapPath)), mapPath, errors);
 const processes = unique(journeys(corpus.get(mapPath)), mapPath, errors);
 const scenarios = unique([...corpus.get('docs/frontend/screens/02-inicio-mi-trabajo.md').matchAll(/^\|\s*(T02-\d{2})\s*\|/gm)].map(m => m[1]), 'Etapa 2', errors);
-const known = new Set([...requirements, ...experiences, ...processes, ...scenarios]);
+const uxBlocks = unique(definitions(corpus.get(planPath)).filter(id => id.startsWith('UX-')), 'bloques UX', errors);
+const known = new Set([...requirements, ...experiences, ...processes, ...scenarios, ...uxBlocks]);
 const externalIds = new Set(['DIR-001','DIR-002','DIR-003','DIR-004','DIR-005','DIR-006','DIR-007','DIR-008','DIR-009','DIR-010','COM-001','COM-002','FIN-010','FIN-011','FIN-012','OPS-010','OPS-011','OPS-012']);
 const sourceIds = new Set([...corpus.get(matrixPath).matchAll(/^\|\s*([EL]\d+)\s*\|/gm)].map(m => m[1]));
 

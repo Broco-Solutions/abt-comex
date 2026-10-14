@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 
 import { PageHeader } from "@/components/navigation/page-header"
 import { Badge } from "@workspace/ui/components/badge"
@@ -226,7 +226,7 @@ export function AdministrationQueue({
                               className="inline-flex min-h-9 items-center gap-1 font-medium text-primary underline-offset-4 hover:underline"
                             >
                               Abrir{" "}
-                              <ArrowUpRight
+                              <ArrowRight
                                 aria-hidden="true"
                                 className="size-4"
                               />
