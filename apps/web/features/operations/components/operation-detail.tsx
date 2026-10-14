@@ -4,6 +4,7 @@ import Link from "next/link"
 import { ArrowLeft, CircleAlert, FileText, ShieldCheck } from "lucide-react"
 
 import { PageHeader } from "@/components/navigation/page-header"
+import { AssistedQueries } from "@/features/assisted/components/assisted-queries"
 import { Badge } from "@workspace/ui/components/badge"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
@@ -319,6 +320,17 @@ export function OperationDetail({
           situaciones distintas.
         </p>
       </section>
+
+      <AssistedQueries
+        operation={{
+          id: operation.id,
+          reference: operation.reference,
+          kind: operation.kind,
+          situation: operation.situation,
+          updatedOn: operation.updatedOn,
+          nextAction: operation.nextAction,
+        }}
+      />
 
       <div className="flex flex-wrap gap-2 border-t border-border pt-4">
         <Button

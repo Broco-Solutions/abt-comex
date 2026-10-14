@@ -1,6 +1,6 @@
 # Etapa 12 — Portal de Clientes
 
-> Estado: In implementation
+> Estado: Under review
 >
 > Etapa: 12 — Portal de Clientes
 >
@@ -122,8 +122,8 @@ y permisos productivos. Este prototipo no resuelve ni aprueba esas decisiones.
 
 ## Implementación y revisión
 
-Implementación en `apps/web/features/portal` y grupo de rutas independiente
-`apps/web/app/(portal)`. Hay pruebas unitarias de proyección/denegación, un
+Implementación integrada en `main` mediante PR #17 en `apps/web/features/portal`
+y grupo de rutas independiente `apps/web/app/(portal)`. Hay pruebas unitarias de proyección/denegación, un
 chequeo axe y recorridos E2E de acceso, detalle limitado, denegación y
 responsive/teclado. Revisión técnica/documental por Codex; validación visual y
 funcional humana permanece pendiente.

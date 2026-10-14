@@ -16,7 +16,7 @@ Esta carpeta es autoridad del comportamiento particular de cada pantalla/flujo. 
 | [08 — Exportación y DJVE](08-exportacion-djve.md)        | Etapa 8 | Under review; PR #14 integrado, CI/deployment READY, revisión humana pendiente           |
 | [09 — Cotizaciones](09-cotizaciones.md)                  | Etapa 9 | Under review; PR #11 integrado, producción READY, revisión humana pendiente              |
 
-La experiencia de Etapa 13 todavía no tiene especificación. No denominarla Draft hasta que exista un documento. Un ID UI puede corresponder a una sección o acción, no necesariamente a un archivo/página independiente.
+Un ID UI puede corresponder a una sección o acción, no necesariamente a un archivo/página independiente.
 
 ## Ciclo de una especificación
 
@@ -37,6 +37,8 @@ Etapa 10: [Administración y Finanzas](10-administracion-finanzas.md) · cola, d
 
 Etapa 11: [Gestión y Dirección](11-gestion-direccion.md) · panorama operativo sintético y fuentes económicas no conectadas; Under review.
 
-Etapa 12: [Portal de Clientes](12-portal-clientes.md) · identidad y permisos sólo demostrativos; en implementación.
+Etapa 12: [Portal de Clientes](12-portal-clientes.md) · PR #17 integrado; identidad y permisos sólo demostrativos; Under review.
+
+Etapa 13: [Canales asistidos](13-canales-asistidos.md) · consultas guiadas determinísticas; sin proveedor ni canal externos; en implementación.
 
 Enlazar evidencia con namespace, necesidad de matriz, experiencia/recorrido, regla, escenario y etapa. Al implementar, agregar rutas reales de código y pruebas. Actualizar por cambios de comportamiento, información, acciones, estados, permisos, responsive, ayuda o aceptación; no por refactors sin impacto. No copiar las normas del estándar o los comandos de pruebas.
