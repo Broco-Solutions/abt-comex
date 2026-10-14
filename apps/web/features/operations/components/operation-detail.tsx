@@ -1,5 +1,6 @@
+"use client"
+
 import Link from "next/link"
-import { notFound } from "next/navigation"
 import { ArrowLeft, CircleAlert, FileText, ShieldCheck } from "lucide-react"
 
 import { PageHeader } from "@/components/navigation/page-header"
@@ -8,6 +9,8 @@ import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
 
 import { demonstrationOperations } from "../data/operations"
+import { useDemoOperations } from "../state/use-demo-operations"
+import type { DemonstrationOperation } from "../types/operation"
 
 type SearchParams = Record<string, string | string[] | undefined>
 
@@ -15,10 +18,19 @@ function first(value: string | string[] | undefined) {
   return Array.isArray(value) ? (value[0] ?? "") : (value ?? "")
 }
 
-function safeReturnTo(value: string) {
+function safeReturnTo(
+  value: string,
+  operations: DemonstrationOperation[] = demonstrationOperations
+) {
   if (!/^\/(operaciones|mi-trabajo|clientes)(\?.*)?(#.*)?$/.test(value)) {
     return "/operaciones"
   }
+  const operationId = /^\/operaciones\/([^/?#]+)/.exec(value)?.[1]
+  if (
+    operationId &&
+    !operations.some((operation) => operation.id === operationId)
+  )
+    return "/operaciones"
   return value
 }
 
@@ -29,6 +41,7 @@ export function OperationDetail({
   operationId: string
   searchParams: SearchParams
 }) {
+  const { operations, ready } = useDemoOperations()
   const restricted = first(searchParams.error) === "sin-permiso"
   if (restricted) {
     return (
@@ -51,12 +64,32 @@ export function OperationDetail({
     )
   }
 
-  const operation = demonstrationOperations.find(
-    (item) => item.id === operationId
-  )
-  if (!operation) notFound()
+  if (!ready)
+    return (
+      <p role="status" className="text-sm text-muted-foreground">
+        Cargando escenario local…
+      </p>
+    )
 
-  const returnTo = safeReturnTo(first(searchParams.returnTo))
+  const operation = operations.find((item) => item.id === operationId)
+  if (!operation) {
+    return (
+      <section className="max-w-3xl space-y-3">
+        <PageHeader title="Operación no disponible" />
+        <p className="text-sm text-muted-foreground">
+          No hay información autorizada para este contexto.
+        </p>
+        <Link
+          href="/operaciones"
+          className={cn(buttonVariants({ variant: "outline" }))}
+        >
+          Volver a Operaciones
+        </Link>
+      </section>
+    )
+  }
+
+  const returnTo = safeReturnTo(first(searchParams.returnTo), operations)
 
   return (
     <div className="space-y-6">
@@ -136,6 +169,37 @@ export function OperationDetail({
           </div>
         </dl>
       </section>
+
+      {operation.origin ? (
+        <section
+          aria-labelledby="operation-origin-title"
+          className="max-w-4xl border-l-2 border-muted pl-4"
+        >
+          <h2 id="operation-origin-title" className="text-sm font-semibold">
+            Origen de apertura
+          </h2>
+          {operation.origin.type === "accepted-quote" ? (
+            <p className="mt-1 text-sm text-muted-foreground">
+              Desde{" "}
+              <Link
+                className="underline-offset-4 hover:underline"
+                href={`/cotizaciones/${operation.origin.quoteId}`}
+              >
+                {operation.origin.quoteReference} · versión{" "}
+                {operation.origin.quoteVersion}
+              </Link>
+              ; registro sintético local.
+            </p>
+          ) : (
+            <p className="mt-1 text-sm text-muted-foreground">
+              Alta directa desde escenario local, sin cotización de origen.
+            </p>
+          )}
+          {operation.initialContext ? (
+            <p className="mt-2 text-sm">{operation.initialContext}</p>
+          ) : null}
+        </section>
+      ) : null}
 
       <section
         aria-labelledby="next-step-title"

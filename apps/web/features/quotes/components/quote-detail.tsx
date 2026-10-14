@@ -405,17 +405,30 @@ export function QuoteDetail({
           Continuidad hacia Operaciones
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          Una operación sólo puede iniciarse desde una versión con respuesta
-          aceptada del cliente. No se presupone cardinalidad uno a uno.
+          La apertura desde cotización requiere la aceptación del cliente en una
+          versión específica. También se admite alta directa y no se presupone
+          cardinalidad uno a uno.
         </p>
         <div className="mt-3 flex flex-wrap items-center gap-3">
-          <Button
-            type="button"
-            disabled
-            aria-describedby="quote-conversion-note"
-          >
-            Crear operación desde esta versión <ArrowRight aria-hidden="true" />
-          </Button>
+          {hasAcceptedResponse ? (
+            <Link
+              href={`/operaciones/nueva?cotizacion=${encodeURIComponent(quote.id)}&version=${version.number}&returnTo=${encodeURIComponent(`/cotizaciones/${quote.id}?returnTo=${encodeURIComponent(returnTo)}`)}`}
+              className={cn(buttonVariants({ size: "sm" }))}
+              aria-describedby="quote-conversion-note"
+            >
+              Crear operación desde esta versión{" "}
+              <ArrowRight aria-hidden="true" />
+            </Link>
+          ) : (
+            <Button
+              type="button"
+              disabled
+              aria-describedby="quote-conversion-note"
+            >
+              Crear operación desde esta versión{" "}
+              <ArrowRight aria-hidden="true" />
+            </Button>
+          )}
           <Link
             href="/operaciones"
             className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
@@ -428,8 +441,8 @@ export function QuoteDetail({
           className="mt-2 text-xs text-muted-foreground"
         >
           {hasAcceptedResponse
-            ? "El alta guiada de Etapa 5 aún no está implementada; esta versión no crea una operación."
-            : "El alta requiere una aceptación de cliente registrada para la versión vigente; la cardinalidad sigue pendiente."}
+            ? "La apertura local conserva la versión aceptada como origen; no marca la cotización como consumida ni limita cuántas operaciones pueden relacionarse."
+            : "El alta desde cotización requiere una versión con aceptación simulada del cliente; también podés iniciar una operación directa."}
         </p>
       </section>
 

@@ -3,7 +3,9 @@ import { describe, expect, it } from "vitest"
 import {
   demonstrationOperations,
   filterOperations,
+  nextDemoOperationIdentity,
   operationHref,
+  parseDemoOperations,
   parseOperationFilters,
 } from "./operations"
 
@@ -58,6 +60,19 @@ describe("operations list data", () => {
     ).toBe(false)
     expect(new Set(demonstrationOperations.map((item) => item.id)).size).toBe(
       demonstrationOperations.length
+    )
+  })
+
+  it("allocates the next fictional identity and rejects malformed session records", () => {
+    expect(nextDemoOperationIdentity(demonstrationOperations)).toEqual({
+      id: "op-demo-3142",
+      reference: "OP-DEM-3142",
+    })
+    expect(parseDemoOperations("{broken")).toEqual(demonstrationOperations)
+    const invalid = structuredClone(demonstrationOperations)
+    invalid[0]!.clientId = ""
+    expect(parseDemoOperations(JSON.stringify(invalid))).toEqual(
+      demonstrationOperations
     )
   })
 })

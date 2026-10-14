@@ -52,14 +52,21 @@ export function parseClientListState(params: ClientSearchParams) {
   }
 }
 
-export function getClientOperations(clientId: string) {
-  return demonstrationOperations.filter((item) => item.clientId === clientId)
+export function getClientOperations(
+  clientId: string,
+  operations = demonstrationOperations
+) {
+  return operations.filter((item) => item.clientId === clientId)
 }
 
-export function filterClients(query: string, clients = demonstrationClients) {
+export function filterClients(
+  query: string,
+  clients = demonstrationClients,
+  operations = demonstrationOperations
+) {
   const normalized = query.toLocaleLowerCase("es-AR")
   return clients.filter((client) => {
-    const operationReferences = getClientOperations(client.id).map(
+    const operationReferences = getClientOperations(client.id, operations).map(
       (operation) => operation.reference
     )
     return [client.name, ...operationReferences].some((value) =>

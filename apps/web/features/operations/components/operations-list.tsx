@@ -16,13 +16,13 @@ import {
 import { formatDate } from "@workspace/ui/lib/date"
 
 import {
-  demonstrationOperations,
   filterOperations,
   operationHref,
   parseOperationFilters,
 } from "../data/operations"
 import type { OperationListFilters, SearchParams } from "../data/operations"
 import type { DemonstrationOperation } from "../types/operation"
+import { useDemoOperations } from "../state/use-demo-operations"
 
 const pageSize = 6
 const helper = createColumnHelper<
@@ -121,13 +121,21 @@ export function OperationsList({
   const [visibleColumns, setVisibleColumns] = useState<string[]>([
     ...listColumnIds,
   ])
+  const { operations, ready } = useDemoOperations()
   const filters = parseOperationFilters(searchParams)
-  const allFiltered = filterOperations(demonstrationOperations, filters)
+  const allFiltered = filterOperations(operations, filters)
   const pages = Math.max(1, Math.ceil(allFiltered.length / pageSize))
   const page = Math.min(filters.page, pages)
   const pageItems = allFiltered.slice((page - 1) * pageSize, page * pageSize)
   const failed = filters.error === "lectura"
   const restricted = filters.error === "sin-permiso"
+  if (!ready) {
+    return (
+      <p role="status" className="text-sm text-muted-foreground">
+        Cargando escenario local…
+      </p>
+    )
+  }
   const groups: string[] = filters.group
     ? [
         ...new Set(
@@ -242,6 +250,14 @@ export function OperationsList({
               : "Operaciones"
         }
         description="Buscá y seguí operaciones con su situación, equipo responsable y próxima referencia de trabajo."
+        primaryAction={
+          <Link
+            href="/operaciones/nueva"
+            className="inline-flex h-9 items-center rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          >
+            Nueva operación
+          </Link>
+        }
       />
 
       <div className="flex flex-wrap items-center justify-between gap-2 border-y border-border py-3 text-sm">
@@ -260,40 +276,42 @@ export function OperationsList({
         </p>
       </div>
 
-      <div
-        className="grid gap-2 border-b border-border pb-4 sm:grid-cols-3"
-        aria-label="Accesos por situación"
-      >
-        {(
-          [
-            ["Requiere atención", "Atención"],
-            ["Pendiente documental", "Documentación pendiente"],
-            ["Lista para revisión", "Listas para revisión"],
-          ] as const
-        ).map(([situation, label]) => {
-          const count = filterOperations(demonstrationOperations, {
-            ...filters,
-            situation,
-            page: 1,
-          }).length
-          return (
-            <Link
-              key={situation}
-              className="flex min-h-11 items-center justify-between border-l-2 border-border px-3 text-sm hover:bg-muted/40 focus-visible:outline-2 focus-visible:outline-ring"
-              href={operationHref(filters, {
-                situation: filters.situation === situation ? "" : situation,
-                page: 1,
-              })}
-              aria-current={
-                filters.situation === situation ? "page" : undefined
-              }
-            >
-              <span>{label}</span>
-              <span className="font-mono text-muted-foreground">{count}</span>
-            </Link>
-          )
-        })}
-      </div>
+      {!restricted && !failed ? (
+        <div
+          className="grid gap-2 border-b border-border pb-4 sm:grid-cols-3"
+          aria-label="Accesos por situación"
+        >
+          {(
+            [
+              ["Requiere atención", "Atención"],
+              ["Pendiente documental", "Documentación pendiente"],
+              ["Lista para revisión", "Listas para revisión"],
+            ] as const
+          ).map(([situation, label]) => {
+            const count = filterOperations(operations, {
+              ...filters,
+              situation,
+              page: 1,
+            }).length
+            return (
+              <Link
+                key={situation}
+                className="flex min-h-11 items-center justify-between border-l-2 border-border px-3 text-sm hover:bg-muted/40 focus-visible:outline-2 focus-visible:outline-ring"
+                href={operationHref(filters, {
+                  situation: filters.situation === situation ? "" : situation,
+                  page: 1,
+                })}
+                aria-current={
+                  filters.situation === situation ? "page" : undefined
+                }
+              >
+                <span>{label}</span>
+                <span className="font-mono text-muted-foreground">{count}</span>
+              </Link>
+            )
+          })}
+        </div>
+      ) : null}
 
       <form
         action="/operaciones"

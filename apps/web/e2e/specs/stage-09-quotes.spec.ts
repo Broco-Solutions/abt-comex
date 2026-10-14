@@ -29,11 +29,11 @@ test("@smoke quote workflow keeps approval, sending, and customer response separ
     .click()
   await expect(page.getByText("Aceptación simulada").first()).toBeVisible()
   await expect(
-    page.getByRole("button", { name: /Crear operación desde esta versión/ })
-  ).toBeDisabled()
-  await expect(
-    page.getByText(/alta guiada de Etapa 5 aún no está implementada/)
-  ).toBeVisible()
+    page.getByRole("link", { name: /Crear operación desde esta versión/ })
+  ).toHaveAttribute(
+    "href",
+    /\/operaciones\/nueva\?cotizacion=quote-demo-001&version=1/
+  )
 
   await page.getByRole("link", { name: "Crear versión" }).click()
   await page

@@ -1,5 +1,7 @@
 import type { DemonstrationOperation } from "../types/operation"
 
+const operationStorageKey = "abt-comex:demo:operations:v1"
+
 // Fictional, stable examples. They do not represent ABT records or live sources.
 export const demonstrationOperations: DemonstrationOperation[] = [
   {
@@ -120,6 +122,105 @@ export const demonstrationOperations: DemonstrationOperation[] = [
     nextAction: "Consultar estado del proceso",
   },
 ]
+
+let memoryDemoOperations: DemonstrationOperation[] | null = null
+
+function isDemonstrationOperation(
+  value: unknown
+): value is DemonstrationOperation {
+  if (!value || typeof value !== "object") return false
+  const operation = value as Record<string, unknown>
+  const origin = operation.origin
+  const validOrigin =
+    origin === undefined ||
+    (typeof origin === "object" &&
+      origin !== null &&
+      ((origin as Record<string, unknown>).type === "direct" ||
+        ((origin as Record<string, unknown>).type === "accepted-quote" &&
+          typeof (origin as Record<string, unknown>).quoteId === "string" &&
+          typeof (origin as Record<string, unknown>).quoteReference ===
+            "string" &&
+          Number.isInteger((origin as Record<string, unknown>).quoteVersion))))
+  return (
+    typeof operation.id === "string" &&
+    /^op-demo-\d+$/.test(operation.id) &&
+    typeof operation.reference === "string" &&
+    /^OP-DEM-\d+$/.test(operation.reference) &&
+    (operation.kind === "Importación" || operation.kind === "Exportación") &&
+    typeof operation.clientId === "string" &&
+    operation.clientId.trim().length > 0 &&
+    typeof operation.client === "string" &&
+    typeof operation.responsible === "string" &&
+    ["Marítima", "Aérea", "Terrestre"].includes(String(operation.modality)) &&
+    [
+      "Pre-embarque",
+      "En seguimiento",
+      "Requiere atención",
+      "Pendiente documental",
+      "Lista para revisión",
+    ].includes(String(operation.situation)) &&
+    typeof operation.updatedOn === "string" &&
+    ["Bloqueo", "Vencimiento", "Sin alerta"].includes(
+      String(operation.alert)
+    ) &&
+    typeof operation.nextAction === "string" &&
+    validOrigin &&
+    (operation.initialContext === undefined ||
+      typeof operation.initialContext === "string")
+  )
+}
+
+export function parseDemoOperations(raw: string | null) {
+  if (!raw) return demonstrationOperations
+  try {
+    const parsed: unknown = JSON.parse(raw)
+    if (Array.isArray(parsed) && parsed.every(isDemonstrationOperation))
+      return parsed
+  } catch {
+    return demonstrationOperations
+  }
+  return demonstrationOperations
+}
+
+export function loadDemoOperations() {
+  if (typeof window === "undefined")
+    return memoryDemoOperations ?? demonstrationOperations
+  try {
+    const stored = window.sessionStorage.getItem(operationStorageKey)
+    memoryDemoOperations = stored
+      ? parseDemoOperations(stored)
+      : (memoryDemoOperations ?? demonstrationOperations)
+    return memoryDemoOperations
+  } catch {
+    return memoryDemoOperations ?? demonstrationOperations
+  }
+}
+
+export function saveDemoOperations(operations: DemonstrationOperation[]) {
+  memoryDemoOperations = operations
+  if (typeof window === "undefined") return
+  try {
+    window.sessionStorage.setItem(
+      operationStorageKey,
+      JSON.stringify(operations)
+    )
+  } catch {
+    // Keep this tab's module state available when session storage is blocked.
+  }
+}
+
+export function nextDemoOperationIdentity(
+  operations: DemonstrationOperation[]
+) {
+  const maximum = operations.reduce((value, operation) => {
+    const sequence = Number(operation.id.slice("op-demo-".length))
+    return Number.isInteger(sequence) ? Math.max(value, sequence) : value
+  }, 0)
+  return {
+    id: `op-demo-${maximum + 1}`,
+    reference: `OP-DEM-${maximum + 1}`,
+  }
+}
 
 export const operationSituations = [
   "Pre-embarque",

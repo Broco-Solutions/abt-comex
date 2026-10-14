@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
@@ -15,6 +17,7 @@ import {
   parseClientListState,
 } from "../data/clients"
 import type { ClientSearchParams } from "../data/clients"
+import { useDemoOperations } from "@/features/operations/state/use-demo-operations"
 
 export function ClientsList({
   searchParams,
@@ -22,9 +25,19 @@ export function ClientsList({
   searchParams: ClientSearchParams
 }) {
   const state = parseClientListState(searchParams)
+  const { operations, ready } = useDemoOperations()
   const restricted = state.error === "sin-permiso"
   const failed = state.error === "lectura"
-  const clients = restricted || failed ? [] : filterClients(state.query)
+  const clients =
+    restricted || failed || !ready
+      ? []
+      : filterClients(state.query, demonstrationClients, operations)
+  if (!ready)
+    return (
+      <p role="status" className="text-sm text-muted-foreground">
+        Cargando escenario local…
+      </p>
+    )
 
   return (
     <div className="space-y-6">
@@ -123,7 +136,10 @@ export function ClientsList({
               className="divide-y divide-border"
             >
               {clients.map((client) => {
-                const operations = getClientOperations(client.id)
+                const clientOperations = getClientOperations(
+                  client.id,
+                  operations
+                )
                 return (
                   <li
                     key={client.id}
@@ -132,9 +148,11 @@ export function ClientsList({
                     <div className="min-w-0">
                       <h2 className="font-medium">{client.name}</h2>
                       <p className="mt-1 text-sm text-muted-foreground">
-                        {operations.length} operaciones de referencia ·{" "}
+                        {clientOperations.length} operaciones de referencia ·{" "}
                         {client.contacts.length} contacto
-                        {client.contacts.length === 1 ? " ficticio" : "s ficticios"}
+                        {client.contacts.length === 1
+                          ? " ficticio"
+                          : "s ficticios"}
                       </p>
                       <p className="mt-1 text-xs text-muted-foreground">
                         Fuente: {client.source} · actualización simulada{" "}

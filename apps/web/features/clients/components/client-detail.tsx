@@ -1,12 +1,14 @@
+"use client"
+
 import Link from "next/link"
-import { notFound } from "next/navigation"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
 import { PageHeader } from "@/components/navigation/page-header"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
 
-import { demonstrationOperations } from "@/features/operations/data/operations"
+import type { DemonstrationOperation } from "@/features/operations/types/operation"
+import { useDemoOperations } from "@/features/operations/state/use-demo-operations"
 
 import {
   clientListHref,
@@ -18,7 +20,7 @@ function first(value: string | string[] | undefined) {
   return Array.isArray(value) ? (value[0] ?? "") : (value ?? "")
 }
 
-function safeReturnTo(value: string) {
+function safeReturnTo(value: string, operations: DemonstrationOperation[]) {
   if (
     /^\/clientes(\?.*)?(#.*)?$/.test(value) ||
     /^\/mi-trabajo(\?.*)?(#.*)?$/.test(value) ||
@@ -27,10 +29,7 @@ function safeReturnTo(value: string) {
     return value
   }
   const operationId = /^\/operaciones\/([^/?#]+)(\?.*)?(#.*)?$/.exec(value)?.[1]
-  if (
-    operationId &&
-    demonstrationOperations.some((item) => item.id === operationId)
-  ) {
+  if (operationId && operations.some((item) => item.id === operationId)) {
     return value
   }
   return "/clientes"
@@ -43,11 +42,33 @@ export function ClientDetail({
   clientId: string
   searchParams: Record<string, string | string[] | undefined>
 }) {
+  const { operations: allOperations, ready } = useDemoOperations()
   const client = demonstrationClients.find((item) => item.id === clientId)
-  if (!client) notFound()
+  if (!ready)
+    return (
+      <p role="status" className="text-sm text-muted-foreground">
+        Cargando escenario local…
+      </p>
+    )
+  if (!client) {
+    return (
+      <section className="max-w-3xl space-y-3">
+        <PageHeader title="Cliente no disponible" />
+        <p className="text-sm text-muted-foreground">
+          No hay información autorizada para este contexto.
+        </p>
+        <Link
+          href="/clientes"
+          className={cn(buttonVariants({ variant: "outline" }))}
+        >
+          Volver a Clientes
+        </Link>
+      </section>
+    )
+  }
 
-  const returnTo = safeReturnTo(first(searchParams.returnTo))
-  const operations = getClientOperations(client.id)
+  const returnTo = safeReturnTo(first(searchParams.returnTo), allOperations)
+  const operations = getClientOperations(client.id, allOperations)
 
   return (
     <div className="space-y-6">
