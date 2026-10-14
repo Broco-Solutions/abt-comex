@@ -51,7 +51,6 @@ export function AdministrationQueue({
     <div className="space-y-6">
       <PageHeader
         title="Administración y Finanzas"
-        description="Continuidad administrativa del escenario ficticio. Alpha2000 conserva la registración contable; no hay conexión externa ni importes reales."
         secondaryActions={
           <Link
             href="/administracion/finanzas"

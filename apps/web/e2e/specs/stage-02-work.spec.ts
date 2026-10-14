@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, test } from "../fixtures"
 
 test("@smoke Inicio resume Mi trabajo and opens its local context safely", async ({
   page,
@@ -9,7 +9,7 @@ test("@smoke Inicio resume Mi trabajo and opens its local context safely", async
   await expect(
     page.getByRole("heading", { name: "Requiere atención" })
   ).toBeVisible()
-  await expect(page.getByText(/no representa el total de ABT/)).toBeVisible()
+  await expect(page.getByText("Entorno de evaluación")).toBeVisible()
   await expect(page.getByText("Información comercial restringida")).toHaveCount(
     0
   )

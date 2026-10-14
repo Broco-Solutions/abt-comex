@@ -59,10 +59,7 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
 
       <footer className="border-t border-border bg-card">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6">
-          <p className="text-xs text-muted-foreground">
-            Portal de demostración · escenario ficticio · no usar con datos
-            reales
-          </p>
+          <p className="text-xs text-muted-foreground">Entorno de evaluación</p>
           <BrandAttribution />
         </div>
       </footer>

@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, test } from "../fixtures"
 
 test("@smoke direct operation creation is guided, reversible, and appears in its client and operation lists", async ({
   page,

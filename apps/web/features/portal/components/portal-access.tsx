@@ -32,9 +32,6 @@ export function PortalAccess() {
             <h2 id="demo-client-title" className="font-semibold">
               {client.name}
             </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Identidad simulada · sólo operaciones asociadas al fixture.
-            </p>
           </div>
           <Link
             href={`/portal?cliente=${PORTAL_DEMO_CLIENT_ID}`}

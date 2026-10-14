@@ -85,10 +85,7 @@ export function ClientDetail({
           : "Volver al contexto anterior"}
       </Link>
 
-      <PageHeader
-        title={client.name}
-        description="Ficha demostrativa de cliente · datos ficticios y sin conexión con sistemas externos"
-      />
+      <PageHeader title={client.name} />
 
       <section
         aria-labelledby="client-context-title"
@@ -130,9 +127,6 @@ export function ClientDetail({
           <h2 id="client-contacts-title" className="font-semibold">
             Contactos de referencia
           </h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Sólo identidades ficticias; no se incluyen datos personales reales.
-          </p>
         </div>
         {client.contacts.length ? (
           <ul className="divide-y divide-border">
@@ -155,10 +149,6 @@ export function ClientDetail({
             <h2 id="client-operations-title" className="font-semibold">
               Operaciones relacionadas
             </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Relación local por identificador estable de cliente; no representa
-              actividad actual de ABT.
-            </p>
           </div>
           <Link
             href="/operaciones"

@@ -9,6 +9,9 @@ import {
 } from "../data/operations"
 import type { DemonstrationOperation } from "../types/operation"
 
+import { useScenario } from "@/features/demo/state/scenario-provider"
+import { scenarioKind } from "@/features/demo/data/scenarios"
+
 export function useDemoOperations() {
   const [operations, setOperations] = useState(demonstrationOperations)
   const [ready, setReady] = useState(false)
@@ -36,5 +39,18 @@ export function useDemoOperations() {
     setOperations(demonstrationOperations)
   }, [])
 
-  return { operations, ready, updateOperations, resetOperations }
+  const { scenario } = useScenario()
+  const kind = scenarioKind(scenario)
+  const visibleOperations =
+    scenario.id === "client"
+      ? []
+      : kind
+        ? operations.filter((item) => item.kind === kind)
+        : operations
+  return {
+    operations: visibleOperations,
+    ready,
+    updateOperations,
+    resetOperations,
+  }
 }

@@ -173,10 +173,7 @@ export function OperationCreation({
         <ArrowLeft aria-hidden="true" className="size-4" /> Cancelar y volver al
         contexto
       </Link>
-      <PageHeader
-        title="Crear operación"
-        description="Alta local de demostración. Los campos y estados operativos definitivos requieren validación de ABT."
-      />
+      <PageHeader title="Crear operación" />
 
       <nav
         aria-label="Pasos de creación"

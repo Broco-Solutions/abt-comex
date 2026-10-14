@@ -40,10 +40,7 @@ export function ClientsList({
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        title="Clientes"
-        description="Consultá el contexto maestro reutilizable y sus operaciones relacionadas. Este escenario no es un CRM ni contiene datos reales de ABT."
-      />
+      <PageHeader title="Clientes" />
 
       <section aria-label="Búsqueda de clientes" className="max-w-5xl">
         <form
@@ -122,12 +119,9 @@ export function ClientsList({
         ) : (
           <>
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border py-3 text-sm">
-              <p>
+              <p role="status" aria-label="Resultados de clientes">
                 <span className="font-medium">{clients.length}</span> de{" "}
-                {demonstrationClients.length} clientes sintéticos visibles
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Sólo conteo del escenario local; no representa el total de ABT.
+                {demonstrationClients.length} clientes
               </p>
             </div>
             <ClientTable
@@ -138,11 +132,6 @@ export function ClientsList({
           </>
         )}
       </section>
-
-      <p className="max-w-5xl border-t border-border pt-4 text-xs leading-5 text-muted-foreground">
-        Consulta demostrativa de sólo lectura. No se crean ni modifican clientes
-        y no hay permisos productivos implementados.
-      </p>
     </div>
   )
 }

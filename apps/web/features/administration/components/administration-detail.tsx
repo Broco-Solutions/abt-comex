@@ -66,7 +66,6 @@ export function AdministrationDetail({
       </Link>
       <PageHeader
         title={`Administración · ${operation.reference}`}
-        description="Detalle contextual de demostración · sin facturación ni registración contable real"
         secondaryActions={
           <div className="flex flex-wrap gap-2">
             <Link

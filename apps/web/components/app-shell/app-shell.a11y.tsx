@@ -49,6 +49,7 @@ it("has no known automated violations in contextual help", async () => {
       <h1>Inicio</h1>
     </AppShell>
   )
+  await user.click(screen.getByRole("button", { name: "Menú de usuario" }))
   await user.click(screen.getByRole("button", { name: "Abrir ayuda" }))
   await screen.findByRole("dialog", { name: "Ayuda de ABT Comex" })
   await expectNoAxeViolations(document.body)

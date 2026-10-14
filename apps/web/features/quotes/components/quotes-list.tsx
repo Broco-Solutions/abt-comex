@@ -43,7 +43,6 @@ export function QuotesList({
     <div className="space-y-6">
       <PageHeader
         title="Cotizaciones"
-        description="Seguí versiones, aprobación interna y respuesta del cliente como hitos distintos. Todos los datos y valores de este escenario son ficticios."
         primaryAction={
           <Link
             href="/cotizaciones/nueva"
@@ -180,11 +179,7 @@ export function QuotesList({
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border py-3 text-sm">
               <p>
                 <span className="font-medium">{visibleQuotes.length}</span> de{" "}
-                {quotes.length} cotizaciones sintéticas visibles
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Visibilidad comercial simulada; no equivale a permisos
-                efectivos.
+                {quotes.length} cotizaciones
               </p>
             </div>
             <QuoteTable

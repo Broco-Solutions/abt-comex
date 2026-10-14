@@ -156,6 +156,7 @@ export function saveExportationScenarios(scenarios: ExportationScenario[]) {
   } catch {
     // Keep this tab's local demonstration scenario in module memory.
   }
+  window.dispatchEvent(new Event("abt:demo-change"))
 }
 
 export function getExportationScenario(

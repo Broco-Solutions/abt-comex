@@ -4,14 +4,13 @@ import { renderComponent } from "@/test/utils/render"
 import { ClientsList } from "./clients-list"
 
 it("lists synthetic clients and opens a return-aware detail", () => {
-  const { getByRole, getByText, queryByText } = renderComponent(
+  const { getByRole, queryByText } = renderComponent(
     <ClientsList searchParams={{}} />
   )
   expect(getByRole("heading", { name: "Clientes" })).toBeTruthy()
   expect(
-    getByText("Sólo conteo del escenario local; no representa el total de ABT.")
-      .parentElement
-  ).toHaveTextContent("4 de 4 clientes sintéticos visibles")
+    getByRole("status", { name: "Resultados de clientes" })
+  ).toHaveTextContent("4 de 4 clientes")
   expect(
     getByRole("link", { name: "Cliente Demo Norte" }).getAttribute("href")
   ).toContain("/clientes/client-demo-norte?returnTo=%2Fclientes")

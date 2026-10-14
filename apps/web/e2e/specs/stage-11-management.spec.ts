@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, test } from "../fixtures"
 
 test("@smoke management summary drills into operations, clients and work while keeping economic sources unavailable", async ({
   page,

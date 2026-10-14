@@ -401,3 +401,7 @@ En una consolidación, complementar con revisión manual antes/después de neces
 Límites: sintaxis Markdown inline usada por este repositorio (sin parser general de HTML/referencias Markdown), anchors compatibles con sus encabezados, rutas documentales existentes y vocabulario de estados actual. Las rutas web propuestas no se comprueban como archivos. No consulta red, fórmulas, aprobaciones, disponibilidad de API ni calidad UX.
 
 Sólo cambiar documentación no requiere lint/typecheck/build/E2E. Si se modifica el validador, ejecutar su self-test y el corpus; documentar resultados y revisión semántica. No reemplaza pruebas funcionales ni revisión humana.
+
+## Evaluación UX/UI V2 por capacidades
+
+La aplicación requiere seleccionar perspectiva. La fixture E2E común establece explícitamente Dirección como contexto de revisión integral una vez por contexto de navegador; no es un default del producto. Los tests UX de acceso cambian a perfiles operativos/externos y verifican ausencia de registros económicos, navegación propia, filtro por tipo y recuperación de inducción. Reinicio y cambio con modificaciones requieren confirmación; no se usan sleeps ni se deshabilitan escenarios previos. La visibilidad frontend no constituye autorización real.

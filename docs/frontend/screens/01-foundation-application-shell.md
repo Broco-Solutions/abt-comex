@@ -195,3 +195,11 @@ cubre los recorridos E2E y snapshots locales del Shell. Firefox y WebKit no
 tienen una ejecución local concluyente por dependencias del host; no se ha
 comprobado un fallo del producto en esos navegadores. Las definiciones
 funcionales de ABT enumeradas arriba siguen pendientes.
+
+## UX-03 — acceso y menú secundario
+
+Entrada /acceso fuera del Shell; seis perspectivas ficticias para evaluación, sin credenciales ni autenticación real. Sin selección válida se muestra acceso; enlaces directos no habilitan información financiera por defecto. El menú de usuario usa Popover del DS y contiene cambio de perspectiva, ayuda, retomar/reiniciar inducción, reset temporal y salida. Conserva progreso de inducción; cambiar/salir reinicia datos temporales y confirma sólo si hubo modificaciones. No borra preferencias de navegación ni progreso.
+
+Las capacidades de cada preset se definen en features/demo/data/scenarios.ts como decisión UX interna reversible. Operadores/responsable no acceden a Cotizaciones, Finanzas o Dirección; Administración no recibe capacidad comercial. Portal usa Shell y proyección propios. Son filtros de presentación, no seguridad productiva. Identificación global discreta y explicaciones específicas sólo cuando importan para acción, bloqueo o fuente.
+
+Pruebas: ux-access.spec.ts, escenarios unitarios, suite de Shell/inducción y axe. Estado UX Under review hasta revisión humana integral.

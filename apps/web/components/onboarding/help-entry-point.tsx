@@ -16,7 +16,13 @@ import {
 } from "@workspace/ui/components/dialog"
 import { ContextualHelp } from "./contextual-help"
 
-export function HelpEntryPoint() {
+export function HelpEntryPoint({
+  label = "Ayuda",
+  onNavigate,
+}: {
+  label?: string
+  onNavigate?: () => void
+}) {
   const [open, setOpen] = React.useState(false)
 
   return (
@@ -26,7 +32,7 @@ export function HelpEntryPoint() {
         aria-label="Abrir ayuda"
       >
         <CircleHelp aria-hidden="true" />
-        <span className="hidden sm:inline">Ayuda</span>
+        <span>{label}</span>
       </DialogTrigger>
       <DialogPortal>
         <DialogBackdrop />
@@ -38,7 +44,10 @@ export function HelpEntryPoint() {
             </DialogDescription>
             <div className="mt-6">
               <ContextualHelp
-                onNavigateToOnboarding={() => setOpen(false)}
+                onNavigateToOnboarding={() => {
+                  setOpen(false)
+                  onNavigate?.()
+                }}
               />
             </div>
           </DialogPopup>

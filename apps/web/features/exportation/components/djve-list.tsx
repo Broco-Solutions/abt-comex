@@ -43,10 +43,7 @@ export function DjveList({
       >
         Volver al contexto anterior
       </Link>
-      <PageHeader
-        title="DJVE y permisos"
-        description="Trámites sintéticos relacionados con Exportaciones; una DJVE puede ser autónoma y relacionarse con varios permisos."
-      />
+      <PageHeader title="DJVE y permisos" />
       <div className="max-w-xl space-y-2">
         <label htmlFor="djve-search" className="text-sm font-medium">
           Buscar DJVE o permiso

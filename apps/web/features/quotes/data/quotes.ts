@@ -399,6 +399,7 @@ export function saveDemoQuotes(quotes: DemonstrationQuote[]) {
   } catch {
     // In-memory state remains available when browser session storage is denied.
   }
+  window.dispatchEvent(new Event("abt:demo-change"))
 }
 
 export function createDemoWorkflow(): DemoQuoteWorkflow {

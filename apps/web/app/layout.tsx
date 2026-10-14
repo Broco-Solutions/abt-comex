@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 
 import "@workspace/ui/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { ScenarioProvider } from "@/features/demo/state/scenario-provider"
 import { cn } from "@workspace/ui/lib/utils"
 
 const inter = Inter({
@@ -32,7 +33,9 @@ export default function RootLayout({
       className={cn("font-sans antialiased", inter.variable, fontMono.variable)}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <ScenarioProvider>{children}</ScenarioProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

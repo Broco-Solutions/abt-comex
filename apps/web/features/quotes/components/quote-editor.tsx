@@ -206,7 +206,6 @@ export function QuoteEditor({ quoteId }: { quoteId?: string }) {
         title={
           quote ? `Nueva versión de ${quote.reference}` : "Nueva cotización"
         }
-        description="Formulario local de demostración. Los campos y reglas comerciales definitivos requieren validación de ABT."
       />
 
       <form onSubmit={save} className="max-w-5xl space-y-6" noValidate>

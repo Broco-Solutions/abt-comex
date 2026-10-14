@@ -29,17 +29,11 @@ export function HomeOverview() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        title="Inicio"
-        description="Un resumen del escenario de demostración. Para revisar y contextualizar cada pendiente, usá Mi trabajo."
-      />
+      <PageHeader title="Inicio" />
 
       <section aria-labelledby="home-attention-title" className="max-w-5xl">
         <div className="flex flex-col gap-3 border-b border-border pb-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs font-medium tracking-wide text-primary uppercase">
-              Escenario local · no representa el total de ABT
-            </p>
             <h2
               id="home-attention-title"
               className="mt-1 text-lg font-semibold"
@@ -114,10 +108,6 @@ export function HomeOverview() {
             <h2 id="home-work-summary" className="text-base font-semibold">
               Situación del escenario
             </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Conteos calculados sobre los mismos elementos visibles en Mi
-              trabajo; no son métricas del negocio.
-            </p>
           </div>
           <span className="text-xs text-muted-foreground">
             {items.length} elementos sintéticos
@@ -156,10 +146,7 @@ export function HomeOverview() {
         <h2 id="home-data-state" className="text-base font-semibold">
           Procedencia y actualización
         </h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          El contenido es sintético y local. Ningún sistema externo está
-          conectado ni se consultó en tiempo real.
-        </p>
+
         {staleSource ? (
           <div className="mt-3 border-l-2 border-warning bg-muted/40 px-4 py-3 text-sm">
             <p className="font-medium">Dato de referencia desactualizado</p>
@@ -183,9 +170,6 @@ export function HomeOverview() {
           Revisar trabajo y contexto en Mi trabajo
         </Link>
       </section>
-      <p className="max-w-5xl border-t border-border pt-4 text-xs leading-5 text-muted-foreground">
-        Esta simulación no implementa autenticación ni seguridad productiva.
-      </p>
     </div>
   )
 }

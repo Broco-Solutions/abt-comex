@@ -22,11 +22,9 @@ export function useDemoQuotes() {
 
   const updateQuotes = useCallback(
     (update: (current: DemonstrationQuote[]) => DemonstrationQuote[]) => {
-      setQuotes((current) => {
-        const next = update(current)
-        saveDemoQuotes(next)
-        return next
-      })
+      const next = update(loadDemoQuotes())
+      saveDemoQuotes(next)
+      setQuotes(next)
     },
     []
   )

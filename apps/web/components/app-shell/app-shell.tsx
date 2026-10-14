@@ -8,6 +8,10 @@ import { AppHeader } from "./app-header"
 import { AppShellStateProvider, useAppShellState } from "./app-shell-state"
 import { OnboardingProvider } from "../onboarding/onboarding-provider"
 import { WelcomePanel } from "../onboarding/welcome-panel"
+import { AccessPage } from "@/features/demo/components/access-page"
+import { ScenarioBoundary } from "@/features/demo/components/scenario-boundary"
+import { useScenario } from "@/features/demo/state/scenario-provider"
+import Link from "next/link"
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
@@ -21,6 +25,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
 function AppShellFrame({ children }: { children: React.ReactNode }) {
   const { mode } = useAppShellState()
+  const { scenario, active } = useScenario()
+  if (!active) return <AccessPage />
+  if (scenario.id === "client")
+    return (
+      <main className="grid min-h-svh place-items-center">
+        <Link href="/portal" className="font-medium text-primary underline">
+          Ir al Portal de Clientes
+        </Link>
+      </main>
+    )
 
   return (
     <>
@@ -52,7 +66,9 @@ function AppShellFrame({ children }: { children: React.ReactNode }) {
           <main id="main-content" tabIndex={-1} className="outline-none">
             <WelcomePanel />
             <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
-              {children}
+              <Suspense fallback={<p role="status">Preparando vista…</p>}>
+                <ScenarioBoundary>{children}</ScenarioBoundary>
+              </Suspense>
             </div>
           </main>
         </div>

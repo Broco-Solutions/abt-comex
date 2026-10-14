@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, test } from "../fixtures"
 
 test("@smoke quote workflow keeps approval, sending, and customer response separate", async ({
   page,
@@ -7,11 +7,9 @@ test("@smoke quote workflow keeps approval, sending, and customer response separ
   await expect(
     page.getByRole("heading", { name: "Cotizaciones" })
   ).toBeVisible()
+  await expect(page.getByText(/4 de 4 cotizaciones/)).toBeVisible()
   await expect(
-    page.getByText(/4 de 4 cotizaciones sintéticas visibles/)
-  ).toBeVisible()
-  await expect(
-    page.getByText(/valores de este escenario son ficticios/i)
+    page.getByText("Entorno de evaluación", { exact: true })
   ).toBeVisible()
   await page.getByRole("link", { name: "COT-DEM-001" }).click()
   await expect(page).toHaveURL(/cotizaciones\/quote-demo-001\?returnTo=/)

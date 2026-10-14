@@ -4,11 +4,11 @@ import { renderComponent } from "@/test/utils/render"
 import { QuotesList } from "./quotes-list"
 
 it("lists synthetic quotes with return context and no real source implication", () => {
-  const { getAllByRole, getByRole, getByText } = renderComponent(
+  const { getAllByRole, getByRole, queryByText } = renderComponent(
     <QuotesList searchParams={{ q: "norte" }} />
   )
   expect(getByRole("heading", { name: "Cotizaciones" })).toBeTruthy()
-  expect(getByText(/valores de este escenario son ficticios/i)).toBeTruthy()
+  expect(queryByText(/sincronización exitosa|datos reales/i)).toBeNull()
   const detailLink = getAllByRole("link", { name: "COT-DEM-001" })[0]!
   expect(detailLink.getAttribute("href")).toContain(
     "returnTo=%2Fcotizaciones%3Fq%3Dnorte"

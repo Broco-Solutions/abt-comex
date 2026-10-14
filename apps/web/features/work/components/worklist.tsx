@@ -77,10 +77,7 @@ export function Worklist({
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        title="Mi trabajo"
-        description="Revisá pendientes y su contexto. Las acciones que pertenecen a módulos aún no disponibles se describen, pero no se simulan."
-      />
+      <PageHeader title="Mi trabajo" />
 
       <section aria-label="Alcance de la bandeja" className="max-w-6xl">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-3">
@@ -92,13 +89,9 @@ export function Worklist({
                 <span className="font-medium text-foreground">
                   {items.length}
                 </span>{" "}
-                de {summary.total} elementos visibles en este escenario ficticio
+                de {summary.total} pendientes
               </>
             )}
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Los conteos omiten información fuera de la capacidad de
-            demostración.
           </p>
         </div>
 

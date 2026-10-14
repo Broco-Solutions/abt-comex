@@ -1,7 +1,7 @@
 import { Suspense } from "react"
 
 import { Breadcrumbs } from "../navigation/breadcrumbs"
-import { HelpEntryPoint } from "../onboarding/help-entry-point"
+import { UserMenu } from "./user-menu"
 import { MobileNavigation } from "./mobile-navigation"
 
 export function AppHeader() {
@@ -21,7 +21,10 @@ export function AppHeader() {
           </Suspense>
         </div>
         <Suspense>
-          <HelpEntryPoint />
+          <span className="hidden text-xs text-muted-foreground md:inline">
+            Entorno de evaluación
+          </span>
+          <UserMenu />
         </Suspense>
       </div>
     </header>

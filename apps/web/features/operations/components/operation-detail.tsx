@@ -110,7 +110,6 @@ export function OperationDetail({
 
       <PageHeader
         title={operation.reference}
-        description="Ficha común de demostración · datos sintéticos, sin conexión con sistemas externos"
         secondaryActions={
           <div className="flex flex-wrap gap-2">
             <Link

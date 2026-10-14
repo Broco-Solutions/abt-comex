@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, test } from "../fixtures"
 
 test("@smoke operations list filters, preserves URL context, and stays usable on narrow screens", async ({
   page,
@@ -8,9 +8,7 @@ test("@smoke operations list filters, preserves URL context, and stays usable on
   await expect(
     page.getByRole("heading", { level: 1, name: "Operaciones" })
   ).toBeVisible()
-  await expect(
-    page.getByText(/9 operaciones visibles en este escenario ficticio/)
-  ).toBeVisible()
+  await expect(page.getByText(/9 operaciones/)).toBeVisible()
   await expect(page.getByText(/honorarios|margen/i)).toHaveCount(0)
 
   await page
