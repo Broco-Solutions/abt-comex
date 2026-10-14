@@ -97,10 +97,6 @@ export function PortalHome({
           <h2 id="portal-operations-title" className="text-lg font-semibold">
             Mis operaciones
           </h2>
-          <p className="text-sm text-muted-foreground">
-            Sólo se incluyen registros sintéticos vinculados a esta identidad de
-            demostración.
-          </p>
         </div>
 
         {context.operations.length === 0 ? (

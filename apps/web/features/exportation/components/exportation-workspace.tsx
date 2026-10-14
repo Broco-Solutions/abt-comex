@@ -171,7 +171,6 @@ export function ExportationWorkspace({
 
       <PageHeader
         title={`Exportación · ${operation.reference}`}
-        description="Workspace operativo de demostración · datos sintéticos, sin conexión aduanera"
         secondaryActions={
           <div className="flex flex-wrap gap-2">
             <Link

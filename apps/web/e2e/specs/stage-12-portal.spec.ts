@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, test } from "../fixtures"
 
 test("@smoke Portal uses a separate shell, a fictional identity and a restricted operation projection", async ({
   page,

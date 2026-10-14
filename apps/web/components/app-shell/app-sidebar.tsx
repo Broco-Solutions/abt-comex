@@ -20,6 +20,9 @@ import {
 import { NavigationItem } from "../navigation/navigation-item"
 import { useAppShellState, type NavigationMode } from "./app-shell-state"
 
+import { useScenario } from "@/features/demo/state/scenario-provider"
+import { canVisit, scenarioKind } from "@/features/demo/data/scenarios"
+
 export function AppSidebar({
   activeIdOverride,
   modeOverride,
@@ -33,6 +36,20 @@ export function AppSidebar({
   presentation?: "inline" | "overlay"
   showModeControl?: boolean
 }) {
+  const { scenario } = useScenario()
+  const kind = scenarioKind(scenario)
+  const navigation = appNavigation
+    .filter((item) => canVisit(scenario, item.href))
+    .map((item) => ({
+      ...item,
+      children: item.children?.filter(
+        (child) =>
+          !kind ||
+          child.href.includes(
+            kind === "Importación" ? "importacion" : "exportacion"
+          )
+      ),
+    }))
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const { mode: preferredMode, toggleMode } = useAppShellState()
@@ -97,7 +114,7 @@ export function AppSidebar({
             </div>
           ) : null}
           <ul className="space-y-1">
-            {appNavigation.map((item) => (
+            {navigation.map((item) => (
               <NavigationItem
                 key={item.id}
                 item={item}

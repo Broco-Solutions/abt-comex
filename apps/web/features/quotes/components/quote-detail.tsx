@@ -143,9 +143,7 @@ export function QuoteDetail({
       </Link>
 
       <PageHeader
-        eyebrow="Escenario comercial demostrativo · valores ficticios"
         title={quote.reference}
-        description="Aprobación interna, envío y respuesta del cliente son eventos separados. Las acciones de esta pantalla sólo cambian datos temporales de demostración."
         status={<Badge variant="outline">{quoteStatus(quote)}</Badge>}
         secondaryActions={
           <Link

@@ -207,6 +207,7 @@ export function saveDemoOperations(operations: DemonstrationOperation[]) {
   } catch {
     // Keep this tab's module state available when session storage is blocked.
   }
+  window.dispatchEvent(new Event("abt:demo-change"))
 }
 
 export function nextDemoOperationIdentity(

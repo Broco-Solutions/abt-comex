@@ -81,7 +81,6 @@ export function DjveDetail({
       </Link>
       <PageHeader
         title={djve.reference}
-        description="Detalle de trámite de demostración · no equivale a una declaración consultada u oficializada"
         secondaryActions={
           <Badge variant="outline">
             {djve.autonomous ? "Autónoma en fixture" : "Relacionada en fixture"}

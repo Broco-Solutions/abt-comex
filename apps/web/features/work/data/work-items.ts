@@ -7,7 +7,7 @@ import type {
 import type { ImportationScenario } from "@/features/importation/types/importation"
 
 export const DEMO_DATE = "2026-10-14"
-export const DEMO_PERSON = "Lucía Benítez (escenario ficticio)"
+export const DEMO_PERSON = "Lucía Benítez"
 
 // Synthetic examples only. They model work shapes and relationships, not ABT records.
 export const workItems: WorkItem[] = [
@@ -17,10 +17,10 @@ export const workItems: WorkItem[] = [
     title: "Segundo control previo a oficialización",
     reason:
       "La revisión debe completarla una persona distinta de quien preparó el caso.",
-    origin: "Importación · operación de demostración",
+    origin: "Importación",
     reference: "OP-DEM-2048",
     relatedOperationId: "op-demo-2048",
-    owner: "Martín Ríos (escenario ficticio)",
+    owner: "Martín Ríos",
     dueDate: "2026-10-14",
     blocking: true,
     assignedToDemoUser: true,
@@ -37,10 +37,10 @@ export const workItems: WorkItem[] = [
     title: "Completar documentación de post-embarque",
     reason:
       "La facturación no cierra el seguimiento operativo ni el legajo documental.",
-    origin: "Exportación · operación de demostración",
+    origin: "Exportación",
     reference: "OP-DEM-3107",
     relatedOperationId: "op-demo-3107",
-    owner: "Lucía Benítez (escenario ficticio)",
+    owner: "Lucía Benítez",
     dueDate: "2026-10-16",
     timeBand: "Próximo",
     assignedToDemoUser: true,
@@ -57,7 +57,7 @@ export const workItems: WorkItem[] = [
     title: "Revisar requisito documental del cliente",
     reason:
       "La documentación depende de la configuración aplicable a esta operación.",
-    origin: "Cliente · antecedente de demostración",
+    origin: "Cliente",
     reference: "CLI-DEM-018",
     dueDate: "2026-10-20",
     source: "ABT Comex · fixture local",
@@ -73,10 +73,10 @@ export const workItems: WorkItem[] = [
     title: "Revisar versión antes del envío al cliente",
     reason:
       "La aprobación interna y la aceptación del cliente son eventos distintos.",
-    origin: "Cotización · versión de demostración",
+    origin: "Cotización",
     reference: "COT-DEM-001 · v1",
     relatedQuoteId: "quote-demo-001",
-    owner: "Lucía Benítez (escenario ficticio)",
+    owner: "Lucía Benítez",
     dueDate: "2026-10-13",
     timeBand: "Vencido",
     assignedToDemoUser: true,
@@ -96,7 +96,7 @@ export const workItems: WorkItem[] = [
       "La tarea administrativa no tiene una operación vinculada en este escenario.",
     origin: "Administración · tarea sin operación",
     reference: "REN-DEM-014",
-    owner: "Sofía Méndez (escenario ficticio)",
+    owner: "Sofía Méndez",
     source: "ABT Comex · fixture local",
     freshness: "Disponible",
     nextStep:
@@ -110,10 +110,10 @@ export const workItems: WorkItem[] = [
     title: "Verificar diferencia documental de embarque",
     reason:
       "Hay una diferencia que requiere revisión antes de completar el expediente.",
-    origin: "Exportación · documentación de demostración",
+    origin: "Exportación",
     reference: "OP-DEM-3112",
     relatedOperationId: "op-demo-3112",
-    owner: "Martín Ríos (escenario ficticio)",
+    owner: "Martín Ríos",
     dueDate: "2026-10-12",
     timeBand: "Vencido",
     source: "ABT Comex · fixture local",
@@ -129,7 +129,7 @@ export const workItems: WorkItem[] = [
     title: "Verificar una novedad aduanera desactualizada",
     reason:
       "El último dato de referencia disponible no es reciente; verificá la fuente antes de actuar.",
-    origin: "Importación · destinación de demostración",
+    origin: "Importación",
     reference: "OP-DEM-2054",
     relatedOperationId: "op-demo-2054",
     dueDate: "2026-10-17",
@@ -258,7 +258,7 @@ export function filterWorkItems(
 
 export const workViewLabels = {
   all: "Todo el trabajo",
-  mine: "Asignado a mí · demo",
+  mine: "Asignado a mí",
   upcoming: "Próximos",
   overdue: "Vencidos",
   reviews: "Revisiones",

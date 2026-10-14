@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test"
+import { expect, test, type Page } from "../fixtures"
 
 function collectConsoleErrors(page: Page) {
   const errors: string[] = []
@@ -14,6 +14,8 @@ test("@smoke redirects the root and navigates the complete application shell", a
 }) => {
   const consoleErrors = collectConsoleErrors(page)
   await page.goto("/")
+  await expect(page).toHaveURL(/\/acceso$/)
+  await page.getByRole("button", { name: /Dirección/ }).click()
   await expect(page).toHaveURL(/\/inicio$/)
   await expect(
     page.getByRole("heading", { level: 1, name: "Inicio" })
@@ -83,9 +85,7 @@ test("@smoke desktop navigation adapts, persists and keeps every destination ope
   const expandedWidth = (await sidebar.boundingBox())?.width ?? 0
 
   await expect(shell).toHaveAttribute("data-shell-navigation-mode", "expanded")
-  await expect(
-    page.locator('[data-brand-variant="wordmark"]')
-  ).toBeVisible()
+  await expect(page.locator('[data-brand-variant="wordmark"]')).toBeVisible()
   await expect(page.locator('[data-brand-variant="isotype"]')).toHaveCount(0)
   const fullAttribution = page.getByRole("link", {
     name: "Powered by Broco Solutions, enlace externo",
@@ -142,9 +142,7 @@ test("@smoke desktop navigation adapts, persists and keeps every destination ope
   await workLink.click()
   await expect(page).toHaveURL(/\/mi-trabajo$/)
 
-  await page
-    .getByRole("link", { name: "ABT Comex — Ir a Inicio" })
-    .click()
+  await page.getByRole("link", { name: "ABT Comex — Ir a Inicio" }).click()
   await expect(page).toHaveURL(/\/inicio$/)
 
   const operationsLink = navigation.getByRole("link", { name: "Operaciones" })
@@ -339,7 +337,9 @@ test("@smoke onboarding is contextual to Inicio and remains globally resumable",
   await onboardingSection
     .getByText("Conocer la navegación principal", { exact: true })
     .click()
-  await expect(onboardingSection.getByText("20%", { exact: true })).toBeVisible()
+  await expect(
+    onboardingSection.getByText("20%", { exact: true })
+  ).toBeVisible()
 
   await page.getByRole("link", { name: "Configuración" }).click()
   await expect(page).toHaveURL(/\/configuracion$/)
@@ -353,6 +353,7 @@ test("@smoke onboarding is contextual to Inicio and remains globally resumable",
       .evaluate((element) => element.previousElementSibling?.tagName)
   ).toBe("HEADER")
 
+  await page.getByRole("button", { name: "Menú de usuario" }).click()
   const helpTrigger = page.getByRole("button", { name: "Abrir ayuda" })
   await helpTrigger.click()
   const help = page.getByRole("dialog", { name: "Ayuda de ABT Comex" })
@@ -360,7 +361,9 @@ test("@smoke onboarding is contextual to Inicio and remains globally resumable",
   await help.getByRole("link", { name: "Retomar orientación" }).click()
   await expect(page).toHaveURL(/\/inicio$/)
   await expect(welcome).toBeVisible()
-  await expect(onboardingSection.getByText("20%", { exact: true })).toBeVisible()
+  await expect(
+    onboardingSection.getByText("20%", { exact: true })
+  ).toBeVisible()
 
   await page.getByRole("button", { name: "Omitir por ahora" }).click()
   await expect(welcome).toBeHidden()
@@ -377,6 +380,7 @@ test("@smoke onboarding is contextual to Inicio and remains globally resumable",
   ).toBe("HEADER")
 
   await page.getByRole("link", { name: "Configuración" }).click()
+  await page.getByRole("button", { name: "Menú de usuario" }).click()
   await helpTrigger.click()
   await help.getByRole("button", { name: "Reiniciar progreso" }).click()
   await expect(help).toContainText("0 de 5 completados")

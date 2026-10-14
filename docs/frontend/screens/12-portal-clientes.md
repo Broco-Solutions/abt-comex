@@ -127,3 +127,5 @@ y grupo de rutas independiente `apps/web/app/(portal)`. Hay pruebas unitarias de
 chequeo axe y recorridos E2E de acceso, detalle limitado, denegación y
 responsive/teclado. Revisión técnica/documental por Codex; validación visual y
 funcional humana permanece pendiente.
+
+UX-03: /acceso ofrece entrada a Cliente externo → Portal con Shell propio. Indicador global discreto en footer. No incorpora contraseñas ni mezcla navegación interna con externa; el cliente sintético conserva su proyección autorizada.

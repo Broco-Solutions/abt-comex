@@ -1,13 +1,11 @@
-import { expect, test } from "@playwright/test"
+import { expect, test } from "../fixtures"
 
 test("@smoke clients relate to operations and preserve the way back", async ({
   page,
 }) => {
   await page.goto("/clientes")
   await expect(page.getByRole("heading", { name: "Clientes" })).toBeVisible()
-  await expect(
-    page.getByText(/4 de 4 clientes sintéticos visibles/)
-  ).toBeVisible()
+  await expect(page.getByText(/4 de 4 clientes/)).toBeVisible()
   await page
     .getByRole("link", { name: "Cliente Demo Norte", exact: true })
     .click()

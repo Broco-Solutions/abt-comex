@@ -11,7 +11,6 @@ export function FinanceOverview({ workId }: { workId: string }) {
     <div className="space-y-6">
       <PageHeader
         title="Fuentes y finanzas"
-        description="Consulta de límites y dependencias. No es un tablero financiero y no presenta métricas ni saldos sin fuente y definición aprobadas."
         secondaryActions={
           <Link
             href="/administracion"

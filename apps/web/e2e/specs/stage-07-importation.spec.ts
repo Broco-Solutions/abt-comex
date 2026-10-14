@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, test } from "../fixtures"
 
 test("@smoke importation keeps the customs source explicit and gates the local double control on distinct people", async ({
   page,

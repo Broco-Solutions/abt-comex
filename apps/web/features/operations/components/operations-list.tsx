@@ -258,7 +258,7 @@ export function OperationsList({
           ) : (
             <>
               <span className="font-medium">{allFiltered.length}</span>{" "}
-              operaciones visibles en este escenario ficticio
+              operaciones
             </>
           )}
         </p>

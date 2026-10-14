@@ -153,7 +153,6 @@ export function ImportationWorkspace({
 
       <PageHeader
         title={`Importación · ${operation.reference}`}
-        description="Workspace operativo de demostración · datos sintéticos, sin conexión aduanera"
         secondaryActions={
           <Link
             href={`/operaciones/${operation.id}?returnTo=${encodeURIComponent(returnTo)}`}

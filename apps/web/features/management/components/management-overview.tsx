@@ -74,7 +74,6 @@ export function ManagementOverview({
     <div className="space-y-6">
       <PageHeader
         title="Gestión"
-        description="Panorama para explorar datos operativos sintéticos y las fuentes que aún requieren definición. No es un tablero financiero ni contiene registros reales."
         secondaryActions={
           <Link
             href="/administracion/finanzas"

@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, test } from "../fixtures"
 
 test("@smoke exportation keeps double control separate from external customs events and returns to its operation", async ({
   page,

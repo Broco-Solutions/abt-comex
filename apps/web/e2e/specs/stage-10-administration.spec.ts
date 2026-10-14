@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, test } from "../fixtures"
 
 test("@smoke administration keeps financial and operational states separate and returns through context", async ({
   page,

@@ -33,7 +33,7 @@ export function WelcomePanel() {
             </h2>
             <p className="mt-2 max-w-prose text-sm leading-6 text-muted-foreground">
               Esta guía breve presenta la estructura disponible. Podés omitirla
-              ahora y retomarla en cualquier momento desde Ayuda.
+              ahora y retomarla en cualquier momento desde el menú de usuario.
             </p>
             <Button
               variant="outline"

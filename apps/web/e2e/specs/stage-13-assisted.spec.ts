@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, test } from "../fixtures"
 
 test("@smoke guided operation queries cite their source and abstain on missing facts", async ({
   page,
