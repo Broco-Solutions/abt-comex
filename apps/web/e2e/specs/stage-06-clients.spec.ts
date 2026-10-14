@@ -9,8 +9,7 @@ test("@smoke clients relate to operations and preserve the way back", async ({
     page.getByText(/4 de 4 clientes sintéticos visibles/)
   ).toBeVisible()
   await page
-    .getByRole("link", { name: /Abrir ficha/ })
-    .first()
+    .getByRole("link", { name: "Cliente Demo Norte", exact: true })
     .click()
   await expect(page).toHaveURL(/\/clientes\/client-demo-norte\?returnTo=/)
   await expect(
@@ -41,7 +40,11 @@ test("@smoke client search works on mobile without page overflow", async ({
   await expect(
     page.getByRole("heading", { name: "Cliente Demo Este" })
   ).toBeVisible()
-  await expect(page.getByRole("list", { name: "Clientes del escenario" }).getByRole("listitem")).toHaveCount(1)
+  await expect(
+    page
+      .getByRole("list", { name: "Clientes del escenario" })
+      .getByRole("listitem")
+  ).toHaveCount(1)
   const dimensions = await page.evaluate(() => ({
     document: document.documentElement.scrollWidth,
     viewport: document.documentElement.clientWidth,

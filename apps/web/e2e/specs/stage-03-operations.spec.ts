@@ -50,8 +50,10 @@ test("@smoke operations list filters, preserves URL context, and stays usable on
   await expect(
     page.getByRole("heading", { name: /Equipo Expo A/ })
   ).toBeVisible()
-  await page.getByLabel("Seleccionar OP-DEM-3120").first().check()
-  await expect(page.getByText("1 seleccionadas en esta sesión")).toBeVisible()
+  await expect(
+    page.getByRole("link", { name: "OP-DEM-3120", exact: true }).first()
+  ).toBeVisible()
+  await expect(page.getByLabel("Seleccionar OP-DEM-3120")).toHaveCount(0)
 
   for (const width of [1440, 1280, 1024, 960, 900, 820, 768, 390]) {
     await page.setViewportSize({ width, height: 844 })

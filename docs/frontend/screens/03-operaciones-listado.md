@@ -84,3 +84,7 @@ Feature `apps/web/features/operations`: tipos y dataset estables en `types/opera
 - Código: `apps/web/features/operations/`; integración contextual en `apps/web/features/work/components/worklist.tsx`.
 - Pruebas: `operations.test.ts`, `operations-list.test.tsx`, `operations-list.a11y.tsx`, `apps/web/e2e/specs/stage-03-operations.spec.ts` y regresión de `stage-02-work.spec.ts`.
 - Estado: integrado por PR #8 (`a83de157`), checks requeridos verdes; deployment `dpl_ENeTwNJcYZSh7eT3RoSz6EfBWWPi` READY desde `main`; revisión humana integral pendiente. No se afirma que etapa esté aprobada ni lista para uso operativo.
+
+## UX-02 — tabla proporcionada
+
+Referencia no ocultable, sin selección sin acción asociada, tipo omitido al consultar un tipo específico. Filtros plegables en móvil, controles frecuentes y período explícito; búsqueda conserva orden/agrupación. Anchos ajustables en desktop, acotados al espacio de otras columnas; no aplican al preset tablet. Restablecer vista recupera columnas/anchos. Agrupación conserva paginación y declara conteos de página. ux-lists.spec.ts verifica geometría de apertura y resize por teclado.

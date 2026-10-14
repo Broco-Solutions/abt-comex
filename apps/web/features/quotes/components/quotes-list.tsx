@@ -9,16 +9,14 @@ import { cn } from "@workspace/ui/lib/utils"
 import { demonstrationClients } from "@/features/clients/data/clients"
 
 import {
-  calculateQuoteTotal,
   filterDemoQuotes,
-  formatQuoteAmount,
-  getCurrentQuoteVersion,
   parseQuoteListState,
   quoteListHref,
-  quoteStatus,
 } from "../data/quotes"
 import type { QuoteSearchParams } from "../data/quotes"
 import { useDemoQuotes } from "../state/use-demo-quotes"
+
+import { QuoteTable } from "./quote-table"
 
 const statuses = [
   ["", "Todos los estados"],
@@ -189,69 +187,14 @@ export function QuotesList({
                 efectivos.
               </p>
             </div>
-            <ul
-              aria-label="Cotizaciones del escenario"
-              className="divide-y divide-border"
-            >
-              {visibleQuotes.map((quote) => {
-                const version = getCurrentQuoteVersion(quote)
-                const client = demonstrationClients.find(
-                  (item) => item.id === quote.clientId
-                )
-                const total = calculateQuoteTotal(version.lines)
-                const returnTo = quoteListHref(
-                  state.query,
-                  state.status,
-                  state.clientId
-                )
-                return (
-                  <li
-                    key={quote.id}
-                    className="grid gap-3 py-4 lg:grid-cols-[minmax(0,1.5fr)_minmax(10rem,1fr)_minmax(9rem,auto)_auto] lg:items-center"
-                  >
-                    <div className="min-w-0">
-                      <Link
-                        href={`/cotizaciones/${quote.id}?returnTo=${encodeURIComponent(returnTo)}`}
-                        className="font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
-                      >
-                        {quote.reference}
-                      </Link>
-                      <p className="mt-1 text-sm">
-                        {client?.name ?? "Cliente sin referencia"}
-                      </p>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        {version.service}
-                      </p>
-                    </div>
-                    <div className="text-sm">
-                      <p>
-                        Versión {version.number} · {quoteStatus(quote)}
-                      </p>
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        Aprobación interna: {version.workflow.internalApproval}
-                      </p>
-                    </div>
-                    <div className="text-sm lg:text-right">
-                      <p className="font-medium">
-                        {formatQuoteAmount(total, version.currency)}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        Valor sintético · {version.currency}
-                      </p>
-                    </div>
-                    <Link
-                      href={`/cotizaciones/${quote.id}?returnTo=${encodeURIComponent(returnTo)}`}
-                      className={cn(
-                        buttonVariants({ variant: "outline", size: "sm" }),
-                        "w-fit"
-                      )}
-                    >
-                      Abrir ficha
-                    </Link>
-                  </li>
-                )
-              })}
-            </ul>
+            <QuoteTable
+              quotes={visibleQuotes}
+              returnTo={quoteListHref(
+                state.query,
+                state.status,
+                state.clientId
+              )}
+            />
           </>
         )}
       </section>

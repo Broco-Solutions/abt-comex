@@ -25,7 +25,7 @@ export type DateRangeValue = { from?: Date; to?: Date }
 
 function labelForRange(range: DateRangeValue) {
   if (!range.from) return "Seleccionar período"
-  if (!range.to) return `Desde ${formatDate(range.from)}`
+  if (!range.to) return formatDate(range.from)
   return `${formatDate(range.from)} — ${formatDate(range.to)}`
 }
 

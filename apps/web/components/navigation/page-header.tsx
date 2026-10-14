@@ -50,7 +50,7 @@ export function PageHeader({
         ) : null}
       </div>
       {hasActions ? (
-        <div className="flex w-full flex-col-reverse gap-2 sm:w-auto sm:flex-row sm:items-center">
+        <div className="flex w-full flex-col-reverse gap-2 sm:w-auto sm:shrink-0 sm:flex-row sm:items-center">
           {secondaryActions}
           {primaryAction}
         </div>

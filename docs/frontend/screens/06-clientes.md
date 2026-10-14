@@ -47,8 +47,7 @@ constituyen autorización ni seguridad productiva.
 
 ## Responsive y accesibilidad
 
-El listado usa filas que se apilan en mobile sin tabla de ancho fijo ni
-overflow horizontal. Búsqueda mediante formulario GET nativo; enlaces y
+UX-02 usa DataTable compacto en desktop/tablet y lista de registros en móvil. Cliente, operaciones relacionadas, actualización y apertura; orden alfabético predeterminado. Sin selección, agrupación ni personalización innecesaria. Búsqueda mediante formulario GET nativo; enlaces y
 acciones conservan foco de teclado visible. Los estados vacíos y de error
 usan anuncios semánticos. axe es apoyo automatizado, no certificación WCAG;
 revisión humana integral pendiente.
@@ -80,3 +79,5 @@ revisión humana integral pendiente.
 - PR #10 integrado a `main` (`26f19d9`); `quality`, `e2e-smoke` y Vercel Preview verdes. Deployment `dpl_8vmJ5fUR8bPm3qb4ymGrPVZsjr2S` READY; `/clientes` y `/clientes/client-demo-norte` respondieron HTTP 200.
 - Lint, typecheck, build, 55 pruebas unitarias, 13 axe y 19 E2E smoke Chromium seriales pasaron; validador documental y `git diff --check` pasaron. Capturas locales revisadas a 1440×1000 y 390×844, sin overflow horizontal.
 - Estado: Under review hasta revisión humana funcional/visual integral. La demostración está en un dominio personalizado público; contiene únicamente fixtures sintéticos y no está lista para uso operativo.
+
+UX-02: referencia enlazada y apertura visible; detalles personales/procedencia en ficha. Una tabla ayuda a comparar clientes sin trasladar toda la ficha al listado. La búsqueda y retorno existentes se conservan.
