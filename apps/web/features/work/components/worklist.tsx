@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/navigation/page-header"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { cn } from "@workspace/ui/lib/utils"
+import { demonstrationOperations } from "@/features/operations/data/operations"
 
 import {
   filterWorkItems,
@@ -310,6 +311,11 @@ function WorkRow({
 }) {
   const contextHref = queryHref(filters, filters.view, item.id)
   const closeHref = queryHref(filters, filters.view)
+  const relatedOperation = item.relatedOperationId
+    ? demonstrationOperations.find(
+        (operation) => operation.id === item.relatedOperationId
+      )
+    : undefined
   return (
     <li id={item.id} className="py-4">
       <article
@@ -447,6 +453,16 @@ function WorkRow({
                   La acción del proceso estará disponible en una etapa
                   posterior.
                 </span>
+                {relatedOperation ? (
+                  <Link
+                    href={`/operaciones?operacion=${encodeURIComponent(relatedOperation.id)}`}
+                    className={cn(
+                      buttonVariants({ variant: "outline", size: "sm" })
+                    )}
+                  >
+                    Abrir operación
+                  </Link>
+                ) : null}
               </div>
             </div>
           </details>

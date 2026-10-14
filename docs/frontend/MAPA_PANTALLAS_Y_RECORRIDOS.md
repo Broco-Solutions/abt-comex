@@ -2,7 +2,7 @@
 
 **Estado:** borrador de planificación integral para revisión humana
 **Fecha:** 14/10/2026
-**Base:** `main` con Etapas 0 y 1 aprobadas
+**Base:** `main` con Etapas 0 y 1 aprobadas; Etapa 2 integrada y Under review; Etapa 3 implementada localmente y Under review
 
 ## Cómo usar este mapa
 
@@ -49,8 +49,8 @@ Los estados y acciones de módulos pendientes son vocabulario de diseño, no cat
 | DS-01 | Design System | Exhibir patrones visuales y estados reutilizables. | `/design-system` | **Aprobada y fuera del Shell** | Explorar componentes y fundamentos. | Componentes UI, marca. | Todos los estados de referencia. | Interno técnico. | 0 |
 | HOME-01 | Inicio | Dar situación resumida y próximas acciones accionables. | `/inicio` | Aprobada; contenido posterior | Filtrar período, abrir trabajo, seguir alerta, retomar onboarding. | Operaciones, alertas, trabajo, fuentes. | Loading, vacío, parcial, stale, error, sin permiso. | Interno; sensibilidad por capacidad. | 2 |
 | WORK-01 | Mi trabajo | Ordenar pendientes, bloqueos, vencimientos, asignaciones y trabajo sin operación. | `/mi-trabajo` | Aprobada; contenido posterior | Filtrar, ordenar, agrupar y ver contexto; abrir objeto sólo con destino útil. Escrituras posteriores. | Work item, operación, control, alerta. | Vacío, filtered-empty, bloqueado, vencido, error. | Interno; carga y datos operativos. | 2 |
-| OPS-01 | Lista de operaciones | Encontrar operaciones y aplicar filtros compartibles. | `/operaciones` | Aprobada; contenido posterior | Buscar, filtrar, ordenar, agrupar, seleccionar, abrir. | Operación, cliente, responsable, modalidad. | Loading, vacío, filtered-empty, parcial, sin permiso. | Operativo; sin totales económicos genéricos. Visibilidad según alcance §7.2. | 3 |
-| OPS-02 | Lista filtrada por tipo | Trabajar específicamente Importación o Exportación preservando contexto. | `/operaciones?tipo=importacion` / `exportacion` | **Aprobada** como navegación filtrada | Cambiar filtros, guardar retorno, abrir operación. | Operación, trámite, cliente. | Igual a OPS-01; filtros inválidos recuperables. | Misma confidencialidad que OPS-01. | 3, 7, 8 |
+| OPS-01 | Lista de operaciones | Encontrar operaciones y aplicar filtros compartibles. | `/operaciones` | Aprobada; implementación local completa, CI/PR pendiente | Buscar, filtrar, ordenar, agrupar, seleccionar, abrir contexto local. | Operación, cliente, responsable, modalidad. | Cargado, vacío, filtered-empty, error, sin permiso, contexto ausente. | Operativo; sin totales económicos genéricos. Visibilidad según alcance §7.2. | 3 |
+| OPS-02 | Lista filtrada por tipo | Trabajar específicamente Importación o Exportación preservando contexto. | `/operaciones?tipo=importacion` / `exportacion` | **Aprobada** como navegación filtrada | Cambiar filtros, agrupar, seleccionar, volver al contexto. | Operación, trámite, cliente. | Igual a OPS-01; filtros inválidos recuperables. | Misma confidencialidad que OPS-01. | 3, 7, 8 |
 | OPS-03 | Detalle de operación | Mostrar identidad, situación, próxima acción y bloques comunes. | `/operaciones/[operationId]` | **Propuesta** | Editar según permiso, ejecutar siguiente acción, ver documentos, controles, actividad y administración. | Operación, cliente, cotización, documentos, controles, trámites, handoff. | Draft, loading, read-only, bloqueado, conflicto, stale, error, sin permiso. | Interno; sensibilidad por sección. | 4 |
 | OPS-04 | Alta guiada de operación | Crear una operación directa o desde una versión de cotización aceptada por el cliente evitando datos duplicados. | `/operaciones/nueva` | **Propuesta** | Elegir origen, cliente/tipo, contexto, responsabilidad, revisar y guardar. | Cotización aceptada, cliente, operación, requisitos. | Draft, saving, saved, validación, error recuperable, sin permiso. | Interno; datos comerciales/operativos. | 5 |
 | OPS-05 | Control y próximos pasos | Resolver bloqueos, controles, hitos, vencimientos y excepciones del objeto. | Sección contextual en OPS-03; subruta aún no definida | **Propuesta** | Completar control, adjuntar evidencia, pedir excepción, reasignar, registrar motivo. | Control, documento, alerta, usuario, auditoría. | Pending, blocked, approved, rejected, conflict, audit. | Interno; acciones segregadas. | 4, 7, 8 |
@@ -231,8 +231,8 @@ Cada necesidad conserva en la matriz su fuente, capacidad, regla y etapa. Esta t
 | Necesidades de matriz | Experiencias | Recorridos | Especificación / pruebas y estado real |
 |---|---|---|---|
 | COV-001 a COV-012 | SHELL-01, DS-01; criterios transversales a las 32 experiencias | J1–J10 | [Shell](screens/01-foundation-application-shell.md), [pruebas existentes](../../apps/web/e2e/specs/application-shell.spec.ts); cobertura particular futura pendiente. |
-| WRK-001 a WRK-005; OPE-002, OPE-005, OPE-006 | HOME-01, WORK-01, ALT-01 | J1, J5, J6, J7, J10 | [Inicio/Mi trabajo](screens/02-inicio-mi-trabajo.md#20-escenarios-de-prueba): T02-01 a T02-07 documentados, sin implementación ni pruebas ejecutadas. |
-| OPE-001 a OPE-005 | OPS-01, OPS-02, OPS-03, OPS-04, OPS-05 | J1, J2, J3, J6 | Especificaciones/pruebas de Etapas 3–5 pendientes; consulta de contexto acotada en T02-02. |
+| WRK-001 a WRK-005; OPE-002, OPE-005, OPE-006 | HOME-01, WORK-01, ALT-01 | J1, J5, J6, J7, J10 | [Inicio/Mi trabajo](screens/02-inicio-mi-trabajo.md#20-escenarios-de-prueba): implementación en `features/home`, `features/work`; unitarias, a11y y E2E; PR #7 integrado, revisión humana pendiente. |
+| OPE-001 a OPE-005 | OPS-01, OPS-02, OPS-03, OPS-04, OPS-05 | J1, J2, J3, J6 | [Listado](screens/03-operaciones-listado.md), `features/operations`; pruebas unitarias, componentes, a11y y E2E pasan localmente; PR/CI pendiente. Detalle/alta siguen pendientes. |
 | CLI-001 a CLI-005 | CLI-01, CLI-02, CLI-03, POR-01 | J1, J5, J8 | Especificaciones/pruebas de Etapas 6/12 pendientes. |
 | COT-001 a COT-006 | COT-01, COT-02, COT-03, COT-04 | J1, J5 | Especificaciones/pruebas de Etapas 5/9 pendientes; no se aprueba/envía desde Etapa 2. |
 | IMP-001 a IMP-006 | IMP-01, OPS-05 | J2, J6, J7, J10 | Especificación/pruebas de Etapa 7 pendientes; representación del bloqueo en T02-04. |
@@ -258,4 +258,4 @@ Cada necesidad conserva en la matriz su fuente, capacidad, regla y etapa. Esta t
 6. Identidad, visibilidad y acciones del Portal.
 7. Casos y canal de interacción asistida.
 
-Este mapa no inicia Etapa 2 ni aprueba rutas propuestas. Junto con la matriz y la especificación de Inicio + Mi trabajo, permite revisar la preparación documental antes de una futura implementación con fixtures.
+Este mapa registra la integración de Etapa 2 y el trabajo en curso de Etapa 3; no supone aprobación humana ni de negocio. Las rutas de objeto propuestas conservan su estado hasta que cada etapa implemente un destino útil.

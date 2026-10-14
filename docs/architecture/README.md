@@ -42,20 +42,22 @@ El [estándar](../frontend/FRONTEND_STANDARD.md) gobierna interacción y estado 
 
 ## Entorno de demostración
 
-Preparación técnica del 14/10/2026 para publicar exclusivamente Design System y Application Shell (Etapas 0–1). No habilita Etapa 2, datos reales ni uso operativo. La estructura actual permite incorporar features, tipos y fuentes mock junto a sus consumidores sin crear paquetes o servicios anticipados; `apps/web/features` se creará al existir la primera feature. Identidad, autorización efectiva, auditoría, conectores y Portal real siguen sujetos a las decisiones del roadmap.
+Estado comprobado el 14/10/2026: proyecto `abt-comex` del equipo Vercel `broco-solutions`, asociado a `Broco-Solutions/abt-comex`. `main` en `9359921d3cd3fb568e9ce923d3790c63d8a30a2d` produjo un deployment de producción de demostración en estado READY. El alias autorizado `https://abt-comex.brocosolutions.com` responde con HTTPS y expone Etapas 0–2; esto no significa que el sitio esté protegido ni que sea apto para operación real.
 
-Configuración prevista de Vercel, no acreditada como aplicada:
+La protección Vercel consultada tiene `ssoProtection.enabled=true` y `deploymentType=all_except_custom_domains`; por lo tanto el dominio personalizado queda excluido del SSO y responde públicamente. No se habilitó bypass ni se modificó DNS o configuración de seguridad. Previews protegidos redirigen a SSO y no se inspeccionaron sus páginas desde esta sesión. El repositorio GitHub es público al momento de esta verificación; mantener exclusivamente datos sintéticos y solicitar revisión de visibilidad con el responsable.
+
+Configuración efectiva y criterio objetivo:
 
 | Parámetro | Valor / motivo |
 |---|---|
-| Equipo / proyecto | Broco Solutions (`broco-solutions`) / `abt-comex`; repositorio privado `Broco-Solutions/abt-comex`. |
+| Equipo / proyecto | Broco Solutions (`broco-solutions`) / `abt-comex`; repositorio público `Broco-Solutions/abt-comex` (visibilidad requiere revisión). |
 | Framework / raíz | Next.js / `apps/web`, incluyendo archivos fuera de la raíz para resolver `@workspace/ui` y configuración compartida. |
 | Node / instalación | Node 24.x, alineado con CI; `cd ../.. && pnpm install --frozen-lockfile`, respetando pnpm 10.33.4 del repositorio. |
 | Build / salida | `cd ../.. && pnpm exec turbo run build --filter=web`; salida Next.js predeterminada bajo `apps/web/.next`. `next.config.ts` transpila `@workspace/ui`; no publicar `packages/ui` como aplicación separada. |
 | Git | Producción de demostración desde `main`; previews por PR, sin desactivar el CI existente. Estrategia de ramas en el runbook. |
-| Acceso | Vercel Authentication, alcance **All Deployments**, comprobado antes de asociar dominio. Sin contraseña compartida en código ni excepciones públicas. No sustituye autenticación/permisos de negocio. |
+| Acceso | Vercel Authentication habilitado para despliegues excepto dominios personalizados. El dominio custom queda público hasta corregir/validar el alcance. No se añadieron contraseñas, bypass ni excepciones. No sustituye autenticación/permisos de negocio. |
 | Dominio autorizado | Sólo `abt-comex.brocosolutions.com`. Obtener DNS exacto de Vercel y comprobar conflictos mediante Cloudflare antes de escribir; no tocar raíz, correo, otros subdominios ni reglas globales. |
 
 Vercel [anunció el 09/09/2026](https://vercel.com/changelog/protect-production-deployments-for-free-on-every-plan) protección de todos los despliegues mediante Vercel Authentication sin cargo adicional; exige cuenta con acceso al proyecto. No contratar planes, complementos ni usuarios pagos. Si la cuenta efectiva no permite configurarla sin costo, detener el despliegue público y revisar alternativa autorizada.
 
-Estado de preparación: proyecto no encontrado en las consultas del equipo por nombre/repositorio. La creación protegida fue rechazada por el conector porque requiere aprobación y esta sesión tiene política `never`; no se creó ni desplegó el proyecto. La comprobación del sitio, HTTPS, dominio y protección efectiva queda pendiente hasta resolver ese acceso. No interpretar esta tabla como evidencia de despliegue exitoso.
+La raíz, MX, correo, otros subdominios y reglas globales de Cloudflare no se modificaron durante esta verificación. No se realizaron cambios de DNS. Confirmar protección del dominio personalizado antes de colocar datos no sintéticos o abrir el entorno a usuarios externos; no contratar recursos sin autorización.

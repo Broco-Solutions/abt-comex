@@ -4,7 +4,7 @@
 
 ## Objetivo y siguiente corte
 
-Construir todas las Etapas 2 a 13 como primera versión integral, demostrativa y navegable del frontend para validar procesos con ABT. Las Etapas 0 y 1 están cerradas y fusionadas. **Etapa 2 — Inicio y Mi trabajo** está implementada técnicamente en la rama `feat/stage-02-inicio-mi-trabajo` y queda `Under review`, pendiente del gate documental, CI/Vercel y revisión humana; ver [especificación](screens/02-inicio-mi-trabajo.md). No iniciar Etapa 3 hasta completar la integración autorizada de este bloque.
+Construir todas las Etapas 2 a 13 como primera versión integral, demostrativa y navegable del frontend para validar procesos con ABT. Las Etapas 0 y 1 están cerradas y fusionadas. **Etapa 2 — Inicio y Mi trabajo** se integró correctamente a `main` mediante PR #7 (squash `9359921d3cd3fb568e9ce923d3790c63d8a30a2d`), CI y despliegue de producción de demostración READY; permanece `Under review`, pendiente de revisión humana integral. La rama histórica del PR #6 había sido fusionada contra una rama de prueba y no incorporó el contenido a `main`; no se reimplementó. Ver [especificación](screens/02-inicio-mi-trabajo.md). Etapa 3 tiene implementación local completa en una rama basada en ese `main`; CI/PR pendiente.
 
 ## Gobierno y dependencias
 
@@ -15,8 +15,8 @@ La [matriz](MATRIZ_COBERTURA_FUNCIONAL.md) conserva necesidades, evidencia y cer
 | Etapa | Dependencia de entrega / especificación |
 |---|---|
 | 0–1 | Base completada; [Shell](screens/01-foundation-application-shell.md), decisiones y evidencia de cierre al final de este plan. |
-| 2 | Shell existente y gate G0; especificación e implementación técnica Under review. Destinos profundos aún no disponibles se contextualizan localmente. |
-| 3 | Fuente/criterios de búsqueda y G1; especificación pendiente. Hasta Etapa 4 no se ofrece un detalle inexistente como disponible. |
+| 2 | Shell existente y gate G0; implementación integrada a `main`, Under review. Destinos profundos aún no disponibles se contextualizan localmente. |
+| 3 | Fuente/criterios de búsqueda y G1; implementación local completa, CI/PR pendiente, Under review. Hasta Etapa 4 no se ofrece un detalle inexistente como disponible. |
 | 4 | Listado y núcleo común G1; especificación pendiente. |
 | 5 | Núcleo común y maestros/cotización de Etapas 6/9, G2; especificación pendiente. Reutiliza sus fixtures y relaciones para alta directa o desde versión aceptada. |
 | 6 | Núcleo y decisiones de maestros G2; especificación pendiente. |
@@ -213,6 +213,10 @@ Mi trabajo:
 - se prueban vacío, filtered-empty, sin permiso, dato desactualizado y error recuperable;
 - la implementación respeta `screens/02-inicio-mi-trabajo.md` y no inventa perfiles definitivos.
 
+### Cierre técnico y estado
+
+Integrada a `main` por PR #7 (squash `9359921d3cd3fb568e9ce923d3790c63d8a30a2d`); CI pasó, al igual que validaciones locales de lint, typecheck, unitarias (42), accesibilidad (8), build y E2E smoke Chromium (15). Deployment de `main` READY. Etapa `Under review`; revisión humana pendiente. El dominio de demostración está excluido de Vercel SSO y no debe considerarse privado.
+
 ---
 
 ## Etapa 3 — Listado de Operaciones
@@ -247,6 +251,10 @@ Construir la primera pantalla operativa principal.
 - no hay columnas cortadas;
 - no hay scroll horizontal normal;
 - filtros sobreviven recarga y retorno cuando corresponde.
+
+### Implementación y gate local
+
+La primera pasada usa fixtures determinísticos y sintéticos, filtros/orden/grupo/página en URL, selección y columnas visibles temporales de sesión, rango de fechas, DataTable compartido en escritorio y registros compactos en mobile. No presenta ficha completa antes de Etapa 4; el contexto se abre y cierra en la misma lista. `views` guardadas quedan fuera hasta validación. Lint, typecheck, unitarias (49), axe (9), build, validador documental y 6 E2E Chromium de Etapas 2–3 pasan localmente. CI/PR pendiente. La revisión visual humana integral sigue pendiente.
 
 ---
 
@@ -570,7 +578,7 @@ La secuencia integral adelanta Clientes y Cotizaciones al alta; las definiciones
 | 0 — Frontend Foundation | Complete with environment limitation |
 | 1 — Application Shell | Complete with environment limitation |
 | 2 — Inicio y Mi trabajo | Under review |
-| 3 — Operaciones listado | Pendiente |
+| 3 — Operaciones listado | Under review |
 | 4 — Operación detalle | Pendiente |
 | 5 — Crear Operación | Pendiente |
 | 6 — Clientes | Pendiente |

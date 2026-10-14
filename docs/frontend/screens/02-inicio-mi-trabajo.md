@@ -531,8 +531,8 @@ Las preguntas de catálogo, asignación, capacidades y origen de eventos contin�
 - Rutas: `/inicio` y `/mi-trabajo`; parámetros URL preservan filtros/vistas y permiten abrir contexto local sin enlazar a detalles aún inexistentes.
 - Componentes: patrones existentes de `packages/ui`; no se modificaron Design System, marca ni Application Shell.
 - Estados probados: bandeja normal, lectura recuperable, acceso restringido sin revelar filas/conteos sensibles, datos externos parciales/desactualizados y tarea sin operación.
-- Pruebas implementadas: unitarias de datos y Worklist, pruebas automatizadas de accesibilidad en estados principales y E2E para navegación, filtros, estado de fuente, recuperación, restricción y anchos responsive. Registrar resultados exactos junto al gate de PR; no equivale a revisión visual humana ni a certificación WCAG.
-- Preview / revisión: integración pendiente. El check obligatorio de Vercel requiere habilitar al autor en el proyecto; no declarar preview ni despliegue hasta que exista un deployment verificable.
+- Pruebas implementadas: unitarias de datos y Worklist, pruebas automatizadas de accesibilidad en estados principales y E2E para navegación, filtros, estado de fuente, recuperación, restricción y anchos responsive. En la incorporación a `main` se ejecutaron lint, typecheck, build, unitarias (42), accesibilidad (8) y smoke E2E Chromium (15); CI de PR #7 verde. No equivale a revisión visual humana ni a certificación WCAG.
+- Integración: PR #7 integrado en `main` mediante squash `9359921d3cd3fb568e9ce923d3790c63d8a30a2d`; despliegue principal READY. El dominio personalizado responde, pero Vercel SSO está configurado `all_except_custom_domains`; no afirmar privacidad. Revisión visual humana pendiente.
 
 ## 26. Resultado de revisión humana
 
