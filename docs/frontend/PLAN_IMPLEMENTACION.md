@@ -1,341 +1,173 @@
 # ABT Comex — Plan de implementación de Frontend
 
-> Documento vivo · Última actualización: 10/10/2026
->
-> Plan maestro para transformar el alcance y el Design System en un frontend premium, navegable, consistente y validable con ABT.
+> Roadmap vivo · Última actualización: 14/10/2026
 
-## 1. Objetivo
+## Objetivo y siguiente corte
 
-Construir el frontend de ABT Comex como producto real y reutilizable, no como prototipo descartable.
+Construir todas las Etapas 2 a 13 como primera versión integral, demostrativa y navegable del frontend para validar procesos con ABT. Las Etapas 0 y 1 están cerradas y fusionadas. El siguiente corte es **Etapa 2 — Inicio y Mi trabajo**, con [especificación Draft](screens/02-inicio-mi-trabajo.md). Esta sesión sólo ajusta documentación y se detiene para revisión; no implementa ninguna etapa.
 
-Debe servir para:
+## Gobierno y dependencias
 
-- validar alcance y procesos con ABT;
-- demostrar una experiencia empresarial de alta calidad;
-- detectar reglas, estados y excepciones antes del backend;
-- definir contratos futuros sin inventar infraestructura;
-- conservar consistencia entre pantallas;
-- permitir reemplazar fixtures por API sin reescribir la experiencia;
-- sostener Portal, integraciones y canales asistidos sobre la misma base.
+Este plan es autoridad de orden, dependencias, entregables, gates, estado y cierre. Procedimiento, lectura proporcional y Ready/Done: [runbook](CODEX_RUNBOOK.md). UX/UI: [estándar](FRONTEND_STANDARD.md). Checks y evidencia: [estrategia de pruebas](TEST_STRATEGY.md). Código/fixtures: [arquitectura](../architecture/README.md).
 
-## 2. Decisión de ejecución
+La [matriz](MATRIZ_COBERTURA_FUNCIONAL.md) conserva necesidades, evidencia y certeza; el [mapa](MAPA_PANTALLAS_Y_RECORRIDOS.md) relaciona experiencias y recorridos. No agregan alcance ni reordenan este plan.
 
-Una ejecución larga de Codex está permitida **sólo para una etapa coherente y verificable**.
+| Etapa | Dependencia de entrega / especificación |
+|---|---|
+| 0–1 | Base completada; [Shell](screens/01-foundation-application-shell.md), decisiones y evidencia de cierre al final de este plan. |
+| 2 | Shell existente y gate G0; especificación combinada Draft. Destinos profundos aún no disponibles se contextualizan según esa especificación. |
+| 3 | Fuente/criterios de búsqueda y G1; especificación pendiente. Hasta Etapa 4 no se ofrece un detalle inexistente como disponible. |
+| 4 | Listado y núcleo común G1; especificación pendiente. |
+| 5 | Núcleo común y maestros/cotización de Etapas 6/9, G2; especificación pendiente. Reutiliza sus fixtures y relaciones para alta directa o desde versión aceptada. |
+| 6 | Núcleo y decisiones de maestros G2; especificación pendiente. |
+| 7 | Listado/detalle/alta común, maestros y G3; especificación pendiente. |
+| 8 | Núcleo común, maestros y G3; especificaciones Exportación/DJVE pendientes. |
+| 9 | Maestros y G2; completa circuito comercial y conexión con Etapa 5; especificación pendiente. |
+| 10 | Handoff de verticales, G4 y fuentes administrativas; especificación pendiente. |
+| 11 | Datos operativos y administrativos, definiciones de métricas y G4; especificación pendiente. |
+| 12–13 | Núcleo, identidad y visibilidad compartidas, G5; especificaciones pendientes. No implica backend autorizado hoy. |
 
-La primera ejecución grande recomendada es:
+Una dependencia de definición puede resolverse antes de implementar su módulo. Se conservan los IDs históricos 0–13; el orden de ejecución no tiene que coincidir con la numeración.
 
-```text
-Etapa 0 — Frontend Foundation
-```
+## Primera pasada integral del frontend
 
-Puede tomar tiempo porque instala gobierno, pruebas, estructura y branding. No debe incluir Application Shell ni varias pantallas de producto.
+**Decisión interna del responsable del proyecto, 14/10/2026:** construir las Etapas 2 a 13 en sesiones extensas sucesivas. Secuencia recomendada evaluada: **2 → 3 → 4 → 6 → 9 → 5 → 7 → 8 → 10 → 11 → 12 → 13**. Adelantar Clientes y Cotizaciones al alta permite reutilizar datos y probar los dos caminos de apertura. No cambia alcance, IDs ni rutas aprobadas del Shell.
 
-No ejecutar todas las etapas del sistema en un único prompt. La duración no define el alcance; la cohesión y posibilidad de revisión sí.
+| Bloque / orden | Resultado y dependencia principal | Verificación antes de continuar |
+|---|---|---|
+| 2 | Resumen y bandeja con contexto temporal; Shell existente. | Conteos/visibilidad coherentes, retorno, estados y escenarios de su especificación. |
+| 3 → 4 | Encontrar y comprender una operación; núcleo G1. | Lista → objeto → retorno; sustituir contexto temporal sólo con destino útil. |
+| 6 → 9 → 5 | Cliente → cotización/versiones → alta, más creación directa; G2. | Reutilización sin doble carga y sin exigir cotización; separar aprobación interna de aceptación. |
+| 7 → 8 | Verticales Impo/Expo y DJVE autónoma; G3. | Controles segregados, relaciones, documentos y cierres sin simular oficialización real. |
+| 10 → 11 | Handoff administrativo y Dirección; G4. | Situaciones independientes, permisos económicos y métricas pendientes identificadas. |
+| 12 → 13 | Portal y asistencia demostrativos; G5. | Visibilidad por canal, navegación y consultas de fixtures; sin identidad/integraciones reales. |
 
-## 3. Orden obligatorio de lectura
+Aplicar [gates técnicos y documentales](TEST_STRATEGY.md#19-gate-de-etapa) por etapa dentro de cada bloque. No exigir revisión visual humana después de cada una; los cortes técnicamente terminados quedan `Under review` y se puede continuar. Registrar pruebas, limitaciones, supuestos y punto de reanudación en plan/especificación. La revisión humana integral es obligatoria antes de declarar aprobada la primera pasada. No aprobar reglas de negocio por completar un mock ni eludir bloqueos funcionales; procedimiento en el [runbook](CODEX_RUNBOOK.md#preparación-y-cierre).
 
-Antes de trabajar:
+### Contrato de demostración integral
 
-1. `AGENTS.md`
-2. `docs/product/ALCANCE_FUNCIONAL.md`
-3. `docs/frontend/ESPECIFICACION_FUNCIONAL_FRONTEND.md`
-4. `docs/frontend/FRONTEND_STANDARD.md`
-5. `docs/frontend/TEST_STRATEGY.md`
-6. `docs/frontend/BRAND_USAGE.md`
-7. `docs/frontend/CODEX_RUNBOOK.md`
-8. `docs/frontend/DECISIONS.md`
-9. `docs/architecture/README.md`
-10. este plan
-11. la especificación aplicable en `docs/frontend/screens/`
-12. `/design-system` y componentes de `packages/ui`
+- Fixtures sintéticos y anonimizados a partir de estructuras/relaciones observadas, no copias de datos reales. Su coherencia entre dominios se gobierna en [arquitectura](../architecture/README.md#frontend-y-frontera-de-datos).
+- Navegación de punta a punta: al habilitar detalles, actualizar enlaces desde Inicio/Mi trabajo, clientes, cotizaciones, operaciones y Administración y probar retorno. Contexto temporal sólo mientras el destino no exista; no dejarlo como sustituto permanente al finalizar el recorrido correspondiente.
+- Acciones locales del prototipo con efecto verificable, feedback y carácter demostrativo explícito. No representar como reales aprobaciones, oficializaciones, facturación, pagos, transferencias o integraciones. Sin enlaces rotos ni botones decorativos. Una acción real fuera del corte se explica como no disponible, no se finge ejecutada.
+- Mantener Design System, Shell y marca; densidad útil, acciones contextuales, prevención de errores, responsive, WCAG 2.2 AA y referentes ya evaluados en el estándar.
+- Aplicar [confidencialidad económica del alcance §7.2](../product/ALCANCE_FUNCIONAL.md#72-permisos-y-visibilidad) desde los fixtures y todas las vistas, no sólo Administración. Ninguna responsabilidad operativa concede acceso económico por inferencia.
+- Portal y canales asistidos validan experiencias dentro del prototipo: no incluyen invitaciones reales, envío de mensajes, proveedor de IA ni servicios reales. Las segundas fases y escrituras futuras conservan sus condiciones de aprobación; no se vuelven obligaciones de esta primera pasada.
 
-No usar como requisito funcional los datos mock del Design System.
+## Frontend demostrativo y producto operativo real
 
-## 4. Gobierno de cada incremento
+| Línea | Entrega verificable | Qué no acredita |
+|---|---|---|
+| A — Frontend integral demostrativo | Pantallas, acciones locales identificadas como prototipo, recorridos conectados, fixtures y pruebas de Etapas 2–13. Revisión humana integral al cierre. | Persistencia, autorización efectiva, datos externos disponibles o aptitud de producción. |
+| B — Implementación operativa real | Arquitectura aprobada, backend/persistencia, identidad, permisos efectivos, contratos e integraciones, carga inicial desde fuentes aprobadas cuando corresponda, seguridad y pruebas con fuentes reales autorizadas. | No queda implementada ni autorizada por terminar A. |
 
-```text
-Definir
-→ especificar pantalla/flujo
-→ planificar
-→ implementar
-→ probar
-→ revisar visual y funcionalmente
-→ actualizar documentos
-→ aprobar
-→ commit/merge
-```
+La línea B no debe esperar necesariamente a terminar todo A: el relevamiento con ABT, contratos, identificadores, fuentes maestras, sensibilidad y decisiones de arquitectura pueden avanzar en paralelo a los bloques consumidores. Una implementación real posterior sólo se inicia con alcance/arquitectura/autorización definidos y pruebas correspondientes; las fronteras mock simples permiten sustituir fuentes sin anticipar capas o tecnología.
 
-### Definition of Ready
+Dependencias operativas: validar capacidades antes de exponer datos reales; confirmar contratos antes de conectar; si se aprueba una carga inicial desde fuentes incluidas, validar mapeos y reconciliación antes de ejecutarla; verificar seguridad, recuperación, auditoría y aceptación de procesos antes de habilitar producción. No sumar una etapa frontend numerada para resolver estas líneas técnicas. Commit, push, merge y despliegue requieren autorización separada.
 
-Antes de implementar:
+## Línea transversal de integraciones
 
-- propósito y trabajo principal;
-- alcance y fuera de alcance;
-- especificación de pantalla;
-- información y acciones;
-- reglas, estados y permisos conocidos o marcados como pendientes;
-- responsive esperado;
-- ayuda/onboarding;
-- escenarios de prueba;
-- gate humano.
+Esta sección es autoridad de **seguimiento técnico**, no una etapa UI, componente, API confirmada ni nuevo alcance. La [matriz](MATRIZ_COBERTURA_FUNCIONAL.md#integraciones-y-transición) conserva necesidades INT/ALP y su evidencia; el [alcance §8](../product/ALCANCE_FUNCIONAL.md#8-sistemas-externos-y-fuentes-de-verdad) define inclusión y límites.
 
-### Definition of Done
+Referencia: [relevamiento original Alpha2000](https://docs.google.com/spreadsheets/d/1Q3jlt7kN1s5C_Hh6ALygyQmCIMkfvJT0968TIKratn8/edit), E5 de la matriz. Consulta de texto en sólo lectura el 14/10/2026: guía y encabezados de `Relevamiento`, sin filas de consultas/acciones. Debe completarse con ABT; los ejemplos de la guía no acreditan contratos ni habilitan emisión de facturas. No reproducir aquí el formulario ni los nueve registros ALP.
 
-Antes de cerrar:
+### Necesidad y alcance por frente
 
-- funcionalidad completa del corte;
-- consistencia con otras pantallas;
-- estados alternativos;
-- responsive;
-- WCAG 2.2 AA;
-- pruebas requeridas;
-- checks técnicos;
-- documentos sincronizados;
-- marca correcta;
-- revisión humana.
+Alpha2000 es la integración prioritaria por decisión interna del responsable del proyecto. La prioridad fina de consultas y datos debe completarse con ABT. Fuente de verdad significa autoridad prevista por dato, no disponibilidad de API.
 
-## 5. Reglas de ejecución
+| Sistema / trazabilidad | Capacidad, proceso e información requerida | Operación deseada y fuente de verdad | Etapas consumidoras / prioridad de relevamiento |
+|---|---|---|---|
+| Alpha2000 / MARÍA — INT-001, ALP-001 a ALP-004, ALP-009 | Preparación y seguimiento Impo/Expo: destinaciones y regímenes Impo/Expo, referencias/números y fechas de oficialización, canal/estados, arribo/liberación, documentos/intervenciones, transporte, valores aduaneros, permisos de embarque, cumplidos cuando estén disponibles y novedades pertinentes; alcance por tipo/régimen a confirmar. | Lectura prioritaria externo → ABT; escritura no definida ni autorizada. Alpha2000/MARÍA para registros aduaneros; autoridad por campo y maestros a confirmar. | 3–8; contexto 2 y consumidores 10–13. Alta por dependencia operativa. |
+| Alpha2000 administrativo — INT-001, ALP-005 a ALP-009 | Facturación/facturas por cliente, cobranzas, cuentas corrientes, compras/proveedores, órdenes de pago/retenciones, gastos/rendiciones e información contable y referencias para Dirección, vinculadas a clientes, operaciones y documentos. | Lectura propuesta externo → ABT; cualquier preparación/emisión/escritura requiere definición aparte. Alpha2000 conserva contabilidad/cuentas corrientes; gastos e imputaciones por dato pendientes. | 10–11, referencias autorizadas en 4/6/9. Alta por handoff y fuentes económicas. |
+| Interbanking — INT-005, REP-007, REP-008, REP-018 | Evaluar consulta bancaria/tesorería: potenciales saldos, movimientos y otros datos sólo si se confirma disponibilidad. | Exclusivamente lectura propuesta externo → ABT. Autoridad bancaria por institución y dato por confirmar; sin transferencias, emisión/ejecución de pagos, operaciones con ECheqs, conciliación automática, escritura bancaria ni autorización de movimientos. | 10–11. Factibilidad previa; no compromiso de disponibilidad. |
+| ARCA / MOA — INT-003 | Evaluar cumplidos y otros datos aduaneros necesarios. Caso inicial: Exportación. | Primero ARCA/MOA → Alpha2000 → ABT mediante API autorizada; directo ARCA → ABT sólo si la vía prioritaria no alcanza o existe justificación suficiente. Sin escritura ni dos conectores obligatorios. Fuente original identificada. | 7–8, referencias en 10–11. Evaluación subordinada a cobertura Alpha2000; no bloqueo del prototipo. |
+| Microsoft 365 — INT-004 | Correo y documentos vinculados a operaciones, origen e historial; alcance de integración pendiente. | Consulta/vinculación a evaluar; envío, carga o archivado automático no autorizados. M365 conserva contenido de origen; relación con operación en ABT, autoridad/retención por definir. | 4, 7–10 y eventualmente 12. Complementaria; confirmar necesidad y alcance antes de conectar. |
 
-- No hacer commit ni push salvo pedido explícito.
-- No crear backend, base de datos, auth real o paquetes de contratos antes de definir arquitectura.
-- No inventar roles, campos, estados, fórmulas o reglas.
-- No introducir dependencias sin justificar y documentar.
-- No rediseñar el Design System durante una feature.
-- Un patrón reusable nuevo se incorpora primero al Design System.
-- No usar `agent-browser` salvo pedido explícito.
-- La revisión visual principal se realiza manualmente en localhost o preview.
-- Mantener fixtures realistas y determinísticos, separados de la UI.
-- Cada entrega informa impacto documental.
-- `main` debe permanecer compilable y navegable.
+### Seguimiento técnico por frente
 
-## 6. Arquitectura frontend objetivo de esta etapa
+Estado al 14/10/2026: los cinco frentes de seguimiento siguen **Pendiente de relevamiento**: hay necesidades documentadas, sin relevamiento completo con ABT. La documentación pública ARCA fue contrastada, pero la disponibilidad efectiva para ABT y los contratos de integración siguen pendientes en todos. La factibilidad preliminar Alpha2000 informada por el responsable no equivale a API disponible. Las direcciones anteriores son deseadas, no sincronizaciones implementadas. Frecuencia/SLA y responsable técnico/validador están pendientes en cada frente.
 
-```text
-apps/web/
-├── app/
-│   ├── design-system/
-│   └── (app)/
-│
-├── components/
-│   ├── app-shell/
-│   ├── brand/
-│   ├── navigation/
-│   └── onboarding/
-│
-├── features/
-│   ├── home/
-│   ├── work/
-│   ├── operations/
-│   ├── clients/
-│   ├── quotes/
-│   ├── administration/
-│   └── management/
-│
-├── test/
-│   ├── factories/
-│   ├── fixtures/
-│   ├── utils/
-│   └── setup.ts
-│
-└── e2e/
-    ├── fixtures/
-    ├── pages/
-    └── specs/
+| Sistema | Identificadores a relacionar (definición pendiente) | Permisos/sensibilidad | Errores, fallback y pruebas requeridas | Bloqueo o próxima decisión | Estado |
+|---|---|---|---|---|---|
+| Alpha2000 / MARÍA | Clave externa de destinación/despacho/permiso, operación y maestros ABT; distinguir referencia visible de ID estable. | Acceso aduanero por proceso; valores/tributos separados de honorarios según alcance §7.2. | Dato ausente, parcial, stale, error o sin permiso; mantener origen/fecha sin inferir oficialización. Probar mapeo, unidades/monedas, estados, duplicados y vínculo Impo/Expo. | Completar E5 con ABT/proveedor; confirmar consultas, muestras autorizadas, frecuencia e IDs. | Pendiente de relevamiento |
+| Alpha2000 administrativo | Comprobantes, cliente/proveedor, operación, imputación, cobranza, pago/rendición. | Separar las categorías económicas de §7.2; no distribuir información contable a perfiles operativos. | No inferir facturada/cobrada por ausencia de respuesta. Probar vínculos, moneda/período, consistencia, repetición de lecturas y pruebas negativas de acceso. | Completar E5; acordar fuente por dato, fechas de corte, dirección y eventual escritura por caso. | Pendiente de relevamiento |
+| Interbanking | Institución, cuenta e ID de movimiento; vínculo contable sólo al definirse. | Consulta bancaria específica, credenciales y consentimiento por definir; sin exposición en logs/fixtures. | No mostrar saldo cero si falta conexión. Probar no conectada, datos parciales/stale, permisos y moneda/fecha; demostrar ausencia de comandos de pago. | Factibilidad, disponibilidad de cada dato, acceso/contrato, frecuencia y límites; conciliación no asumida. | Pendiente de relevamiento |
+| ARCA / MOA (vías alternativas) | Permiso/destinación, cumplido y operación; validar correspondencia con IDs Alpha2000. | Acceso mediado según contrato Alpha2000; directo sujeto a certificado, WSAA, CUIT/relaciones, carácter y permisos efectivos. | Cumplido desconocido no equivale a incumplido. Probar correspondencia, origen/intermediario, frescura, errores, diferencias y acceso en la vía elegida. | Primero confirmar cobertura/costos Alpha2000; justificar alternativa directa y validar dependencias siguientes si es necesaria. | Pendiente de relevamiento |
+| Microsoft 365 | IDs de mensaje/archivo/versión y operación; asociación inequívoca. | Acceso a buzón/archivo no concede acceso económico; definir consentimiento, herencia, retención y revocación. | Referencia eliminada, revocada o inaccesible sin filtrar contenido. Probar vínculo, versiones, revocación, duplicados y recuperación sin envío real. | Definir lectura/escritura, archivo vs enlace, acceso/contrato y frecuencia; no asumir integración de correo. | Pendiente de relevamiento |
 
-packages/ui/
-├── components genéricos
-├── hooks genéricos
-├── utilidades
-└── pruebas del Design System
-```
+Al relevar cada consulta/acción, actualizar su frente con disponibilidad técnica, enlace a contrato/API confirmado, IDs, dirección y frecuencia, fuente maestra, capacidades, errores/fallback, pruebas, responsable, estado, bloqueo y evidencia/fecha. El detalle campo a campo permanece en el relevamiento/contrato autorizado enlazado, no duplicado en Markdown. Mientras no exista evidencia nueva, los pendientes comunes anteriores aplican a cada fila.
 
-### Frontera de datos durante mocks
+### Evidencia Alpha2000 y vías para MOA
 
-```text
-pantalla / componente
-        ↓
-fuente o adapter simple de la feature
-        ↓
-fixtures determinísticos
-```
+E17 de la matriz registra **información aportada por el responsable del proyecto en esta sesión**: hubo reunión inicial con predisposición y viabilidad preliminar para estudiar la integración; el proveedor explicó complejidad por régimen/tipo y posibilidad de desarrollar endpoints específicos con datos procesados. Fecha de reunión y acta no aportadas; no se atribuye a una reunión presenciada ni a una prueba de Codex. Necesidad funcional de integrar confirmada internamente; alcance de datos, API documentada/habilitada/contratada, condiciones comerciales y pruebas técnicas siguen pendientes.
 
-No hardcodear datasets extensos dentro de páginas.
+| Alternativa | Evaluación y ventajas potenciales | Condiciones / decisión pendiente |
+|---|---|---|
+| A — Alpha2000 primero | API autorizada del proveedor, posiblemente con datos MOA procesados. Podría reducir mecanismos de autenticación, consultas y transformaciones duplicadas, aprovechar conocimiento aduanero y simplificar correspondencias de IDs/estados. Son hipótesis, no garantías. | Confirmar datos/origen, actualidad, costo, latencia, frecuencia, regímenes cubiertos, disponibilidad, redistribución y responsabilidad ante errores. |
+| B — ARCA directo condicionado | Web Services oficiales autorizados sólo si A no cubre la necesidad o existe justificación técnica/funcional suficiente. | Definir acceso, seguridad, mantenimiento y alcance por consulta. No crear por defecto un segundo conector para el mismo dato ni una dependencia simultánea. |
 
-## 7. Checks y scripts esperados
+La [ficha pública de Alpha Comex Movil](https://play.google.com/store/apps/details?hl=es_MX&id=alphacomexmovil.alphacomexmovil), consultada el 14/10/2026 (E19), atribuye sus datos a MOA Reingeniería; muestra actualización 18/06/2025. Esto sugiere experiencia del proveedor con esa fuente, **no** demuestra Web Service utilizado, API para terceros, permiso de redistribución, acceso ABT ni frescura garantizada. La URL original sin parámetro de idioma falló; se verificó la misma ficha en español de México.
 
-Controles base:
+### Verificación documental ARCA y límites
 
-```bash
-pnpm lint
-pnpm typecheck
-pnpm build
-pnpm test
-git diff --check
-```
+Consulta focalizada del 14/10/2026, E18: el [índice oficial MOA](https://www.arca.gob.ar/moa/ayuda/manuales.asp) enlaza ambos manuales de `wconsdeclaracion`. No se consultó ningún servicio de negocio.
 
-La Etapa 0 debe dejar comandos claros para:
+- [Manual del desarrollador](https://www.arca.gob.ar/moa/documentos/nuevos/ManualDesarrolladorWconsdeclaracion.pdf): documenta `DetalladaEstado`, `DetalladaDocumentos`, `BloqueosLista`, `BloqueosIntervenciones`, `DestinacionesExpoCumplidasLista`, `Intervenciones3OrgLista` e `Intervencion3OrgDetalle`. Incluye ambientes Testing/Producción, autenticación, parámetros y errores. Su historial llega a 2.6.0, pero presenta fechas no cronológicas y portada 24/10/2022: publicación accesible no acredita vigencia operativa actual.
+- [Manual del usuario externo](https://www.arca.gob.ar/moa/documentos/nuevos/ManualAFIPUsuariosExternoswconsDeclaracion.pdf): historial hasta 1.7 del 03/10/2023; describe homologación, WSAA/ticket/certificado, delegación por Administrador de Relaciones y tipos de agente habilitados. No atribuir esas condiciones de homologación como permiso productivo de ABT.
+- Evidencia basada en secciones textuales relevantes, no auditoría integral de los manuales. La captura del manual desarrollador falló; revisar contrato/WSDL y discrepancias con el organismo antes de implementar. No se comprobó disponibilidad, SLA, límites de uso ni autorización efectiva.
 
-```text
-test unitario
-watch
-E2E
-E2E UI
-accesibilidad
-verificación completa
-```
+**Dependencias a resolver si se elige B:** certificado digital y mecanismo WSAA; CUIT autorizado; relaciones/delegaciones; rol/carácter y destinaciones consultables por método; separación de homologación/producción; condiciones técnicas/operativas, límites y disponibilidad; permisos efectivos; responsable de custodia, renovación/revocación de credenciales, seguridad y auditoría sin secretos en logs. Esto es checklist de evaluación, no habilitación. No generar certificados, pedir/guardar secretos, probar destinaciones reales ni crear cliente SOAP en esta etapa documental.
 
-Ver `TEST_STRATEGY.md`.
+**Caso prioritario — cumplido de Exportación:** relevar con ABT referencia de destinación, estado/fecha de cumplido, conformidad y diferencias necesarias, origen, última actualización y errores; vincular con permiso de embarque y post-embarque sin equipararlos a factura, cobranza o cierre documental. El manual desarrollador documenta fecha, indicador de conformidad y cantidades declaradas/cumplidas en la respuesta del método de cumplidos; menciona un máximo de 30 días cuando se consulta por fechas. Debe verificarse contrato vigente y cobertura por régimen; no transformar ejemplos/códigos en estados o reglas ABT. Separar fecha del evento de fecha de consulta y actualización. Ausencia, error o falta de permiso no prueban ausencia de cumplido.
 
-# Plan por etapas
+### Preguntas priorizadas para Leandro / Alpha2000
 
----
+No enviadas en esta sesión. Registrar respuestas, fecha, interlocutor y evidencia en E5/contrato autorizado; no completar con hipótesis. Orden: primero resolver cobertura y condiciones, luego detalle técnico y eventual prueba.
+
+**Negocio, cobertura y condiciones**
+
+1. ¿Qué datos de MOA consultan hoy y cuáles pueden exponer para ABT Comex?
+2. ¿Pueden entregar estado, fecha y conformidad/diferencias del cumplido de Exportación? ¿Qué otros eventos, fechas y documentos?
+3. ¿Cuál es la fuente de cada dato — ARCA/MOA o registro propio — y qué cambia por tipo/régimen?
+4. ¿Qué costos, condiciones comerciales y restricciones de redistribución de información ARCA/MOA se aplicarían?
+5. ¿Qué información administrativa/contable pueden exponer, separando lectura y eventual escritura?
+
+**Técnicas y prueba condicionada**
+
+6. ¿Pueden preparar endpoints específicos con información procesada? ¿Qué contrato/documentación y cobertura tendrían?
+7. ¿Qué identificadores permiten vincular destinación, permiso, cliente, comprobante y operación ABT?
+8. ¿Qué autenticación, permisos, restricciones y responsabilidades de custodia aplican?
+9. ¿Qué frecuencia, latencia, fecha de actualización, disponibilidad y manejo de errores ofrecen?
+10. ¿Podemos acordar una prueba con una destinación real expresamente autorizada por ABT, con entorno, datos mínimos y criterios de aceptación definidos previamente? Esta pregunta no autoriza ejecutarla ahora.
+
+COMEX360 queda fuera de este seguimiento objetivo por la [exclusión del alcance](../product/ALCANCE_FUNCIONAL.md#exclusión-de-comex360). Su evidencia histórica se conserva en INT-002; no tiene conector, migración programada ni gate técnico. Esta estrategia no bloquea el frontend demostrativo con fixtures coherentes y estados explícitos.
+
+### Estados de integración y evidencia
+
+| Estado | Evidencia mínima para usarlo |
+|---|---|
+| Pendiente de relevamiento | Necesidad identificada; faltan consultas/acciones o actores/datos. |
+| Relevada | Casos, datos, uso, fuente y responsable documentados con ABT; no implica factibilidad. |
+| En análisis técnico | Revisión efectiva de acceso, disponibilidad, seguridad e identificadores registrada. |
+| Contrato definido | Contrato enlazado con campos, operaciones, dirección/frecuencia, permisos y errores acordados. |
+| Lista para implementar | Contrato, arquitectura, accesos de prueba, autorización y criterios de aceptación resueltos. |
+| En implementación | Trabajo real iniciado con alcance y evidencia registrados. |
+| En pruebas | Conector disponible en entorno autorizado, ejecutando pruebas del contrato y seguridad. |
+| Validada | Resultados con fuentes reales autorizadas y aceptación técnica/funcional registradas: responsable, fecha, entorno y alcance. No equivale automáticamente a habilitación productiva. |
+| Bloqueada | Impedimento concreto, responsable de resolución y condición de salida; conservar último avance. |
+
+Estos estados no son estados UI ni de etapa. Las fuentes externas en el frontend admiten **no conectada, desactualizada, parcial, error y sin permiso**, según el estándar. Un fixture, pantalla o prueba de mock no valida una integración. Ningún frente está conectado o validado por esta planificación.
 
 ## Etapa 0 — Frontend Foundation
 
-### Objetivo
+Objetivo cumplido: base de pruebas, CI, documentación, estructura mínima y atribución de marca. No incluyó rutas de producto ni Shell.
 
-Instalar una base operativa que obligue a mantener calidad, pruebas, documentación, consistencia y marca antes de producir pantallas.
-
-### Esta etapa puede ejecutarse completa en una única corrida larga de Codex
-
-Debe detenerse al terminar y esperar revisión humana.
-
-### Entregables documentales
-
-- verificar consistencia de los documentos base;
-- actualizar `DECISIONS.md` con decisiones de gobierno, testing y marca;
-- crear la especificación `screens/01-foundation-application-shell.md` usando la plantilla;
-- registrar cualquier contradicción sin resolverla silenciosamente.
-
-### Entregables de testing
-
-- instalar Vitest y Testing Library;
-- configurar matchers y setup;
-- incorporar axe;
-- instalar y configurar Playwright;
-- crear scripts coherentes en workspaces y raíz;
-- crear una prueba unitaria de referencia;
-- crear una prueba de componente accesible de referencia;
-- crear un E2E smoke de referencia;
-- configurar datos y reloj determinísticos;
-- agregar documentación de comandos;
-- incorporar workflow CI para lint, typecheck, tests y build si no existe uno equivalente.
-
-### Entregables de estructura
-
-- crear sólo directorios y utilidades base que se utilicen en la propia etapa;
-- establecer convención de `features` y tests sin generar módulos vacíos innecesarios;
-- crear helpers de render para pruebas;
-- establecer frontera simple de fixtures;
-- no crear repositorios o contratos genéricos.
-
-### Entregables de marca
-
-- verificar assets ABT;
-- incorporar asset oficial Broco Solutions;
-- documentar fuente maestra y copia servida;
-- crear `BrandAttribution` reusable;
-- enlazar a `https://brocosolutions.com`;
-- agregar pruebas de accesibilidad del componente;
-- no insertar aún el componente en un shell inexistente.
-
-### Entregables de calidad
-
-- agregar comando de verificación integral;
-- revisar configuración de TypeScript y ESLint sólo si existe un hueco real;
-- no actualizar dependencias no relacionadas;
-- documentar cualquier limitación del entorno.
-
-### Fuera de alcance
-
-- Application Shell;
-- rutas de producto;
-- onboarding visual;
-- dashboards;
-- lógica de Operaciones;
-- backend;
-- auth;
-- Portal;
-- integración real.
-
-### Gate humano
-
-- comandos comprensibles;
-- suite rápida y estable;
-- CI razonable;
-- estructura no sobrediseñada;
-- documentación consistente;
-- logo Broco correcto;
-- `BrandAttribution` sutil y reusable;
-- sin regresiones del Design System.
-
----
+Entregables históricos: Vitest/Testing Library/axe/Playwright, scripts y pruebas de referencia, helper de render, frontera mock sin módulos vacíos, assets y BrandAttribution. Convenciones y limitaciones: [TEST_STRATEGY §20](TEST_STRATEGY.md#20-implementación-inicial), [marca](BRAND_USAGE.md) y [decisión del 09/10](DECISIONS.md#2026-10-09--infraestructura-de-pruebas-de-frontend). No volver a ejecutar el setup como próximo trabajo.
 
 ## Etapa 1 — Application Shell e infraestructura de experiencia
 
-### Objetivo
+Objetivo cumplido: navegación interna, contexto y ayuda base sin reglas profundas de módulos. Entregables efectivos, rutas aprobadas, responsive, onboarding, pruebas y revisión: [especificación Shell](screens/01-foundation-application-shell.md). Estado y evidencia de cierre: al final de este plan.
 
-Crear la estructura real de la aplicación interna sin inventar funcionalidades profundas.
-
-### Entregables
-
-- route group `(app)`;
-- `AppShell`;
-- sidebar desktop/notebook expandida por defecto y rail compacto opcional con
-  preferencia local temporal;
-- drawer completo para tablet/mobile por debajo de 1024 px;
-- header compacto;
-- breadcrumbs;
-- `PageHeader`;
-- menú de usuario mock;
-- entrada de ayuda;
-- búsqueda global inicial sin lógica profunda;
-- rutas placeholder:
-  - `/inicio`;
-  - `/operaciones`;
-  - `/clientes`;
-  - `/cotizaciones`;
-  - `/mi-trabajo`;
-  - `/administracion`;
-  - `/gestion`;
-  - `/configuracion`;
-- `/` redirige a `/inicio`;
-- `/design-system` queda fuera del shell;
-- logo ABT completo e isotipo oficial derivado lossless según el modo;
-- `BrandAttribution` al pie de sidebar/drawer;
-- 404, error boundary, loading y acceso denegado base.
-
-### Onboarding base
-
-- estado mock de primer acceso;
-- bienvenida breve y no bloqueante;
-- checklist reusable;
-- omitir y retomar;
-- ayuda contextual base;
-- panel completo limitado a `/inicio`, con estado global y reanudación desde
-  Ayuda en cualquier módulo sin reservar espacio fuera de Inicio.
-
-### Pruebas mínimas
-
-- navegación activa;
-- breadcrumbs;
-- drawer y foco;
-- toggle, persistencia, tooltips y flyout accesible del rail compacto;
-- teclado;
-- onboarding omitir/retomar;
-- branding;
-- E2E smoke de navegación;
-- snapshots selectivos desktop/mobile.
-
-### Gate humano
-
-- navegación clara;
-- jerarquía premium;
-- densidad empresarial;
-- responsive real;
-- ayuda no invasiva;
-- ABT protagonista y Broco secundario;
-- sin apariencia genérica de template.
+Búsqueda global e identidad de usuario quedaron diferidas explícitamente; no son entregables completados. La revisión de Etapa 2 preserva Shell, rutas y marca.
 
 ---
 
@@ -352,32 +184,34 @@ Validar el modelo mental principal:
 
 Inicio:
 
-- operaciones que requieren atención;
+- situación operativa y casos que requieren atención;
 - próximos vencimientos;
-- controles/aprobaciones;
+- controles, revisiones y aprobaciones;
 - actividad relevante;
-- indicadores accionables;
-- contenido condicionado por capacidades mock.
+- resúmenes accionables con acceso al registro o conjunto filtrado;
+- fuente, origen y frescura cuando afecten una decisión;
+- contenido condicionado por capacidades mock, sin información sensible por defecto;
 - acceso “Ver todo en Mi trabajo” desde el resumen de trabajo accionable.
 
 Mi trabajo:
 
-- asignado a mí;
-- mi equipo;
-- próximo a vencer;
-- vencido;
-- aprobaciones;
-- controles;
-- excepciones;
-- trabajo interno sin Operación.
+- acciones asignadas y tareas;
+- revisiones y aprobaciones;
+- controles bloqueantes y no bloqueantes diferenciados;
+- excepciones y motivos;
+- próximos a vencer y vencidos;
+- trabajo administrativo o preliminar sin Operación;
+- filtros coherentes con Inicio y retorno al objeto de origen.
 
 ### Gate
 
 - en menos de 10 segundos se entiende qué requiere atención;
-- cada elemento tiene contexto, responsable, vencimiento y acción;
-- Inicio resume; Mi trabajo permite operar;
+- cada elemento tiene contexto, responsabilidad y vencimiento conocidos o ausencia explícita, y una acción útil disponible;
+- Inicio resume; Mi trabajo contextualiza y habilita sólo las acciones del corte;
 - Inicio y Mi trabajo son destinos principales separados y consecutivos;
-- KPI y filtros comparten una fuente de verdad.
+- resúmenes, conteos y filtros comparten una fuente conceptual;
+- se prueban vacío, filtered-empty, sin permiso, dato desactualizado y error recuperable;
+- la implementación respeta `screens/02-inicio-mi-trabajo.md` y no inventa perfiles definitivos.
 
 ---
 
@@ -401,7 +235,7 @@ Construir la primera pantalla operativa principal.
 - columnas visibles;
 - vistas guardadas cuando se valide;
 - paginación;
-- totales por moneda;
+- sin totales económicos genéricos; valores aduaneros sólo cuando sean necesarios y autorizados según alcance §7.2;
 - estados alternativos;
 - mobile resumido/expandible;
 - navegación al detalle.
@@ -431,7 +265,7 @@ Definir el objeto central antes de especializar Impo y Expo.
 - seguimiento/hitos;
 - documentación;
 - controles;
-- Administración relacionada;
+- Administración relacionada, separada por capacidades económicas según alcance §7.2, sin acceso implícito por ser responsable o jefe;
 - actividad;
 - acciones contextuales.
 
@@ -457,7 +291,7 @@ Validar inicio de proceso y prevención de errores.
 
 ### Flujo
 
-1. origen: directa o desde Cotización;
+1. origen: directa o desde una versión de Cotización aceptada por el cliente;
 2. Cliente y tipo;
 3. contexto inicial;
 4. responsables;
@@ -468,6 +302,7 @@ Validar inicio de proceso y prevención de errores.
 
 - no hay campos innecesarios;
 - reutiliza información conocida;
+- sólo convierte una versión aceptada, sin asumir cardinalidad uno a uno;
 - muestra origen de datos;
 - permite volver sin perder;
 - detecta inconsistencias obvias;
@@ -541,8 +376,8 @@ Validar especialización y relaciones complejas.
 - oficialización/legajo;
 - carga;
 - certificados;
-- DJVE;
-- permisos/operaciones;
+- DJVE como trámite que puede existir antes de una Operación;
+- múltiples permisos/operaciones relacionados y permisos sin DJVE;
 - pase a Facturación;
 - cumplido;
 - post-embarque;
@@ -552,6 +387,9 @@ Validar especialización y relaciones complejas.
 
 - Operación puede estar facturada y seguir activa;
 - DJVE no se fuerza como Operación;
+- el doble control bloquea la oficialización y requiere dos personas diferentes;
+- el pase a Facturación no espera cumplido ni post-embarque;
+- el rango 90%-104% observado para DJVE de granos no se codifica hasta validar fórmula, contexto, vigencia y efecto bloqueante;
 - documentación física/digital tiene estado.
 
 ---
@@ -569,16 +407,18 @@ Construir circuito comercial previo.
 - cálculos;
 - condiciones;
 - versiones;
-- aprobación;
-- envío/aceptación;
-- conversión a Operación.
+- aprobación interna;
+- envío al cliente;
+- aceptación o rechazo del cliente;
+- creación de Operación desde la versión aceptada.
 
 ### Gate
 
 - cantidad × unitario produce total;
 - no se envía sin aprobación;
+- aprobación interna y aceptación del cliente no se confunden;
 - versiones se entienden;
-- conversión no recarga datos.
+- conversión no recarga datos y deja pendiente la cardinalidad cotización→operaciones.
 
 ---
 
@@ -594,6 +434,7 @@ Diseñar pase operativo-administrativo sin duplicar Alpha2000.
 - con pendientes;
 - listas para facturar;
 - facturadas;
+- cobradas;
 - diferencias;
 - honorarios;
 - gastos/anticipos/rendiciones;
@@ -603,7 +444,8 @@ Diseñar pase operativo-administrativo sin duplicar Alpha2000.
 ### Gate
 
 - “lista para facturar” es explícita;
-- facturar, cobrar y cerrar documentación son distintos;
+- lista para facturar, facturada, cobrada, cumplida, post-embarque y cerrada documentalmente son situaciones distintas;
+- el pase a Facturación puede preceder al cumplido y al post-embarque;
 - datos sensibles protegidos;
 - fuente Alpha2000 visible.
 
@@ -624,14 +466,18 @@ Convertir información en decisiones.
 - demoras/vencimientos;
 - facturación/cobranzas;
 - costos/márgenes;
+- impuestos, compras y proveedores;
+- bancos, movimientos financieros y ECheqs;
+- cuentas corrientes, pagos, vencimientos y flujo de caja;
 - períodos;
 - reportes definidos.
 
 ### Gate
 
-- cada KPI permite drill-down;
+- cada indicador validado permite drill-down;
 - no replica `2025ABT.xlsx`;
-- fórmulas/fuentes explícitas;
+- los 18 bloques observados en `2025ABT.xlsx` tienen cobertura, fuente y validación pendiente explícitas;
+- fórmulas/fuentes explícitas y no declaradas definitivas antes de validación;
 - permisos en KPI, tabla, gráfico y exportación.
 
 ---
@@ -700,46 +546,24 @@ Validar consultas y futuras acciones sin depender de proveedor.
 - idempotencia;
 - escrituras sensibles aprobadas por caso.
 
-## 8. Revisión de cada etapa
+## Gates de planificación
 
-### Funcional
+### Dependencias de planificación integral
 
-- representa trabajo real;
-- respeta alcance;
-- no introduce reglas silenciosas;
-- acciones pertenecen al objeto correcto.
+Se conservan los IDs de Etapas 0 a 13 y el estado aprobado de Etapas 0 y 1. La secuencia integral anterior cambia el orden de ejecución, no la identidad de las etapas. Los gates bloquean decisiones difíciles de revertir; no impiden prototipos con fixtures cuando los supuestos estén identificados, sean reemplazables y no se presenten como reglas aprobadas.
 
-### UX
+| Gate | Debe estar validado antes de | Motivo |
+|---|---|---|
+| G0 — Inicio y Mi trabajo | Compromiso funcional de Etapa 2 | Revisar `screens/02-inicio-mi-trabajo.md`, validar que los fixtures no atribuyan perfiles o información sensible reales y registrar preguntas abiertas. Las fuentes externas no accesibles no bloquean el prototipo documental ni un mock reversible. |
+| G1 — núcleo de operación | Contratos, rutas definitivas y reglas irreversibles de Etapas 3, 4 y 5 | Cerrar ID, cardinalidades, estados, transiciones, responsables, permisos y auditoría comunes. Los prototipos pueden usar identificadores y estados explícitamente ficticios. |
+| G2 — datos maestros y cotización | Persistencia o automatización de Etapas 5, 6 y 9 | Definir reutilización de clientes, versionado, cálculo, aprobación interna, respuesta del cliente y cardinalidad versión aceptada→operaciones. |
+| G3 — Importación, Exportación y DJVE | Automatización o bloqueo de Etapas 7 y 8 | Validar requisitos variables, evidencia del doble control, custodia, cardinalidades DJVE/permiso/operación, fórmula observada de granos y criterios de cierre. La regla confirmada de dos personas antes de oficializar se conserva. |
+| G4 — Administración y fuentes externas | Cálculos, sincronización o escritura de Etapas 10 y 11 | Completar Alpha2000 campo a campo y evaluar cobertura de cumplidos/MOA, criterios de pase y fórmulas/fuentes de los 18 bloques de Dirección. Las maquetas pueden representar estados sin simular disponibilidad externa. |
+| G5 — canales externos | Publicación o acciones de Etapas 12 y 13 | Definir identidad, visibilidad, servicios compartidos, casos asistidos y auditoría de acciones. |
 
-- propósito claro;
-- siguiente paso visible;
-- prevención de errores;
-- reconocimiento sobre memoria;
-- recuperación;
-- eficiencia para usuarios frecuentes.
+La secuencia integral adelanta Clientes y Cotizaciones al alta; las definiciones de negocio aún pendientes no se dan por cerradas con esos mocks. Esta revisión no implementa Etapa 2 ni modifica estados de avance.
 
-### Visual
-
-- jerarquía;
-- densidad;
-- alineación;
-- consistencia;
-- responsive;
-- marca;
-- ausencia de apariencia genérica.
-
-### Técnica
-
-- límites de componentes;
-- TypeScript;
-- lint;
-- build;
-- pruebas;
-- consola;
-- accesibilidad;
-- performance razonable.
-
-## 9. Estado de etapas
+## Estado de etapas
 
 | Etapa | Estado |
 |---|---|
@@ -758,13 +582,12 @@ Validar consultas y futuras acciones sin depender de proveedor.
 | 12 — Portal | Pendiente |
 | 13 — Canales asistidos | Pendiente |
 
-## 10. Cierre de Etapa 1
+## Evidencia de cierre
 
 La revisión visual humana de **Etapa 1 — Application Shell e infraestructura de
-experiencia** fue aprobada el 10/10/2026. El cierre se publica para revisión
-de código mediante Pull Request hacia `main`; no se inicia Etapa 2 en este
-incremento. Esta aprobación corresponde a la experiencia del Shell y no
-resuelve las decisiones funcionales pendientes de ABT para los módulos futuros.
+experiencia** fue aprobada el 10/10/2026 y su Pull Request fue fusionado en
+`main`. Esta aprobación corresponde a la experiencia del Shell y no resuelve
+las decisiones funcionales pendientes de ABT para los módulos futuros.
 
 Chromium cubre localmente los recorridos E2E y snapshots selectivos del Shell.
 Firefox y WebKit siguen sin una ejecución local concluyente por dependencias

@@ -1,322 +1,134 @@
 # ABT Comex — Codex Runbook
 
-> Documento vivo · Última actualización: 08/10/2026
+> Procedimiento de trabajo y mantenimiento documental · 14/10/2026
 
-## 1. Propósito
+## Autoridad y responsabilidades
 
-Este runbook define cómo debe trabajar Codex en ABT Comex para mantener alcance, consistencia, calidad visual, pruebas y documentación.
+Una fuente autorizada por tipo de conocimiento. Una decisión no queda cerrada sólo por existir en código, chat o una entrevista. Las citas y resúmenes no reemplazan al documento responsable.
 
-No reemplaza el plan de implementación. Establece el procedimiento obligatorio para ejecutar cada etapa o tarea.
+| Documento | Autoridad / información exclusiva | Cuándo actualizar | Referencias que consume → quién lo usa |
+|---|---|---|---|
+| [Alcance](../product/ALCANCE_FUNCIONAL.md) | Producto, capacidades incluidas/condicionadas/excluidas, reglas y pendientes de negocio | Cambio funcional aprobado | Evidencia original → matriz, mapa, pantallas |
+| [Matriz](MATRIZ_COBERTURA_FUNCIONAL.md) | Necesidades e IDs, origen, certeza, validación pendiente, cobertura e integración requerida | Nueva evidencia, corrección semántica o cambio de cobertura | Alcance y originales → mapa, pantallas, plan |
+| [Mapa](MAPA_PANTALLAS_Y_RECORRIDOS.md) | Experiencias UI, objetos, rutas aprobadas/propuestas, recorridos y enlaces de cobertura | Cambio de navegación o recorrido | Alcance y matriz → pantallas, plan |
+| [Estándar](FRONTEND_STANDARD.md) | Patrones y criterios transversales UX/UI, responsive, accesibilidad, referentes investigados | Cambio reusable de experiencia | Alcance, DS y referentes → pantallas |
+| [Pantallas](screens/README.md) | Comportamiento, reglas citadas, escenarios y aceptación de cada corte | Cambio de experiencia particular | Matriz, mapa, estándar → implementación y pruebas |
+| [Plan](PLAN_IMPLEMENTACION.md) | Orden, dependencias, entregables, gates, estados de etapas e integraciones y evidencia de cierre | Avance real, cambio de secuencia, contrato externo o aprobación | Matriz y pantallas → ejecución |
+| [Pruebas](TEST_STRATEGY.md) | Estrategia por riesgo, comandos, infraestructura y límites de evidencia | Cambio de pruebas o infraestructura | Riesgo de pantalla → verificación y gates |
+| [Marca](BRAND_USAGE.md) | Assets oficiales, jerarquía, atribución y uso por superficie | Cambio de marca autorizado | Assets → DS, Shell y superficies |
+| [Decisiones](DECISIONS.md) | Historia, motivo, fecha y alcance de decisiones; referencias al vigente | Decisión interna o aprobación identificable | Fuentes afectadas → contexto histórico |
+| [Arquitectura](../architecture/README.md) | Fronteras técnicas, organización de código y evolución diferida | Decisión técnica real | Decisiones y stack → implementación |
+| [AGENTS](../../AGENTS.md) | Entrada, límites esenciales y ruta al procedimiento | Cambio de reglas fundamentales | Este runbook → sesiones |
+| Este runbook | Lectura proporcional, mantenimiento, preparación/cierre e informe | Cambio de procedimiento | Autoridades anteriores → ejecución y PR |
+| [Índice frontend](ESPECIFICACION_FUNCIONAL_FRONTEND.md) | Navegación y compatibilidad con la antigua especificación general | Movimiento de responsabilidades o enlaces | Autoridades → lectores y referencias históricas |
+| [README raíz](../../README.md), [README pantallas](screens/README.md), [plantilla](screens/SCREEN_TEMPLATE.md) | Orientación; estados de especificación; estructura proporcional | Cambio de entradas, ciclo de especificación o plantilla | Autoridades → lectores/autores |
 
-## 2. Principio operativo
+El [Design System](../../apps/web/app/design-system/page.tsx) y [packages/ui](../../packages/ui/src/components) son autoridad visual ejecutable. Sus datasets son demostrativos, no requisitos.
 
-```text
-Leer → entender → especificar → planificar → implementar → probar → informar → revisar
-```
+## Inicio y lectura proporcional
 
-No comenzar a modificar código mientras existan contradicciones importantes o una definición funcional imprescindible esté ausente.
+1. Verificar ruta, rama, `git status --short --branch`, archivos nuevos y diff; si importa la base, `git merge-base HEAD main`. Preservar cambios existentes y comprender los solapamientos.
+2. Identificar capacidad/proceso, etapa solicitada y documento responsable.
+3. Elegir el contexto necesario en la tabla siguiente. Releer sólo secciones afectadas en iteraciones menores; no auditar todo el repositorio para una corrección rutinaria.
+4. Revisar evidencia nueva, reglas confirmadas, hipótesis y decisiones pendientes antes de cambiar.
 
-## 3. Inicio de cada ejecución
-
-### 3.1 Estado del repositorio
-
-Comprobar:
-
-```bash
-git status --short --branch
-git log -3 --oneline
-```
-
-No sobrescribir cambios ajenos o no comprendidos.
-
-### 3.2 Lectura obligatoria
-
-Leer en el orden indicado por `AGENTS.md`.
-
-Luego leer únicamente la especificación de pantalla o flujo aplicable en `docs/frontend/screens/`.
-
-No repetir auditorías profundas de todo el repositorio para tareas rutinarias. La revisión debe ser proporcional al riesgo.
-
-### 3.3 Resumen previo
-
-Antes de modificar, resumir internamente:
-
-- etapa solicitada;
-- objetivo de producto;
-- archivos o features afectadas;
-- patrones existentes a reutilizar;
-- reglas confirmadas;
-- decisiones pendientes;
-- pruebas requeridas;
-- documentación que podría cambiar.
-
-Si existe una duda bloqueante, formular una pregunta concreta antes de implementar.
-
-## 4. Definition of Ready
-
-Una tarea está lista cuando tiene:
-
-- etapa identificada;
-- objetivo y trabajo principal;
-- especificación de pantalla o flujo;
-- alcance;
-- fuera de alcance;
-- datos mock necesarios;
-- reglas y estados conocidos o marcados como pendientes;
-- permisos/sensibilidad considerados;
-- comportamiento responsive esperado;
-- criterios de aceptación;
-- escenarios de prueba;
-- gate de revisión humana.
-
-Si falta algo no bloqueante, registrarlo como pendiente. Si cambia la naturaleza de la solución, detenerse y preguntar.
-
-## 5. Plan antes de construir
-
-Para tareas medianas o grandes, producir un plan corto y ejecutable:
-
-1. estructura y archivos;
-2. componentes reutilizados;
-3. datos y fixtures;
-4. estados e interacciones;
-5. responsive y accesibilidad;
-6. pruebas;
-7. documentación;
-8. checks.
-
-No producir planes enormes que repitan la documentación existente.
-
-## 6. Reglas de implementación
-
-### Producto
-
-- No inventar alcance.
-- No convertir mocks del Design System en requisitos.
-- No crear módulos principales no aprobados.
-- No simplificar estados multidimensionales en un único estado si contradice el alcance.
-- No exponer información sensible por comodidad del mock.
-- No esconder decisiones funcionales dentro de código.
-
-### UI y UX
-
-- Reutilizar Design System.
-- Mantener el mismo patrón para la misma tarea.
-- Toda pantalla tiene propósito, siguiente paso y acciones jerarquizadas.
-- Estados alternativos se implementan junto con el caso ideal.
-- Responsive y accesibilidad se trabajan desde el primer commit.
-- No usar decoración para compensar falta de jerarquía.
-- Onboarding y ayuda no deben ocultar una interfaz confusa.
-
-### Código
-
-- Lógica de producto en `apps/web/features`.
-- Componentes genéricos en `packages/ui`.
-- Fixtures y tipos cerca de la feature.
-- No hardcodear datasets grandes en páginas.
-- No crear backend, DB, auth real ni contratos compartidos ficticios.
-- No introducir dependencias sin justificar y documentar.
-- No usar `any` para evitar modelar correctamente un caso.
-- Mantener componentes con responsabilidad clara.
-- Preferir composición sobre props excesivas y variantes ambiguas.
-
-### Marca
-
-- Aplicar `BRAND_USAGE.md`.
-- Usar assets oficiales.
-- ABT es marca principal.
-- `Powered by Broco Solutions` usa componente reusable y enlace oficial.
-
-## 7. Datos mock y frontera futura
-
-Cada feature debe separar:
-
-```text
-UI
-↓
-fuente/adaptador de datos simple
-↓
-fixtures determinísticos
-```
-
-Esto permite sustituir fixtures por API sin reescribir pantallas.
-
-No simular latencias o errores de manera aleatoria. Los estados se activan mediante fixtures o parámetros controlados.
-
-No usar información real sensible.
-
-## 8. Documentación obligatoria
-
-### Matriz de impacto
-
-| Cambio | Documento mínimo |
+| Tarea | Lectura mínima pertinente |
 |---|---|
-| Alcance o dominio | `ALCANCE_FUNCIONAL.md` |
-| Patrón transversal de experiencia | `ESPECIFICACION_FUNCIONAL_FRONTEND.md` |
-| Nueva pantalla o flujo | `screens/<archivo>.md` |
-| Nuevo patrón visual reusable | `/design-system` + `FRONTEND_STANDARD.md` |
-| Nueva decisión permanente | `DECISIONS.md` |
-| Cambio de etapas o gate | `PLAN_IMPLEMENTACION.md` |
-| Cambio de pruebas | `TEST_STRATEGY.md` |
-| Cambio de marca | `BRAND_USAGE.md` |
-| Cambio de operación de Codex | `CODEX_RUNBOOK.md` o `AGENTS.md` |
+| Corrección técnica o visual pequeña | AGENTS, archivo/componente y pruebas cercanas; sección afectada del estándar o arquitectura; pantalla si cambia comportamiento. |
+| Pantalla o flujo nuevo | Alcance relacionado → filas de matriz → experiencia/recorrido del mapa → estándar → especificación → etapa/gate del plan → estrategia de pruebas. Revisar DS y componentes; marca si cambia superficie. |
+| Cambio transversal | Autoridades, pantallas consumidoras y decisiones afectadas; estrategia de pruebas y alcance según impacto. |
+| Cambio de producto | Relevamiento original y registro de fuentes → alcance y decisiones de negocio → cobertura, mapa, pantallas y plan afectados. Una entrevista no equivale a aprobación formal. |
+| Sólo documentación | Autoridades y referencias entrantes/salientes afectadas; validación documental de la estrategia. Sin suites frontend si la aplicación no cambia. |
 
-### Regla
+Antes de escribir código Next.js, leer la guía relevante en `node_modules/next/dist/docs/` de la versión instalada.
 
-No actualizar documentos por inercia. Actualizarlos cuando cambie una decisión, especificación, patrón o proceso.
+## Preparación y cierre
 
-El informe final siempre incluye:
+### Definition of Ready
 
-```text
-Impacto documental:
-- Sin impacto
-```
+La pantalla/flujo tiene propósito, trabajo principal, alcance/exclusiones, evidencia trazable, información/acciones, reglas/estados, sensibilidad/capacidades, datos mock, responsive, ayuda, aceptación y escenarios de prueba proporcionados al riesgo. Los pendientes no bloqueantes se identifican con tratamiento reversible; los que cambian la solución requieren definición.
 
-o la lista de archivos modificados.
+`Ready` registra la verificación de preparación y su responsable/fecha/evidencia. En la primera pasada integral autorizada en el plan, puede ser una revisión técnica/documental de Codex sin aprobación visual humana por pantalla: sólo con alcance suficiente, supuestos reversibles y sin decisiones funcionales bloqueantes. Fuera de ese modo requiere revisión humana de especificación. No cambiar a `Ready` por existir un archivo ni atribuir aprobación ABT. Preparación, implementación y aprobación funcional son estados diferentes; lo no validado sigue pendiente.
 
-## 9. Pruebas por tipo de tarea
+### Definition of Done
 
-### Cambio de lógica pura
+El cierre técnico del bloque cumple alcance y especificación, reutiliza DS, contempla estados, responsive, WCAG 2.2 AA, errores recuperables, consola, marca y pruebas exigidas por la estrategia, con documentación sincronizada. En modo integral deja la etapa/especificación `Under review` y permite continuar al siguiente bloque técnicamente habilitado. La aprobación final exige revisión humana visual/funcional integral registrada; sólo entonces corresponde `Complete`/`Approved` para los cortes efectivamente aprobados. Registrar limitaciones y correcciones; una prueba faltante no se presenta como pasada.
 
-- unitarias;
-- typecheck;
-- lint.
+Una aprobación del Shell no aprueba módulos futuros. Commit, push y merge son acciones separadas que necesitan autorización; no forman parte automática del cierre técnico. El estado de etapa y la evidencia se mantienen sólo en el plan.
 
-### Componente interactivo
+## Ejecución de un incremento
 
-- pruebas de componente;
-- teclado y foco;
-- axe cuando corresponda;
-- revisión responsive.
+Para tareas medianas/grandes, preparar un plan breve: archivos, patrones, datos, interacciones, responsive/accesibilidad, pruebas y documentos. No pedir confirmar cada paso.
 
-### Pantalla
+Ejecutar bloques coherentes según la secuencia del plan. La primera pasada integral permite varias etapas en sesiones extensas sucesivas, con checks técnicos/documentales por bloque y sin exigir revisión visual humana entre etapas. Mantener evidencia separada por etapa, pendientes y punto de reanudación; no mezclar refactors ajenos. Detener la parte que necesite una decisión funcional importante, no el resto seguro. Los nuevos patrones reusables pasan primero por DS según el estándar. Reglas técnicas: arquitectura; marca: BRAND_USAGE; criterios de UX: estándar; comandos y matriz de riesgo: estrategia de pruebas.
 
-- integración de pantalla;
-- estados alternativos;
-- responsive manual;
-- accesibilidad;
-- E2E si pertenece a recorrido crítico.
+Para bugs: reproducir, corregir, incorporar regresión cuando sea razonable y verificar el área afectada. No informar checks que no se ejecutaron ni confundir build con revisión visual.
 
-### Flujo crítico
+La revisión visual principal es humana en localhost/preview. No usar `agent-browser` salvo pedido explícito o riesgo concreto justificado. Indicar rutas, escenarios y viewports de la estrategia/estándar. Capturas no sustituyen interacción manual.
 
-- unitarias de reglas;
-- integración;
-- E2E;
-- regresión visual selectiva;
-- revisión humana.
+## Contrato de documentación viva
 
-### Corrección de bug
+### Antes de cambiar
 
-- reproducir;
-- corregir;
-- agregar prueba de regresión cuando sea razonable;
-- verificar no regresiones relacionadas.
+- Identificar necesidad/capacidad, proceso, experiencias e IDs afectados.
+- Leer las autoridades correspondientes y comprobar evidencia nueva.
+- Revisar reglas, decisiones internas, validaciones ABT y pendientes por separado.
+- Resolver contradicciones funcionales antes de implementar la parte dependiente. Continuar trabajo independiente seguro.
 
-## 10. Checks obligatorios
+### Durante
 
-Según la etapa y `TEST_STRATEGY.md`:
+- Editar la autoridad, enlazar desde consumidores; no copiar reglas o listas de comandos.
+- Conservar IDs y su namespace. Una necesidad retirada se conserva con motivo/estado, no se borra ni reutiliza su ID.
+- Distinguir evidencia observada, propuesta UX, decisión Broco, validación formal ABT, dependencia externa y fuera de alcance según la matriz.
+- Registrar decisiones nuevas en DECISIONS y actualizar su fuente vigente; conservar historia sin presentarla como instrucción actual.
+- Antes de retirar texto, comprobar que su contenido exclusivo esté en el destino. Reparar enlaces y citas de sección. Eliminar un documento completo requiere propuesta previa si rompe compatibilidad.
+- No copiar datos personales, comerciales o financieros sensibles de Drive a Markdown, fixtures, screenshots o logs del repositorio.
 
-```bash
-pnpm lint
-pnpm typecheck
-pnpm build
-pnpm test
-git diff --check
-```
+### Después
 
-Agregar Playwright y otras suites cuando apliquen.
+- Contrastar cobertura e IDs antes/después, recorridos y referencias entrantes/salientes; comprobar semántica manualmente.
+- Actualizar especificación y escenarios si cambia comportamiento. Enlazar pruebas existentes al implementarlas; un escenario documentado no es prueba ejecutada.
+- Actualizar el estado real de etapa en el plan, sin atribuir aprobaciones.
+- Si cambia una dependencia externa, actualizar su ficha de seguimiento en el plan y enlazar contrato/evidencia; un mock o una pantalla terminada no cambia una integración a `Validada`.
+- Ejecutar la validación proporcional definida en TEST_STRATEGY; declarar pendientes, fuentes no revisadas y limitaciones.
+- Informar `Impacto documental: sin impacto` o los documentos actualizados.
 
-No informar “todo OK” sin listar comandos y resultados reales.
+### En cada PR
 
-## 11. Revisión visual
+Informar evidencia utilizada (origen, sección, fecha y alcance de consulta), IDs/capacidades afectadas, impacto documental, supuestos reversibles, pruebas y resultados, validación humana pendiente y dependencias. Separar avance del frontend demostrativo de avance operativo/integraciones; comprobar confidencialidad según alcance §7.2 y coherencia de fixtures entre procesos. Aplicar cuando se autorice un PR; este procedimiento no autoriza publicarlo.
 
-- No usar `agent-browser` salvo pedido explícito.
-- La revisión principal la realiza el usuario en localhost o preview.
-- Codex debe señalar exactamente qué rutas y escenarios revisar.
-- No afirmar que algo fue validado visualmente si sólo se ejecutó build.
-- Capturas o snapshots no reemplazan interacción manual.
+### Cuando cambia el alcance
 
-Viewports mínimos:
+La decisión funcional requiere aprobación identificable. Actualizar alcance local y vínculos afectados; registrar la necesidad de sincronizar el Google Doc funcional, qué sección cambia y quién lo valida. No declarar Drive actualizado por cambiar Markdown. La escritura externa debe estar autorizada. Una corrección de citas o gobierno no cambia por sí misma el alcance ni la fecha de última sincronización.
 
-```text
-1440 · 1280 · 1024 · 768 · 390
-```
+### Ramas y PR de la primera pasada integral
 
-## 12. Condiciones de detención
+- Partir de `main` actualizado después de consolidar el Plan Maestro. Usar una rama de feature por etapa o bloque coherente del [orden integral](PLAN_IMPLEMENTACION.md#primera-pasada-integral-del-frontend), conservando sus IDs históricos; por ejemplo, `feat/stage-02-inicio-mi-trabajo`.
+- Preferir PR independientes y pequeños. Si un bloque necesita trabajo aún no fusionado, declarar la dependencia y base del PR; no presentar como independiente una comparación que incluya otra etapa. Evitar una rama única de larga vida para las doce etapas.
+- Cada PR identifica etapas/experiencias, supuestos, fixtures relacionados, pruebas, impacto documental y preview protegido. Completar los checks técnicos/documentales por etapa aunque varias se construyan en una misma sesión.
+- Fusionar por squash sólo con autorización vigente, checks verdes sobre el último SHA y diff revisado sin cambios ajenos. No hacer force push ni omitir fallos. La integración técnica en `main` no cambia `Under review` a aprobación humana.
+- Los PR generan previews; `main` alimenta la demostración protegida, no producción operativa ABT. La revisión humana integral y las condiciones del producto real permanecen separadas. Configuración y límites del entorno: [arquitectura](../architecture/README.md#entorno-de-demostración).
 
-Codex debe detenerse si:
+## Límites y detención
 
-- la tarea requiere una decisión funcional no disponible;
-- existe riesgo de exponer información sensible;
-- se necesita inventar un rol o permiso;
-- la solución exige backend o persistencia no aprobados;
-- aparece una contradicción entre alcance y especificación;
-- una nueva dependencia cambia significativamente la arquitectura;
-- los tests revelan un defecto de base que debe resolverse antes;
-- el cambio excede la etapa solicitada.
+No inventar campos, estados, roles, fórmulas o reglas; no convertir capacidades contextuales en módulos por comodidad. Ante una decisión funcional imprescindible, contradicción de producto, necesidad de arquitectura no definida o exposición de datos, detener sólo el trabajo dependiente, explicar el bloqueo y pedir la decisión concreta.
 
-La pregunta debe ser concreta e incluir opciones y recomendación cuando sea posible.
+No eludir restricciones técnicas. Agotar alternativas seguras, completar el resto e informar. Producción, datos reales, borrados y mensajes reales requieren autorización; commit/push/merge también. No sobrescribir trabajo ajeno, ni usar reset/clean/restore/rebase para resolverlo.
 
-## 13. Control de alcance
+Skills, agentes y revisores sólo si complejidad o riesgo lo justifican; no repetir auditorías por inercia. Las tareas de monitoreo no se dan por bloqueadas sólo por falta de cambios.
 
-Una ejecución grande puede cubrir toda una etapa coherente.
+## Informe final
 
-No debe cubrir varias etapas de producto de una sola vez.
+1. Resultado.
+2. Archivos modificados.
+3. Patrones reutilizados o creados.
+4. Estados contemplados.
+5. Responsive.
+6. Accesibilidad.
+7. Pruebas agregadas y ejecutadas, resultados y no ejecutadas con motivo.
+8. Checks.
+9. Impacto documental.
+10. Revisión humana necesaria.
+11. Dudas concretas, riesgos o desviaciones.
 
-Ejemplo permitido:
-
-```text
-Etapa 0 completa:
-configuración de pruebas + estructura de features + documentación + assets
-```
-
-Ejemplo no permitido:
-
-```text
-Shell + Operaciones + Clientes + Cotizaciones + Portal
-```
-
-La duración no define el alcance. La cohesión y posibilidad de revisión sí.
-
-## 14. Eficiencia de tokens y tiempo
-
-- Leer completos los documentos base una vez por sesión relevante.
-- Para iteraciones menores, releer sólo secciones afectadas.
-- No repetir en cada informe todo el contexto del proyecto.
-- No ejecutar auditorías profundas sin riesgo que las justifique.
-- Preferir cambios acotados y comprobables.
-- No usar agentes/subagentes si no agregan valor real.
-
-## 15. Formato obligatorio del informe final
-
-```text
-1. Resultado
-2. Archivos modificados
-3. Patrones reutilizados o creados
-4. Estados contemplados
-5. Responsive
-6. Accesibilidad
-7. Pruebas agregadas
-8. Checks ejecutados
-9. Impacto documental
-10. Revisión humana necesaria
-11. Dudas, riesgos o desviaciones
-```
-
-## 16. Commit y push
-
-- No hacer commit ni push salvo pedido explícito.
-- No cambiar de branch sin indicación o necesidad claramente comunicada.
-- No mezclar refactors no relacionados.
-- Antes de entregar, ejecutar `git diff --check` y mostrar `git status --short`.
-
-## 17. Cierre de etapa
-
-Una etapa finaliza sólo cuando:
-
-- entregables completos;
-- pruebas aprobadas;
-- documentación sincronizada;
-- revisión humana realizada;
-- correcciones incorporadas;
-- usuario autoriza commit/merge;
-- `main` vuelve a quedar limpio y navegable.
+Adaptar extensión a la tarea; un informe especial solicitado por el usuario puede ampliar este formato. Antes de entregar: `git diff --check` y `git status --short`. No ejecutar commit o push salvo pedido explícito.

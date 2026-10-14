@@ -1,6 +1,6 @@
 # ABT Comex — Estrategia de Pruebas de Frontend
 
-> Documento vivo · Última actualización: 08/10/2026
+> Documento vivo · Última actualización: 14/10/2026
 
 ## 1. Objetivo
 
@@ -36,7 +36,7 @@ La estrategia es **basada en riesgo**, no en perseguir un porcentaje artificial 
 
 ## 4. Stack objetivo
 
-La Etapa 0 debe instalar versiones compatibles con el stack real del repositorio:
+La Etapa 0 incorporó versiones compatibles con el stack real; comandos y configuración efectiva en §20:
 
 - Vitest;
 - Testing Library React;
@@ -76,7 +76,7 @@ Evitar carpetas globales gigantes de mocks sin ownership claro.
 
 ## 6. Capa 0 — Controles estáticos
 
-Obligatorios para todo cambio:
+Obligatorios para cambios relevantes de aplicación. Para cambios exclusivamente documentales, usar §21 sin ejecutar suites frontend:
 
 ```bash
 pnpm lint
@@ -85,7 +85,7 @@ pnpm build
 git diff --check
 ```
 
-El setup debe agregar scripts raíz consistentes, como mínimo:
+Los scripts raíz instalados se describen en §20:
 
 ```text
 pnpm test
@@ -351,6 +351,8 @@ El informe de Codex debe incluir:
 
 ## 19. Gate de etapa
 
+La primera pasada integral permite continuar entre etapas tras verificación técnica/documental, sin aprobación visual humana por etapa. Ese cierre deja `Under review`, no `Complete`/`Approved`; los estados y secuencia viven en el plan. Cada bloque conserva evidencia de los siguientes checks y distingue revisión técnica realizada de revisión humana pendiente.
+
 Una etapa no puede aprobarse hasta que:
 
 - controles estáticos pasan;
@@ -360,7 +362,9 @@ Una etapa no puede aprobarse hasta que:
 - responsive fue revisado;
 - regresión visual fue revisada cuando corresponde;
 - documentación de pantalla y decisiones está actualizada;
-- existe aprobación humana.
+- existe aprobación humana, que puede registrarse en la revisión integral de la primera pasada.
+
+La revisión integral incluye recorridos completos entre etapas, retorno, enlaces y acciones efectivas del prototipo, integridad referencial de fixtures y ausencia de exposición económica indirecta. Probar negativamente que responsable/jefe no hereda honorarios y que permiso aduanero no habilita costos/márgenes; en UI, búsquedas, conteos, documentos, exportaciones y canales. Probar estados externos no conectada, desactualizada, parcial, error y sin permiso. Los escenarios mock no validan conectores ni seguridad productiva; éstos requieren evidencia real según la línea de integraciones del plan.
 
 ## 20. Implementación inicial
 
@@ -372,14 +376,28 @@ Vitest usa jsdom en `apps/web` y Node en `packages/ui`; las pruebas de feature s
 
 La auditoría axe de componente desactiva `color-contrast` únicamente en jsdom porque no hay canvas real. Contraste, foco visible, zoom y responsive requieren revisión humana. Playwright captura el encabezado de `/design-system` en Chromium con una referencia selectiva. CI instala sólo Chromium y ejecuta `@smoke`; el snapshot `@visual` queda para el entorno local de referencia, ya que diferencias de fuentes del runner pueden producir falsos cambios. La matriz completa queda disponible localmente. En Linux, las bibliotecas faltantes se instalan mediante `pnpm exec playwright install-deps firefox webkit` con privilegios del sistema. Los reportes HTML y `test-results` son generados e ignorados por Git.
 
-La Etapa 0 debe:
+El setup está completado. Su evidencia histórica está en [el plan](PLAN_IMPLEMENTACION.md#evidencia-de-cierre); no constituye la siguiente ejecución.
 
-1. instalar y configurar Vitest y Testing Library;
-2. configurar setup común y matchers;
-3. incorporar axe;
-4. instalar y configurar Playwright;
-5. crear fixtures, factories y utilidades base;
-6. agregar scripts raíz y por workspace;
-7. agregar una prueba unitaria, una de componente accesible y una E2E smoke como referencia;
-8. documentar comandos y convenciones;
-9. evitar modificar funcionalidad de producto salvo lo necesario para hacer el setup verificable.
+## 21. Validación documental
+
+Para cambios que no modifican la aplicación:
+
+```bash
+node scripts/check-docs.mjs
+git diff --check
+git status --short
+```
+
+El [validador](../../scripts/check-docs.mjs), sin dependencias nuevas, comprueba enlaces Markdown locales y anchors, rutas documentales en código inline, IDs duplicados, referencias locales y fuentes inexistentes, estados de especificación y coherencia básica de etapas. Resume conteos reales; no impone 108/117/32 como cuota.
+
+Opciones:
+
+- `--self-test`: casos determinísticos del parser, referencias, duplicados y estados.
+- `--inventory`: referencias entrantes/salientes Markdown del corpus (AGENTS, README y docs); no incluye referencias en código ni URLs externas.
+- `--baseline <directorio>`: contrasta los conjuntos de IDs de matriz/mapa/recorridos, conservación de documentos e historia de decisiones contra una copia previa local. El directorio debe contener AGENTS, README y docs; no descargar fuentes privadas al repositorio para construirlo.
+
+En una consolidación, complementar con revisión manual antes/después de necesidades, reglas, relaciones, decisiones y destinos de texto migrado. Un enlace o ID existente **no demuestra** que respalde semánticamente la afirmación. El registro E1 de IDs externos es una lista observada, no una sincronización automática de Drive.
+
+Límites: sintaxis Markdown inline usada por este repositorio (sin parser general de HTML/referencias Markdown), anchors compatibles con sus encabezados, rutas documentales existentes y vocabulario de estados actual. Las rutas web propuestas no se comprueban como archivos. No consulta red, fórmulas, aprobaciones, disponibilidad de API ni calidad UX.
+
+Sólo cambiar documentación no requiere lint/typecheck/build/E2E. Si se modifica el validador, ejecutar su self-test y el corpus; documentar resultados y revisión semántica. No reemplaza pruebas funcionales ni revisión humana.

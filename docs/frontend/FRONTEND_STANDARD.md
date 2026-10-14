@@ -1,6 +1,6 @@
 # ABT Comex — Frontend Standard
 
-> Documento vivo · Última actualización: 09/10/2026
+> Documento vivo · Última actualización: 14/10/2026
 
 ## Objetivo
 
@@ -25,14 +25,28 @@ Evitar estética de landing, efectos decorativos innecesarios y patrones genéri
 
 ## Documentos complementarios
 
-Este estándar se aplica junto con:
+Este documento es autoridad de estándares transversales UX/UI. El [mapa](MAPA_PANTALLAS_Y_RECORRIDOS.md) asigna patrones a experiencias; las [especificaciones](screens/README.md) describen comportamiento particular. [Pruebas](TEST_STRATEGY.md), [marca](BRAND_USAGE.md), [arquitectura](../architecture/README.md) y [procedimiento](CODEX_RUNBOOK.md) conservan autoridad propia.
 
-- `ESPECIFICACION_FUNCIONAL_FRONTEND.md`;
-- `TEST_STRATEGY.md`;
-- `BRAND_USAGE.md`;
-- `CODEX_RUNBOOK.md`;
-- `PLAN_IMPLEMENTACION.md`;
-- la especificación aplicable en `docs/frontend/screens/`.
+## Visión y usabilidad
+
+Toda pantalla debe permitir entender qué ocurre, quién es responsable, qué falta, qué puede hacerse, qué está bloqueado y por qué, cuál es la próxima acción, qué información es confiable y dónde consultar el historial. La precisión funcional, flexibilidad por cliente/tipo, trazabilidad, prevención y reutilización de datos guían la composición.
+
+Las diez heurísticas de Nielsen se aplican así; son criterios de diseño, no requisitos de negocio nuevos:
+
+| Heurística | Aplicación ABT |
+|---|---|
+| Visibilidad del estado | Feedback de carga, progreso, guardado y fuentes parciales o desactualizadas. |
+| Correspondencia con el trabajo real | Lenguaje ABT y procesos estructurados, sin copiar planillas ni jerga técnica. |
+| Control y libertad | Cancelar/volver sin pérdida, correcciones trazables y borradores sólo donde se definan. |
+| Consistencia | Misma acción y estado, mismo patrón; no depender del color. |
+| Prevención | Calcular, reutilizar, seleccionar y validar relaciones; advertir si el dato podría ser válido y bloquear sólo una invalidez respaldada. |
+| Reconocimiento | Mostrar próximos pasos, requisitos, responsables, controles, reglas y antecedentes reutilizables. |
+| Eficiencia | Búsqueda, teclado, filtros y reutilización; recientes, vistas guardadas y acciones masivas sólo cuando el flujo los habilite. |
+| Minimalismo útil | Priorizar información para decidir; evitar cards, gráficos e iconos decorativos o datos repetidos. |
+| Recuperación | Error específico, datos preservados y siguiente paso; separar error de usuario, integración y permisos. |
+| Ayuda | Ayuda contextual y guías breves en tareas críticas, sin tours que compensen una interfaz confusa. |
+
+No diferir jerarquía, responsive, estados o accesibilidad a un rediseño posterior.
 
 ## Stack
 
@@ -101,7 +115,7 @@ Evitar:
 
 ## Estructura de pantallas
 
-Cada pantalla responde a un trabajo principal y utiliza uno de los patrones definidos en la especificación funcional:
+Cada pantalla responde a un trabajo principal y utiliza uno de los patrones definidos aquí:
 
 - cockpit personal;
 - bandeja de trabajo;
@@ -157,37 +171,7 @@ Cada vista debe tener especificación en `docs/frontend/screens/` antes de consi
 
 ## Arquitectura de componentes
 
-### `packages/ui`
-
-Contiene componentes genéricos sin conocimiento del negocio:
-
-- Button;
-- Input;
-- FormField;
-- Dialog;
-- Popover;
-- DataTable;
-- DateRangePicker;
-- EmptyState;
-- Alert;
-- Badge semántico;
-- utilidades y tokens.
-
-### `apps/web`
-
-Contiene composición, lenguaje y lógica de producto:
-
-- AppShell;
-- OperationHeader;
-- OperationTimeline;
-- ClientSummary;
-- QuoteLinesEditor;
-- WorkQueue;
-- onboarding contextual;
-- adaptadores de fixtures;
-- pantallas y features.
-
-No introducir conceptos ABT dentro de `packages/ui`.
+La ubicación de composición, componentes, tipos y fuentes mock se define en [arquitectura](../architecture/README.md). El Design System no contiene conceptos de negocio ABT.
 
 ## Formularios
 
@@ -370,17 +354,7 @@ No considerar accesible una pantalla sólo porque una auditoría automática no 
 
 ## Branding
 
-Aplicar íntegramente `BRAND_USAGE.md`.
-
-- ABT Comex es la marca principal.
-- Usar únicamente logos oficiales.
-- El patrón “Powered by Broco Solutions” es atribución secundaria y se implementa mediante un componente reusable.
-- En navegación adaptable, las marcas secundarias siguen el patrón expandido =
-  marca completa / compacto = isotipo; el texto visible no repite un nombre ya
-  contenido en el logo.
-- No colocar atribución repetida en el cuerpo de cada pantalla.
-- No deformar, recrear ni recolorear logos arbitrariamente.
-- No cargar logos desde dominios externos.
+La autoridad exclusiva de assets, jerarquía ABT/Broco, atribución y superficies es [BRAND_USAGE.md](BRAND_USAGE.md).
 
 ## Evitar apariencia genérica de IA
 
@@ -404,51 +378,54 @@ Aplicar íntegramente `BRAND_USAGE.md`.
 - Mantener interacciones fluidas en notebook y mobile razonables.
 - Toda optimización debe medirse; no introducir complejidad especulativa.
 
-## Pruebas
+## Pruebas y preparación
 
-Aplicar `TEST_STRATEGY.md`.
+Aplicar [TEST_STRATEGY.md](TEST_STRATEGY.md) según riesgo. Definition of Ready, Done y registro de aprobación pertenecen al [runbook](CODEX_RUNBOOK.md#preparación-y-cierre). La conformidad automática no sustituye revisión humana.
 
-Cada feature agrega el nivel de prueba adecuado a su riesgo:
+## Catálogo de patrones transversales
 
-- unitarias para lógica pura;
-- componentes para interacción y accesibilidad;
-- integración de pantalla para comportamientos coordinados;
-- E2E para recorridos críticos;
-- revisión visual humana para cambios perceptibles.
+| Patrón | Contrato de experiencia |
+|---|---|
+| Resumen personal | Priorizar excepciones, vencimientos y trabajo autorizado; cada total conduce a registros explicativos. No operar todos los procesos desde el resumen. |
+| Bandeja de trabajo | Acción, contexto, responsable, prioridad explícita, vencimiento, estado, origen y siguiente paso; separar tareas, controles y aprobaciones. |
+| Listado operativo | DataTable con búsqueda, filtros y período, orden desde encabezados, URL state y estados alternativos. Selección, agrupación, columnas, vistas guardadas, paginación y agregados sólo cuando el alcance y la capacidad lo permitan; Operaciones no lleva totales económicos genéricos. |
+| Página de objeto | Cabecera estable con identidad, estados, situaciones, responsable y acciones; resumen/próximo paso; secciones de datos, seguimiento, documentos, controles, administración, actividad y bloques específicos. Lectura y edición reconocibles, sin cards infinitas. |
+| Creación guiada | Sólo pasos necesarios y decisiones condicionales; volver sin perder, mostrar procedencia de datos precargados y resumen antes de confirmar. Borrador sujeto a definición del flujo. |
+| Cola administrativa | Priorizar qué revisar/procesar; representar separadamente dimensiones operativas, documentales, facturación y cobranza según el alcance. |
+| Gestión | Períodos y filtros coherentes, comparaciones y drill-down hasta registros/fuentes; gráficos sólo si explican una decisión. Exportación controlada; sin generador universal de reportes. |
+| Configuración | Separar general, catálogos, reglas, requisitos documentales, permisos, integraciones y parámetros por cliente de la operación diaria. |
 
-No aceptar una feature crítica con lógica sin pruebas porque “todavía usa mocks”.
+Las experiencias concretas y su etapa viven en el mapa; los campos y reglas se especifican por pantalla. No todo patrón implica una ruta o un componente genérico nuevo.
 
-## Definition of Ready
+## Permisos, fuentes y frescura
 
-Una pantalla o flujo está listo para implementarse cuando:
+El frontend representa autorización; no la decide. Ocultar contenido protegido o explicar una acción deshabilitada según la capacidad recibida, sin revelar información en conteos, búsqueda, KPI, tooltips, errores, actividad o exportación. No inferir perfiles definitivos. Los canales comparten la [política de confidencialidad económica del alcance §7.2](../product/ALCANCE_FUNCIONAL.md#72-permisos-y-visibilidad): no inferir acceso a honorarios por responsabilidad o jefatura. Separar datos aduaneros autorizados de información comercial, costos y rentabilidad.
 
-- tiene propósito y trabajo principal claros;
-- existe especificación en `docs/frontend/screens/`;
-- requisitos de origen identificados;
-- información y acciones principales definidas;
-- reglas, estados y permisos conocidos o marcados como pendientes;
-- comportamiento responsive esperado;
-- escenarios de prueba definidos;
-- alcance y fuera de alcance explícitos.
+Cuando una fuente externa afecte decisiones, mostrar sistema, última actualización, estado de sincronización y si el dato es parcial o falló. Representar no conectada, desactualizada, parcial, error y sin permiso, sin convertir ausencia en cero ni ausencia de permiso en detalle revelado. Ofrecer reintento, detalle o indicación de dependencia sólo cuando sean reales. No mezclar datos locales y externos sin identificarlos ni inventar umbrales de frescura.
 
-## Definition of Done
+## Ayuda por capacidad
 
-Una pantalla o feature relevante no está terminada hasta que:
+El Shell conserva su comportamiento específico en [su especificación](screens/01-foundation-application-shell.md#15-ayuda-e-inducción). La orientación futura deriva de capacidades:
 
-- respeta alcance y especificación;
-- usa tokens y componentes existentes;
-- mantiene consistencia entre pantallas;
-- funciona responsive;
-- contempla estados relevantes;
-- es usable con teclado;
-- cumple WCAG 2.2 AA;
-- los errores son claros y recuperables;
-- no presenta errores evitables de consola;
-- TypeScript pasa;
-- lint pasa;
-- build pasa;
-- `git diff --check` pasa;
-- pruebas requeridas pasan;
-- documentación afectada está actualizada;
-- marca y atribución están correctas;
-- fue revisada visual y funcionalmente por una persona.
+- Operaciones: revisar asignadas, abrir objeto, reconocer etapa/pendientes/hito, comprender tarea/control y documentos.
+- Administración: revisar listas para facturar, pendientes, gastos/rendiciones y referencias Alpha2000.
+- Dirección: alertas, resumen, registros explicativos y aprobación autorizada.
+
+Primer acceso: bienvenida breve, capacidades disponibles, orientación a Inicio/Mi trabajo y checklist; preferencias de notificación sólo cuando existan. Guías futuras, al estabilizar cada flujo: alta directa o desde cotización aceptada, segundo control, faltantes, reasignación, pase a Facturación, aprobación interna/envío/respuesta de cotización y excepción autorizada.
+
+## Referentes investigados
+
+Consulta oficial: 14/10/2026. Las aplicaciones ABT son propuestas de adaptación, no aprobaciones de ABT ni inspecciones de interfaces privadas. No cambian identidad, Shell ni Design System.
+
+| Fuente | Hallazgo verificable y problema que aborda | Aplicación posible e impacto ABT | Qué no copiar | Estado |
+|---|---|---|---|---|
+| [SAP Fiori Worklist](https://www.sap.com/design-system/fiori-design-web/v1-136/discover/frameworks/sap-fiori-elements/list-report/worklist-sap-fiori-elements) | Lista simplificada para trabajo; esa variante de Fiori elements no usa filter bar, sí búsqueda en toolbar y opciones de tabla. Reduce complejidad de una cola. | Mi trabajo: acción y contexto claros; mantener los filtros que ABT necesita. | Restricciones del framework, layout o stack SAP. | Referencia investigada; adaptación propuesta. |
+| [SAP: floorplans](https://learning.sap.com/courses/ui-development-with-sap-fiori/working-with-sap-fiori-design-guidelines_ab11c169-54de-4f51-87b9-f61c8a5198be) | List Report reúne objetos; Object Page presenta facetas de un objeto de modo responsive. Facilita pasar de encontrar a comprender. | Operaciones listado y ficha, Etapas 3–4: búsqueda → contexto → acción. | Menús SAP ni un formulario universal. | Referencia investigada; adaptación propuesta. |
+| [Dynamics 365: workspaces](https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/user-interface/build-workspaces) | Visión del estado de una actividad y tareas simples desde el workspace para reducir navegación. | Inicio resume; Mi trabajo contextualiza. Acciones simples sólo al definir reglas. | Tiles obligatorias, Power BI, estructura ERP o concentrar todos los procesos en Inicio. | Referencia investigada; adaptación propuesta. |
+| [CargoWise Forwarding](https://www.cargowise.com/solutions/cargowise-forwarding/) | Página comercial describe hitos, documentos conectados al envío, responsables, alertas y excepciones. Atiende fragmentación de seguimiento. | Hitos, documentos, control y excepciones conectados a la Operación; Etapas 4, 7–8. | Logística global, reservas de transporte, WMS, contabilidad ni apariencia interna no inspeccionada. | Referencia comercial investigada; adaptación propuesta. |
+| [CargoWise Customs](https://www.cargowise.com/solutions/cargowise-customs/) | Describe validación y conexión con autoridades para reducir errores de cumplimiento. | Explicar bloqueos y procedencia de información aduanera; integración futura conserva Alpha2000. | Reglas extranjeras, promesas de conexión a ARCA ni motor de reglas propio. | Referencia comercial investigada; no valida reglas argentinas. |
+| [Magaya Platform](https://www.magaya.com/platform/) y [demo oficial documentada](https://www.magaya.com/magaya-supply-chain-video-demo/) | El texto de la demo describe convertir cotización/booking en shipment transfiriendo datos. Reduce reingreso. | Reutilizar versión aceptada en creación de Operación y conservar origen; Etapas 5 y 9. | Booking obligatorio, WMS, contabilidad paralela ni equivalencia entre aceptación y aprobación interna. | Referencias investigadas; aplicación propuesta. |
+| [Nielsen Norman Group](https://www.nngroup.com/articles/ten-usability-heuristics/) | Diez heurísticas generales: estado, lenguaje, control, consistencia, prevención, reconocimiento, eficiencia, minimalismo, recuperación y ayuda. | Criterios transversales anteriores; revisar tareas ABT, errores y orientación. | Tomarlas como catálogo funcional o sustituto de pruebas con usuarios. | Referencia investigada; criterio interno ya adoptado. |
+| [WCAG 2.2 Quick Reference](https://www.w3.org/WAI/WCAG22/quickref/) | Criterios verificables para acceso: teclado, foco, contraste, nombres, mensajes y targets. | Revisar todas las rutas y overlays. El mínimo AA 2.5.8 es 24 CSS px con excepciones; 44 px es una elección del DS, no la definición de AA. | Declarar conformidad por axe o por tamaño táctil solamente. | Referencia investigada; WCAG 2.2 AA ya adoptada internamente. |
+
+El [enlace SAP Help solicitado](https://help.sap.com/docs/SAPUI5/d625376e710e40cb9d40e43e1b02933b/c0eec49db81a441e878f528c8f3d28de.html) no devolvió contenido legible en esta consulta; no respalda hallazgos. Se contrastó con SAP Design y SAP Learning indicados arriba. No se investigó NetSuite.

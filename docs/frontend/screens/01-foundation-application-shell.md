@@ -1,6 +1,7 @@
 # Fundamentos — Application Shell
 
-> Estado: Complete with environment limitation
+> Estado: Approved
+> Estado de etapa y limitación de entorno: [Plan](../PLAN_IMPLEMENTACION.md#estado-de-etapas)
 > Etapa: 1 — Application Shell e infraestructura de experiencia  
 > Última actualización: 10/10/2026
 > Owner funcional: pendiente de validación con ABT  
@@ -17,7 +18,7 @@ Dar orientación, navegación y acceso a ayuda consistentes a la aplicación int
 ## 3. Evidencia y alcance de origen
 
 - Alcance: `ALCANCE_FUNCIONAL.md` §9, navegación conceptual.
-- Experiencia: `ESPECIFICACION_FUNCIONAL_FRONTEND.md` §§5–6, 8–13.
+- Navegación: [mapa](../MAPA_PANTALLAS_Y_RECORRIDOS.md); criterios UX/estados: [estándar](../FRONTEND_STANDARD.md).
 - Implementación: `PLAN_IMPLEMENTACION.md` Etapa 1.
 - Marca: `BRAND_USAGE.md` §§3–7.
 - Flujos AS IS / TO BE detallados: no aplican al contenedor de navegación.
@@ -56,9 +57,9 @@ Marca ABT, sección actual, navegación disponible, contexto de página y entrad
 | Fuente | Regla | Respuesta de interfaz | Bloquea | Excepción |
 |---|---|---|---|---|
 | Alcance §9 | No convertir capacidades contextuales en navegación principal | Menú acotado | No | Nuevas secciones requieren validación |
-| Frontend §10 | El frontend representa autorización | Secciones y acciones según capacidades mock explícitas | Sí cuando corresponda | Política definitiva pendiente |
+| Estándar — Permisos, fuentes y frescura | El frontend representa autorización | Secciones y acciones según capacidades mock explícitas | Sí cuando corresponda | Política definitiva pendiente |
 | Marca §6 | ABT principal; Broco secundario | Logo ABT en cabecera; atribución al pie | No | Portal usa shell propio |
-| Frontend §5.1 | Operaciones abre la vista completa y sus hijos son filtros | Padre seleccionado en `/operaciones`; padre como sección activa y un único hijo seleccionado en vistas filtradas | No | No existe el ítem “Todas” |
+| Mapa — Navegación aprobada | Operaciones abre la vista completa y sus hijos son filtros | Padre seleccionado en `/operaciones`; padre como sección activa y un único hijo seleccionado en vistas filtradas | No | No existe el ítem “Todas” |
 
 ## 10. Estados del objeto
 
@@ -167,7 +168,7 @@ Pantallas profundas, dashboard de Inicio, menú de perfil definitivo, notificaci
 | Pregunta | Impacto | Recomendación | Responsable / instancia |
 |---|---|---|---|
 | ¿Qué capacidades habilitan cada sección? | Visibilidad y acceso | Mantener mock explícito hasta definir política | ABT / arquitectura de permisos |
-| ¿Qué datos mínimos muestra identidad de usuario? | Header y ayuda | No inventar persona ni menú definitivo | ABT, antes de cerrar Etapa 1 |
+| ¿Qué datos mínimos muestra identidad de usuario? | Header y ayuda | No inventar persona ni menú definitivo | ABT, antes de incorporar identidad (diferida del corte aprobado) |
 | ¿Qué contenido inaugura el checklist? | Inducción | Base breve y retomable; validar texto con flujos | ABT / UX |
 | ¿Qué resuelve la búsqueda global inicial? | Header | Entrada no profunda hasta validar alcance | ABT / UX |
 
