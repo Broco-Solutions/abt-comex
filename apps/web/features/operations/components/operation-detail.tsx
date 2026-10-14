@@ -16,7 +16,7 @@ function first(value: string | string[] | undefined) {
 }
 
 function safeReturnTo(value: string) {
-  if (!/^\/(operaciones|mi-trabajo)(\?.*)?(#.*)?$/.test(value)) {
+  if (!/^\/(operaciones|mi-trabajo|clientes)(\?.*)?(#.*)?$/.test(value)) {
     return "/operaciones"
   }
   return value
@@ -107,7 +107,14 @@ export function OperationDetail({
         <dl className="grid gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <dt className="text-xs text-muted-foreground">Cliente</dt>
-            <dd className="mt-1 font-medium">{operation.client}</dd>
+            <dd className="mt-1 font-medium">
+              <Link
+                href={`/clientes/${operation.clientId}?returnTo=${encodeURIComponent(`/operaciones/${operation.id}?returnTo=${encodeURIComponent(returnTo)}`)}`}
+                className="underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
+              >
+                {operation.client}
+              </Link>
+            </dd>
           </div>
           <div>
             <dt className="text-xs text-muted-foreground">

@@ -4,7 +4,7 @@
 
 ## Objetivo y siguiente corte
 
-Construir todas las Etapas 2 a 13 como primera versión integral, demostrativa y navegable del frontend para validar procesos con ABT. Las Etapas 0 y 1 están cerradas y fusionadas. **Etapa 2 — Inicio y Mi trabajo** se integró correctamente a `main` mediante PR #7 (squash `9359921d3cd3fb568e9ce923d3790c63d8a30a2d`), CI y despliegue de producción de demostración READY; permanece `Under review`, pendiente de revisión humana integral. La rama histórica del PR #6 había sido fusionada contra una rama de prueba y no incorporó el contenido a `main`; no se reimplementó. Ver [especificación](screens/02-inicio-mi-trabajo.md). **Etapa 3 — Listado de Operaciones** se integró mediante PR #8 (squash `a83de1577ab1962d6e66fc862b81ee82bce383d8`), checks requeridos verdes y deployment `dpl_ENeTwNJcYZSh7eT3RoSz6EfBWWPi` READY. **Etapa 4 — Detalle común** se implementa en la rama actual; revisión humana integral pendiente.
+Construir todas las Etapas 2 a 13 como primera versión integral, demostrativa y navegable del frontend para validar procesos con ABT. Las Etapas 0 y 1 están cerradas y fusionadas. **Etapa 2 — Inicio y Mi trabajo** se integró correctamente a `main` mediante PR #7 (squash `9359921d3cd3fb568e9ce923d3790c63d8a30a2d`), CI y despliegue de producción de demostración READY; permanece `Under review`, pendiente de revisión humana integral. La rama histórica del PR #6 había sido fusionada contra una rama de prueba y no incorporó el contenido a `main`; no se reimplementó. Ver [especificación](screens/02-inicio-mi-trabajo.md). **Etapa 3 — Listado de Operaciones** se integró mediante PR #8 (squash `a83de1577ab1962d6e66fc862b81ee82bce383d8`), checks requeridos verdes y deployment `dpl_ENeTwNJcYZSh7eT3RoSz6EfBWWPi` READY. **Etapa 4 — Detalle común** se integró por [PR #9](https://github.com/Broco-Solutions/abt-comex/pull/9) (squash `80d77148de31eb0dfc388f31ab7bfd1e0b2bef0f`), CI requerido verde y deployment `dpl_AqoCyjYC3CYEnwNwz86kA1VZi2P7` READY; permanece `Under review` hasta la revisión humana integral.
 
 ## Gobierno y dependencias
 
@@ -254,7 +254,7 @@ Construir la primera pantalla operativa principal.
 
 ### Implementación y gate local
 
-La primera pasada usa fixtures determinísticos y sintéticos, filtros/orden/grupo/página en URL, selección y columnas visibles temporales de sesión, rango de fechas, DataTable compartido en escritorio y registros compactos en mobile. Tras Etapa 4, la referencia abre `/operaciones/[operationId]` y preserva retorno; `views` guardadas quedan fuera hasta validación. PR #8 está integrado; lint/typecheck, 49 unitarias, 12 axe, build, validador documental y 17 E2E smoke Chromium seriales pasan en la rama de Etapa 4. Se verificó visualmente esta ficha a 1440×1000 y 390×844, sin overflow horizontal. La revisión visual humana integral sigue pendiente.
+La primera pasada usa fixtures determinísticos y sintéticos, filtros/orden/grupo/página en URL, selección y columnas visibles temporales de sesión, rango de fechas, DataTable compartido en escritorio y registros compactos en mobile. La referencia abre `/operaciones/[operationId]` y preserva retorno; `views` guardadas quedan fuera hasta validación. PR #8 y PR #9 están integrados; lint/typecheck, 49 unitarias, 12 axe, build, validador documental y 17 E2E smoke Chromium seriales pasan. Se verificó visualmente esta ficha a 1440×1000 y 390×844, sin overflow horizontal. La revisión visual humana integral sigue pendiente.
 
 ---
 
@@ -322,7 +322,8 @@ Validar inicio de proceso y prevención de errores.
 
 ### Objetivo
 
-Definir contexto persistente reutilizable.
+Definir contexto maestro reutilizable mediante relaciones explícitas entre los
+fixtures de Cliente y Operación; esta pasada no crea ni modifica registros.
 
 ### Entregables
 
@@ -333,6 +334,14 @@ Definir contexto persistente reutilizable.
 - Cotizaciones;
 - actividad;
 - configuraciones/requisitos sólo validados.
+
+La primera pasada técnica cubre consulta sintética de clientes, búsqueda por
+nombre/referencia, ficha read-only y operaciones relacionadas por `clientId`.
+Los contactos son etiquetas ficticias sin datos personales. Cotizaciones,
+documentos, actividad y configuración no se simulan mientras sus datos,
+campos y reglas no estén definidos; la ficha explicita esos límites. La
+actualización de maestros y los participantes de operación se completan en
+sus etapas consumidoras y sólo con definiciones validadas.
 
 ### Gate
 
@@ -581,7 +590,7 @@ La secuencia integral adelanta Clientes y Cotizaciones al alta; las definiciones
 | 3 — Operaciones listado | Under review |
 | 4 — Operación detalle | Under review |
 | 5 — Crear Operación | Pendiente |
-| 6 — Clientes | Pendiente |
+| 6 — Clientes | Under review |
 | 7 — Importación | Pendiente |
 | 8 — Exportación/DJVE | Pendiente |
 | 9 — Cotizaciones | Pendiente |
@@ -589,6 +598,15 @@ La secuencia integral adelanta Clientes y Cotizaciones al alta; las definiciones
 | 11 — Gestión/Dirección | Pendiente |
 | 12 — Portal | Pendiente |
 | 13 — Canales asistidos | Pendiente |
+
+### Implementación y gate técnico de Etapa 6
+
+Ficha y listado en `apps/web/features/clients`, rutas `/clientes` y
+`/clientes/[clientId]`. Los registros y contactos son sintéticos; las
+operaciones comparten `clientId` estable. La búsqueda y el retorno de ficha
+quedan en URL. No hay alta/edición, cotizaciones, documentos, actividad,
+configuración de requisitos ni seguridad productiva. La especificación y
+revisión humana funcional/visual integral siguen pendientes.
 
 ## Evidencia de cierre
 

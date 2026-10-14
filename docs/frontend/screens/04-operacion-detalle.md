@@ -66,5 +66,5 @@ Se reutiliza `demonstrationOperations` de Etapa 3; no hay un segundo registro de
 
 - Código: `apps/web/features/operations/components/operation-detail.tsx`; ruta `apps/web/app/(app)/operaciones/[operationId]/page.tsx`.
 - Integración: enlaces de Operaciones y Mi trabajo reemplazan el contexto temporal por esta ficha, conservando retorno.
-- Estado técnico: lint, typecheck, 49 unitarias, 12 axe, build, validador documental y 17 E2E smoke Chromium pasan localmente; revisión visual automatizada observada a 1440×1000 y 390×844, sin overflow horizontal. Revisión humana integral pendiente.
+- Estado técnico: PR #9 integrado (`80d7714`), checks requeridos verdes; deployment `dpl_AqoCyjYC3CYEnwNwz86kA1VZi2P7` READY. Lint, typecheck, 49 unitarias, 12 axe, build, validador documental y 17 E2E smoke Chromium pasan; revisión visual automatizada observada a 1440×1000 y 390×844, sin overflow horizontal. Revisión humana integral pendiente.
 - Validación formal/funcional ABT: pendiente.

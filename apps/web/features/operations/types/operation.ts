@@ -11,6 +11,7 @@ export type DemonstrationOperation = {
   id: string
   reference: string
   kind: OperationKind
+  clientId: string
   client: string
   responsible: string
   modality: "Marítima" | "Aérea" | "Terrestre"
