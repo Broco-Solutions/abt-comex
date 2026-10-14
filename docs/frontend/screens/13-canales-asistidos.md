@@ -1,6 +1,6 @@
 # Etapa 13 — Canales asistidos
 
-> Estado: In implementation
+> Estado: Under review
 >
 > Etapa: 13 — Canales asistidos
 >
@@ -112,6 +112,6 @@ aprueba esos puntos.
 
 ## Implementación y revisión
 
-Implementación en `apps/web/features/assisted` y composición en el detalle
-común de Operaciones. La especificación se mantiene bajo revisión técnica;
-validación visual y funcional humana integral permanece pendiente.
+Implementación integrada en `main` mediante PR #18, en
+`apps/web/features/assisted` y el detalle común de Operaciones. Validación
+visual y funcional humana integral permanece pendiente.
