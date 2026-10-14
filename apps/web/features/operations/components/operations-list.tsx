@@ -126,9 +126,6 @@ export function OperationsList({
   const pages = Math.max(1, Math.ceil(allFiltered.length / pageSize))
   const page = Math.min(filters.page, pages)
   const pageItems = allFiltered.slice((page - 1) * pageSize, page * pageSize)
-  const contextual = filters.operation
-    ? demonstrationOperations.find((item) => item.id === filters.operation)
-    : undefined
   const failed = filters.error === "lectura"
   const restricted = filters.error === "sin-permiso"
   const groups: string[] = filters.group
@@ -170,7 +167,7 @@ export function OperationsList({
       cell: (info) => (
         <Link
           className="font-medium text-primary underline-offset-4 hover:underline"
-          href={operationHref(filters, { operation: info.row.original.id })}
+          href={`/operaciones/${info.row.original.id}?returnTo=${encodeURIComponent(operationHref(filters))}`}
         >
           {info.getValue()}
         </Link>
@@ -286,7 +283,6 @@ export function OperationsList({
               href={operationHref(filters, {
                 situation: filters.situation === situation ? "" : situation,
                 page: 1,
-                operation: "",
               })}
               aria-current={
                 filters.situation === situation ? "page" : undefined
@@ -462,47 +458,6 @@ export function OperationsList({
         </details>
       </div>
 
-      {contextual && (
-        <section
-          aria-labelledby="operation-context-title"
-          className="border-l-2 border-primary bg-muted/30 px-4 py-3"
-        >
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div>
-              <h2
-                id="operation-context-title"
-                className="text-sm font-semibold"
-              >
-                Contexto de {contextual.reference}
-              </h2>
-              <p className="mt-1 text-sm">
-                {contextual.client} · {contextual.kind} · {contextual.situation}
-              </p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                Vista contextual temporal: la ficha común de Operación
-                corresponde a una etapa posterior. Próximo paso de referencia:{" "}
-                {contextual.nextAction}.
-              </p>
-            </div>
-            <Link
-              className="text-sm underline-offset-4 hover:underline"
-              href={operationHref(filters, { operation: "" })}
-            >
-              Cerrar contexto y volver a resultados
-            </Link>
-          </div>
-        </section>
-      )}
-      {filters.operation && !contextual && (
-        <p
-          role="status"
-          className="border-l-2 border-warning px-4 py-3 text-sm"
-        >
-          No encontramos ese objeto en el escenario local. Los filtros se
-          conservaron.
-        </p>
-      )}
-
       {failed && (
         <section
           role="alert"
@@ -646,9 +601,7 @@ export function OperationsList({
                               />
                               <Link
                                 className="font-medium text-primary underline-offset-4 hover:underline"
-                                href={operationHref(filters, {
-                                  operation: item.id,
-                                })}
+                                href={`/operaciones/${item.id}?returnTo=${encodeURIComponent(operationHref(filters))}`}
                               >
                                 {item.reference}
                               </Link>

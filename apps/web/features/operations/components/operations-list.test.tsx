@@ -3,22 +3,19 @@ import { renderComponent } from "@/test/utils/render"
 
 import { OperationsList } from "./operations-list"
 
-it("renders searchable operations and a useful contextual destination without exposing economics", () => {
-  const { getByRole, getByText, queryByText } = renderComponent(
+it("links to a useful operation detail without exposing economics", () => {
+  const { getAllByRole, getByRole, queryByText } = renderComponent(
     <OperationsList
-      searchParams={{ tipo: "importacion", operacion: "op-demo-2048" }}
+      searchParams={{ tipo: "importacion", situacion: "En seguimiento" }}
     />
   )
   expect(getByRole("heading", { name: "Importaciones" })).toBeTruthy()
-  expect(getByRole("heading", { name: "Contexto de OP-DEM-2048" })).toBeTruthy()
-  expect(
-    getByText(/ficha común de Operación corresponde a una etapa posterior/)
-  ).toBeTruthy()
-  expect(
-    getByRole("link", {
-      name: "Cerrar contexto y volver a resultados",
-    }).getAttribute("href")
-  ).toContain("tipo=importacion")
+  const detailLink = getAllByRole("link", { name: "OP-DEM-2048" })[0]
+  if (!detailLink) throw new Error("Expected an operation detail link")
+  expect(detailLink.getAttribute("href")).toContain(
+    "/operaciones/op-demo-2048?returnTo="
+  )
+  expect(detailLink.getAttribute("href")).toContain("tipo%3Dimportacion")
   expect(queryByText(/ARS|USD|honorarios|margen/i)).toBeNull()
 })
 

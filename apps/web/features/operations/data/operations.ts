@@ -137,7 +137,6 @@ export type OperationListFilters = {
   direction: "asc" | "desc"
   group: "" | "kind" | "situation" | "responsible"
   page: number
-  operation: string
   error: "" | "lectura" | "sin-permiso"
 }
 
@@ -188,7 +187,6 @@ export function parseOperationFilters(
         ? group
         : "",
     page: Number.isInteger(page) && page > 0 ? page : 1,
-    operation: first(params.operacion),
     error: error === "lectura" || error === "sin-permiso" ? error : "",
   }
 }
@@ -245,7 +243,6 @@ export function operationHref(
   if (value.direction !== "desc") params.set("direccion", value.direction)
   if (value.group) params.set("agrupar", value.group)
   if (value.page > 1) params.set("pagina", String(value.page))
-  if (value.operation) params.set("operacion", value.operation)
   if (value.error) params.set("error", value.error)
   const query = params.toString()
   return `/operaciones${query ? `?${query}` : ""}`

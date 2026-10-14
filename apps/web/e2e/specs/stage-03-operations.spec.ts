@@ -35,13 +35,9 @@ test("@smoke operations list filters, preserves URL context, and stays usable on
     .getByRole("link", { name: "OP-DEM-3120", exact: true })
     .first()
     .click()
-  await expect(page).toHaveURL(/operacion=op-demo-3120/)
-  await expect(
-    page.getByRole("heading", { name: "Contexto de OP-DEM-3120" })
-  ).toBeVisible()
-  await page
-    .getByRole("link", { name: "Cerrar contexto y volver a resultados" })
-    .click()
+  await expect(page).toHaveURL(/operaciones\/op-demo-3120\?returnTo=/)
+  await expect(page.getByRole("heading", { name: "OP-DEM-3120" })).toBeVisible()
+  await page.getByRole("link", { name: "Volver a resultados" }).click()
   await expect(page).toHaveURL(/tipo=exportacion.*situacion=Pendiente/)
   await page
     .locator('select[name="agrupar"]')

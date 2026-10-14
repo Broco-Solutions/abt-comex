@@ -14,16 +14,16 @@
 
 ## Propósito y alcance
 
-Cuando una persona trabaja con operaciones, necesita encontrar el registro correcto, entender su situación de referencia, identificar el equipo asociado y abrir un contexto útil conservando los filtros. Este corte implementa el listado; la ficha común es Etapa 4 y no se presenta como disponible.
+Cuando una persona trabaja con operaciones, necesita encontrar el registro correcto, entender su situación de referencia, identificar el equipo asociado y abrir una ficha común conservando los filtros para volver. La ficha común prototípica está implementada en Etapa 4; los datos especializados y acciones siguen limitados por sus etapas y fuentes pendientes.
 
-Incluye búsqueda, filtros combinables por tipo, situación, responsable y fecha de actualización; orden por columnas; agrupación; selección local sin acciones masivas; configuración local de columnas; paginación; vistas compactas para mobile; contexto temporal local.
+Incluye búsqueda, filtros combinables por tipo, situación, responsable y fecha de actualización; orden por columnas; agrupación; selección local sin acciones masivas; configuración local de columnas; paginación; vistas compactas para mobile; enlace a detalle común y retorno local a la consulta.
 
 ## Evidencia y trazabilidad
 
 | Necesidad de matriz | Fuente | Capacidad / proceso | Regla o límite | Experiencia / recorrido | Escenarios |
 |---|---|---|---|---|---|
 | OPE-002 | Matriz, sección Operaciones; alcance funcional §4 | Encontrar/filtrar operaciones por tipo, estado, cliente, responsable, fechas, modalidad y alertas | Filtros y orden en URL; no totales económicos genéricos; filtros disponibles en este prototipo no implican catálogo aprobado | OPS-01, OPS-02; J1–J3, J6 | S03-01 a S03-05 |
-| OPE-003 | Matriz, detalle común | Abrir una operación desde una lista | Sólo contexto sintético hasta Etapa 4; ninguna ruta rota ni apariencia de ficha completa | OPS-01; J1 | S03-03 |
+| OPE-003 | Matriz, detalle común | Abrir una operación desde una lista | Ficha común sintética en `/operaciones/[operationId]`; retorno conserva filtros; no presenta verticales aún no implementadas | OPS-01/03; J1 | S03-03, S04-01 |
 | COV-006, COV-008 | Alcance §7.2 y matriz transversal | Capacidades, procedencia y actualidad | Errores y sin permiso no publican filas/conteos; fixture local no es sincronización | OPS-01, OPS-02; J10 | S03-04, S03-05 |
 
 La terminología de situación y el dataset son propuestas de demostración; no se han validado como catálogo formal de ABT. No hay importes, honorarios, márgenes, clientes reales, CUIT ni identificadores aduaneros reales.
@@ -38,7 +38,7 @@ La terminología de situación y el dataset son propuestas de demostración; no 
 
 ## Navegación y contexto
 
-`/operaciones?tipo=importacion` y `?tipo=exportacion` filtran la lista. La búsqueda, filtros, orden, dirección, agrupación, página y objeto contextual se serializan en query string. Abrir una referencia muestra una vista contextual breve dentro del listado; cerrar vuelve a la misma selección de resultados. No se enlaza a `/operaciones/[id]` hasta implementar Etapa 4.
+`/operaciones?tipo=importacion` y `?tipo=exportacion` filtran la lista. La búsqueda, filtros, orden, dirección, agrupación y página se serializan en query string. Abrir una referencia navega al detalle común y adjunta un retorno interno a la consulta actual; el detalle valida que el retorno pertenezca al listado o a Mi trabajo.
 
 ## Reglas, estados y recuperación
 
@@ -76,11 +76,11 @@ Feature `apps/web/features/operations`: tipos y dataset estables en `types/opera
 - Confirmar con ABT catálogo, definición de fechas de búsqueda, modalidades, alertas y criterios de agrupación.
 - Definir matriz de capacidades y alcance de visibilidad; el estado mock no es seguridad.
 - Acordar vistas guardadas, si se necesitan, y su persistencia futura.
-- Implementar detalle común en Etapa 4 antes de sustituir el contexto temporal.
+- Validar con ABT el catálogo, los estados, datos visibles, actividades y capacidades del detalle; no confundir el prototipo con una ficha operativa conectada.
 
 ## Implementación y revisión
 
 - Rutas: `/operaciones`, filtros aprobados por tipo.
 - Código: `apps/web/features/operations/`; integración contextual en `apps/web/features/work/components/worklist.tsx`.
 - Pruebas: `operations.test.ts`, `operations-list.test.tsx`, `operations-list.a11y.tsx`, `apps/web/e2e/specs/stage-03-operations.spec.ts` y regresión de `stage-02-work.spec.ts`.
-- Estado: implementación local completa; CI/PR y revisión visual humana integral pendientes. No se afirma que etapa esté aprobada ni lista para uso operativo.
+- Estado: integrado por PR #8 (`a83de157`), checks requeridos verdes; deployment `dpl_ENeTwNJcYZSh7eT3RoSz6EfBWWPi` READY desde `main`; revisión humana integral pendiente. No se afirma que etapa esté aprobada ni lista para uso operativo.

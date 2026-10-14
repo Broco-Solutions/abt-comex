@@ -455,7 +455,7 @@ function WorkRow({
                 </span>
                 {relatedOperation ? (
                   <Link
-                    href={`/operaciones?operacion=${encodeURIComponent(relatedOperation.id)}`}
+                    href={`/operaciones/${relatedOperation.id}?returnTo=${encodeURIComponent(queryHref(filters, filters.view, item.id))}`}
                     className={cn(
                       buttonVariants({ variant: "outline", size: "sm" })
                     )}

@@ -95,7 +95,8 @@ Las rutas `/inicio` y `/mi-trabajo` fueron aprobadas en Etapa 1. Esta especifica
 | Origen/destino | Comportamiento en Etapa 2 | Evolución |
 |---|---|---|
 | Resumen de Inicio | Abrir Mi trabajo con filtro equivalente; un caso concreto selecciona/expande su contexto en la bandeja. | Mantener coherencia de conteos y retorno. |
-| Operación, cliente, cotización, DJVE/permiso o Administración sin detalle útil existente | Acción “Ver contexto”: expansión del elemento en Mi trabajo con referencia ficticia, motivo, responsable conocido, fecha/fuente, bloqueo y próxima acción descrita. | “Abrir objeto” sólo cuando exista una ruta útil que resuelva ese objeto. |
+| Operación con destino útil existente | “Abrir operación” navega a `/operaciones/[operationId]`, conservando búsqueda/vista/contexto para volver. | No habilita acciones del proceso ni expone bloques de otros dominios aún no implementados. |
+| Cliente, cotización, DJVE/permiso o Administración sin detalle útil existente | Acción “Ver contexto”: expansión del elemento en Mi trabajo con referencia ficticia, motivo, responsable conocido, fecha/fuente, bloqueo y próxima acción descrita. | “Abrir objeto” sólo cuando exista una ruta útil que resuelva ese objeto. |
 | Tarea sin operación | Mismo contexto local, con origen explícito; no exige referencia operativa ni crea operación artificial. | Vinculación posterior sólo con regla validada. |
 | Acción profunda futura | Texto visible “Disponible en una etapa posterior” y límite concreto; no mostrar botón que aparente aprobar, oficializar, resolver, reasignar o guardar. | Sustituir por acción real en la etapa del objeto, tras definir capacidad/regla. |
 | Destino existente pero sólo placeholder del Shell | Puede servir como acceso al módulo, claramente rotulado; no satisface “Abrir objeto” ni se presenta como ficha del registro. | Reemplazar al existir contenido útil. |
@@ -105,7 +106,7 @@ En la primera pasada integral, al existir detalles útiles en Etapas 4, 6, 9, 8 
 
 La expansión reutiliza el patrón de registro expandible de DataTable; no incorpora una ficha completa ni un panel permanente. Justificación: permite comprender qué origina el pendiente sin anticipar las Etapas 4, 8 o 9. Enlaces/botones visibles deben producir navegación o feedback útil; nunca href vacío, 404 o acción inerte.
 
-Búsqueda, filtros, orden y página relevantes viven en URL. La selección contextual usa un identificador **ficticio de trabajo** (parámetro propuesto `trabajo`, no ruta nueva); recargar o volver conserva el elemento si sigue autorizado y existe. Si no existe, conserva filtros y muestra recuperación. Cerrar contexto devuelve foco al disparador. La selección masiva no forma parte de este corte.
+Búsqueda, filtros, orden y página relevantes viven en URL. La selección contextual usa un identificador **ficticio de trabajo** (parámetro `trabajo`); recargar o volver conserva el elemento si existe. Abrir una operación relacionada navega al detalle existente con retorno a Mi trabajo; otros objetos sin destino útil mantienen su contexto local. Si la referencia no existe, conserva filtros y muestra recuperación. La selección masiva no forma parte de este corte.
 
 ## 6. Información primaria
 

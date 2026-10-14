@@ -1,0 +1,230 @@
+import Link from "next/link"
+import { notFound } from "next/navigation"
+import { ArrowLeft, CircleAlert, FileText, ShieldCheck } from "lucide-react"
+
+import { PageHeader } from "@/components/navigation/page-header"
+import { Badge } from "@workspace/ui/components/badge"
+import { Button, buttonVariants } from "@workspace/ui/components/button"
+import { cn } from "@workspace/ui/lib/utils"
+
+import { demonstrationOperations } from "../data/operations"
+
+type SearchParams = Record<string, string | string[] | undefined>
+
+function first(value: string | string[] | undefined) {
+  return Array.isArray(value) ? (value[0] ?? "") : (value ?? "")
+}
+
+function safeReturnTo(value: string) {
+  if (!/^\/(operaciones|mi-trabajo)(\?.*)?(#.*)?$/.test(value)) {
+    return "/operaciones"
+  }
+  return value
+}
+
+export function OperationDetail({
+  operationId,
+  searchParams,
+}: {
+  operationId: string
+  searchParams: SearchParams
+}) {
+  const restricted = first(searchParams.error) === "sin-permiso"
+  if (restricted) {
+    return (
+      <section
+        className="max-w-3xl space-y-3"
+        aria-labelledby="restricted-title"
+      >
+        <PageHeader title="Operación no disponible" />
+        <p id="restricted-title" className="text-sm text-muted-foreground">
+          Este escenario no tiene información autorizada para mostrar. No se
+          confirma si la referencia existe.
+        </p>
+        <Link
+          href="/operaciones"
+          className={cn(buttonVariants({ variant: "outline" }))}
+        >
+          Volver a Operaciones
+        </Link>
+      </section>
+    )
+  }
+
+  const operation = demonstrationOperations.find(
+    (item) => item.id === operationId
+  )
+  if (!operation) notFound()
+
+  const returnTo = safeReturnTo(first(searchParams.returnTo))
+
+  return (
+    <div className="space-y-6">
+      <Link
+        href={returnTo}
+        className="inline-flex min-h-9 items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
+      >
+        <ArrowLeft aria-hidden="true" className="size-4" />
+        Volver a resultados
+      </Link>
+
+      <PageHeader
+        title={operation.reference}
+        description="Ficha común de demostración · datos sintéticos, sin conexión con sistemas externos"
+        secondaryActions={
+          <Link
+            href={`/operaciones?tipo=${operation.kind === "Importación" ? "importacion" : "exportacion"}`}
+            className={cn(buttonVariants({ variant: "outline" }))}
+          >
+            Ver{" "}
+            {operation.kind === "Importación"
+              ? "Importaciones"
+              : "Exportaciones"}
+          </Link>
+        }
+      />
+
+      <section
+        aria-label="Identidad y situación de la operación"
+        className="space-y-4 border-y border-border py-4"
+      >
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant="outline">{operation.kind}</Badge>
+          <Badge
+            variant={
+              operation.alert === "Bloqueo" ? "destructive" : "secondary"
+            }
+          >
+            {operation.situation}
+          </Badge>
+          {operation.alert !== "Sin alerta" ? (
+            <span className="inline-flex items-center gap-1.5 text-sm text-muted-foreground">
+              <CircleAlert aria-hidden="true" className="size-4" />
+              {operation.alert}
+            </span>
+          ) : null}
+        </div>
+        <dl className="grid gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <dt className="text-xs text-muted-foreground">Cliente</dt>
+            <dd className="mt-1 font-medium">{operation.client}</dd>
+          </div>
+          <div>
+            <dt className="text-xs text-muted-foreground">
+              Responsable de referencia
+            </dt>
+            <dd className="mt-1 font-medium">{operation.responsible}</dd>
+          </div>
+          <div>
+            <dt className="text-xs text-muted-foreground">Modalidad</dt>
+            <dd className="mt-1 font-medium">{operation.modality}</dd>
+          </div>
+          <div>
+            <dt className="text-xs text-muted-foreground">
+              Actualización del escenario
+            </dt>
+            <dd className="mt-1 font-medium">
+              <time dateTime={operation.updatedOn}>{operation.updatedOn}</time>
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <section
+        aria-labelledby="next-step-title"
+        className="max-w-4xl rounded-md border border-border p-4"
+      >
+        <h2 id="next-step-title" className="text-base font-semibold">
+          Próximo paso de referencia
+        </h2>
+        <p className="mt-2">{operation.nextAction}</p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Es orientación del fixture; no registra una tarea, aprobación ni
+          acción ejecutada.
+        </p>
+      </section>
+
+      <section
+        aria-labelledby="source-title"
+        className="max-w-4xl border-l-2 border-muted pl-4"
+      >
+        <h2 id="source-title" className="text-sm font-semibold">
+          Procedencia y actualidad
+        </h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Escenario sintético local · última actualización del registro:{" "}
+          {operation.updatedOn}. Alpha2000 no está conectada; no se consultaron
+          fuentes externas.
+        </p>
+      </section>
+
+      <div className="grid gap-4 xl:grid-cols-2">
+        <section
+          aria-labelledby="documents-title"
+          className="space-y-3 border-t border-border pt-4"
+        >
+          <h2
+            id="documents-title"
+            className="flex items-center gap-2 font-semibold"
+          >
+            <FileText aria-hidden="true" className="size-4" />
+            Documentación
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            El inventario y la custodia documental se incorporan con las
+            experiencias de Importación, Exportación y Administración. Esta
+            ficha no implica que la operación carezca de documentos.
+          </p>
+        </section>
+        <section
+          aria-labelledby="controls-title"
+          className="space-y-3 border-t border-border pt-4"
+        >
+          <h2
+            id="controls-title"
+            className="flex items-center gap-2 font-semibold"
+          >
+            <ShieldCheck aria-hidden="true" className="size-4" />
+            Controles y seguimiento
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            El fixture no contiene eventos ni controles registrados. No se
+            infieren aprobaciones, bloqueos regulatorios ni hitos a partir de la
+            situación resumida.
+          </p>
+        </section>
+      </div>
+
+      <section
+        aria-labelledby="administration-title"
+        className="max-w-4xl space-y-2 border-t border-border pt-4"
+      >
+        <h2 id="administration-title" className="font-semibold">
+          Administración relacionada
+        </h2>
+        <p className="text-sm text-muted-foreground">
+          La información económica no forma parte de este escenario. La
+          visibilidad de honorarios, costos, facturación y cobranzas requiere
+          capacidades específicas; ser responsable operativo no concede acceso
+          automático. Facturación, cobranza y cierre operativo se mantienen como
+          situaciones distintas.
+        </p>
+      </section>
+
+      <div className="flex flex-wrap gap-2 border-t border-border pt-4">
+        <Button
+          variant="outline"
+          disabled
+          title="La edición demostrativa no está habilitada en esta etapa"
+        >
+          Edición no disponible
+        </Button>
+        <p className="self-center text-xs text-muted-foreground">
+          No se ejecutan cambios ni acciones externas desde esta ficha.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+export { safeReturnTo }
