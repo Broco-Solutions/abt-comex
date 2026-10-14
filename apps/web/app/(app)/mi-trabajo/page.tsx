@@ -1,10 +1,11 @@
-import { ModulePlaceholder } from "@/components/states/module-placeholder"
+import { Worklist } from "@/features/work/components/worklist"
 
-export default function MiTrabajoPage() {
-  return (
-    <ModulePlaceholder
-      title="Mi trabajo"
-      description="Reunirá acciones, revisiones y pendientes asignados sin convertirse en un gestor de proyectos genérico."
-    />
-  )
+type MiTrabajoPageProps = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}
+
+export default async function MiTrabajoPage({
+  searchParams,
+}: MiTrabajoPageProps) {
+  return <Worklist searchParams={await searchParams} />
 }

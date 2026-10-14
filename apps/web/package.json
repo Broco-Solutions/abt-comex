@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit",
     "test:unit": "vitest run --exclude '**/*.a11y.tsx'",
     "test:watch": "vitest",
-    "test:a11y": "vitest run components --exclude '**/*.test.{ts,tsx}'",
+    "test:a11y": "vitest run --exclude '**/*.test.{ts,tsx}' --maxWorkers=1 --minWorkers=1",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui"
   },

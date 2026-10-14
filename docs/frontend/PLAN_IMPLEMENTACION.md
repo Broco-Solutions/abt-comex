@@ -4,7 +4,7 @@
 
 ## Objetivo y siguiente corte
 
-Construir todas las Etapas 2 a 13 como primera versión integral, demostrativa y navegable del frontend para validar procesos con ABT. Las Etapas 0 y 1 están cerradas y fusionadas. El siguiente corte es **Etapa 2 — Inicio y Mi trabajo**, con [especificación Draft](screens/02-inicio-mi-trabajo.md). Esta sesión sólo ajusta documentación y se detiene para revisión; no implementa ninguna etapa.
+Construir todas las Etapas 2 a 13 como primera versión integral, demostrativa y navegable del frontend para validar procesos con ABT. Las Etapas 0 y 1 están cerradas y fusionadas. **Etapa 2 — Inicio y Mi trabajo** está implementada técnicamente en la rama `feat/stage-02-inicio-mi-trabajo` y queda `Under review`, pendiente del gate documental, CI/Vercel y revisión humana; ver [especificación](screens/02-inicio-mi-trabajo.md). No iniciar Etapa 3 hasta completar la integración autorizada de este bloque.
 
 ## Gobierno y dependencias
 
@@ -15,7 +15,7 @@ La [matriz](MATRIZ_COBERTURA_FUNCIONAL.md) conserva necesidades, evidencia y cer
 | Etapa | Dependencia de entrega / especificación |
 |---|---|
 | 0–1 | Base completada; [Shell](screens/01-foundation-application-shell.md), decisiones y evidencia de cierre al final de este plan. |
-| 2 | Shell existente y gate G0; especificación combinada Draft. Destinos profundos aún no disponibles se contextualizan según esa especificación. |
+| 2 | Shell existente y gate G0; especificación e implementación técnica Under review. Destinos profundos aún no disponibles se contextualizan localmente. |
 | 3 | Fuente/criterios de búsqueda y G1; especificación pendiente. Hasta Etapa 4 no se ofrece un detalle inexistente como disponible. |
 | 4 | Listado y núcleo común G1; especificación pendiente. |
 | 5 | Núcleo común y maestros/cotización de Etapas 6/9, G2; especificación pendiente. Reutiliza sus fixtures y relaciones para alta directa o desde versión aceptada. |
@@ -561,7 +561,7 @@ Se conservan los IDs de Etapas 0 a 13 y el estado aprobado de Etapas 0 y 1. La s
 | G4 — Administración y fuentes externas | Cálculos, sincronización o escritura de Etapas 10 y 11 | Completar Alpha2000 campo a campo y evaluar cobertura de cumplidos/MOA, criterios de pase y fórmulas/fuentes de los 18 bloques de Dirección. Las maquetas pueden representar estados sin simular disponibilidad externa. |
 | G5 — canales externos | Publicación o acciones de Etapas 12 y 13 | Definir identidad, visibilidad, servicios compartidos, casos asistidos y auditoría de acciones. |
 
-La secuencia integral adelanta Clientes y Cotizaciones al alta; las definiciones de negocio aún pendientes no se dan por cerradas con esos mocks. Esta revisión no implementa Etapa 2 ni modifica estados de avance.
+La secuencia integral adelanta Clientes y Cotizaciones al alta; las definiciones de negocio aún pendientes no se dan por cerradas con esos mocks. Etapa 2 no habilita acciones de negocio reales ni resuelve las decisiones abiertas del gate G0.
 
 ## Estado de etapas
 
@@ -569,7 +569,7 @@ La secuencia integral adelanta Clientes y Cotizaciones al alta; las definiciones
 |---|---|
 | 0 — Frontend Foundation | Complete with environment limitation |
 | 1 — Application Shell | Complete with environment limitation |
-| 2 — Inicio y Mi trabajo | Pendiente |
+| 2 — Inicio y Mi trabajo | Under review |
 | 3 — Operaciones listado | Pendiente |
 | 4 — Operación detalle | Pendiente |
 | 5 — Crear Operación | Pendiente |
