@@ -9,7 +9,7 @@ import { buttonVariants } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
 import { demonstrationClients } from "@/features/clients/data/clients"
 import { useDemoOperations } from "@/features/operations/state/use-demo-operations"
-import { visibleWorkItems } from "@/features/work/data/work-items"
+import { useWorkItems } from "@/features/work/state/use-work-items"
 import {
   getManagementSnapshot,
   managementSourceFamilies,
@@ -51,6 +51,7 @@ export function ManagementOverview({
   searchParams: SearchParams
 }) {
   const { operations, ready } = useDemoOperations()
+  const workItems = useWorkItems()
   const view = views.some(([key]) => key === first(searchParams.vista))
     ? (first(searchParams.vista) as ManagementView)
     : "resumen"
@@ -67,7 +68,7 @@ export function ManagementOverview({
   const snapshot = getManagementSnapshot(
     operations,
     demonstrationClients,
-    visibleWorkItems()
+    workItems
   )
 
   return (

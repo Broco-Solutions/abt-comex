@@ -548,3 +548,11 @@ Las preguntas de catálogo, asignación, capacidades y origen de eventos contin�
 ## UX-01 — coherencia de proyecciones
 
 Inicio y Mi trabajo proyectan el mismo estado local de doble control. Al completarlo desaparece ese pendiente, sin inferir oficialización. La tarea comercial referencia la cotización sintética existente 001 (versión 1) existente, con retorno al trabajo. Referencias operativas OP-DEM consistentes, fechas DD/MM/AAAA y Chevron para expansión. Pruebas: work-projection.test.ts y ux-coherence.spec.ts; revisión humana pendiente.
+
+## UX-04 — workspace contextual
+
+Inicio conserva atención y acceso al contexto; incorpora tres acciones según capacidades, síntesis de pendientes y próximos vencimientos con fechas explícitas. No duplica la bandeja ni añade una fórmula de prioridad. Mi trabajo ofrece apertura del objeto sin exigir expansión; el retorno conserva búsqueda, vista y pendiente.
+
+Las revisiones comerciales se proyectan de la versión vigente: la aprobación local retira ese pendiente, no implica envío, aceptación ni alta de operación. Inicio, Mi trabajo y la vista histórica de gestión leen esa misma proyección. G5 se incorpora en UX-05; la identidad visible de Dirección se completa junto con su analítica, sin publicar un módulo vacío.
+
+Pruebas: work-projection.test.ts, ux-workspace.spec.ts y regresión de Etapa 2. Las perspectivas son presets de evaluación, no perfiles ABT aprobados.

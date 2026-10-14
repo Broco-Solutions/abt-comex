@@ -1,6 +1,7 @@
 import { expect, it } from "vitest"
 import { projectWorkItems } from "./work-items"
 import { initialDemoQuotes } from "@/features/quotes/data/quotes"
+import { transitionDemoQuote } from "@/features/quotes/data/quotes"
 import {
   demonstrationDjves,
   demonstrationPermits,
@@ -49,4 +50,27 @@ it("DJVE relations agree in both directions and retain unlinked permits", () => 
     demonstrationPermits.find((permit) => permit.id === "permit-demo-1403")
       ?.djveId
   ).toBeUndefined()
+})
+
+it("projects a completed quote review without inferring acceptance or an operation", () => {
+  const quote = initialDemoQuotes[0]!
+  const approved = transitionDemoQuote(quote, "approve")!
+  const next = initialDemoQuotes.map((item) =>
+    item.id === approved.id ? approved : item
+  )
+  expect(
+    projectWorkItems([], next).some((item) => item.relatedQuoteId === quote.id)
+  ).toBe(false)
+  expect(approved.versions.at(-1)?.workflow.clientResponse).toBe(
+    "Sin respuesta"
+  )
+  const revision = {
+    ...quote,
+    versions: [...quote.versions, { ...quote.versions[0]!, number: 2 }],
+  }
+  expect(
+    projectWorkItems([], [revision]).find(
+      (item) => item.relatedQuoteId === quote.id
+    )?.reference
+  ).toBe(quote.reference + " · v2")
 })
