@@ -77,9 +77,9 @@ test("@smoke quote capability failure hides all row and count details; client re
   await page.getByRole("link", { name: "Cliente Demo Norte" }).click()
   await expect(page).toHaveURL(/clientes\/client-demo-norte\?returnTo=/)
   await expect(
-    page.getByRole("link", { name: "Volver a Clientes" })
+    page.getByRole("link", { name: "Volver al contexto anterior" })
   ).toHaveAttribute("href", /\/cotizaciones\/quote-demo-001\?returnTo=/)
-  await page.getByRole("link", { name: "Volver a Clientes" }).click()
+  await page.getByRole("link", { name: "Volver al contexto anterior" }).click()
   await expect(page).toHaveURL(/cotizaciones\/quote-demo-001\?returnTo=/)
   await page.getByRole("link", { name: "Volver a Cotizaciones" }).click()
   await expect(page).toHaveURL(/cotizaciones\?cliente=client-demo-norte/)

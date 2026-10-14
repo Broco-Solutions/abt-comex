@@ -10,6 +10,7 @@ export type WorkItem = {
   origin: string
   reference: string
   relatedOperationId?: string
+  relatedQuoteId?: string
   owner?: string
   dueDate?: string
   timeBand?: "Vencido" | "Próximo"

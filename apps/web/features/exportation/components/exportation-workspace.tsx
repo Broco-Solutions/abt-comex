@@ -1,5 +1,7 @@
 "use client"
 
+import { formatRecordedDate } from "@workspace/ui/lib/date"
+
 import Link from "next/link"
 import { useState } from "react"
 import { ArrowLeft, CircleAlert, FileText, ShieldCheck } from "lucide-react"
@@ -228,7 +230,9 @@ export function ExportationWorkspace({
               Actualización del escenario
             </dt>
             <dd className="mt-1 font-medium">
-              <time dateTime={operation.updatedOn}>{operation.updatedOn}</time>
+              <time dateTime={operation.updatedOn}>
+                {formatRecordedDate(operation.updatedOn)}
+              </time>
             </dd>
           </div>
         </dl>
@@ -436,7 +440,8 @@ export function ExportationWorkspace({
                   className="border-l-2 border-muted pl-3 text-sm"
                 >
                   <p className="font-medium">
-                    {permit.reference} · vencimiento {permit.expirationDate}
+                    {permit.reference} · vencimiento{" "}
+                    {formatRecordedDate(permit.expirationDate)}
                   </p>
                   <p className="mt-1 text-muted-foreground">
                     Declarado: {permit.declaredQuantity} {permit.quantityUnit} ·
@@ -495,7 +500,8 @@ export function ExportationWorkspace({
             <h3 className="text-sm font-medium">Fuente y actualización</h3>
             <p className="text-sm text-muted-foreground">
               Fixture sintético local · actualización del registro{" "}
-              {operation.updatedOn}. Alpha2000 y ARCA/MOA no están conectados.
+              {formatRecordedDate(operation.updatedOn)}. Alpha2000 y ARCA/MOA no
+              están conectados.
             </p>
           </div>
         </div>

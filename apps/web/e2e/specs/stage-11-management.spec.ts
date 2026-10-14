@@ -28,7 +28,7 @@ test("@smoke management summary drills into operations, clients and work while k
   await page.goto("/gestion?vista=clientes")
   await page.getByRole("link", { name: "Abrir cliente" }).first().click()
   await expect(page).toHaveURL(/\/clientes\/client-demo-/)
-  await page.getByRole("link", { name: "Volver a Clientes" }).click()
+  await page.getByRole("link", { name: "Volver al contexto anterior" }).click()
   await expect(page).toHaveURL(/\/gestion\?vista=clientes/)
 
   await page.goto("/gestion?vista=trabajo")

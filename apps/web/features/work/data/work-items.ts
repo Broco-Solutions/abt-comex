@@ -4,6 +4,7 @@ import type {
   WorkItemKind,
   WorkSummary,
 } from "../types/work-item"
+import type { ImportationScenario } from "@/features/importation/types/importation"
 
 export const DEMO_DATE = "2026-10-14"
 export const DEMO_PERSON = "Lucía Benítez (escenario ficticio)"
@@ -17,7 +18,7 @@ export const workItems: WorkItem[] = [
     reason:
       "La revisión debe completarla una persona distinta de quien preparó el caso.",
     origin: "Importación · operación de demostración",
-    reference: "IM-DEM-2048",
+    reference: "OP-DEM-2048",
     relatedOperationId: "op-demo-2048",
     owner: "Martín Ríos (escenario ficticio)",
     dueDate: "2026-10-14",
@@ -37,7 +38,7 @@ export const workItems: WorkItem[] = [
     reason:
       "La facturación no cierra el seguimiento operativo ni el legajo documental.",
     origin: "Exportación · operación de demostración",
-    reference: "EX-DEM-3107",
+    reference: "OP-DEM-3107",
     relatedOperationId: "op-demo-3107",
     owner: "Lucía Benítez (escenario ficticio)",
     dueDate: "2026-10-16",
@@ -73,7 +74,8 @@ export const workItems: WorkItem[] = [
     reason:
       "La aprobación interna y la aceptación del cliente son eventos distintos.",
     origin: "Cotización · versión de demostración",
-    reference: "COT-DEM-009 · v2",
+    reference: "COT-DEM-001 · v1",
+    relatedQuoteId: "quote-demo-001",
     owner: "Lucía Benítez (escenario ficticio)",
     dueDate: "2026-10-13",
     timeBand: "Vencido",
@@ -81,7 +83,7 @@ export const workItems: WorkItem[] = [
     source: "ABT Comex · fixture local",
     freshness: "Disponible",
     nextStep:
-      "Las versiones y el circuito comercial se desarrollan en la etapa de Cotizaciones.",
+      "Revisar la versión vigente antes de registrar el envío al cliente.",
     visible: true,
     activity:
       "La revisión interna continúa pendiente; no se envió una cotización.",
@@ -109,7 +111,7 @@ export const workItems: WorkItem[] = [
     reason:
       "Hay una diferencia que requiere revisión antes de completar el expediente.",
     origin: "Exportación · documentación de demostración",
-    reference: "EX-DEM-3112",
+    reference: "OP-DEM-3112",
     relatedOperationId: "op-demo-3112",
     owner: "Martín Ríos (escenario ficticio)",
     dueDate: "2026-10-12",
@@ -128,7 +130,7 @@ export const workItems: WorkItem[] = [
     reason:
       "El último dato de referencia disponible no es reciente; verificá la fuente antes de actuar.",
     origin: "Importación · destinación de demostración",
-    reference: "IM-DEM-2054",
+    reference: "OP-DEM-2054",
     relatedOperationId: "op-demo-2054",
     dueDate: "2026-10-17",
     timeBand: "Próximo",
@@ -158,6 +160,21 @@ export const workItems: WorkItem[] = [
 ]
 
 export const visibleWorkItems = () => workItems.filter((item) => item.visible)
+
+// Completing a local control removes only that pending task, never officializes.
+export function projectWorkItems(scenarios: ImportationScenario[]) {
+  return visibleWorkItems().filter(
+    (item) =>
+      !(
+        item.kind === "Control" &&
+        scenarios.some(
+          (scenario) =>
+            scenario.operationId === item.relatedOperationId &&
+            scenario.doubleControl.completed
+        )
+      )
+  )
+}
 
 export function getWorkSummary(items: WorkItem[]): WorkSummary {
   return items.reduce<WorkSummary>(

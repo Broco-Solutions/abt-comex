@@ -429,3 +429,11 @@ Consulta oficial: 14/10/2026. Las aplicaciones ABT son propuestas de adaptación
 | [WCAG 2.2 Quick Reference](https://www.w3.org/WAI/WCAG22/quickref/) | Criterios verificables para acceso: teclado, foco, contraste, nombres, mensajes y targets. | Revisar todas las rutas y overlays. El mínimo AA 2.5.8 es 24 CSS px con excepciones; 44 px es una elección del DS, no la definición de AA. | Declarar conformidad por axe o por tamaño táctil solamente. | Referencia investigada; WCAG 2.2 AA ya adoptada internamente. |
 
 El [enlace SAP Help solicitado](https://help.sap.com/docs/SAPUI5/d625376e710e40cb9d40e43e1b02933b/c0eec49db81a441e878f528c8f3d28de.html) no devolvió contenido legible en esta consulta; no respalda hallazgos. Se contrastó con SAP Design y SAP Learning indicados arriba. No se investigó NetSuite.
+
+## Criterios UX/UI V2
+
+Elegir por tarea: comparación → tabla; pendientes → bandeja; objeto → ficha; secuencia → flujo; tendencia → gráfico con registros explicativos. Inicio, Mi trabajo, controles, Portal y consultas no se convierten automáticamente a DataTable. Clientes/Cotizaciones usan tablas proporcionadas; Operaciones conserva DataTable y Administración bandeja tabular.
+
+Identidad y apertura no ocultables; selección sólo con acción útil; columnas opcionales no habilitan datos restringidos. Limpiar filtros conserva contexto de tipo y restablecer vista recupera presentación. Orden/agrupación/página y retorno son coherentes en URL. Fechas declaran evento y rango; actualización no es arribo, factura ni cobro.
+
+Suprimir descripciones obvias y avisos reiterados en todas las superficies. Identificar el entorno globalmente, reservando aclaraciones para acciones sensibles, consecuencias, bloqueos y errores. Ayuda/inducción en menú secundario con progreso recuperable. Chevron expande, indicador de orden ordena y navegación interna usa icono interno. Responsive se verifica dentro del Shell con acciones visibles y encabezados sin colisión, no sólo por ausencia de overflow.

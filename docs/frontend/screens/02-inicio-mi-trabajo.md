@@ -544,3 +544,7 @@ Las preguntas de catálogo, asignación, capacidades y origen de eventos contin�
 - Observaciones:
 - Ajustes requeridos:
 - Estado final: Under review — aprobación humana pendiente
+
+## UX-01 — coherencia de proyecciones
+
+Inicio y Mi trabajo proyectan el mismo estado local de doble control. Al completarlo desaparece ese pendiente, sin inferir oficialización. La tarea comercial referencia la cotización sintética existente 001 (versión 1) existente, con retorno al trabajo. Referencias operativas OP-DEM consistentes, fechas DD/MM/AAAA y Chevron para expansión. Pruebas: work-projection.test.ts y ux-coherence.spec.ts; revisión humana pendiente.

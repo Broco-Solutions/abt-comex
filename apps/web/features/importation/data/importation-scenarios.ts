@@ -76,6 +76,7 @@ export function saveImportationScenarios(scenarios: ImportationScenario[]) {
   } catch {
     // Keep this tab's local demonstration scenario in module memory.
   }
+  window.dispatchEvent(new Event("abt:importation-change"))
 }
 
 export function getImportationScenario(

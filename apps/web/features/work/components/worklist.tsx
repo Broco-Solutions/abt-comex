@@ -1,5 +1,7 @@
+"use client"
+
 import Link from "next/link"
-import { ArrowDownUp, CircleAlert, Clock3, ShieldCheck } from "lucide-react"
+import { ChevronDown, CircleAlert, Clock3, ShieldCheck } from "lucide-react"
 
 import { PageHeader } from "@/components/navigation/page-header"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
@@ -11,7 +13,6 @@ import {
   filterWorkItems,
   getWorkSummary,
   parseWorkFilters,
-  visibleWorkItems,
   workViewLabels,
 } from "../data/work-items"
 import type {
@@ -20,6 +21,9 @@ import type {
   WorkItemKind,
   WorkView,
 } from "../types/work-item"
+
+import { useWorkItems } from "../state/use-work-items"
+import { formatDate } from "@workspace/ui/lib/date"
 
 const views: WorkView[] = [
   "all",
@@ -57,8 +61,9 @@ export function Worklist({
   searchParams: Record<string, string | string[] | undefined>
 }) {
   const filters = parseWorkFilters(searchParams)
-  const items = filterWorkItems(visibleWorkItems(), filters)
-  const summary = getWorkSummary(visibleWorkItems())
+  const visible = useWorkItems()
+  const items = filterWorkItems(visible, filters)
+  const summary = getWorkSummary(visible)
   const selectedId =
     typeof searchParams.trabajo === "string" ? searchParams.trabajo : ""
   const readError = searchParams.error === "lectura"
@@ -382,7 +387,9 @@ function WorkRow({
           </div>
           <div>
             <dt className="text-xs text-muted-foreground">Vencimiento</dt>
-            <dd className="mt-0.5">{item.dueDate ?? "Sin fecha registrada"}</dd>
+            <dd className="mt-0.5">
+              {item.dueDate ? formatDate(item.dueDate) : "Sin fecha registrada"}
+            </dd>
           </div>
         </dl>
 
@@ -393,8 +400,11 @@ function WorkRow({
           >
             <summary className="min-h-11 cursor-pointer list-none px-3 py-2.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&::-webkit-details-marker]:hidden">
               <span className="inline-flex items-center gap-2">
-                <ArrowDownUp aria-hidden="true" className="size-4" /> Contexto y
-                próxima acción
+                <ChevronDown
+                  aria-hidden="true"
+                  className="size-4 transition-transform group-open:rotate-180"
+                />{" "}
+                Contexto y próxima acción
               </span>
             </summary>
             <div className="grid gap-4 border-t border-border px-3 py-3 text-sm md:grid-cols-2">
@@ -450,7 +460,16 @@ function WorkRow({
                   </Link>
                 )}
                 {!relatedOperation ? (
-                  item.id === "wrk-admin-no-operation-05" ? (
+                  item.relatedQuoteId ? (
+                    <Link
+                      href={`/cotizaciones/${item.relatedQuoteId}?returnTo=${encodeURIComponent(contextHref)}`}
+                      className={cn(
+                        buttonVariants({ variant: "outline", size: "sm" })
+                      )}
+                    >
+                      Abrir cotización
+                    </Link>
+                  ) : item.id === "wrk-admin-no-operation-05" ? (
                     <Link
                       href={`/administracion/finanzas?trabajo=${encodeURIComponent(item.id)}`}
                       className={cn(

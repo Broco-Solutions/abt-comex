@@ -29,7 +29,7 @@ test("@smoke clients relate to operations and preserve the way back", async ({
   ).toHaveAttribute("href", /\/clientes\/client-demo-norte\?returnTo=/)
   await page.getByRole("link", { name: "Cliente Demo Norte" }).click()
   await expect(
-    page.getByRole("link", { name: "Volver a Clientes" })
+    page.getByRole("link", { name: "Volver al contexto anterior" })
   ).toHaveAttribute("href", /\/operaciones\/op-demo-2048\?returnTo=/)
 })
 

@@ -1,3 +1,4 @@
+import { formatRecordedDate } from "@workspace/ui/lib/date"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 
@@ -112,7 +113,9 @@ export function AdministrationDetail({
             <dt className="text-xs text-muted-foreground">
               Última referencia del fixture
             </dt>
-            <dd className="mt-1 font-medium">{operation.updatedOn}</dd>
+            <dd className="mt-1 font-medium">
+              {formatRecordedDate(operation.updatedOn)}
+            </dd>
           </div>
           <div>
             <dt className="text-xs text-muted-foreground">Sistema contable</dt>

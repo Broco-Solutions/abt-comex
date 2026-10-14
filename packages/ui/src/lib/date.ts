@@ -33,6 +33,11 @@ export function formatDate(value: DateInput) {
   return dateFormatter.format(toDate(value))
 }
 
+/** Keeps unavailable event dates explicit instead of manufacturing a date. */
+export function formatRecordedDate(value: string) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(value) ? formatDate(value) : value
+}
+
 /** Formato visible estándar ABT: DD/MM/AAAA HH:mm. */
 export function formatDateTime(value: DateInput) {
   return dateTimeFormatter.format(toDate(value)).replace(",", "")
