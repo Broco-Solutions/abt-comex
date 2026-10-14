@@ -6,7 +6,7 @@
 
 Construir todas las Etapas 2 a 13 como primera versión integral, demostrativa y navegable del frontend para validar procesos con ABT. Las Etapas 0 y 1 están cerradas y fusionadas. **Etapa 2 — Inicio y Mi trabajo** se integró a `main` mediante PR #7 (squash `9359921d3cd3fb568e9ce923d3790c63d8a30a2d`); permanece `Under review`, pendiente de revisión humana integral. La rama histórica del PR #6 había sido fusionada contra una rama de prueba y no incorporó el contenido a `main`; no se reimplementó. Ver [especificación](screens/02-inicio-mi-trabajo.md). **Etapa 3 — Listado de Operaciones** se integró mediante PR #8 (squash `a83de1577ab1962d6e66fc862b81ee82bce383d8`), checks verdes y deployment `dpl_ENeTwNJcYZSh7eT3RoSz6EfBWWPi` READY. **Etapa 4 — Detalle común** se integró por [PR #9](https://github.com/Broco-Solutions/abt-comex/pull/9) (squash `80d77148de31eb0dfc388f31ab7bfd1e0b2bef0f`), checks verdes y deployment `dpl_AqoCyjYC3CYEnwNwz86kA1VZi2P7` READY. **Etapa 6 — Clientes** se integró por [PR #10](https://github.com/Broco-Solutions/abt-comex/pull/10), squash `26f19d9963e5669b4e251216ce9f4674ab6dac5e`, checks `quality`, `e2e-smoke` y Vercel Preview verdes; deployment de `main` `dpl_8vmJ5fUR8bPm3qb4ymGrPVZsjr2S` READY y rutas HTTP 200. **Etapa 9 — Cotizaciones** se integró por PR #11 (`1645bfc1094451447803c2f12af0f3ed7306a6af`). **Etapa 5 — Creación guiada** se integró después por [PR #12](https://github.com/Broco-Solutions/abt-comex/pull/12), squash `fce2db4ab9f0877cfd23de48bf2ae1c2fb55499a`, checks verdes y producción READY (`dpl_4swVdkXeUzdYsGES5miqqaQro87u`); alta, ficha, cotización y cliente respondieron HTTP 200. Las Etapas 2–6 y 9 permanecen `Under review`, sujetas a revisión humana integral.
 
-**Checkpoint vigente 14/10/2026:** Etapa 10 (Administración/Finanzas) se integró mediante PR #15, squash `5df29305616a9e212bc9107f12251e33a7c44d99`, checks requeridos verdes y producción READY (`dpl_3eN8u6f7ybhNje2Ako6rauRaXQKf`); cola, detalle y fuentes responden HTTP 200. Etapa 11 (Gestión/Dirección) está en implementación en `feat/stage-11-management-main`, desde ese SHA actualizado. Las etapas Under review continúan pendientes de revisión humana integral.
+**Checkpoint vigente 14/10/2026:** Etapa 11 (Gestión/Dirección) se integró mediante PR #16, squash `90d57e5435c9bc33ae7a68987b9ae22d4ab9a924`, checks requeridos verdes y producción READY (`dpl_6LEHNRCpwjXNCFbbsxZKYGLrRHss`); `/gestion` y `?vista=economia` responden HTTP 200. El preview protegido quedó READY, pero el acceso autenticado desde esta sesión no estuvo disponible; su revisión visual se hizo localmente. Etapa 12 (Portal) está en implementación en `feat/stage-12-portal-main`, desde ese SHA. Las etapas Under review continúan pendientes de revisión humana integral.
 
 ## Gobierno y dependencias
 
@@ -26,8 +26,9 @@ La [matriz](MATRIZ_COBERTURA_FUNCIONAL.md) conserva necesidades, evidencia y cer
 | 8     | Núcleo común, maestros y G3; [especificación Exportación/DJVE](screens/08-exportacion-djve.md), implementación integrada a `main` por PR #14, checks verdes y producción READY; Under review.                                                          |
 | 9     | Maestros y G2; circuito comercial conectado al alta de Etapa 5; implementación integrada a `main` por PR #11, checks verdes, Under review; [especificación](screens/09-cotizaciones.md).                                                               |
 | 10    | Handoff de verticales, G4 y fuentes administrativas; [especificación](screens/10-administracion-finanzas.md), integrado a `main` mediante PR #15, checks/deployment READY; Under review.                                                               |
-| 11    | Datos operativos y administrativos, definiciones de métricas y G4; [especificación](screens/11-gestion-direccion.md), implementación técnica en revisión mediante PR propio; fórmulas y fuentes externas no disponibles.                               |
-| 12–13 | Núcleo, identidad y visibilidad compartidas, G5; especificaciones pendientes. No implica backend autorizado hoy.                                                                                                                                       |
+| 11    | Datos operativos y administrativos, definiciones de métricas y G4; [especificación](screens/11-gestion-direccion.md), PR #16 integrado a `main`, checks/deployment READY; Under review.                                                                |
+| 12    | Núcleo, identidad y visibilidad compartidas, G5; [especificación](screens/12-portal-clientes.md), construcción demostrativa sin identidad ni servicios reales. No implica backend autorizado hoy.                                                      |
+| 13    | Canales asistidos y G5; especificación pendiente. No implica proveedor IA, backend ni acciones reales autorizadas hoy.                                                                                                                                 |
 
 Una dependencia de definición puede resolverse antes de implementar su módulo. Se conservan los IDs históricos 0–13; el orden de ejecución no tiene que coincidir con la numeración.
 
@@ -666,7 +667,7 @@ La secuencia integral adelanta Clientes y Cotizaciones al alta; las definiciones
 | 9 — Cotizaciones             | Under review                         |
 | 10 — Administración/Finanzas | Under review                         |
 | 11 — Gestión/Dirección       | Under review                         |
-| 12 — Portal                  | Pendiente                            |
+| 12 — Portal                  | In implementation                    |
 | 13 — Canales asistidos       | Pendiente                            |
 
 ### Implementación y gate técnico de Etapa 6
