@@ -42,7 +42,7 @@ El [estándar](../frontend/FRONTEND_STANDARD.md) gobierna interacción y estado 
 
 ## Entorno de demostración
 
-Estado comprobado el 14/10/2026: proyecto `abt-comex` del equipo Vercel `broco-solutions`, asociado a `Broco-Solutions/abt-comex`. `main` en `a83de1577ab1962d6e66fc862b81ee82bce383d8` produjo el deployment de producción `dpl_ENeTwNJcYZSh7eT3RoSz6EfBWWPi`, estado READY; los alias incluyen `https://abt-comex.brocosolutions.com`, con HTTPS, y el contenido de `main` cubre Etapas 0–3. Esto no significa que el sitio esté protegido ni que sea apto para operación real.
+Estado comprobado el 14/10/2026: proyecto `abt-comex` del equipo Vercel `broco-solutions`, asociado a `Broco-Solutions/abt-comex`. `main` en `80d77148de31eb0dfc388f31ab7bfd1e0b2bef0f` produjo el deployment de producción `dpl_AqoCyjYC3CYEnwNwz86kA1VZi2P7`, estado READY; los alias incluyen `https://abt-comex.brocosolutions.com`, con HTTPS, y el contenido de `main` cubre Etapas 0–4. Esto no significa que el sitio esté protegido ni que sea apto para operación real.
 
 La protección Vercel consultada tiene `ssoProtection.enabled=true` y `deploymentType=all_except_custom_domains`; por lo tanto el dominio personalizado queda excluido del SSO y responde públicamente. No se habilitó bypass ni se modificó DNS o configuración de seguridad. Previews protegidos redirigen a SSO y no se inspeccionaron sus páginas desde esta sesión. El repositorio GitHub es público al momento de esta verificación; mantener exclusivamente datos sintéticos y solicitar revisión de visibilidad con el responsable.
 

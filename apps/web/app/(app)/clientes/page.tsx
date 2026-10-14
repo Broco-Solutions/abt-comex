@@ -1,10 +1,9 @@
-import { ModulePlaceholder } from "@/components/states/module-placeholder"
+import { ClientsList } from "@/features/clients/components/clients-list"
 
-export default function ClientesPage() {
-  return (
-    <ModulePlaceholder
-      title="Clientes"
-      description="Concentrará el contexto reutilizable de cada cliente y su relación con operaciones y cotizaciones."
-    />
-  )
+export default async function ClientesPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}) {
+  return <ClientsList searchParams={await searchParams} />
 }
