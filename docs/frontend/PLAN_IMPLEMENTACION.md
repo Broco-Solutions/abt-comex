@@ -4,7 +4,7 @@
 
 ## Objetivo y siguiente corte
 
-Construir todas las Etapas 2 a 13 como primera versión integral, demostrativa y navegable del frontend para validar procesos con ABT. Las Etapas 0 y 1 están cerradas y fusionadas. **Etapa 2 — Inicio y Mi trabajo** se integró correctamente a `main` mediante PR #7 (squash `9359921d3cd3fb568e9ce923d3790c63d8a30a2d`), CI y despliegue de producción de demostración READY; permanece `Under review`, pendiente de revisión humana integral. La rama histórica del PR #6 había sido fusionada contra una rama de prueba y no incorporó el contenido a `main`; no se reimplementó. Ver [especificación](screens/02-inicio-mi-trabajo.md). **Etapa 3 — Listado de Operaciones** se integró mediante PR #8 (squash `a83de1577ab1962d6e66fc862b81ee82bce383d8`), checks requeridos verdes y deployment `dpl_ENeTwNJcYZSh7eT3RoSz6EfBWWPi` READY. **Etapa 4 — Detalle común** se integró por [PR #9](https://github.com/Broco-Solutions/abt-comex/pull/9) (squash `80d77148de31eb0dfc388f31ab7bfd1e0b2bef0f`), CI requerido verde y deployment `dpl_AqoCyjYC3CYEnwNwz86kA1VZi2P7` READY; permanece `Under review` hasta la revisión humana integral.
+Construir todas las Etapas 2 a 13 como primera versión integral, demostrativa y navegable del frontend para validar procesos con ABT. Las Etapas 0 y 1 están cerradas y fusionadas. **Etapa 2 — Inicio y Mi trabajo** se integró a `main` mediante PR #7 (squash `9359921d3cd3fb568e9ce923d3790c63d8a30a2d`); permanece `Under review`, pendiente de revisión humana integral. La rama histórica del PR #6 había sido fusionada contra una rama de prueba y no incorporó el contenido a `main`; no se reimplementó. Ver [especificación](screens/02-inicio-mi-trabajo.md). **Etapa 3 — Listado de Operaciones** se integró mediante PR #8 (squash `a83de1577ab1962d6e66fc862b81ee82bce383d8`), checks verdes y deployment `dpl_ENeTwNJcYZSh7eT3RoSz6EfBWWPi` READY. **Etapa 4 — Detalle común** se integró por [PR #9](https://github.com/Broco-Solutions/abt-comex/pull/9) (squash `80d77148de31eb0dfc388f31ab7bfd1e0b2bef0f`), checks verdes y deployment `dpl_AqoCyjYC3CYEnwNwz86kA1VZi2P7` READY. **Etapa 6 — Clientes** se integró por [PR #10](https://github.com/Broco-Solutions/abt-comex/pull/10), squash `26f19d9963e5669b4e251216ce9f4674ab6dac5e`, checks `quality`, `e2e-smoke` y Vercel Preview verdes; deployment de `main` `dpl_8vmJ5fUR8bPm3qb4ymGrPVZsjr2S` READY y rutas HTTP 200. Las Etapas 2–4 y 6 permanecen `Under review`, sujetas a revisión humana integral.
 
 ## Gobierno y dependencias
 
@@ -429,13 +429,24 @@ Construir circuito comercial previo.
 - aceptación o rechazo del cliente;
 - creación de Operación desde la versión aceptada.
 
+### Estado de esta pasada
+
+Implementación demostrativa en revisión técnica: lista y ficha con filtros en
+URL, formulario de borrador/versiones, cálculo explícito cantidad × unitario e
+hitos locales separados. Los eventos se conservan por versión en sesión; no se
+envía ni aprueba realmente. La conversión está deshabilitada hasta Etapa 5.
+Campos, fórmulas adicionales, permisos efectivos, canal/evidencia y cardinalidad
+siguen pendientes de validación con ABT.
+
 ### Gate
 
 - cantidad × unitario produce total;
 - no se envía sin aprobación;
 - aprobación interna y aceptación del cliente no se confunden;
 - versiones se entienden;
-- conversión no recarga datos y deja pendiente la cardinalidad cotización→operaciones.
+- nueva versión conserva el historial anterior y comienza con hitos pendientes;
+- aceptación de la versión no simula conversión hasta completar Etapa 5; la
+  cardinalidad cotización→operaciones queda pendiente.
 
 ---
 
@@ -593,7 +604,7 @@ La secuencia integral adelanta Clientes y Cotizaciones al alta; las definiciones
 | 6 — Clientes | Under review |
 | 7 — Importación | Pendiente |
 | 8 — Exportación/DJVE | Pendiente |
-| 9 — Cotizaciones | Pendiente |
+| 9 — Cotizaciones | Under review |
 | 10 — Administración/Finanzas | Pendiente |
 | 11 — Gestión/Dirección | Pendiente |
 | 12 — Portal | Pendiente |
@@ -602,11 +613,27 @@ La secuencia integral adelanta Clientes y Cotizaciones al alta; las definiciones
 ### Implementación y gate técnico de Etapa 6
 
 Ficha y listado en `apps/web/features/clients`, rutas `/clientes` y
-`/clientes/[clientId]`. Los registros y contactos son sintéticos; las
+`/clientes/[clientId]`. PR #10 integrado en `main`; checks requeridos verdes,
+deployment de producción `dpl_8vmJ5fUR8bPm3qb4ymGrPVZsjr2S` READY y ambas rutas
+respondieron HTTP 200. Los registros y contactos son sintéticos; las
 operaciones comparten `clientId` estable. La búsqueda y el retorno de ficha
-quedan en URL. No hay alta/edición, cotizaciones, documentos, actividad,
-configuración de requisitos ni seguridad productiva. La especificación y
-revisión humana funcional/visual integral siguen pendientes.
+quedan en URL. No hay alta/edición, documentos, actividad, configuración de
+requisitos ni seguridad productiva. Etapa 9 añade un enlace filtrado a
+Cotizaciones, sin revelar valores en la ficha de Cliente. Revisión humana
+funcional y visual integral pendiente.
+
+### Implementación y gate técnico de Etapa 9
+
+Lista, ficha versionada y editor en `apps/web/features/quotes`; rutas bajo
+`/cotizaciones`. Datos enteramente sintéticos, cambios de workflow en sesión
+local y retorno Cliente↔Cotización preservado. Gate local: lint/typecheck/build;
+63 unitarias/componentes; 16 axe; 22 E2E smoke Chromium; validador documental
+(117 IDs, 32 experiencias, 10 recorridos); `git diff --check`. Capturas
+revisadas manualmente en Chromium a 1440×1000 y 390×844; E2E midió ausencia de
+overflow entre 390 y 1440 px. Etapa 5 aún no implementada: conversión
+deliberadamente deshabilitada. Datos comerciales, capacidades y acciones son
+demostrativos, no autorización o auditoría reales. PR/despliegue de Etapa 9
+pendientes; revisión humana integral pendiente.
 
 ## Evidencia de cierre
 
