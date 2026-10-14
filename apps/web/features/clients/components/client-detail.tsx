@@ -22,6 +22,7 @@ function first(value: string | string[] | undefined) {
 
 function safeReturnTo(value: string, operations: DemonstrationOperation[]) {
   if (
+    /^\/gestion(?:\?[^#]*)?(#.*)?$/.test(value) ||
     /^\/clientes(\?.*)?(#.*)?$/.test(value) ||
     /^\/mi-trabajo(\?.*)?(#.*)?$/.test(value) ||
     /^\/cotizaciones(?:\/quote-demo-\d{3})?(?:\?[^#]*)?(#.*)?$/.test(value)

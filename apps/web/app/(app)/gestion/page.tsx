@@ -1,10 +1,9 @@
-import { ModulePlaceholder } from "@/components/states/module-placeholder"
+import { ManagementOverview } from "@/features/management/components/management-overview"
 
-export default function GestionPage() {
-  return (
-    <ModulePlaceholder
-      title="Gestión"
-      description="Permitirá comprender el negocio y llegar desde cada indicador a la información que lo explica."
-    />
-  )
+export default async function GestionPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}) {
+  return <ManagementOverview searchParams={await searchParams} />
 }

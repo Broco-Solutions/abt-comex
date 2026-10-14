@@ -13,7 +13,7 @@ Esta carpeta es autoridad del comportamiento particular de cada pantalla/flujo. 
 | [05 — Creación de Operación](05-creacion-operacion.md)   | Etapa 5 | Under review; PR #12 integrado, CI y producción READY; revisión humana pendiente         |
 | [06 — Clientes](06-clientes.md)                          | Etapa 6 | Under review; PR #10 integrado, CI y deployment READY, revisión humana pendiente         |
 | [07 — Importación](07-importacion.md)                    | Etapa 7 | Under review; PR #13 integrado, CI/deployment READY y revisión humana pendiente          |
-| [08 — Exportación y DJVE](08-exportacion-djve.md)         | Etapa 8 | Under review; gates locales pasan, CI/PR/deployment y revisión humana pendientes          |
+| [08 — Exportación y DJVE](08-exportacion-djve.md)        | Etapa 8 | Under review; PR #14 integrado, CI/deployment READY, revisión humana pendiente           |
 | [09 — Cotizaciones](09-cotizaciones.md)                  | Etapa 9 | Under review; PR #11 integrado, producción READY, revisión humana pendiente              |
 
 Las demás experiencias del mapa todavía no tienen especificación. No denominarlas Draft hasta que exista un documento. Un ID UI puede corresponder a una sección o acción, no necesariamente a un archivo/página independiente.
@@ -34,5 +34,7 @@ El estado de especificación no sustituye el estado de etapa ni una aprobación 
 Usar [SCREEN_TEMPLATE.md](SCREEN_TEMPLATE.md) y nombre `NN-area-vista.md`. La numeración organiza trabajo, no define rutas. Completar lo necesario para el riesgo: una vista simple puede ser breve; Importación, Exportación, DJVE o Administración requieren detalle de reglas, variantes, custodia, cruces y pruebas.
 
 Etapa 10: [Administración y Finanzas](10-administracion-finanzas.md) · cola, detalle y fuentes financieras demostrativas; Under review.
+
+Etapa 11: [Gestión y Dirección](11-gestion-direccion.md) · panorama operativo sintético y fuentes económicas no conectadas; Under review.
 
 Enlazar evidencia con namespace, necesidad de matriz, experiencia/recorrido, regla, escenario y etapa. Al implementar, agregar rutas reales de código y pruebas. Actualizar por cambios de comportamiento, información, acciones, estados, permisos, responsive, ayuda o aceptación; no por refactors sin impacto. No copiar las normas del estándar o los comandos de pruebas.
