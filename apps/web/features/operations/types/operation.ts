@@ -19,4 +19,13 @@ export type DemonstrationOperation = {
   updatedOn: string
   alert: "Bloqueo" | "Vencimiento" | "Sin alerta"
   nextAction: string
+  initialContext?: string
+  origin?:
+    | { type: "direct" }
+    | {
+        type: "accepted-quote"
+        quoteId: string
+        quoteReference: string
+        quoteVersion: number
+      }
 }

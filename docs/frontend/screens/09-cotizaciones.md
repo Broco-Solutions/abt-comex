@@ -13,18 +13,19 @@
 Representar el circuito comercial previo y distinguir con claridad la aprobación
 interna, el envío y la aceptación o rechazo del cliente. Esta pasada es una
 demostración local con fixtures inventados; no registra un proceso comercial
-real. La conversión a Operación queda para Etapa 5 y no se simula aquí.
+real. Desde una versión aceptada, la continuidad abre el alta local de Etapa 5;
+no crea una Operación hasta completar ese asistente.
 
 ## Trazabilidad y límites de decisión
 
-| Necesidades | Comportamiento implementado | Pendiente de validación |
-|---|---|---|
-| COT-001 | Borrador con cliente, servicio descriptivo, contexto, moneda, líneas y condiciones | Campos obligatorios, catálogos, datos maestros y estados definitivos |
-| COT-002 | Subtotal y total explícitos como cantidad × unitario, en moneda única por versión | Impuestos, gastos, descuentos, conversión, decimales y redondeo |
-| COT-003 | Cada edición crea una nueva versión; el historial anterior no se sobrescribe | Vigencia, comparación, políticas de edición y auditoría real |
-| COT-004 | La acción de envío local requiere aprobación interna simulada | Capacidades, niveles, delegación y evidencia de aprobación |
-| COT-005 | Envío simulado y respuesta simulada son eventos separados | Canales, evidencia, reenvío, respuesta parcial y vencimiento |
-| COT-006 | Se muestra aceptación por versión y una acción futura deshabilitada | Cardinalidad cotización→operación y alta guiada de Etapa 5 |
+| Necesidades | Comportamiento implementado                                                        | Pendiente de validación                                              |
+| ----------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| COT-001     | Borrador con cliente, servicio descriptivo, contexto, moneda, líneas y condiciones | Campos obligatorios, catálogos, datos maestros y estados definitivos |
+| COT-002     | Subtotal y total explícitos como cantidad × unitario, en moneda única por versión  | Impuestos, gastos, descuentos, conversión, decimales y redondeo      |
+| COT-003     | Cada edición crea una nueva versión; el historial anterior no se sobrescribe       | Vigencia, comparación, políticas de edición y auditoría real         |
+| COT-004     | La acción de envío local requiere aprobación interna simulada                      | Capacidades, niveles, delegación y evidencia de aprobación           |
+| COT-005     | Envío simulado y respuesta simulada son eventos separados                          | Canales, evidencia, reenvío, respuesta parcial y vencimiento         |
+| COT-006     | Se abre el alta guiada desde la versión aceptada y se conserva el origen           | Cardinalidad cotización→operación y reglas de transferencia          |
 
 Fuentes: [Matriz de Cobertura COT-001–006](../MATRIZ_COBERTURA_FUNCIONAL.md#cotizaciones-y-aprobaciones),
 [mapa COT-01–04](../MAPA_PANTALLAS_Y_RECORRIDOS.md#inventario-de-experiencias),
@@ -41,8 +42,9 @@ base documentada, no aprobación formal de campos o reglas por Dirección de ABT
   respuestas de la versión anterior.
 - La secuencia demostrativa es aprobación interna → envío local → aceptación o
   rechazo simulado. No se puede saltar pasos y una respuesta no se duplica.
-- La conversión desde una versión aceptada es visible pero está deshabilitada
-  hasta implementar el alta guiada de Etapa 5; no crea una Operación.
+- Desde la versión vigente con aceptación simulada, abre Etapa 5 con el ID y
+  número exacto; una versión no aceptada no ofrece el camino comercial.
+  Completar Etapa 5 crea sólo un registro local y conserva vínculo/origen.
 - El listado no confirma filas ni conteos ante `sin-permiso` o error de lectura.
   El detalle tampoco confirma existencia cuando el acceso está restringido.
 
@@ -81,11 +83,11 @@ pendientes.
   valores ante permiso ausente.
 - E2E: aprobación → envío → aceptación, alta de versión, contexto Cliente ↔
   Cotización, errores restringidos y ancho móvil.
-- Gate: no confundir aprobación con aceptación; no convertir a Operación antes
-  de Etapa 5; no introducir reglas financieras no definidas.
+- Gate: no confundir aprobación con aceptación; crear operación de referencia
+  sólo desde versión aceptada; no introducir reglas financieras no definidas.
 
 Validación local: TypeScript/build pasaron; 63 pruebas unitarias/componentes y
-16 pruebas axe pasaron; los tres E2E de Cotizaciones pasan en Chromium, junto
+16 pruebas axe pasaron; los E2E de Cotizaciones y creación integrada pasan en Chromium, junto
 con el smoke existente tras integración final. Se detectaron y corrigieron
 durante E2E la habilitación prematura de conversión, el retorno Cliente ↔
 Cotización y el overflow del filtro a 1024 px. No se afirma cobertura visual en

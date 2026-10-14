@@ -23,6 +23,7 @@ Dar una ficha común desde la que la persona reconoce la operación, su cliente,
 ## Información, acciones y navegación
 
 - La cabecera identifica referencia ficticia, cliente, tipo, situación de referencia, equipo responsable, modalidad y fecha del escenario.
+- Si el registro se abrió durante la sesión local, muestra su contexto inicial y si nació de alta directa o de una versión de Cotización aceptada; el vínculo conserva el ID y versión de origen.
 - “Próximo paso” reproduce la orientación sintética existente; no crea una tarea ni afirma una acción cumplida.
 - “Documentación”, “Controles y seguimiento” y “Administración” explicitan qué no está modelado aún y qué etapas lo completarán; no son botones inertes.
 - “Volver a resultados” conserva filtros del listado o el contexto de Mi trabajo. La ruta de retorno sólo admite paths internos de esas listas; ruta inválida vuelve al listado.
@@ -53,7 +54,7 @@ Los datos de identidad usan una grilla que cae a una columna en móvil; bloques 
 
 ## Fixtures y pruebas
 
-Se reutiliza `demonstrationOperations` de Etapa 3; no hay un segundo registro de operación ni nuevas reglas/datos monetarios. Pruebas cubren identidad, confidencialidad, permiso sin filtración, sanitización del retorno y navegación listado/mi-trabajo → ficha → retorno.
+La ficha reutiliza la fuente de operaciones sintéticas de Etapa 3, compartida en la sesión con el alta de Etapa 5; no hay un segundo registro ni nuevas reglas/datos monetarios. Pruebas cubren identidad, confidencialidad, permiso sin filtración, sanitización del retorno y navegación listado/mi-trabajo → ficha → retorno, incluidos origen y contexto de aperturas locales.
 
 ## Decisiones pendientes
 

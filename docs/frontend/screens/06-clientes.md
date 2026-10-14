@@ -31,7 +31,7 @@ No hay aprobación formal de ABT de la propuesta de pantalla o de los campos.
 
 - `/clientes` busca por nombre de cliente o referencia de operación; búsqueda y retorno se conservan en URL.
 - La lista identifica el volumen como perteneciente al fixture, no al total de ABT.
-- La ficha muestra procedencia y fecha simulada, identidades de contacto inventadas sin datos personales reales y operaciones vinculadas por ID estable.
+- La ficha muestra procedencia y fecha simulada, identidades de contacto inventadas sin datos personales reales y operaciones vinculadas por ID estable; las altas locales de Etapa 5 aparecen en la misma sesión.
 - Una operación puede abrir la ficha de su cliente y retornar al detalle; la ficha puede abrir la operación y recuperar el contexto de Clientes.
 - Sin datos, coincidencias, permiso o lectura se muestra el estado correspondiente sin exponer filas ni conteos en el estado restringido.
 - No se habilita alta, edición, configuración, aprobación, integración externa ni escritura.
@@ -75,7 +75,7 @@ revisión humana integral pendiente.
 
 ## Implementación y revisión
 
-- Código: `apps/web/features/clients/`; datos sintéticos relacionados mediante `clientId` en `features/operations`.
+- Código: `apps/web/features/clients/`; datos sintéticos relacionados mediante `clientId` en `features/operations`. La lista y la ficha leen la fuente local compartida para reflejar aperturas de Etapa 5 sin duplicar operaciones.
 - Pruebas: `features/clients/data/clients.test.ts`, pruebas de componentes/a11y y `apps/web/e2e/specs/stage-06-clients.spec.ts`.
 - PR #10 integrado a `main` (`26f19d9`); `quality`, `e2e-smoke` y Vercel Preview verdes. Deployment `dpl_8vmJ5fUR8bPm3qb4ymGrPVZsjr2S` READY; `/clientes` y `/clientes/client-demo-norte` respondieron HTTP 200.
 - Lint, typecheck, build, 55 pruebas unitarias, 13 axe y 19 E2E smoke Chromium seriales pasaron; validador documental y `git diff --check` pasaron. Capturas locales revisadas a 1440×1000 y 390×844, sin overflow horizontal.

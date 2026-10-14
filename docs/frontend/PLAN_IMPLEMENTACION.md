@@ -316,6 +316,16 @@ Validar inicio de proceso y prevención de errores.
 - detecta inconsistencias obvias;
 - mensajes claros y accionables.
 
+### Estado de esta pasada
+
+Prototipo local en revisión técnica: asistente de seis pasos para alta directa o
+desde una versión explícitamente aceptada. Reutiliza el cliente, conserva origen
+cotización/versión y refleja la operación en listado, ficha y relaciones del
+cliente. Requisitos condicionales se identifican como no configurados; no se
+inventan reglas ni roles. IDs y datos son sintéticos; estado inicial propuesto,
+almacenamiento sólo en sesión. Participantes, responsabilidades individuales,
+capacidades, campos y cardinalidad siguen pendientes de ABT.
+
 ---
 
 ## Etapa 6 — Clientes
@@ -434,7 +444,8 @@ Construir circuito comercial previo.
 Implementación demostrativa en revisión técnica: lista y ficha con filtros en
 URL, formulario de borrador/versiones, cálculo explícito cantidad × unitario e
 hitos locales separados. Los eventos se conservan por versión en sesión; no se
-envía ni aprueba realmente. La conversión está deshabilitada hasta Etapa 5.
+envía ni aprueba realmente. La versión aceptada abre el asistente de Etapa 5;
+el vínculo se conserva sin limitar cardinalidad ni alterar la cotización.
 Campos, fórmulas adicionales, permisos efectivos, canal/evidencia y cardinalidad
 siguen pendientes de validación con ABT.
 
@@ -445,8 +456,9 @@ siguen pendientes de validación con ABT.
 - aprobación interna y aceptación del cliente no se confunden;
 - versiones se entienden;
 - nueva versión conserva el historial anterior y comienza con hitos pendientes;
-- aceptación de la versión no simula conversión hasta completar Etapa 5; la
-  cardinalidad cotización→operaciones queda pendiente.
+- desde la versión aceptada se abre el alta guiada y conserva origen; no se
+  declara conversión productiva y la cardinalidad cotización→operaciones queda
+  pendiente.
 
 ---
 
@@ -600,7 +612,7 @@ La secuencia integral adelanta Clientes y Cotizaciones al alta; las definiciones
 | 2 — Inicio y Mi trabajo | Under review |
 | 3 — Operaciones listado | Under review |
 | 4 — Operación detalle | Under review |
-| 5 — Crear Operación | Pendiente |
+| 5 — Crear Operación | Under review |
 | 6 — Clientes | Under review |
 | 7 — Importación | Pendiente |
 | 8 — Exportación/DJVE | Pendiente |
@@ -622,18 +634,34 @@ requisitos ni seguridad productiva. Etapa 9 añade un enlace filtrado a
 Cotizaciones, sin revelar valores en la ficha de Cliente. Revisión humana
 funcional y visual integral pendiente.
 
+### Implementación y gate técnico de Etapa 5
+
+`/operaciones/nueva` ofrece alta directa o desde cotización aceptada y seis
+pasos: origen, cliente/tipo/modalidad, contexto, equipo responsable, requisitos
+pendientes y revisión. Revalida ID y versión aceptada; no marca consumida ni
+asume cardinalidad uno-a-uno. El registro local alimenta Operaciones, detalle y
+ficha Cliente mediante IDs estables. No configura reglas condicionales, usuarios
+ni permisos. Gate local: lint, typecheck, build; 64 pruebas unitarias, 17 axe,
+25 E2E smoke Chromium; validador documental (117 IDs, 32 experiencias, 10
+recorridos) y `git diff --check` pasan. Capturas revisadas en Chromium a
+1440×1000 y 390×844; las pruebas de Operaciones y Clientes verifican la relación
+local. PR, CI y deployment pendientes; revisión humana integral pendiente.
+
 ### Implementación y gate técnico de Etapa 9
 
 Lista, ficha versionada y editor en `apps/web/features/quotes`; rutas bajo
 `/cotizaciones`. Datos enteramente sintéticos, cambios de workflow en sesión
-local y retorno Cliente↔Cotización preservado. Gate local: lint/typecheck/build;
+local y retorno Cliente↔Cotización preservado. PR #11 integrado en `main`
+(`1645bfc1094451447803c2f12af0f3ed7306a6af`), checks verdes, deployment
+`dpl_ASHbuHcgy7rjXkZsc7vAUSiEHJnc` READY; rutas list, detail, create y edit
+HTTP 200. Gate local: lint/typecheck/build;
 63 unitarias/componentes; 16 axe; 22 E2E smoke Chromium; validador documental
 (117 IDs, 32 experiencias, 10 recorridos); `git diff --check`. Capturas
 revisadas manualmente en Chromium a 1440×1000 y 390×844; E2E midió ausencia de
-overflow entre 390 y 1440 px. Etapa 5 aún no implementada: conversión
-deliberadamente deshabilitada. Datos comerciales, capacidades y acciones son
-demostrativos, no autorización o auditoría reales. PR/despliegue de Etapa 9
-pendientes; revisión humana integral pendiente.
+overflow entre 390 y 1440 px. Etapa 5 habilita ahora sólo el alta demostrativa
+desde la versión aceptada. Datos comerciales, capacidades y acciones son
+demostrativos, no autorización o auditoría reales. Revisión humana integral
+pendiente.
 
 ## Evidencia de cierre
 
