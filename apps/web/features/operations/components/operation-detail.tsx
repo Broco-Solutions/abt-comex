@@ -122,7 +122,14 @@ export function OperationDetail({
               >
                 Abrir espacio de Importación
               </Link>
-            ) : null}
+            ) : (
+              <Link
+                href={`/operaciones/${operation.id}/exportacion?returnTo=${encodeURIComponent(`/operaciones/${operation.id}?returnTo=${encodeURIComponent(returnTo)}`)}`}
+                className={cn(buttonVariants({ variant: "outline" }))}
+              >
+                Abrir espacio de Exportación
+              </Link>
+            )}
           </div>
         }
       />
@@ -254,7 +261,7 @@ export function OperationDetail({
           <p className="text-sm text-muted-foreground">
             {operation.kind === "Importación"
               ? "El seguimiento particular de Importación se consulta en su workspace. Esta ficha común no implica que la operación carezca de documentos."
-              : "El inventario y la custodia documental se incorporan con las experiencias específicas. Esta ficha no implica que la operación carezca de documentos."}
+              : "El inventario y la custodia documental de Exportación se consultan en su workspace. Esta ficha no implica que la operación carezca de documentos."}
           </p>
           {operation.kind === "Importación" ? (
             <Link
@@ -263,7 +270,14 @@ export function OperationDetail({
             >
               Abrir seguimiento de Importación
             </Link>
-          ) : null}
+          ) : (
+            <Link
+              href={`/operaciones/${operation.id}/exportacion?returnTo=${encodeURIComponent(`/operaciones/${operation.id}?returnTo=${encodeURIComponent(returnTo)}`)}`}
+              className="inline-flex min-h-9 items-center text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
+            >
+              Abrir seguimiento de Exportación
+            </Link>
+          )}
         </section>
         <section
           aria-labelledby="controls-title"
@@ -279,7 +293,7 @@ export function OperationDetail({
           <p className="text-sm text-muted-foreground">
             {operation.kind === "Importación"
               ? "El doble control bloqueante previo a oficialización se aborda en el workspace de Importación y sólo como estado local de demostración. No se infieren eventos aduaneros."
-              : "El fixture no contiene eventos ni controles registrados. No se infieren aprobaciones, bloqueos regulatorios ni hitos a partir de la situación resumida."}
+              : "El doble control, permisos, DJVE, hitos y custodia se consultan en el workspace de Exportación. Las referencias sintéticas no confirman eventos externos."}
           </p>
         </section>
       </div>

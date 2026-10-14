@@ -100,5 +100,7 @@ confidencialidad económica.
   regresión completa (el resultado final se registra en el plan y PR).
 - Capturas de Chromium revisadas a 1440×1000 y 390×844; pruebas E2E comprueban
   anchos 390, 768, 820, 900, 960, 1024, 1280 y 1440 px sin overflow.
-- CI, PR y despliegue: pendientes. Revisión funcional/visual integral y
-  validación ABT: pendientes.
+- PR #13 integrado en `main` (`58db943c9b1f03f592809ec321f409f685acd4b8`),
+  checks `quality` y `e2e-smoke` verdes; deployment de producción
+  `dpl_B4cuKdScKTggMHQq92BxrP2X6Za8` READY y ruta de Importación HTTP 200.
+  Revisión funcional/visual integral y validación ABT: pendientes.
