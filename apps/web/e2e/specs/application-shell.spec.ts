@@ -122,8 +122,12 @@ test("@smoke desktop navigation adapts, persists and keeps every destination ope
       'img[src="/brand/BROCO_SOLUTIONS_logo_gradient.svg"]'
     )
   ).toHaveCount(0)
-  const compactWidth = (await sidebar.boundingBox())?.width ?? 0
-  expect(expandedWidth - compactWidth).toBeGreaterThanOrEqual(180)
+  await expect
+    .poll(async () => {
+      const compactWidth = (await sidebar.boundingBox())?.width ?? 0
+      return expandedWidth - compactWidth
+    })
+    .toBeGreaterThanOrEqual(180)
 
   const workLink = navigation.getByRole("link", { name: "Mi trabajo" })
   await workLink.hover()
