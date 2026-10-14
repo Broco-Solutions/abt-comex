@@ -6,7 +6,7 @@
 
 Construir todas las Etapas 2 a 13 como primera versión integral, demostrativa y navegable del frontend para validar procesos con ABT. Las Etapas 0 y 1 están cerradas y fusionadas. **Etapa 2 — Inicio y Mi trabajo** se integró a `main` mediante PR #7 (squash `9359921d3cd3fb568e9ce923d3790c63d8a30a2d`); permanece `Under review`, pendiente de revisión humana integral. La rama histórica del PR #6 había sido fusionada contra una rama de prueba y no incorporó el contenido a `main`; no se reimplementó. Ver [especificación](screens/02-inicio-mi-trabajo.md). **Etapa 3 — Listado de Operaciones** se integró mediante PR #8 (squash `a83de1577ab1962d6e66fc862b81ee82bce383d8`), checks verdes y deployment `dpl_ENeTwNJcYZSh7eT3RoSz6EfBWWPi` READY. **Etapa 4 — Detalle común** se integró por [PR #9](https://github.com/Broco-Solutions/abt-comex/pull/9) (squash `80d77148de31eb0dfc388f31ab7bfd1e0b2bef0f`), checks verdes y deployment `dpl_AqoCyjYC3CYEnwNwz86kA1VZi2P7` READY. **Etapa 6 — Clientes** se integró por [PR #10](https://github.com/Broco-Solutions/abt-comex/pull/10), squash `26f19d9963e5669b4e251216ce9f4674ab6dac5e`, checks `quality`, `e2e-smoke` y Vercel Preview verdes; deployment de `main` `dpl_8vmJ5fUR8bPm3qb4ymGrPVZsjr2S` READY y rutas HTTP 200. **Etapa 9 — Cotizaciones** se integró por PR #11 (`1645bfc1094451447803c2f12af0f3ed7306a6af`). **Etapa 5 — Creación guiada** se integró después por [PR #12](https://github.com/Broco-Solutions/abt-comex/pull/12), squash `fce2db4ab9f0877cfd23de48bf2ae1c2fb55499a`, checks verdes y producción READY (`dpl_4swVdkXeUzdYsGES5miqqaQro87u`); alta, ficha, cotización y cliente respondieron HTTP 200. Las Etapas 2–6 y 9 permanecen `Under review`, sujetas a revisión humana integral.
 
-**Checkpoint vigente 14/10/2026:** Etapa 8 (Exportación/DJVE) quedó integrada en `main` mediante PR #14, squash `6ebc174394ad9b011a9f895ef54e76f58e0943cd`, CI verde y producción READY; sus rutas de workspace, DJVE y operación respondieron HTTP 200. Etapa 10 (Administración/Finanzas) está en implementación en `feat/stage-10-administration-main`, partiendo del mismo SHA de `main`; la especificación y la cola/detalle/fuentes usan fixtures sintéticos compartidos. Etapas Under review continúan pendientes de revisión humana integral.
+**Checkpoint vigente 14/10/2026:** Etapa 10 (Administración/Finanzas) se integró mediante PR #15, squash `5df29305616a9e212bc9107f12251e33a7c44d99`, checks requeridos verdes y producción READY (`dpl_3eN8u6f7ybhNje2Ako6rauRaXQKf`); cola, detalle y fuentes responden HTTP 200. Etapa 11 (Gestión/Dirección) está en implementación en `feat/stage-11-management-main`, desde ese SHA actualizado. Las etapas Under review continúan pendientes de revisión humana integral.
 
 ## Gobierno y dependencias
 
@@ -14,20 +14,20 @@ Este plan es autoridad de orden, dependencias, entregables, gates, estado y cier
 
 La [matriz](MATRIZ_COBERTURA_FUNCIONAL.md) conserva necesidades, evidencia y certeza; el [mapa](MAPA_PANTALLAS_Y_RECORRIDOS.md) relaciona experiencias y recorridos. No agregan alcance ni reordenan este plan.
 
-| Etapa | Dependencia de entrega / especificación                                                                                                                                                                                                     |
-| ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0–1   | Base completada; [Shell](screens/01-foundation-application-shell.md), decisiones y evidencia de cierre al final de este plan.                                                                                                               |
-| 2     | Shell existente y gate G0; implementación integrada a `main`, Under review. Cuando existe destino profundo útil, Mi trabajo lo abre y conserva su contexto; acciones de proceso no disponibles se describen sin simularlas.                 |
-| 3     | Fuente/criterios de búsqueda y G1; implementación integrada mediante PR #8 a `main`, checks requeridos verdes, Under review. El listado abre el detalle común y preserva retorno.                                                           |
+| Etapa | Dependencia de entrega / especificación                                                                                                                                                                                                                |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 0–1   | Base completada; [Shell](screens/01-foundation-application-shell.md), decisiones y evidencia de cierre al final de este plan.                                                                                                                          |
+| 2     | Shell existente y gate G0; implementación integrada a `main`, Under review. Cuando existe destino profundo útil, Mi trabajo lo abre y conserva su contexto; acciones de proceso no disponibles se describen sin simularlas.                            |
+| 3     | Fuente/criterios de búsqueda y G1; implementación integrada mediante PR #8 a `main`, checks requeridos verdes, Under review. El listado abre el detalle común y preserva retorno.                                                                      |
 | 4     | Listado y núcleo común G1; detalle común integrado a `main` por PR #9, Under review; [especificación](screens/04-operacion-detalle.md). Reutiliza fixture de Operaciones; no inventa datos de trámites, hitos, controles, estados ni datos económicos. |
-| 5     | Núcleo común y maestros/cotización de Etapas 6/9, G2; especificación e implementación integradas a `main`, Under review. Reutiliza sus fixtures y relaciones para alta directa o desde versión aceptada.                                   |
-| 6     | Núcleo y decisiones de maestros G2; implementación y especificación integradas a `main`, Under review.                                                                                                                                      |
-| 7     | Listado/detalle/alta común, maestros y G3; workspace integrado a `main` por PR #13, Under review; ver evidencia al final del plan y [especificación](screens/07-importacion.md).                                                            |
-| 8     | Núcleo común, maestros y G3; [especificación Exportación/DJVE](screens/08-exportacion-djve.md), implementación integrada a `main` por PR #14, checks verdes y producción READY; Under review.                                                   |
-| 9     | Maestros y G2; circuito comercial conectado al alta de Etapa 5; implementación integrada a `main` por PR #11, checks verdes, Under review; [especificación](screens/09-cotizaciones.md).                                                      |
-| 10    | Handoff de verticales, G4 y fuentes administrativas; [especificación](screens/10-administracion-finanzas.md), en implementación; cola, detalle y fuentes sintéticas.                                                                        |
-| 11    | Datos operativos y administrativos, definiciones de métricas y G4; especificación pendiente.                                                                                                                                                |
-| 12–13 | Núcleo, identidad y visibilidad compartidas, G5; especificaciones pendientes. No implica backend autorizado hoy.                                                                                                                            |
+| 5     | Núcleo común y maestros/cotización de Etapas 6/9, G2; especificación e implementación integradas a `main`, Under review. Reutiliza sus fixtures y relaciones para alta directa o desde versión aceptada.                                               |
+| 6     | Núcleo y decisiones de maestros G2; implementación y especificación integradas a `main`, Under review.                                                                                                                                                 |
+| 7     | Listado/detalle/alta común, maestros y G3; workspace integrado a `main` por PR #13, Under review; ver evidencia al final del plan y [especificación](screens/07-importacion.md).                                                                       |
+| 8     | Núcleo común, maestros y G3; [especificación Exportación/DJVE](screens/08-exportacion-djve.md), implementación integrada a `main` por PR #14, checks verdes y producción READY; Under review.                                                          |
+| 9     | Maestros y G2; circuito comercial conectado al alta de Etapa 5; implementación integrada a `main` por PR #11, checks verdes, Under review; [especificación](screens/09-cotizaciones.md).                                                               |
+| 10    | Handoff de verticales, G4 y fuentes administrativas; [especificación](screens/10-administracion-finanzas.md), integrado a `main` mediante PR #15, checks/deployment READY; Under review.                                                               |
+| 11    | Datos operativos y administrativos, definiciones de métricas y G4; [especificación](screens/11-gestion-direccion.md), implementación técnica en revisión mediante PR propio; fórmulas y fuentes externas no disponibles.                               |
+| 12–13 | Núcleo, identidad y visibilidad compartidas, G5; especificaciones pendientes. No implica backend autorizado hoy.                                                                                                                                       |
 
 Una dependencia de definición puede resolverse antes de implementar su módulo. Se conservan los IDs históricos 0–13; el orden de ejecución no tiene que coincidir con la numeración.
 
@@ -518,8 +518,11 @@ cobranza, cumplido, post-embarque y cierre documental aparecen como dimensiones
 separadas; no se inventan comprobantes ni montos. No hay escritura o conexión
 con Alpha2000 ni Interbanking. Las rutas y pruebas se describen en
 [especificación Etapa 10](screens/10-administracion-finanzas.md). Estado
-`Under review`; pendiente CI/PR/deployment y revisión humana integral. La
-visibilidad mock no representa permisos productivos.
+`Under review`; PR #15 integrado en `main` (`5df29305616a9e212bc9107f12251e33a7c44d99`),
+checks `quality`, `e2e-smoke`, Vercel y Preview Comments verdes. El deployment
+`dpl_3eN8u6f7ybhNje2Ako6rauRaXQKf` está READY; `/administracion`, detalle
+`op-demo-3107` y `/administracion/finanzas` respondieron HTTP 200. Revisión
+humana integral pendiente. La visibilidad mock no representa permisos productivos.
 
 ---
 
@@ -551,6 +554,18 @@ Convertir información en decisiones.
 - los 18 bloques observados en `2025ABT.xlsx` tienen cobertura, fuente y validación pendiente explícitas;
 - fórmulas/fuentes explícitas y no declaradas definitivas antes de validación;
 - permisos en KPI, tabla, gráfico y exportación.
+
+### Implementación de esta pasada (Under review)
+
+`/gestion` presenta cinco vistas sobre fixtures compartidos: panorama
+operativo, situaciones por operación, clientes relacionados, carga de trabajo
+y dependencias económicas sin cifras. Los drill-down abren el listado/ficha de
+Operaciones, ficha de Cliente o Mi trabajo, conservando el retorno cuando
+corresponde. No calcula indicadores financieros ni incorpora exportaciones,
+fuentes conectadas o reglas de productividad. La especificación proporcional,
+limitaciones y pruebas están en
+[Etapa 11 — Gestión y Dirección](screens/11-gestion-direccion.md). Validación
+humana integral pendiente.
 
 ---
 
@@ -650,7 +665,7 @@ La secuencia integral adelanta Clientes y Cotizaciones al alta; las definiciones
 | 8 — Exportación/DJVE         | Under review                         |
 | 9 — Cotizaciones             | Under review                         |
 | 10 — Administración/Finanzas | Under review                         |
-| 11 — Gestión/Dirección       | Pendiente                            |
+| 11 — Gestión/Dirección       | Under review                         |
 | 12 — Portal                  | Pendiente                            |
 | 13 — Canales asistidos       | Pendiente                            |
 
