@@ -34,14 +34,14 @@ describe("operations list data", () => {
     expect(result.map((item) => item.id)).toEqual(["op-demo-2048"])
   })
 
-  it("keeps a safe, synthetic context and active list filters in a URL", () => {
+  it("keeps active list filters in a return URL", () => {
     const filters = parseOperationFilters({
       tipo: "exportacion",
       q: "norte",
       agrupar: "kind",
     })
-    expect(operationHref(filters, { operation: "op-demo-3107" })).toBe(
-      "/operaciones?q=norte&tipo=exportacion&agrupar=kind&operacion=op-demo-3107"
+    expect(operationHref(filters)).toBe(
+      "/operaciones?q=norte&tipo=exportacion&agrupar=kind"
     )
   })
 

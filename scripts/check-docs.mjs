@@ -12,7 +12,7 @@ const planPath = 'docs/frontend/PLAN_IMPLEMENTACION.md';
 const decisionsPath = 'docs/frontend/DECISIONS.md';
 const read = (base, path) => readFileSync(resolve(base, path), 'utf8');
 const withoutCode = text => text.replace(/^```[^\n]*\n[\s\S]*?^```/gm, '');
-const definitions = text => [...text.matchAll(/^\| ([A-Z]+-\d{2,3}) \|/gm)].map(m => m[1]);
+const definitions = text => [...text.matchAll(/^\|\s*([A-Z]+-\d{2,3})\s*\|/gm)].map(m => m[1]);
 const uiDefinitions = text => definitions(text.split('## Inventario de experiencias')[1]?.split('### Clasificación')[0] ?? '');
 const journeys = text => [...text.matchAll(/^### (J\d+) —/gm)].map(m => m[1]);
 const slug = text => text.toLowerCase().replace(/<[^>]*>/g, '').replace(/[^\p{L}\p{N}_\-\s]/gu, '').replace(/\s/g, '-');
@@ -33,7 +33,7 @@ function linkError(path, target, exists = existsSync, content = path => readFile
   if (!exists(destination)) return `${path}: enlace inexistente ${target}`;
   if (hash && destination.endsWith('.md') && !anchors(content(destination)).has(decodeURIComponent(hash))) return `${path}: anchor inexistente ${target}`;
 }
-const stageRows = text => [...text.matchAll(/^\| (\d+) — [^|]+\| ([^|]+) \|$/gm)].map(m => [Number(m[1]), m[2].trim()]);
+const stageRows = text => [...text.matchAll(/^\|\s*(\d+) — [^|]+\|\s*([^|]+?)\s*\|$/gm)].map(m => [Number(m[1]), m[2].trim()]);
 function markdownFiles(base, dir = 'docs') {
   return readdirSync(resolve(base, dir), { withFileTypes: true }).flatMap(entry => {
     const path = `${dir}/${entry.name}`;
@@ -60,8 +60,8 @@ if (process.argv.includes('--self-test')) {
   unique(['WRK-001', 'WRK-001'], 'fixture', errors);
   assert.equal(errors.length, 1);
   assert.deepEqual(missingReferences('WRK-001 WRK-999', new Set(['WRK-001'])), ['WRK-999']);
-  assert.deepEqual(stageRows('| 2 — Inicio | Pendiente |'), [[2, 'Pendiente']]);
-  assert.deepEqual(uiDefinitions('## Inventario de experiencias\n| WORK-01 | x |\n### Clasificación\n| INT-006 | fuera de alcance |'), ['WORK-01']);
+  assert.deepEqual(stageRows('| 2 — Inicio | Pendiente |\n| 3 — Operaciones |    Under review  |'), [[2, 'Pendiente'], [3, 'Under review']]);
+  assert.deepEqual(uiDefinitions('## Inventario de experiencias\n| WORK-01 | x |\n| OPS-03    | x |\n### Clasificación\n| INT-006 | fuera de alcance |'), ['WORK-01', 'OPS-03']);
   const fixture = new Map([[resolve(root, 'docs/a.md'), '# Título\n## Destino']]);
   const exists = path => fixture.has(path);
   const content = path => fixture.get(path);
@@ -79,10 +79,10 @@ const errors = [];
 const requirements = unique(definitions(corpus.get(matrixPath)), matrixPath, errors);
 const experiences = unique(uiDefinitions(corpus.get(mapPath)), mapPath, errors);
 const processes = unique(journeys(corpus.get(mapPath)), mapPath, errors);
-const scenarios = unique([...corpus.get('docs/frontend/screens/02-inicio-mi-trabajo.md').matchAll(/^\| (T02-\d{2}) \|/gm)].map(m => m[1]), 'Etapa 2', errors);
+const scenarios = unique([...corpus.get('docs/frontend/screens/02-inicio-mi-trabajo.md').matchAll(/^\|\s*(T02-\d{2})\s*\|/gm)].map(m => m[1]), 'Etapa 2', errors);
 const known = new Set([...requirements, ...experiences, ...processes, ...scenarios]);
 const externalIds = new Set(['DIR-001','DIR-002','DIR-003','DIR-004','DIR-005','DIR-006','DIR-007','DIR-008','DIR-009','DIR-010','COM-001','COM-002','FIN-010','FIN-011','FIN-012','OPS-010','OPS-011','OPS-012']);
-const sourceIds = new Set([...corpus.get(matrixPath).matchAll(/^\| ([EL]\d+) \|/gm)].map(m => m[1]));
+const sourceIds = new Set([...corpus.get(matrixPath).matchAll(/^\|\s*([EL]\d+)\s*\|/gm)].map(m => m[1]));
 
 for (const [path, text] of corpus) {
   for (const target of links(text)) {

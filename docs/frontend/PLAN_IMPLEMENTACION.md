@@ -4,7 +4,7 @@
 
 ## Objetivo y siguiente corte
 
-Construir todas las Etapas 2 a 13 como primera versión integral, demostrativa y navegable del frontend para validar procesos con ABT. Las Etapas 0 y 1 están cerradas y fusionadas. **Etapa 2 — Inicio y Mi trabajo** se integró correctamente a `main` mediante PR #7 (squash `9359921d3cd3fb568e9ce923d3790c63d8a30a2d`), CI y despliegue de producción de demostración READY; permanece `Under review`, pendiente de revisión humana integral. La rama histórica del PR #6 había sido fusionada contra una rama de prueba y no incorporó el contenido a `main`; no se reimplementó. Ver [especificación](screens/02-inicio-mi-trabajo.md). Etapa 3 tiene implementación local completa en una rama basada en ese `main`; CI/PR pendiente.
+Construir todas las Etapas 2 a 13 como primera versión integral, demostrativa y navegable del frontend para validar procesos con ABT. Las Etapas 0 y 1 están cerradas y fusionadas. **Etapa 2 — Inicio y Mi trabajo** se integró correctamente a `main` mediante PR #7 (squash `9359921d3cd3fb568e9ce923d3790c63d8a30a2d`), CI y despliegue de producción de demostración READY; permanece `Under review`, pendiente de revisión humana integral. La rama histórica del PR #6 había sido fusionada contra una rama de prueba y no incorporó el contenido a `main`; no se reimplementó. Ver [especificación](screens/02-inicio-mi-trabajo.md). **Etapa 3 — Listado de Operaciones** se integró mediante PR #8 (squash `a83de1577ab1962d6e66fc862b81ee82bce383d8`), checks requeridos verdes y deployment `dpl_ENeTwNJcYZSh7eT3RoSz6EfBWWPi` READY. **Etapa 4 — Detalle común** se implementa en la rama actual; revisión humana integral pendiente.
 
 ## Gobierno y dependencias
 
@@ -15,9 +15,9 @@ La [matriz](MATRIZ_COBERTURA_FUNCIONAL.md) conserva necesidades, evidencia y cer
 | Etapa | Dependencia de entrega / especificación |
 |---|---|
 | 0–1 | Base completada; [Shell](screens/01-foundation-application-shell.md), decisiones y evidencia de cierre al final de este plan. |
-| 2 | Shell existente y gate G0; implementación integrada a `main`, Under review. Destinos profundos aún no disponibles se contextualizan localmente. |
-| 3 | Fuente/criterios de búsqueda y G1; implementación local completa, CI/PR pendiente, Under review. Hasta Etapa 4 no se ofrece un detalle inexistente como disponible. |
-| 4 | Listado y núcleo común G1; especificación pendiente. |
+| 2 | Shell existente y gate G0; implementación integrada a `main`, Under review. Cuando existe destino profundo útil, Mi trabajo lo abre y conserva su contexto; acciones de proceso no disponibles se describen sin simularlas. |
+| 3 | Fuente/criterios de búsqueda y G1; implementación integrada mediante PR #8 a `main`, checks requeridos verdes, Under review. El listado abre el detalle común y preserva retorno. |
+| 4 | Listado y núcleo común G1; detalle común en implementación, [especificación](screens/04-operacion-detalle.md), Under review. Reutiliza fixture de Operaciones; no inventa datos de trámites, hitos, controles, estados ni datos económicos. |
 | 5 | Núcleo común y maestros/cotización de Etapas 6/9, G2; especificación pendiente. Reutiliza sus fixtures y relaciones para alta directa o desde versión aceptada. |
 | 6 | Núcleo y decisiones de maestros G2; especificación pendiente. |
 | 7 | Listado/detalle/alta común, maestros y G3; especificación pendiente. |
@@ -254,7 +254,7 @@ Construir la primera pantalla operativa principal.
 
 ### Implementación y gate local
 
-La primera pasada usa fixtures determinísticos y sintéticos, filtros/orden/grupo/página en URL, selección y columnas visibles temporales de sesión, rango de fechas, DataTable compartido en escritorio y registros compactos en mobile. No presenta ficha completa antes de Etapa 4; el contexto se abre y cierra en la misma lista. `views` guardadas quedan fuera hasta validación. Lint, typecheck, unitarias (49), axe (9), build, validador documental y 6 E2E Chromium de Etapas 2–3 pasan localmente. CI/PR pendiente. La revisión visual humana integral sigue pendiente.
+La primera pasada usa fixtures determinísticos y sintéticos, filtros/orden/grupo/página en URL, selección y columnas visibles temporales de sesión, rango de fechas, DataTable compartido en escritorio y registros compactos en mobile. Tras Etapa 4, la referencia abre `/operaciones/[operationId]` y preserva retorno; `views` guardadas quedan fuera hasta validación. PR #8 está integrado; lint/typecheck, 49 unitarias, 12 axe, build, validador documental y 17 E2E smoke Chromium seriales pasan en la rama de Etapa 4. Se verificó visualmente esta ficha a 1440×1000 y 390×844, sin overflow horizontal. La revisión visual humana integral sigue pendiente.
 
 ---
 
@@ -262,7 +262,7 @@ La primera pasada usa fixtures determinísticos y sintéticos, filtros/orden/gru
 
 ### Objetivo
 
-Definir el objeto central antes de especializar Impo y Expo.
+Definir el contexto común de la operación antes de especializar Impo y Expo. Reutilizar IDs sintéticos estables; el resumen no implica un catálogo de estados aprobado ni sistemas externos conectados.
 
 ### Entregables
 
@@ -274,8 +274,8 @@ Definir el objeto central antes de especializar Impo y Expo.
 - documentación;
 - controles;
 - Administración relacionada, separada por capacidades económicas según alcance §7.2, sin acceso implícito por ser responsable o jefe;
-- actividad;
-- acciones contextuales.
+- actividad (no disponible mientras no exista una fuente de eventos);
+- acciones contextuales sólo con destino existente; acciones de negocio aún no habilitadas se explican y deshabilitan.
 
 ### Gate
 
@@ -579,7 +579,7 @@ La secuencia integral adelanta Clientes y Cotizaciones al alta; las definiciones
 | 1 — Application Shell | Complete with environment limitation |
 | 2 — Inicio y Mi trabajo | Under review |
 | 3 — Operaciones listado | Under review |
-| 4 — Operación detalle | Pendiente |
+| 4 — Operación detalle | Under review |
 | 5 — Crear Operación | Pendiente |
 | 6 — Clientes | Pendiente |
 | 7 — Importación | Pendiente |
