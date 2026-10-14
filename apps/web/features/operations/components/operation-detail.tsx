@@ -130,6 +130,12 @@ export function OperationDetail({
                 Abrir espacio de Exportación
               </Link>
             )}
+            <Link
+              href={`/administracion/${operation.id}?returnTo=${encodeURIComponent(`/operaciones/${operation.id}?returnTo=${encodeURIComponent(returnTo)}`)}`}
+              className={cn(buttonVariants({ variant: "outline" }))}
+            >
+              Ver contexto administrativo
+            </Link>
           </div>
         }
       />

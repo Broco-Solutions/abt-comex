@@ -33,4 +33,6 @@ El estado de especificación no sustituye el estado de etapa ni una aprobación 
 
 Usar [SCREEN_TEMPLATE.md](SCREEN_TEMPLATE.md) y nombre `NN-area-vista.md`. La numeración organiza trabajo, no define rutas. Completar lo necesario para el riesgo: una vista simple puede ser breve; Importación, Exportación, DJVE o Administración requieren detalle de reglas, variantes, custodia, cruces y pruebas.
 
+Etapa 10: [Administración y Finanzas](10-administracion-finanzas.md) · cola, detalle y fuentes financieras demostrativas; Under review.
+
 Enlazar evidencia con namespace, necesidad de matriz, experiencia/recorrido, regla, escenario y etapa. Al implementar, agregar rutas reales de código y pruebas. Actualizar por cambios de comportamiento, información, acciones, estados, permisos, responsive, ayuda o aceptación; no por refactors sin impacto. No copiar las normas del estándar o los comandos de pruebas.

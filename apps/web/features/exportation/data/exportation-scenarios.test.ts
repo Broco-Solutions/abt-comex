@@ -47,6 +47,7 @@ describe("exportation demonstration data", () => {
   it("keeps invoice, fulfilled, post-shipment and documentary close independent", () => {
     const progress = getExportationProgress("op-demo-3107")
     expect(progress.billing).toBe("Facturada")
+    expect(progress.collection).toBe("Sin referencia")
     expect(progress.fulfilled).toBe("Pendiente")
     expect(progress.postShipment).toBe("Pendiente")
     expect(progress.documentaryClose).toBe("Pendiente")

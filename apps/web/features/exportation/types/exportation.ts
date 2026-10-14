@@ -40,14 +40,3 @@ export type DemonstrationDjve = {
   permitIds: string[]
   autonomous: boolean
 }
-
-export type ExportationProgress = {
-  operationId: string
-  billing: "Lista para facturar" | "Facturada" | "Sin referencia"
-  fulfilled: "Pendiente" | "Registrado en fixture"
-  postShipment: "Pendiente" | "En seguimiento"
-  documentaryClose: "Pendiente" | "En seguimiento"
-  customsFile: "Referencias sintéticas" | "Sin detalle disponible"
-  physicalOriginals: "Sin estado disponible" | "Escenario de custodia"
-  digitalCopy: "Sin estado disponible" | "Referencia sintética disponible"
-}

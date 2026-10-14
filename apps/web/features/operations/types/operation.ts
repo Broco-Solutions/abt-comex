@@ -29,3 +29,15 @@ export type DemonstrationOperation = {
         quoteVersion: number
       }
 }
+
+export type DemonstrationOperationProgress = {
+  operationId: string
+  billing: "Lista para facturar" | "Facturada" | "Sin referencia"
+  collection: "Sin referencia" | "Registrada en fixture"
+  fulfilled: "Pendiente" | "Registrado en fixture"
+  postShipment: "Pendiente" | "En seguimiento"
+  documentaryClose: "Pendiente" | "En seguimiento"
+  customsFile: "Referencias sintéticas" | "Sin detalle disponible"
+  physicalOriginals: "Sin estado disponible" | "Escenario de custodia"
+  digitalCopy: "Sin estado disponible" | "Referencia sintética disponible"
+}

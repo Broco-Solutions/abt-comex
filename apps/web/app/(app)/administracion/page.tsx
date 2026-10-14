@@ -1,10 +1,9 @@
-import { ModulePlaceholder } from "@/components/states/module-placeholder"
+import { AdministrationQueue } from "@/features/administration/components/administration-queue"
 
-export default function AdministracionPage() {
-  return (
-    <ModulePlaceholder
-      title="Administración y Finanzas"
-      description="Dará continuidad estructurada al trabajo operativo y lo relacionará con los sistemas especializados que correspondan."
-    />
-  )
+export default async function AdministracionPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}) {
+  return <AdministrationQueue searchParams={await searchParams} />
 }
