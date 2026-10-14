@@ -1,7 +1,7 @@
 # ABT Comex
 
 Sistema empresarial a medida para gestionar operaciones de Importación y Exportación. El frontend navegable y el Design System permiten validar procesos con ABT antes de definir backend, persistencia y autenticación real.
-
+ 
 ## Repositorio
 
 - [apps/web](apps/web): aplicación Next.js; `/design-system` es su referencia visual.
