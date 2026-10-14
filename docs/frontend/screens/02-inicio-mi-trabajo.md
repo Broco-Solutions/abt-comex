@@ -1,6 +1,6 @@
 # Inicio + Mi trabajo
 
-> Estado: Draft
+> Estado: Under review
 >
 > Etapa: 2 — Inicio y Mi trabajo
 >
@@ -478,7 +478,6 @@ Al implementar, enlazar cada escenario con el archivo/test y su resultado real. 
 
 ## 22. Fuera de alcance
 
-- implementación de Etapa 2;
 - lista y detalle completos de Operaciones;
 - acciones profundas de Importación, Exportación, DJVE, cotización o Administración;
 - reglas definitivas de prioridad, SLA, asignación, suplencia o escalamiento;
@@ -511,9 +510,9 @@ Al implementar, enlazar cada escenario con el archivo/test y su resultado real. 
 | ¿Qué nivel de actividad reciente aparece en Inicio? | Ruido y contexto | Mostrar sólo cambios accionables del fixture | Revisión visual ABT |
 | ¿Qué umbral define un dato stale? | Mensaje y posible bloqueo | Mostrar fecha sin inventar umbral | Dueño de integración |
 
-## 24. Definition of Ready y preparación de Etapa 2
+## 24. Definition of Ready y resultado técnico de Etapa 2
 
-La Etapa 2 queda **documentalmente preparada para una implementación futura con fixtures** dentro de estos límites:
+La implementación técnica de Etapa 2 se completó en `feat/stage-02-inicio-mi-trabajo` dentro de estos límites; esto no constituye aprobación funcional/humana ni seguridad productiva:
 
 - usar sólo las rutas aprobadas `/inicio` y `/mi-trabajo`;
 - compartir una fuente conceptual de work items y resúmenes;
@@ -524,15 +523,16 @@ La Etapa 2 queda **documentalmente preparada para una implementación futura con
 - usar el contrato temporal de navegación de §5; contextualizar localmente lo que todavía no tenga destino útil, sin presentar placeholders como fichas;
 - documentar cualquier supuesto nuevo como reemplazable.
 
-La especificación permanece en **Draft** en esta entrega documental para revisión. Una ejecución posterior aplica la [Definition of Ready](../CODEX_RUNBOOK.md#preparación-y-cierre) del modo integral, sin atribuir aprobación humana o de negocio. Las preguntas de catálogo, asignación, capacidades y origen de eventos bloquean decisiones definitivas, pero no impiden construir después un corte visual y navegable con fixtures bajo los límites anteriores.
+Las preguntas de catálogo, asignación, capacidades y origen de eventos continúan abiertas y bloquean decisiones definitivas, pero no impidieron este corte navegable con fixtures bajo límites explícitos. La etapa queda `Under review` hasta la revisión humana integral; no se atribuye aprobación de negocio.
 
-## 25. Implementación prevista
+## 25. Implementación y evidencia técnica
 
-- Features futuras: `apps/web/features/home` y `apps/web/features/work`.
-- Rutas existentes: `apps/web/app/(app)/inicio` y `apps/web/app/(app)/mi-trabajo` según la estructura real del repositorio al iniciar la etapa.
-- Componentes: patrones existentes de `packages/ui`; cualquier patrón reusable nuevo se documenta primero en `/design-system`.
-- Pruebas: junto a cada feature y E2E de recorrido Inicio ↔ Mi trabajo ↔ contexto de origen.
-- Preview / revisión: pendiente; esta sesión no implementa ni genera preview.
+- Features: `apps/web/features/home` y `apps/web/features/work`, con un conjunto común de fixtures determinísticos, sintéticos y sin importes.
+- Rutas: `/inicio` y `/mi-trabajo`; parámetros URL preservan filtros/vistas y permiten abrir contexto local sin enlazar a detalles aún inexistentes.
+- Componentes: patrones existentes de `packages/ui`; no se modificaron Design System, marca ni Application Shell.
+- Estados probados: bandeja normal, lectura recuperable, acceso restringido sin revelar filas/conteos sensibles, datos externos parciales/desactualizados y tarea sin operación.
+- Pruebas implementadas: unitarias de datos y Worklist, pruebas automatizadas de accesibilidad en estados principales y E2E para navegación, filtros, estado de fuente, recuperación, restricción y anchos responsive. Registrar resultados exactos junto al gate de PR; no equivale a revisión visual humana ni a certificación WCAG.
+- Preview / revisión: integración pendiente. El check obligatorio de Vercel requiere habilitar al autor en el proyecto; no declarar preview ni despliegue hasta que exista un deployment verificable.
 
 ## 26. Resultado de revisión humana
 
@@ -542,4 +542,4 @@ La especificación permanece en **Draft** en esta entrega documental para revisi
 - Escenarios revisados:
 - Observaciones:
 - Ajustes requeridos:
-- Estado final: Draft
+- Estado final: Under review — aprobación humana pendiente

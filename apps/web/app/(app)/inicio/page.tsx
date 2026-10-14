@@ -1,10 +1,5 @@
-import { ModulePlaceholder } from "@/components/states/module-placeholder"
+import { HomeOverview } from "@/features/home/components/home-overview"
 
 export default function InicioPage() {
-  return (
-    <ModulePlaceholder
-      title="Inicio"
-      description="Será el punto de entrada al trabajo diario y priorizará lo que requiera atención, sin convertirse en un dashboard decorativo."
-    />
-  )
+  return <HomeOverview />
 }
