@@ -2,10 +2,10 @@ import {
   demonstrationExportReviewers,
   type DemonstrationDjve,
   type ExportDoubleControl,
-  type ExportationProgress,
   type ExportationScenario,
   type ExportPermit,
 } from "../types/exportation"
+import { getDemonstrationOperationProgress } from "@/features/operations/data/operation-progress"
 
 const storageKey = "abt-comex:demo:exportation:v1"
 const reviewerIds = demonstrationExportReviewers.map((reviewer) => reviewer.id)
@@ -75,49 +75,6 @@ export const demonstrationDjves: DemonstrationDjve[] = [
     quantityUnit: "t (fixture)",
     permitIds: ["permit-demo-1404"],
     autonomous: false,
-  },
-]
-
-export const demonstrationExportProgress: ExportationProgress[] = [
-  {
-    operationId: "op-demo-3107",
-    billing: "Facturada",
-    fulfilled: "Pendiente",
-    postShipment: "Pendiente",
-    documentaryClose: "Pendiente",
-    customsFile: "Referencias sintéticas",
-    physicalOriginals: "Escenario de custodia",
-    digitalCopy: "Referencia sintética disponible",
-  },
-  {
-    operationId: "op-demo-3112",
-    billing: "Lista para facturar",
-    fulfilled: "Pendiente",
-    postShipment: "Pendiente",
-    documentaryClose: "Pendiente",
-    customsFile: "Sin detalle disponible",
-    physicalOriginals: "Sin estado disponible",
-    digitalCopy: "Sin estado disponible",
-  },
-  {
-    operationId: "op-demo-3120",
-    billing: "Sin referencia",
-    fulfilled: "Pendiente",
-    postShipment: "Pendiente",
-    documentaryClose: "Pendiente",
-    customsFile: "Sin detalle disponible",
-    physicalOriginals: "Sin estado disponible",
-    digitalCopy: "Sin estado disponible",
-  },
-  {
-    operationId: "op-demo-3133",
-    billing: "Facturada",
-    fulfilled: "Registrado en fixture",
-    postShipment: "En seguimiento",
-    documentaryClose: "En seguimiento",
-    customsFile: "Referencias sintéticas",
-    physicalOriginals: "Escenario de custodia",
-    digitalCopy: "Referencia sintética disponible",
   },
 ]
 
@@ -209,19 +166,4 @@ export function getExportationScenario(
   )
 }
 
-export function getExportationProgress(operationId: string) {
-  return (
-    demonstrationExportProgress.find(
-      (item) => item.operationId === operationId
-    ) ?? {
-      operationId,
-      billing: "Sin referencia" as const,
-      fulfilled: "Pendiente" as const,
-      postShipment: "Pendiente" as const,
-      documentaryClose: "Pendiente" as const,
-      customsFile: "Sin detalle disponible" as const,
-      physicalOriginals: "Sin estado disponible" as const,
-      digitalCopy: "Sin estado disponible" as const,
-    }
-  )
-}
+export const getExportationProgress = getDemonstrationOperationProgress

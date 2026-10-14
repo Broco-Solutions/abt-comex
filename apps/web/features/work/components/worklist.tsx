@@ -450,10 +450,21 @@ function WorkRow({
                   </Link>
                 )}
                 {!relatedOperation ? (
-                  <span className="self-center text-xs text-muted-foreground">
-                    La acción del proceso estará disponible en una etapa
-                    posterior.
-                  </span>
+                  item.id === "wrk-admin-no-operation-05" ? (
+                    <Link
+                      href={`/administracion/finanzas?trabajo=${encodeURIComponent(item.id)}`}
+                      className={cn(
+                        buttonVariants({ variant: "outline", size: "sm" })
+                      )}
+                    >
+                      Abrir contexto administrativo
+                    </Link>
+                  ) : (
+                    <span className="self-center text-xs text-muted-foreground">
+                      La acción del proceso estará disponible en una etapa
+                      posterior.
+                    </span>
+                  )
                 ) : null}
                 {relatedOperation ? (
                   <Link

@@ -131,7 +131,9 @@ DJVE→Exportación; error/ausencia externos; viewports responsive y axe.
   32 experiencias, 10 recorridos) y `git diff --check` pasan.
 - Capturas Chromium revisadas en 1440×1000 y 390×844; E2E revisa 390–1440 px
   sin overflow horizontal. No equivale a auditoría WCAG manual.
-- CI, PR y deployment quedan pendientes hasta integrar el corte. Revisión
-  funcional/visual integral y validación ABT también pendientes.
+- PR #14 integrado en `main` (`6ebc174394ad9b011a9f895ef54e76f58e0943cd`),
+  checks requeridos verdes y deployment `dpl_F9bW7anLmQUhAUAmVZTJiKjjbTAE`
+  READY. Las rutas de Exportación, DJVE, operación y Mi trabajo respondieron
+  HTTP 200. Revisión funcional/visual integral y validación ABT pendientes.
 - Estado de especificación y Etapa 8: `Under review`; no implica aprobación de
   ABT ni aptitud productiva.

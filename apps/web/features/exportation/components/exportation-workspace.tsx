@@ -184,6 +184,12 @@ export function ExportationWorkspace({
             >
               Ver DJVE
             </Link>
+            <Link
+              href={`/administracion/${operation.id}?returnTo=${encodeURIComponent(`/operaciones/${operation.id}/exportacion`)}`}
+              className={cn(buttonVariants({ variant: "outline" }))}
+            >
+              Ver Administración
+            </Link>
           </div>
         }
       />
@@ -507,12 +513,18 @@ export function ExportationWorkspace({
           cumplido, post-embarque ni cierre documental. El fixture no permite
           crear factura, ejecutar el pase ni afirmar eventos externos.
         </p>
-        <dl className="grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-4">
+        <dl className="grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           <div>
             <dt className="text-xs text-muted-foreground">
               Facturación · fixture
             </dt>
             <dd className="mt-1 font-medium">{progress.billing}</dd>
+          </div>
+          <div>
+            <dt className="text-xs text-muted-foreground">
+              Cobranza · fixture
+            </dt>
+            <dd className="mt-1 font-medium">{progress.collection}</dd>
           </div>
           <div>
             <dt className="text-xs text-muted-foreground">
@@ -535,8 +547,8 @@ export function ExportationWorkspace({
         </dl>
         <p className="text-sm text-muted-foreground">
           Facturada, cobrada, cumplida y cerrada documentalmente son situaciones
-          diferentes. Cobranza y datos económicos no se infieren ni aparecen en
-          este workspace.
+          diferentes. La cobranza es sólo un estado sintético independiente; no
+          expone saldos, importes ni consulta externa.
         </p>
       </section>
     </div>
