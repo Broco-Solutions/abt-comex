@@ -35,7 +35,7 @@ No hay aprobación formal de ABT de la propuesta de pantalla o de los campos.
 - Una operación puede abrir la ficha de su cliente y retornar al detalle; la ficha puede abrir la operación y recuperar el contexto de Clientes.
 - Sin datos, coincidencias, permiso o lectura se muestra el estado correspondiente sin exponer filas ni conteos en el estado restringido.
 - No se habilita alta, edición, configuración, aprobación, integración externa ni escritura.
-- Cotizaciones, documentos y actividad no se inventan; se explicita que no forman parte aún del fixture y se integrarán en sus etapas consumidoras.
+- La ficha ofrece navegación filtrada a Cotizaciones por `clientId`; no muestra valores, honorarios, filas ni conteos comerciales. El acceso efectivo depende de una capacidad que el prototipo no implementa.
 
 ## Reglas, sensibilidad y procedencia
 
@@ -69,7 +69,7 @@ revisión humana integral pendiente.
 
 - Definir con ABT campos, unicidad, fuente maestra, responsables y deduplicación.
 - Validar catálogo y atributos de participantes/contrapartes.
-- Integrar cotizaciones/documentos/actividad cuando sus fuentes estén disponibles.
+- Integrar documentos/actividad cuando sus fuentes estén disponibles.
 - Determinar qué requisitos pueden configurarse por cliente y quién puede hacerlo; no se crea un configurador ni motor de reglas.
 - Definir capacidades efectivas; las etiquetas de demostración no son seguridad.
 
@@ -77,4 +77,6 @@ revisión humana integral pendiente.
 
 - Código: `apps/web/features/clients/`; datos sintéticos relacionados mediante `clientId` en `features/operations`.
 - Pruebas: `features/clients/data/clients.test.ts`, pruebas de componentes/a11y y `apps/web/e2e/specs/stage-06-clients.spec.ts`.
-- Estado: Under review hasta revisión humana funcional/visual integral. Resultado de PR, checks y deployment se registrará tras integración.
+- PR #10 integrado a `main` (`26f19d9`); `quality`, `e2e-smoke` y Vercel Preview verdes. Deployment `dpl_8vmJ5fUR8bPm3qb4ymGrPVZsjr2S` READY; `/clientes` y `/clientes/client-demo-norte` respondieron HTTP 200.
+- Lint, typecheck, build, 55 pruebas unitarias, 13 axe y 19 E2E smoke Chromium seriales pasaron; validador documental y `git diff --check` pasaron. Capturas locales revisadas a 1440×1000 y 390×844, sin overflow horizontal.
+- Estado: Under review hasta revisión humana funcional/visual integral. La demostración está en un dominio personalizado público; contiene únicamente fixtures sintéticos y no está lista para uso operativo.

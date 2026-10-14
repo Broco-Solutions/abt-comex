@@ -21,7 +21,8 @@ function first(value: string | string[] | undefined) {
 function safeReturnTo(value: string) {
   if (
     /^\/clientes(\?.*)?(#.*)?$/.test(value) ||
-    /^\/mi-trabajo(\?.*)?(#.*)?$/.test(value)
+    /^\/mi-trabajo(\?.*)?(#.*)?$/.test(value) ||
+    /^\/cotizaciones(?:\/quote-demo-\d{3})?(?:\?[^#]*)?(#.*)?$/.test(value)
   ) {
     return value
   }
@@ -184,13 +185,22 @@ export function ClientDetail({
         className="max-w-5xl border-y border-border py-4"
       >
         <h2 id="client-quotes-title" className="font-semibold">
-          Cotizaciones y documentos
+          Cotizaciones
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          La relación se incorporará cuando estén implementadas las etapas
-          correspondientes. Este escenario todavía no dispone de fixtures de
-          cotizaciones o documentos.
+          Consultá el circuito comercial en la sección autorizada de
+          Cotizaciones. Esta ficha no muestra precios, honorarios ni conteos
+          comerciales.
         </p>
+        <Link
+          href={`/cotizaciones?cliente=${encodeURIComponent(client.id)}`}
+          className={cn(
+            buttonVariants({ variant: "outline", size: "sm" }),
+            "mt-3"
+          )}
+        >
+          Abrir Cotizaciones del cliente
+        </Link>
       </section>
 
       <div className="flex flex-wrap gap-2">

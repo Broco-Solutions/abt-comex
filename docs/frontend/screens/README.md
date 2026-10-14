@@ -10,7 +10,8 @@ Esta carpeta es autoridad del comportamiento particular de cada pantalla/flujo. 
 | [02 — Inicio + Mi trabajo](02-inicio-mi-trabajo.md) | Etapa 2 | Under review; integrada a main, revisión humana pendiente |
 | [03 — Listado de Operaciones](03-operaciones-listado.md) | Etapa 3 | Under review; PR #8 integrado, CI y deployment READY, revisión humana pendiente |
 | [04 — Detalle de Operación](04-operacion-detalle.md) | Etapa 4 | Under review; PR #9 integrado, CI y deployment READY, revisión humana integral pendiente |
-| [06 — Clientes](06-clientes.md) | Etapa 6 | Under review; implementación demostrativa, PR/CI/deployment por registrar |
+| [06 — Clientes](06-clientes.md) | Etapa 6 | Under review; PR #10 integrado, CI y deployment READY, revisión humana pendiente |
+| [09 — Cotizaciones](09-cotizaciones.md) | Etapa 9 | Under review; implementación local pendiente de CI/PR y revisión humana integral |
 
 Las demás experiencias del mapa todavía no tienen especificación. No denominarlas Draft hasta que exista un documento. Un ID UI puede corresponder a una sección o acción, no necesariamente a un archivo/página independiente.
 
