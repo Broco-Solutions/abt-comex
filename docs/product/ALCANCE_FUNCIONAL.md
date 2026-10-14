@@ -4,6 +4,8 @@
 >
 > Fuente de trabajo para implementación: este archivo.
 > Documento visual y de validación con negocio: [Alcance funcional — ABT Comex](https://docs.google.com/document/d/1xMiET79fBh0_B3mPHj7yylq0capL-tkMqFJBVBJcRAQ/edit)
+>
+> Sincronización pendiente: §7.2 (confidencialidad) y §§3, 8, 10 y 11 (estrategia de integraciones y exclusión de COMEX360), decisiones internas del responsable del proyecto del 14/10/2026. Validación formal y capacidades con ABT pendientes; Drive no fue modificado.
 
 ## Propósito
 
@@ -124,15 +126,18 @@ flowchart TB
 
   subgraph ECOSYSTEM[Ecosistema]
     ALPHA[Alpha2000 / MARÍA]
-    ARCA[ARCA / MOA]
+    ARCA[ARCA / MOA: vía Alpha prioritaria; directo condicionado]
     M365[Microsoft 365]
     INTERBANK[Interbanking]
-    LEGACY[COMEX360]
   end
 
   CHANNELS --> ACCESS --> BUSINESS
   EXECUTION <--> BUSINESS
-  ECOSYSTEM <--> ACCESS
+  ALPHA -. integración prioritaria pendiente .-> ACCESS
+  ARCA -. evaluar primero mediante Alpha2000 .-> ALPHA
+  ARCA -. directo sólo si se justifica .-> ACCESS
+  M365 -. alcance pendiente .-> ACCESS
+  INTERBANK -. lectura en evaluación .-> ACCESS
 ```
 
 ### Criterio de diseño
@@ -355,7 +360,7 @@ No se utilizará un único estado para representar realidades diferentes.
 | Estado documental | Incompleto · Completo · Con observaciones |
 | Estado de controles | Pendiente · Aprobado · Bloqueado |
 | Estado administrativo | No lista · Lista para facturar · Facturada |
-| Estado de cobranza | Integrado desde Alpha2000 |
+| Estado de cobranza | Previsto desde Alpha2000; integración pendiente |
 | Situaciones | Demorada · Vencida · Requiere atención · Sin responsable |
 
 Ejemplo: una Exportación puede estar facturada y continuar activa hasta completar cumplido, post-embarque y cierre documental.
@@ -395,6 +400,21 @@ Primero se definen capacidades y sensibilidad; después se agrupan en perfiles.
 - Información: operación, cotización, honorarios, facturación, cobranzas, costos, márgenes y finanzas.
 - La restricción aplica en aplicación interna, Portal, API, exportaciones, reportes, notificaciones y canales asistidos.
 
+#### Confidencialidad económica transversal
+
+**Decisión interna del responsable del proyecto, 14/10/2026; no aprobación formal de ABT.** Ser responsable de una operación o jefe de un área no concede automáticamente acceso a los honorarios que ABT cobra a sus clientes. La matriz definitiva de permisos continúa pendiente de validación con ABT.
+
+| Categoría | Criterio de acceso |
+|---|---|
+| Datos operativos | Capacidades sobre el proceso y objeto; no habilitan por arrastre información económica. |
+| Valores aduaneros y tributos | Visibles cuando son necesarios para operar y existe autorización específica; no equivalen a honorarios ABT. |
+| Cotizaciones y honorarios comerciales | Capacidades comerciales específicas, independientes de responsabilidad operativa o jefatura. |
+| Costos internos | Capacidades específicas sobre costos; no visibles por defecto. |
+| Facturación, cobranzas y tesorería | Capacidades correspondientes a cada función y dato; acceso a facturación no implica acceso bancario. |
+| Márgenes y rentabilidad | Capacidades específicas de análisis económico; no deducidas de otros accesos ni visibles por defecto. |
+
+No colocar totales económicos genéricos en el listado principal de Operaciones. No exponer honorarios, costos internos o márgenes por defecto. La autorización de valores aduaneros necesarios no habilita esas otras categorías. Aplicar la separación también a detalles, documentos, búsquedas, conteos, actividad y exportaciones, evitando revelaciones indirectas. Las capacidades mock demuestran la política, no implementan seguridad efectiva.
+
 ### 7.3 Alertas, automatizaciones y notificaciones
 
 - documentación faltante o inconsistente;
@@ -416,7 +436,7 @@ Primero se definen capacidades y sensibilidad; después se agrupan en perfiles.
 - filtros combinables y rangos de fechas;
 - vistas configurables;
 - agrupación, ordenamiento, selección y acciones masivas;
-- totales y subtotales sin mezclar monedas;
+- totales y subtotales sin mezclar monedas sólo en contextos autorizados por §7.2; no totales económicos genéricos en el listado principal de Operaciones;
 - exportación controlada;
 - indicadores con acceso a registros subyacentes.
 
@@ -451,14 +471,26 @@ Primero se definen capacidades y sensibilidad; después se agrupan en perfiles.
 
 | Sistema / frente | Estado | Decisión |
 |---|---|---|
-| Alpha2000 / MARÍA | Incluido | Integración requerida; permanece como sistema especializado. |
-| ARCA / MOA | Pendiente de definición | Definir integración, consulta o registro asistido. |
-| Microsoft 365 | Frente complementario | Correo, archivos y colaboración; posible integración documental. |
-| COMEX360 | Transición incluida | Legado a absorber; definir migración, histórico y condición de salida. |
-| Interbanking | En evaluación | Inicialmente sólo consulta; no diseñar transferencias. |
+| Alpha2000 operativo / MARÍA | Incluido; prioritario | Mantiene preparación y oficialización aduanera. Consulta de datos según tipo/régimen y disponibilidad del proveedor; no duplicar sus funciones especializadas. |
+| Alpha2000 administrativo / contable | Incluido; prioritario | Mantiene funciones administrativas/contables actuales; relacionar datos con clientes, operaciones, documentos y Dirección sin doble registración. |
+| ARCA / MOA | En evaluación | Primero evaluar datos a través de Alpha2000; Web Services oficiales directos sólo como alternativa condicionada y autorizada, no dos conectores obligatorios. |
+| Microsoft 365 | Previsto; alcance pendiente | Plataforma de correo y colaboración documental; relación con operaciones, referencias, historial y permisos a definir, sin automatizaciones comprometidas ni sustitución por Google Workspace. |
+| Interbanking | En evaluación | Sólo consulta autorizada potencial de saldos, movimientos y datos útiles validados; disponibilidad, autorización y costo pendientes. Sin transferencias, emisión/ejecución de pagos, operaciones con ECheqs, conciliación automática, escritura bancaria ni autorización de movimientos. |
 | Depósito fiscal | Fuera de alcance | Etapa posterior. |
 
+**Decisión interna del responsable del proyecto, 14/10/2026; no validación formal de ABT.** Alpha2000 es la prioridad. La predisposición y factibilidad preliminar informadas sobre la reunión con el proveedor no equivalen a API contratada, documentada, habilitada o probada. Datos, condiciones comerciales y acceso siguen pendientes. MOA vía Alpha2000 conserva la fuente original del dato, distinguiéndola del intermediario.
+
+### Exclusión de COMEX360
+
+COMEX360 queda excluido de la arquitectura objetivo: no integración, módulo, pantalla, servicio, adaptador, sincronización, fuente en tiempo real ni dependencia técnica. No aparece en Configuración, indicadores de conexión, dashboards, reportes o fixtures del frontend futuro. No se incluye migración automática/integral ni importación permanente.
+
+Se preservan las menciones históricas de relevamientos, AS IS, minutas y diagnósticos. Documentos, carpetas, gastos, estados, controles, antecedentes, seguimiento por cliente, reportes y relación Operación–Administración son necesidades propias de ABT Comex; reemplazar la herramienta no elimina esas capacidades ni exige conectarse a ella.
+
+Sólo una nueva decisión separada podrá evaluar extracción puntual si ABT acredita información histórica indispensable, exclusiva y no recuperable de otras fuentes. No está incluida ahora ni bloquea la construcción. Los TO BE locales reflejan esta exclusión; los originales externos no se modifican en esta sesión.
+
 Cada registro integrado debe conservar sistema externo, identificador externo, fuente de verdad, última sincronización, estado, errores y reintentos. Cada dato tendrá dirección definida: ABT → externo, externo → ABT, bidireccional o sólo lectura.
+
+Seguimiento técnico, dependencias, estados y evidencia de cada frente: [línea transversal de integraciones del plan](../frontend/PLAN_IMPLEMENTACION.md#línea-transversal-de-integraciones). Esta tabla define alcance, no disponibilidad técnica ni integración implementada.
 
 ---
 
@@ -511,7 +543,7 @@ Proveedores, Documentos, Alertas, Aprobaciones, Reportes, DJVE, Integraciones y 
 | Reglas y prevención de errores | Incluido |
 | Permisos y visibilidad sensible | Incluido |
 | Integración Alpha2000/MARÍA | Incluido |
-| Migración / absorción COMEX360 | Incluido |
+| Integración o migración automática de COMEX360 | Fuera de alcance; exclusión interna aprobada |
 | API interna y contratos | Incluido |
 | Portal de clientes | Incluido por etapas |
 | Interacción asistida por modelos de lenguaje | Incluido progresivamente |
@@ -532,8 +564,9 @@ Proveedores, Documentos, Alertas, Aprobaciones, Reportes, DJVE, Integraciones y 
 - Perfiles y permisos definitivos.
 - Qué diferencias por cliente o modalidad se convierten en configuración.
 - Condiciones de “carpeta lista para facturar”.
-- Alcance técnico de Alpha2000.
-- Alcance de migración de COMEX360.
+- Alcance técnico/comercial y disponibilidad real de Alpha2000, incluyendo datos de cumplidos/MOA.
+- Cobertura de MOA mediante Alpha2000; justificación y autorización de ARCA directo sólo si la vía prioritaria no alcanza.
+- Factibilidad y alcance de lectura Interbanking; alcance funcional/técnico de Microsoft 365.
 - Fórmulas, periodicidad, fuentes y permisos de KPI.
 - Casos iniciales de canales asistidos.
 - Primera etapa y política de visibilidad del Portal.

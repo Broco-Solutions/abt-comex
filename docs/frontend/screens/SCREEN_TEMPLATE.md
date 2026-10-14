@@ -1,260 +1,78 @@
 # <Área> — <Vista o flujo>
 
-> Estado: Draft  
-> Etapa: <número y nombre>  
-> Última actualización: <DD/MM/AAAA>  
-> Owner funcional: <persona/área o pendiente>  
-> Ruta prevista: `<ruta o pendiente>`
+> Estado: Draft
+> Etapa: <número y nombre>
+> Última actualización: <DD/MM/AAAA>
+> Owner funcional: <persona/área o pendiente>
+> Experiencias / recorridos: <IDs UI y J del mapa>
+> Ruta: <existente aprobada / propuesta / pendiente>
 
-## 1. Objetivo
+Plantilla proporcional: conservar el núcleo siguiente; ampliar sólo lo que requiera el riesgo. Combinar secciones o indicar “no aplica” con motivo. No copiar estándares, marca o comandos. Ready/Done: [runbook](../CODEX_RUNBOOK.md#preparación-y-cierre); niveles de prueba: [estrategia](../TEST_STRATEGY.md).
 
-¿Qué problema resuelve esta pantalla o flujo?
+## Propósito y alcance
 
-## 2. Trabajo principal de la persona
+Trabajo principal: “Cuando entro acá necesito…”.
+Alcance del corte, tareas secundarias y exclusiones explícitas.
 
-> Cuando entro acá necesito…
+## Evidencia y trazabilidad
 
-Definir una sola tarea principal. Agregar tareas secundarias sólo si pertenecen al mismo contexto.
+| Necesidad de matriz | Fuente original / sección / fecha de consulta | Capacidad y proceso | Regla | Experiencia / recorrido | Escenario de prueba |
+|---|---|---|---|---|---|
+| <ID local> | <E1:ID o sección; consulta parcial/completa> | <alcance> | <regla respaldada o propuesta> | <UI / J> | <ID local de escenario> |
 
-## 3. Evidencia y alcance de origen
+Distinguir evidencia observada, diseño propuesto, decisión Broco y validación formal ABT. Registrar quién validó, cuándo y qué, o “pendiente”. Una entrevista no aprueba una solución.
 
-- Requerimiento(s): `<ID / documento / sección>`
-- Flujo AS IS / TO BE: `<referencia>`
-- Alcance funcional: `<sección>`
-- Decisiones relacionadas: `<referencia>`
+## Información, capacidades y acciones
 
-No inventar requerimientos ausentes.
+- Información primaria para decidir; secundaria bajo demanda.
+- Capacidades necesarias, sensibilidad y datos a excluir; sin perfiles definitivos inventados.
+- Acción principal, secundarias y masivas sólo si corresponden.
+- Acciones sensibles: confirmación, evidencia, motivo, permiso y auditoría.
+- Responsables, vencimientos y ausencia de datos conocida.
 
-## 4. Usuarios y capacidades
+## Navegación y contexto
 
-### Capacidades necesarias
+Entradas, salidas, breadcrumb, URL state, retorno/foco. Por cada destino: existente y útil, contexto local o funcionalidad futura explícita. No enlazar rutas propuestas como disponibles.
 
-- `<capacidad>`
+## Reglas, estados y recuperación
 
-### Información sensible
-
-- `<dato sensible y criterio>`
-
-No definir perfiles definitivos si todavía no fueron validados.
-
-## 5. Contexto de navegación
-
-- Entrada(s): `<desde dónde se llega>`
-- Salida(s): `<a dónde conduce>`
-- Breadcrumb: `<propuesta>`
-- Estado en URL: `<búsqueda/filtros/tabs/paginación>`
-- Contexto que debe preservarse al volver: `<detalle>`
-
-## 6. Información primaria
-
-Información necesaria para comprender, decidir y actuar:
-
-- `<dato / grupo>`
-
-## 7. Información secundaria
-
-Información útil bajo demanda:
-
-- `<dato / grupo>`
-
-Aplicar revelado progresivo.
-
-## 8. Acciones
-
-### Acción principal
-
-- `<acción>`
-
-### Acciones secundarias
-
-- `<acción>`
-
-### Acciones masivas
-
-- `<si aplica>`
-
-### Acciones destructivas o sensibles
-
-- `<confirmación, permiso y auditoría>`
-
-## 9. Reglas y validaciones
-
-| ID / fuente | Regla | Respuesta de la interfaz | Bloquea | Excepción |
-|---|---|---|---:|---|
-| `<ID>` | `<regla>` | `<cálculo, alerta, error, ayuda>` | Sí/No | `<criterio>` |
-
-## 10. Estados del objeto
-
-- `<estado general>`
-- `<etapa>`
-- `<situaciones>`
-- `<estado documental/control/administrativo si aplica>`
-
-No reducir dimensiones distintas a un único badge.
-
-## 11. Estados de pantalla
-
-Definir comportamiento para:
-
-- loading;
-- loaded;
-- empty;
-- filtered-empty;
-- error recuperable;
-- error no recuperable;
-- sin permiso;
-- sólo lectura;
-- información parcial;
-- integración desactualizada;
-- acción bloqueada;
-- guardando/guardado si aplica.
-
-Marcar los que no correspondan y explicar por qué.
-
-## 12. Errores y recuperación
-
-Para cada error relevante indicar:
-
-- qué ocurrió;
-- qué se preserva;
-- acción de recuperación;
-- dependencia externa o permiso;
-- mensaje propuesto.
-
-## 13. Responsive
-
-### Desktop amplio
-
-- `<criterio>`
-
-### Notebook
-
-- `<criterio>`
-
-### Tablet
-
-- `<criterio>`
-
-### Mobile 390 px
-
-- `<criterio>`
-
-Definir qué se prioriza, reordena, resume o revela bajo demanda. No resolver automáticamente con scroll horizontal.
-
-## 14. Accesibilidad
-
-- orden de foco;
-- navegación por teclado;
-- nombres accesibles;
-- foco en dialogs/drawers/popovers;
-- semántica de tablas y encabezados;
-- contraste;
-- avisos dinámicos;
-- targets táctiles;
-- movimiento reducido.
-
-Agregar requisitos específicos de la pantalla.
-
-## 15. Ayuda e inducción
-
-- ayuda contextual necesaria;
-- concepto que requiere explicación;
-- checklist o guía asociada;
-- posibilidad de omitir/retomar;
-- contenido de primer acceso si aplica.
-
-No usar onboarding para compensar una interfaz poco clara.
-
-## 16. Branding
-
-- ubicación del logo ABT si corresponde;
-- `BrandAttribution` si la superficie lo requiere;
-- variante de logo;
-- restricciones particulares.
-
-## 17. Fuente de datos y fixtures
-
-- fuente futura prevista;
-- adaptador/mock actual;
-- fixtures requeridos;
-- fuente y frescura visible;
-- casos con datos incompletos;
-- datos sensibles a excluir.
-
-## 18. Métricas de experiencia
-
-Sólo cuando aporte valor:
-
-- tarea completada;
-- tiempo o pasos;
-- abandono;
-- error prevenido;
-- uso de ayuda;
-- filtro o vista guardada.
-
-No instrumentar métricas sin propósito.
-
-## 19. Escenarios de prueba
-
-### Unitarios
-
-- `<escenario>`
-
-### Componentes
-
-- `<escenario>`
-
-### Integración de pantalla
-
-- `<escenario>`
-
-### E2E
-
-- `<escenario crítico>`
-
-### Manuales
-
-- `<responsive, teclado, textos largos, errores>`
-
-## 20. Criterios de aceptación
-
-- [ ] El propósito se entiende sin explicación externa.
-- [ ] El próximo paso o acción principal es visible.
-- [ ] Respeta lenguaje de ABT.
-- [ ] Reutiliza patrones del Design System.
-- [ ] Previene errores relevantes.
-- [ ] Contempla permisos y sensibilidad.
-- [ ] Estados alternativos están definidos.
-- [ ] Responsive está especificado.
-- [ ] Accesibilidad está especificada.
-- [ ] Pruebas necesarias están definidas.
-- [ ] Ayuda/onboarding está resuelto o no aplica.
-- [ ] No contradice alcance.
-
-## 21. Fuera de alcance
-
-- `<punto>`
-
-## 22. Decisiones pendientes
-
-| Pregunta | Impacto | Recomendación | Responsable / instancia |
+| Regla / fuente | Respuesta de interfaz | ¿Bloquea y por qué? | Excepción / pendiente |
 |---|---|---|---|
-| `<pregunta concreta>` | `<qué cambia>` | `<opción recomendada>` | `<pendiente>` |
+| <referencia> | <respuesta> | <criterio respaldado> | <tratamiento> |
 
-## 23. Implementación
+Distinguir dimensiones del objeto (operativa, documental, controles, administrativa) de estados de pantalla.
 
-- Feature: `apps/web/features/<feature>`
-- Ruta: `apps/web/app/<ruta>`
-- Componentes de UI: `<lista>`
-- Pruebas: `<ubicación>`
-- Preview / revisión: `<pendiente>`
+| Escenario alternativo aplicable | Qué ve la persona / qué se preserva | Cómo continuar |
+|---|---|---|
+| <loading, empty, filtered-empty, error, sin permiso, read-only, parcial, stale, blocked, guardado/conflicto> | <comportamiento particular> | <recuperación real> |
 
-## 24. Resultado de revisión humana
+## Responsive, accesibilidad y ayuda
 
-> Completar después de revisar la implementación.
+Aplicar [estándar](../FRONTEND_STANDARD.md). Especificar diferencias: prioridad/orden en desktop, notebook, tablet y mobile; qué se resume o expande; teclado/foco y anuncios particulares. Ayuda contextual, inducción y métricas de experiencia sólo con propósito. Marca: [BRAND_USAGE](../BRAND_USAGE.md), describir únicamente una superficie nueva o excepción.
 
-- Viewports revisados:
-- Escenarios revisados:
-- Observaciones:
-- Ajustes requeridos:
-- Estado final: Draft / Under review / Approved
+## Fuentes y fixtures
+
+Fuente futura, frontera simple actual, datos ficticios determinísticos, fecha/origen visibles, escenarios extremos/incompletos y exclusión de datos sensibles. Indicar disponibilidad real; no prometer integración.
+
+## Pruebas y aceptación
+
+| Escenario | Necesidad/regla cubierta | Nivel por riesgo | Resultado esperado | Evidencia al implementar |
+|---|---|---|---|---|
+| <ID local> | <ID / fuente> | <unitario, componente, integración, E2E o manual> | <observable> | <pendiente o enlace a prueba> |
+
+Criterios de aceptación verificables del corte; cubrir flujo principal, alternativos, permisos, responsive y teclado cuando apliquen. No marcar escenarios documentados como pruebas ejecutadas.
+
+## Decisiones pendientes
+
+| Pregunta | Impacto / bloquea qué | Tratamiento reversible | Responsable / instancia |
+|---|---|---|---|
+| <pregunta concreta> | <límite> | <propuesta> | <pendiente> |
+
+## Implementación y revisión
+
+- Feature / rutas de código / componentes DS: <existentes o previstos claramente diferenciados>.
+- Pruebas y preview: <enlaces reales al existir>.
+- Revisión de especificación: <persona/instancia, fecha, evidencia, resultado o pendiente>.
+- Revisión de implementación: <rutas, viewports, escenarios, observaciones, ajustes y resultado o pendiente>.
+
+Para procesos críticos ampliar: variantes por cliente/modalidad, transiciones, cardinalidades, documentos y custodia, fuentes externas, handoff entre áreas, cálculos aprobados y controles segregados.
