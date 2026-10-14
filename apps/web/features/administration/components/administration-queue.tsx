@@ -154,14 +154,69 @@ export function AdministrationQueue({
 
           {entries.length ? (
             <>
-              <p className="text-xs text-muted-foreground sm:hidden">
-                Desplazá la tabla horizontalmente para ver todas las columnas.
-              </p>
+              <ul
+                aria-label="Cola administrativa compacta"
+                className="divide-y divide-border xl:hidden"
+              >
+                {entries.map((entry) => {
+                  const href =
+                    entry.kind === "operation"
+                      ? `/administracion/${entry.operationId}?returnTo=${encodeURIComponent(`/administracion?${new URLSearchParams({ q: query, estado: status })}`)}`
+                      : `/administracion/finanzas?trabajo=${entry.id}`
+                  return (
+                    <li key={entry.id} className="space-y-2 py-3">
+                      <div className="flex items-center justify-between gap-3">
+                        <Link
+                          href={href}
+                          className="font-semibold text-primary hover:underline"
+                        >
+                          {entry.reference}
+                        </Link>
+                        <Link
+                          href={href}
+                          aria-label={`Abrir ${entry.reference}`}
+                          className="inline-flex min-h-11 items-center gap-1 font-medium text-primary focus-visible:outline-2 focus-visible:outline-ring"
+                        >
+                          Abrir{" "}
+                          <ArrowRight aria-hidden="true" className="size-4" />
+                        </Link>
+                      </div>
+                      <p className="text-sm">
+                        {entry.kind === "operation"
+                          ? entry.client
+                          : entry.title}
+                      </p>
+                      <dl className="grid grid-cols-2 gap-2 text-sm">
+                        <div>
+                          <dt className="text-xs text-muted-foreground">
+                            Facturación
+                          </dt>
+                          <dd>
+                            {entry.kind === "operation"
+                              ? entry.billing
+                              : entry.status}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt className="text-xs text-muted-foreground">
+                            Cobranza
+                          </dt>
+                          <dd>
+                            {entry.kind === "operation"
+                              ? entry.collection
+                              : "No aplica"}
+                          </dd>
+                        </div>
+                      </dl>
+                    </li>
+                  )
+                })}
+              </ul>
               <div
                 role="region"
                 aria-label="Cola administrativa, tabla desplazable horizontalmente"
                 tabIndex={0}
-                className="overflow-x-auto focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                className="hidden overflow-x-auto focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring xl:block"
               >
                 <table className="w-full min-w-[46rem] text-left text-sm">
                   <caption className="sr-only">

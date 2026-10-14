@@ -53,7 +53,10 @@ type DataTableFlexibleColumnMeta = {
   fixed?: never
 }
 
-type DataTableColumnMeta = (DataTableFixedColumnMeta | DataTableFlexibleColumnMeta) & {
+type DataTableColumnMeta = (
+  | DataTableFixedColumnMeta
+  | DataTableFlexibleColumnMeta
+) & {
   priority: DataTableColumnPriority
   truncate: boolean
   align: DataTableColumnAlign
@@ -122,10 +125,7 @@ const dataTableColumnMetadata = {
     truncate: true,
     align: "left",
   },
-} satisfies Record<
-  DataTableColumnKind,
-  DataTableColumnMeta
->
+} satisfies Record<DataTableColumnKind, DataTableColumnMeta>
 
 function getDataTableColumnMeta(
   kind: DataTableColumnKind,
@@ -158,10 +158,7 @@ const tabletPriorityClasses = {
     cell: "hidden lg:table-cell",
     column: "hidden lg:table-column",
   },
-} satisfies Record<
-  DataTableColumnPriority,
-  { cell: string; column: string }
->
+} satisfies Record<DataTableColumnPriority, { cell: string; column: string }>
 
 const alignClasses = {
   left: "text-left",
@@ -186,16 +183,16 @@ type DataTableProps<TData extends RowData> = {
   data: TData[]
   getRowId: (row: TData) => string
   getColumnClassName?: (columnId: string) => string | undefined
-  getHeaderAriaSort?: (
-    columnId: string
-  ) => React.AriaAttributes["aria-sort"]
+  getHeaderAriaSort?: (columnId: string) => React.AriaAttributes["aria-sort"]
   getRowAriaSelected?: (row: TData) => boolean | undefined
   getRowClassName?: (row: TData) => string | undefined
   /** Desktop-only widths explicitly chosen by the person using the table. */
   columnWidths?: Record<string, number>
   onColumnWidthChange?: (columnId: string, width: number) => void
   getColumnCanResize?: (columnId: string) => boolean
+  getColumnLabel?: (columnId: string) => string
   className?: string
+  caption?: string
 }
 
 const minimumResizableWidth = 72
@@ -204,17 +201,33 @@ function ColumnResizeHandle({
   label,
   currentWidth,
   onResize,
+  minimumWidth,
 }: {
   label: string
   currentWidth: () => number
   onResize: (width: number) => void
+  minimumWidth: number
 }) {
+  const handleRef = React.useRef<HTMLSpanElement>(null)
+  const [measuredWidth, setMeasuredWidth] = React.useState(minimumWidth)
+  React.useEffect(() => {
+    const header = handleRef.current?.parentElement
+    if (!header || typeof ResizeObserver === "undefined") return
+    const observer = new ResizeObserver(() =>
+      setMeasuredWidth(Math.round(header.getBoundingClientRect().width))
+    )
+    observer.observe(header)
+    return () => observer.disconnect()
+  }, [])
   const startWidth = React.useRef(0)
   const startX = React.useRef(0)
 
   return (
     <span
+      ref={handleRef}
       role="separator"
+      aria-valuemin={minimumWidth}
+      aria-valuenow={measuredWidth}
       aria-orientation="vertical"
       aria-label={`Modificar ancho de columna ${label}`}
       tabIndex={0}
@@ -250,7 +263,7 @@ function ColumnResizeHandle({
           )
         )
       }}
-      className="absolute inset-y-0 right-0 z-10 hidden w-3 cursor-col-resize touch-none outline-none after:absolute after:inset-y-2 after:left-1/2 after:w-px after:-translate-x-1/2 after:bg-transparent hover:after:bg-primary focus-visible:after:bg-primary focus-visible:ring-3 focus-visible:ring-ring/30 md:block"
+      className="absolute inset-y-0 right-0 z-10 hidden w-3 cursor-col-resize touch-none outline-none after:absolute after:inset-y-2 after:left-1/2 after:w-px after:-translate-x-1/2 after:bg-transparent hover:after:bg-primary focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:after:bg-primary xl:block"
     />
   )
 }
@@ -266,7 +279,9 @@ function DataTable<TData extends RowData>({
   columnWidths,
   onColumnWidthChange,
   getColumnCanResize = (columnId) => columnId !== "select",
+  getColumnLabel,
   className,
+  caption,
 }: DataTableProps<TData>) {
   const tableRef = React.useRef<HTMLTableElement>(null)
   const table = useTable({
@@ -283,22 +298,46 @@ function DataTable<TData extends RowData>({
     return header?.getBoundingClientRect().width ?? minimumResizableWidth
   }, [])
 
+  const resizeColumn = (id: string, width: number) => {
+    const current = visibleColumns.find((column) => column.id === id)
+    if (!current || !tableRef.current) return
+    const minimum =
+      getColumnMeta(current.columnDef).fixed ?? minimumResizableWidth
+    const otherMinimum = visibleColumns
+      .filter((column) => column.id !== id)
+      .reduce(
+        (sum, column) =>
+          sum +
+          (getColumnMeta(column.columnDef).fixed ?? minimumResizableWidth),
+        0
+      )
+    const maximum = Math.max(
+      minimum,
+      tableRef.current.parentElement!.clientWidth - otherMinimum
+    )
+    onColumnWidthChange?.(id, Math.max(minimum, Math.min(width, maximum)))
+  }
   return (
     <div className={cn("w-full", className)}>
       <table ref={tableRef} className="w-full table-fixed text-left text-xs">
+        {caption ? <caption className="sr-only">{caption}</caption> : null}
         <colgroup>
           {visibleColumns.map((column) => {
             const meta = getColumnMeta(column.columnDef)
             return (
               <col
                 key={column.id}
-                className={tabletPriorityClasses[meta.priority].column}
+                className={cn(
+                  tabletPriorityClasses[meta.priority].column,
+                  "w-[var(--column-default)] xl:w-[var(--column-custom,var(--column-default))]"
+                )}
                 style={
-                  columnWidths?.[column.id]
-                    ? { width: columnWidths[column.id] }
-                    : meta.fixed
-                      ? { width: meta.fixed }
-                      : undefined
+                  {
+                    "--column-default": meta.fixed ? `${meta.fixed}px` : "auto",
+                    "--column-custom": columnWidths?.[column.id]
+                      ? `${columnWidths[column.id]}px`
+                      : undefined,
+                  } as React.CSSProperties
                 }
               />
             )
@@ -330,14 +369,17 @@ function DataTable<TData extends RowData>({
                     {onColumnWidthChange &&
                     getColumnCanResize(header.column.id) ? (
                       <ColumnResizeHandle
+                        minimumWidth={meta.fixed ?? minimumResizableWidth}
                         label={
-                          typeof header.column.columnDef.header === "string"
-                            ? header.column.columnDef.header
-                            : header.column.id
+                          getColumnLabel
+                            ? getColumnLabel(header.column.id)
+                            : typeof header.column.columnDef.header === "string"
+                              ? header.column.columnDef.header
+                              : header.column.id
                         }
                         currentWidth={() => columnWidth(header.column.id)}
                         onResize={(width) =>
-                          onColumnWidthChange(header.column.id, width)
+                          resizeColumn(header.column.id, width)
                         }
                       />
                     ) : null}

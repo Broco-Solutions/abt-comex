@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { ArrowDown, ArrowDownUp, ArrowUp } from "lucide-react"
 
@@ -55,8 +55,9 @@ function SortLink({
 }) {
   const active = filters.sort === field
   const direction = active && filters.direction === "asc" ? "desc" : "asc"
+  const nextSort = active && filters.direction === "desc" ? "" : field
   const icon = active ? (
-    direction === "asc" ? (
+    filters.direction === "asc" ? (
       <ArrowUp aria-hidden="true" className="size-3.5" />
     ) : (
       <ArrowDown aria-hidden="true" className="size-3.5" />
@@ -66,8 +67,8 @@ function SortLink({
   )
   return (
     <Link
-      className="inline-flex min-h-9 items-center gap-1 px-3 py-2 focus-visible:outline-2 focus-visible:outline-ring"
-      href={operationHref(filters, { sort: field, direction, page: 1 })}
+      className="inline-flex min-h-9 w-full items-center gap-1 px-3 py-2 focus-visible:outline-2 focus-visible:outline-ring"
+      href={operationHref(filters, { sort: nextSort, direction, page: 1 })}
       aria-label={`Ordenar por ${label}${active ? `, actual ${filters.direction === "asc" ? "ascendente" : "descendente"}` : ""}`}
     >
       {label}
@@ -117,12 +118,21 @@ export function OperationsList({
 }: {
   searchParams: SearchParams
 }) {
-  const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [visibleColumns, setVisibleColumns] = useState<string[]>([
     ...listColumnIds,
   ])
   const { operations, ready } = useDemoOperations()
   const filters = parseOperationFilters(searchParams)
+  const [filtersOpen, setFiltersOpen] = useState(true)
+  const [columnWidths, setColumnWidths] = useState<Record<string, number>>({})
+  useEffect(() => {
+    if (typeof window.matchMedia !== "function") return
+    const media = window.matchMedia("(min-width: 1024px)")
+    const refresh = () => setFiltersOpen(media.matches)
+    refresh()
+    media.addEventListener("change", refresh)
+    return () => media.removeEventListener("change", refresh)
+  }, [])
   const allFiltered = filterOperations(operations, filters)
   const pages = Math.max(1, Math.ceil(allFiltered.length / pageSize))
   const page = Math.min(filters.page, pages)
@@ -147,26 +157,6 @@ export function OperationsList({
       ]
     : [""]
   const allColumns = helper.columns([
-    helper.display({
-      id: "select",
-      header: () => <span className="sr-only">Seleccionar</span>,
-      cell: (info) => (
-        <input
-          aria-label={`Seleccionar ${info.row.original.reference}`}
-          type="checkbox"
-          checked={selectedIds.includes(info.row.original.id)}
-          onChange={(event) =>
-            setSelectedIds((current) =>
-              event.target.checked
-                ? [...new Set([...current, info.row.original.id])]
-                : current.filter((id) => id !== info.row.original.id)
-            )
-          }
-          className="size-4 accent-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-        />
-      ),
-      ...getDataTableColumnMeta("selection"),
-    }),
     helper.accessor("reference", {
       id: "reference",
       header: () => (
@@ -235,8 +225,10 @@ export function OperationsList({
   ])
   const visibleTableColumns = allColumns.filter(
     (column) =>
-      column.id === "select" ||
-      (column.id !== undefined && visibleColumns.includes(column.id))
+      column.id === "reference" ||
+      (column.id !== undefined &&
+        visibleColumns.includes(column.id) &&
+        !(column.id === "kind" && filters.kind))
   )
 
   return (
@@ -249,7 +241,6 @@ export function OperationsList({
               ? "Exportaciones"
               : "Operaciones"
         }
-        description="Buscá y seguí operaciones con su situación, equipo responsable y próxima referencia de trabajo."
         primaryAction={
           <Link
             href="/operaciones/nueva"
@@ -271,14 +262,11 @@ export function OperationsList({
             </>
           )}
         </p>
-        <p className="text-xs text-muted-foreground">
-          Datos locales de demostración · sin conexión a Alpha2000
-        </p>
       </div>
 
       {!restricted && !failed ? (
         <div
-          className="grid gap-2 border-b border-border pb-4 sm:grid-cols-3"
+          className="flex gap-2 overflow-x-auto border-b border-border pb-3 sm:grid sm:grid-cols-3"
           aria-label="Accesos por situación"
         >
           {(
@@ -296,7 +284,7 @@ export function OperationsList({
             return (
               <Link
                 key={situation}
-                className={`flex min-h-11 items-center justify-between rounded-md border px-3 text-sm font-medium hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${filters.situation === situation ? "border-primary bg-primary/10 text-primary" : "border-input bg-background"}`}
+                className={`flex min-h-11 shrink-0 items-center justify-between gap-2 rounded-md border px-3 text-sm font-medium hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${filters.situation === situation ? "border-primary bg-primary/10 text-primary" : "border-input bg-background"}`}
                 href={operationHref(filters, {
                   situation: filters.situation === situation ? "" : situation,
                   page: 1,
@@ -316,7 +304,7 @@ export function OperationsList({
       <form
         action="/operaciones"
         method="get"
-        className="grid gap-3 border-b border-border pb-4 sm:grid-cols-2 lg:grid-cols-4"
+        className="grid gap-3 border-b border-border pb-4 sm:grid-cols-2 xl:grid-cols-4"
       >
         <label className="grid gap-1 text-xs font-medium">
           Buscar referencia, cliente, responsable o próxima acción
@@ -328,62 +316,76 @@ export function OperationsList({
             className="h-9 min-w-0 rounded-md border border-input bg-background px-3 text-sm font-normal focus-visible:outline-2 focus-visible:outline-ring"
           />
         </label>
-        <label className="grid gap-1 text-xs font-medium">
-          Tipo
-          <select
-            name="tipo"
-            defaultValue={filters.kind}
-            className="h-9 rounded-md border border-input bg-background px-2 text-sm font-normal"
-          >
-            <option value="">Todos</option>
-            <option value="importacion">Importación</option>
-            <option value="exportacion">Exportación</option>
-          </select>
-        </label>
-        <label className="grid gap-1 text-xs font-medium">
-          Situación
-          <select
-            name="situacion"
-            defaultValue={filters.situation}
-            className="h-9 rounded-md border border-input bg-background px-2 text-sm font-normal"
-          >
-            <option value="">Todas</option>
-            {situations.map((situation) => (
-              <option key={situation}>{situation}</option>
-            ))}
-          </select>
-        </label>
-        <label className="grid gap-1 text-xs font-medium">
-          Responsable
-          <select
-            name="responsable"
-            defaultValue={filters.responsible}
-            className="h-9 rounded-md border border-input bg-background px-2 text-sm font-normal"
-          >
-            <option value="">Todos</option>
-            {teams.map((team) => (
-              <option key={team}>{team}</option>
-            ))}
-          </select>
-        </label>
-        <label className="grid gap-1 text-xs font-medium">
-          Actualizada desde
-          <input
-            name="desde"
-            type="date"
-            defaultValue={filters.from}
-            className="h-9 min-w-0 rounded-md border border-input bg-background px-2 text-sm font-normal"
-          />
-        </label>
-        <label className="grid gap-1 text-xs font-medium">
-          Actualizada hasta
-          <input
-            name="hasta"
-            type="date"
-            defaultValue={filters.to}
-            className="h-9 min-w-0 rounded-md border border-input bg-background px-2 text-sm font-normal"
-          />
-        </label>
+        <details
+          open={filtersOpen}
+          onToggle={(event) => setFiltersOpen(event.currentTarget.open)}
+          className="sm:col-span-2 xl:col-span-3"
+        >
+          <summary className="min-h-9 cursor-pointer py-2 text-sm font-medium lg:hidden">
+            Filtros y período
+          </summary>
+          <div className="grid min-w-0 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            <label className="grid min-w-0 gap-1 text-xs font-medium">
+              Tipo
+              <select
+                name="tipo"
+                defaultValue={filters.kind}
+                className="h-9 w-full min-w-0 rounded-md border border-input bg-background px-2 text-sm font-normal"
+              >
+                <option value="">Todos</option>
+                <option value="importacion">Importación</option>
+                <option value="exportacion">Exportación</option>
+              </select>
+            </label>
+            <label className="grid gap-1 text-xs font-medium">
+              Situación
+              <select
+                name="situacion"
+                defaultValue={filters.situation}
+                className="h-9 w-full min-w-0 rounded-md border border-input bg-background px-2 text-sm font-normal"
+              >
+                <option value="">Todas</option>
+                {situations.map((situation) => (
+                  <option key={situation}>{situation}</option>
+                ))}
+              </select>
+            </label>
+            <label className="grid gap-1 text-xs font-medium">
+              Responsable
+              <select
+                name="responsable"
+                defaultValue={filters.responsible}
+                className="h-9 w-full min-w-0 rounded-md border border-input bg-background px-2 text-sm font-normal"
+              >
+                <option value="">Todos</option>
+                {teams.map((team) => (
+                  <option key={team}>{team}</option>
+                ))}
+              </select>
+            </label>
+            <label className="grid gap-1 text-xs font-medium">
+              Actualizada desde
+              <input
+                name="desde"
+                type="date"
+                defaultValue={filters.from}
+                className="h-9 min-w-0 rounded-md border border-input bg-background px-2 text-sm font-normal"
+              />
+            </label>
+            <label className="grid gap-1 text-xs font-medium">
+              Actualizada hasta
+              <input
+                name="hasta"
+                type="date"
+                defaultValue={filters.to}
+                className="h-9 min-w-0 rounded-md border border-input bg-background px-2 text-sm font-normal"
+              />
+            </label>
+          </div>
+        </details>
+        <input type="hidden" name="orden" value={filters.sort || "ninguno"} />
+        <input type="hidden" name="direccion" value={filters.direction} />
+        <input type="hidden" name="agrupar" value={filters.group} />
         <div className="flex items-end gap-2">
           <button
             className="h-9 rounded-md bg-primary px-3 text-sm text-primary-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
@@ -393,7 +395,10 @@ export function OperationsList({
           </button>
           <Link
             className="inline-flex h-9 items-center px-3 text-sm underline-offset-4 hover:underline"
-            href="/operaciones"
+            href={operationHref({
+              ...parseOperationFilters({}),
+              kind: filters.kind,
+            })}
           >
             Limpiar filtros
           </Link>
@@ -401,18 +406,13 @@ export function OperationsList({
       </form>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm text-muted-foreground">
-          Los valores aduaneros y los datos económicos no se muestran en este
-          listado. La situación presentada es vocabulario sintético, pendiente
-          de validación funcional.
-        </p>
         <form
           action="/operaciones"
           method="get"
           className="flex items-center gap-2 text-xs"
         >
           {hiddenFilterInputs(filters)}
-          <input type="hidden" name="orden" value={filters.sort} />
+          <input type="hidden" name="orden" value={filters.sort || "ninguno"} />
           <input type="hidden" name="direccion" value={filters.direction} />
           <label htmlFor="operations-group">Agrupar por</label>
           <select
@@ -433,20 +433,21 @@ export function OperationsList({
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
-        <div className="flex items-center gap-3">
-          <span aria-live="polite">
-            {selectedIds.length} seleccionadas en esta sesión
-          </span>
-          {selectedIds.length > 0 && (
-            <button
-              type="button"
-              className="underline underline-offset-4"
-              onClick={() => setSelectedIds([])}
-            >
-              Limpiar selección
-            </button>
-          )}
-        </div>
+        <form action="/operaciones" method="get">
+          {hiddenFilterInputs(filters)}
+          <input type="hidden" name="orden" value="updatedOn" />
+          <input type="hidden" name="direccion" value="desc" />
+          <button
+            type="submit"
+            onClick={() => {
+              setVisibleColumns([...listColumnIds])
+              setColumnWidths({})
+            }}
+            className="min-h-9 text-sm text-primary hover:underline focus-visible:outline-2 focus-visible:outline-ring"
+          >
+            Restablecer vista
+          </button>
+        </form>
         <details className="relative hidden lg:block">
           <summary className="min-h-9 cursor-pointer rounded-md border border-border px-3 py-2 focus-visible:outline-2 focus-visible:outline-ring">
             Columnas visibles
@@ -455,25 +456,27 @@ export function OperationsList({
             <legend className="px-1 text-xs font-medium">
               Mostrar columnas
             </legend>
-            {listColumnIds.map((id) => (
-              <label
-                key={id}
-                className="flex min-h-8 items-center gap-2 text-sm"
-              >
-                <input
-                  type="checkbox"
-                  checked={visibleColumns.includes(id)}
-                  onChange={(event) =>
-                    setVisibleColumns((current) =>
-                      event.target.checked
-                        ? [...current, id]
-                        : current.filter((column) => column !== id)
-                    )
-                  }
-                />
-                {listColumnLabels[id]}
-              </label>
-            ))}
+            {listColumnIds
+              .filter((id) => id !== "reference")
+              .map((id) => (
+                <label
+                  key={id}
+                  className="flex min-h-8 items-center gap-2 text-sm"
+                >
+                  <input
+                    type="checkbox"
+                    checked={visibleColumns.includes(id)}
+                    onChange={(event) =>
+                      setVisibleColumns((current) =>
+                        event.target.checked
+                          ? [...current, id]
+                          : current.filter((column) => column !== id)
+                      )
+                    }
+                  />
+                  {listColumnLabels[id]}
+                </label>
+              ))}
           </fieldset>
         </details>
       </div>
@@ -527,7 +530,10 @@ export function OperationsList({
           </p>
           <Link
             className="mt-2 inline-block text-sm underline"
-            href="/operaciones"
+            href={operationHref({
+              ...parseOperationFilters({}),
+              kind: filters.kind,
+            })}
           >
             Limpiar filtros
           </Link>
@@ -558,12 +564,26 @@ export function OperationsList({
                   )}
                   <DataTableFrame className="rounded-md">
                     <DataTable
+                      caption={
+                        group
+                          ? `Operaciones — ${group}, página ${page}`
+                          : "Operaciones"
+                      }
                       columns={visibleTableColumns}
                       data={groupItems}
-                      getRowId={(item) => item.id}
-                      getRowAriaSelected={(item) =>
-                        selectedIds.includes(item.id)
+                      columnWidths={columnWidths}
+                      getColumnLabel={(id) =>
+                        listColumnLabels[
+                          id as (typeof listColumnIds)[number]
+                        ] ?? id
                       }
+                      onColumnWidthChange={(id, width) =>
+                        setColumnWidths((current) => ({
+                          ...current,
+                          [id]: width,
+                        }))
+                      }
+                      getRowId={(item) => item.id}
                       getHeaderAriaSort={(columnId) =>
                         columnId === filters.sort
                           ? filters.direction === "asc"
@@ -606,19 +626,6 @@ export function OperationsList({
                         <article className="space-y-2">
                           <div className="flex flex-wrap items-center justify-between gap-2">
                             <div className="flex items-center gap-2">
-                              <input
-                                aria-label={`Seleccionar ${item.reference}`}
-                                type="checkbox"
-                                checked={selectedIds.includes(item.id)}
-                                onChange={(event) =>
-                                  setSelectedIds((current) =>
-                                    event.target.checked
-                                      ? [...new Set([...current, item.id])]
-                                      : current.filter((id) => id !== item.id)
-                                  )
-                                }
-                                className="size-4 accent-primary"
-                              />
                               <Link
                                 className="font-medium text-primary underline-offset-4 hover:underline"
                                 href={`/operaciones/${item.id}?returnTo=${encodeURIComponent(operationHref(filters))}`}

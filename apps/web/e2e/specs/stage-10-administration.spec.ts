@@ -8,7 +8,9 @@ test("@smoke administration keeps financial and operational states separate and 
     page.getByRole("heading", { name: "Administración y Finanzas" })
   ).toBeVisible()
   await expect(page.getByRole("row", { name: /OP-DEM-3107/ })).toBeVisible()
-  await expect(page.getByText("Sin referencia", { exact: true })).toBeVisible()
+  await expect(
+    page.getByText("Sin referencia", { exact: true }).filter({ visible: true })
+  ).toBeVisible()
   await expect(
     page.getByText(/honorarios, costos, saldos y márgenes no se muestran/i)
   ).toBeVisible()

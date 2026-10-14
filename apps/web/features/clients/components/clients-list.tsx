@@ -1,9 +1,8 @@
 "use client"
 
-import { formatRecordedDate } from "@workspace/ui/lib/date"
+import { ClientTable } from "./client-table"
 
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
 
 import { PageHeader } from "@/components/navigation/page-header"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
@@ -11,11 +10,9 @@ import { Input } from "@workspace/ui/components/input"
 import { cn } from "@workspace/ui/lib/utils"
 
 import {
-  clientDetailHref,
   clientListHref,
   demonstrationClients,
   filterClients,
-  getClientOperations,
   parseClientListState,
 } from "../data/clients"
 import type { ClientSearchParams } from "../data/clients"
@@ -133,50 +130,11 @@ export function ClientsList({
                 Sólo conteo del escenario local; no representa el total de ABT.
               </p>
             </div>
-            <ul
-              aria-label="Clientes del escenario"
-              className="divide-y divide-border"
-            >
-              {clients.map((client) => {
-                const clientOperations = getClientOperations(
-                  client.id,
-                  operations
-                )
-                return (
-                  <li
-                    key={client.id}
-                    className="grid gap-3 py-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center"
-                  >
-                    <div className="min-w-0">
-                      <h2 className="font-medium">{client.name}</h2>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        {clientOperations.length} operaciones de referencia ·{" "}
-                        {client.contacts.length} contacto
-                        {client.contacts.length === 1
-                          ? " ficticio"
-                          : "s ficticios"}
-                      </p>
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        Fuente: {client.source} · actualización simulada{" "}
-                        {formatRecordedDate(client.updatedOn)}
-                      </p>
-                    </div>
-                    <Link
-                      href={clientDetailHref(
-                        client.id,
-                        clientListHref(state.query)
-                      )}
-                      className={cn(
-                        buttonVariants({ variant: "outline", size: "sm" }),
-                        "w-fit"
-                      )}
-                    >
-                      Abrir ficha <ArrowRight aria-hidden="true" />
-                    </Link>
-                  </li>
-                )
-              })}
-            </ul>
+            <ClientTable
+              clients={clients}
+              operations={operations}
+              query={state.query}
+            />
           </>
         )}
       </section>

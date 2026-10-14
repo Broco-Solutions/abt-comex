@@ -750,8 +750,8 @@ Autorización interna del responsable (14/10/2026): siete bloques frontend por P
 
 | Bloque | Alcance / dependencia | Estado |
 |---|---|---|
-| UX-01 | Coherencia funcional, retorno, URL, fechas e interactividad | Under review — gates locales; CI pendiente |
-| UX-02 | Listados selectivos, DataTable y responsive; UX-01 | Pendiente |
+| UX-01 | Coherencia funcional, retorno, URL, fechas e interactividad | Under review — PR #20 integrado, CI verde |
+| UX-02 | Listados selectivos, DataTable y responsive; UX-01 | Under review — validación local |
 | UX-03 | Acceso y escenarios, ayuda secundaria; UX-02 | Pendiente |
 | UX-04 | Inicio contextual y preparación Dirección; UX-03 | Pendiente |
 | UX-05 | G1–G5 y registros; completa Dirección junto a UX-04 | Pendiente |
@@ -767,10 +767,10 @@ Gates por bloque: lint, tipos, pruebas proporcionales, build, E2E, inspección v
 | V01 | Control completado sigue bloqueante | UX-01 | Corregido técnicamente; revisión pendiente |
 | V02 | Tarea comercial sin destino útil | UX-01 | Corregido técnicamente; revisión pendiente |
 | V03 | Relación DJVE/permiso contradictoria | UX-01 | Corregido técnicamente; revisión pendiente |
-| V04 | Compresión a 1024 px | UX-02 | Pendiente |
-| V05 | Resultados demasiado bajos en móvil | UX-02 | Pendiente |
-| V06 | Apertura administrativa fuera del ancho | UX-02 | Pendiente |
-| V07 | Comparación Clientes/Cotizaciones | UX-02 | Pendiente |
+| V04 | Compresión a 1024 px | UX-02 | Corregido técnicamente; revisión pendiente |
+| V05 | Resultados demasiado bajos en móvil | UX-02 | Corregido técnicamente; revisión pendiente |
+| V06 | Apertura administrativa fuera del ancho | UX-02 | Corregido técnicamente; revisión pendiente |
+| V07 | Comparación Clientes/Cotizaciones | UX-02 | Corregido técnicamente; revisión pendiente |
 | V08 | Filtros rápidos poco reconocibles | UX-01/02 | Corregido técnicamente; revisión pendiente |
 | V09 | Agrupación pierde orden | UX-01/02 | Corregido técnicamente; revisión pendiente |
 | V10 | Retornos inconsistentes | UX-01/04 | Corregido técnicamente; revisión pendiente |
@@ -789,3 +789,9 @@ Gates por bloque: lint, tipos, pruebas proporcionales, build, E2E, inspección v
 ### Evidencia UX-01
 
 85 unitarias web + 3 UI, 26 axe, lint/tipos/build y regresiones Chromium de control, cotización, cliente y agrupación. Capturas locales a 1440 y 390 px inspeccionadas; geometría de tablas se corrige en UX-02. Se ajustan selectores de tests al texto de retorno correcto sin reducir aserciones del destino. Validador conserva cobertura. CI/merge/deployment se registran tras verificación.
+
+UX-01 integrado por PR #20 en main 75beaea; quality/e2e-smoke/Vercel verdes, deployment de producción dpl_3KV1ZWtBTiZuTtbJ8bjeTo4fQ1at READY. Confirmado estado compartido presente en main.
+
+### Evidencia UX-02
+
+Clientes/Cotizaciones usan DataTable proporcionado; Operaciones protege identidad, elimina selección sin acción, conserva URL y tiene filtro móvil plegable; Administración ofrece lista compacta con apertura visible. Resize acotado y por teclado en desktop; calendario en español y referencia de escenario 14/10/2026. Unitarias, axe de consumidores, tipos/lint/build y E2E de geometría/retorno/resize; capturas desktop y móvil inspeccionadas. Primer registro móvil de Importaciones a y=663 frente a 1219 previo; no es una cuota de diseño. Preferencias sólo temporales; restauración explícita. PR/CI/deployment por registrar al cerrar.

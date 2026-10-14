@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { formatRecordedDate } from "@workspace/ui/lib/date"
 
 import { PageHeader } from "@/components/navigation/page-header"
 import { Badge } from "@workspace/ui/components/badge"
@@ -465,7 +466,9 @@ function WorkView({
             <p className="text-sm">
               {item.owner ?? "Sin responsable informado"}
               <span className="block text-xs text-muted-foreground">
-                {item.dueDate ?? "Sin vencimiento informado"}
+                {item.dueDate
+                  ? formatRecordedDate(item.dueDate)
+                  : "Sin vencimiento informado"}
               </span>
             </p>
             <Link

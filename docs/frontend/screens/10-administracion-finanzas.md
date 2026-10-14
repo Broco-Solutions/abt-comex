@@ -43,3 +43,7 @@ Tests de datos y comportamiento: `features/administration/data/administration.te
 ## Pendientes de ABT / dependencia externa
 
 Aceptación/devolución del handoff, condición de “lista para facturar”, evidencias y faltantes bloqueantes; campos, autoridad y direccionalidad de Alpha2000; categorías, moneda, comprobantes y permisos de gastos/rendiciones; disponibilidad de cobranzas/cuentas; fuentes, fórmulas y permisos de Dirección; integración y frecuencia; roles/capacidades efectivas. No se atribuye validación formal de ABT.
+
+## UX-02 — bandeja responsive
+
+Tabla en desktop amplio y lista compacta en tablet/móvil con referencia, contexto, facturación, cobranza y apertura visible. Conserva tarea sin operación y dimensiones separadas. No exige desplazar horizontalmente para abrir. Sin nuevos estados contables ni valores.

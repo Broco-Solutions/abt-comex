@@ -238,6 +238,7 @@ export type OperationListFilters = {
   from: string
   to: string
   sort:
+    | ""
     | "reference"
     | "client"
     | "kind"
@@ -281,16 +282,19 @@ export function parseOperationFilters(
     to: /^\d{4}-\d{2}-\d{2}$/.test(first(params.hasta))
       ? first(params.hasta)
       : "",
-    sort: [
-      "reference",
-      "client",
-      "kind",
-      "situation",
-      "responsible",
-      "updatedOn",
-    ].includes(sort)
-      ? (sort as OperationListFilters["sort"])
-      : "updatedOn",
+    sort:
+      sort === "ninguno"
+        ? ""
+        : [
+              "reference",
+              "client",
+              "kind",
+              "situation",
+              "responsible",
+              "updatedOn",
+            ].includes(sort)
+          ? (sort as OperationListFilters["sort"])
+          : "updatedOn",
     direction: direction === "asc" ? "asc" : "desc",
     group:
       group === "kind" || group === "situation" || group === "responsible"
@@ -329,6 +333,7 @@ export function filterOperations(
         )
     )
     .sort((a, b) => {
+      if (!filters.sort) return 0
       const result = a[filters.sort].localeCompare(b[filters.sort], "es-AR")
       return (
         (filters.direction === "asc" ? result : -result) ||
@@ -349,7 +354,7 @@ export function operationHref(
   if (value.responsible) params.set("responsable", value.responsible)
   if (value.from) params.set("desde", value.from)
   if (value.to) params.set("hasta", value.to)
-  if (value.sort !== "updatedOn") params.set("orden", value.sort)
+  if (value.sort !== "updatedOn") params.set("orden", value.sort || "ninguno")
   if (value.direction !== "desc") params.set("direccion", value.direction)
   if (value.group) params.set("agrupar", value.group)
   if (value.page > 1) params.set("pagina", String(value.page))

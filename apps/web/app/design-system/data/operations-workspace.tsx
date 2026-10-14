@@ -181,17 +181,17 @@ function StatusLabel({ status }: { status: OperationStatus }) {
 }
 
 function dayRange(preset: QuickPeriodPreset): DateRangeValue {
-  const today = new Date(2026, 8, 28, 12)
+  const today = new Date(2026, 9, 14, 12)
   const start = (date: Date) =>
     new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12)
   if (preset === "today") return { from: today, to: today }
-  if (preset === "last-7") return { from: new Date(2026, 8, 22, 12), to: today }
+  if (preset === "last-7") return { from: new Date(2026, 9, 8, 12), to: today }
   if (preset === "last-30")
-    return { from: new Date(2026, 7, 30, 12), to: today }
+    return { from: new Date(2026, 8, 15, 12), to: today }
   if (preset === "this-month")
-    return { from: new Date(2026, 8, 1, 12), to: today }
+    return { from: new Date(2026, 9, 1, 12), to: today }
   if (preset === "previous-month")
-    return { from: new Date(2026, 7, 1, 12), to: new Date(2026, 7, 31, 12) }
+    return { from: new Date(2026, 8, 1, 12), to: new Date(2026, 8, 30, 12) }
   return { from: start(today), to: start(today) }
 }
 
@@ -323,8 +323,7 @@ export function OperationsWorkspace() {
           (!owner || operation.owner === owner) &&
           (!type || operation.type === type) &&
           isWithinPeriod(operation, period) &&
-          (activeIndicator !== "documents" ||
-            operation.documentsPending > 0) &&
+          (activeIndicator !== "documents" || operation.documentsPending > 0) &&
           (activeIndicator !== "arrivals" ||
             (operation.relevantDate >= "2026-09-28" &&
               operation.relevantDate <= "2026-10-12"))
@@ -498,9 +497,7 @@ export function OperationsWorkspace() {
           />
           <Metric
             label="Documentación pendiente"
-            value={
-              filtered.filter((item) => item.documentsPending > 0).length
-            }
+            value={filtered.filter((item) => item.documentsPending > 0).length}
             description="Operaciones con documentos faltantes"
             active={activeIndicator === "documents"}
             onClick={() => applyIndicator("documents")}
@@ -603,7 +600,11 @@ export function OperationsWorkspace() {
                     </p>
                     <PopoverClose
                       render={
-                        <Button variant="ghost" size="xs" aria-label="Cerrar selector de columnas" />
+                        <Button
+                          variant="ghost"
+                          size="xs"
+                          aria-label="Cerrar selector de columnas"
+                        />
                       }
                     >
                       Cerrar
@@ -766,7 +767,10 @@ export function OperationsWorkspace() {
               </Button>
             </div>
             {bulkNotice ? (
-              <p className="basis-full text-xs text-muted-foreground" role="status">
+              <p
+                className="basis-full text-xs text-muted-foreground"
+                role="status"
+              >
                 Acción simulada: {bulkNotice} para {selectedVisibleIds.size}{" "}
                 operaciones.
               </p>
@@ -780,7 +784,9 @@ export function OperationsWorkspace() {
             operaciones
           </p>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
-            <span className="text-muted-foreground">Total general filtrado</span>
+            <span className="text-muted-foreground">
+              Total general filtrado
+            </span>
             <span className="font-mono font-medium tabular-nums">
               {totalByCurrency(filtered) || "—"}
             </span>
@@ -904,9 +910,7 @@ function SelectionCheckbox({
       checked={checked}
       aria-label={label}
       onChange={onChange}
-      onClick={
-        stopPropagation ? (event) => event.stopPropagation() : undefined
-      }
+      onClick={stopPropagation ? (event) => event.stopPropagation() : undefined}
       onKeyDown={
         stopPropagation ? (event) => event.stopPropagation() : undefined
       }
@@ -1316,9 +1320,7 @@ function OperationList({
 
   return (
     <>
-      <div
-        className={`${grouped ? "" : "mt-3"} hidden min-w-0 md:block`}
-      >
+      <div className={`${grouped ? "" : "mt-3"} hidden min-w-0 md:block`}>
         <DataTable
           data={items}
           columns={columns}
@@ -1329,6 +1331,16 @@ function OperationList({
             if (sort !== sortKey) return "none"
             return sortDescending ? "descending" : "ascending"
           }}
+          getColumnLabel={(id) =>
+            id === "reference"
+              ? "Referencia"
+              : id === "client"
+                ? "Cliente"
+                : id === "status"
+                  ? "Estado"
+                  : (columnDefinitions.find((column) => column.id === id)
+                      ?.label ?? id)
+          }
           columnWidths={columnWidths}
           onColumnWidthChange={onColumnWidthChange}
           getRowClassName={(operation) =>

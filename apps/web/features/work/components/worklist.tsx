@@ -425,7 +425,7 @@ function WorkRow({
                 <p className="mt-1 leading-5 text-muted-foreground">
                   {item.source}
                   {item.sourceUpdatedAt
-                    ? ` · última fecha simulada ${item.sourceUpdatedAt}`
+                    ? ` · última fecha simulada ${formatDate(item.sourceUpdatedAt)}`
                     : " · fixture local"}
                   .{" "}
                   {item.freshness === "Desactualizado"

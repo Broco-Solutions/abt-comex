@@ -102,3 +102,7 @@ midió sin overflow a 390, 768, 900, 1024, 1280 y 1440 px.
 - Integración con Cliente: enlace filtrado sin divulgar conteos o valores en la
   ficha maestra.
 - Estado de etapa: Under review hasta revisión humana funcional y visual.
+
+## UX-02 — colección comercial
+
+DataTable en ancho suficiente y registros compactos en móvil/tablet. Referencia, cliente, versión, aprobación interna, envío, respuesta y actualización son dimensiones separadas; precio no ocupa la vista inicial. Sin selección masiva ni estados definitivos nuevos. Se preservan búsqueda, filtros y retorno. Prueba responsive y comparativa en ux-lists.spec.ts y suites de Cotizaciones.
