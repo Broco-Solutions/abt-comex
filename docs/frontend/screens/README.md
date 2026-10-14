@@ -7,7 +7,8 @@ Esta carpeta es autoridad del comportamiento particular de cada pantalla/flujo. 
 | Archivo | Corte | Estado de especificación |
 |---|---|---|
 | [01 — Shell](01-foundation-application-shell.md) | Etapa 1 | Approved; limitación de navegadores registrada en el plan |
-| [02 — Inicio + Mi trabajo](02-inicio-mi-trabajo.md) | Etapa 2 | Under review; integración y revisión humana pendientes |
+| [02 — Inicio + Mi trabajo](02-inicio-mi-trabajo.md) | Etapa 2 | Under review; integrada a main, revisión humana pendiente |
+| [03 — Listado de Operaciones](03-operaciones-listado.md) | Etapa 3 | Under review; revisión humana pendiente |
 
 Las demás experiencias del mapa todavía no tienen especificación. No denominarlas Draft hasta que exista un documento. Un ID UI puede corresponder a una sección o acción, no necesariamente a un archivo/página independiente.
 

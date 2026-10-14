@@ -9,6 +9,7 @@ export type WorkItem = {
   reason: string
   origin: string
   reference: string
+  relatedOperationId?: string
   owner?: string
   dueDate?: string
   timeBand?: "Vencido" | "Próximo"

@@ -22,6 +22,16 @@ test("@smoke Inicio resume Mi trabajo and opens its local context safely", async
   await expect(
     page.getByRole("link", { name: "Cerrar contexto" })
   ).toBeVisible()
+  await page.getByRole("link", { name: "Abrir operación" }).click()
+  await expect(page).toHaveURL(/\/operaciones\?operacion=op-demo-2048/)
+  await expect(
+    page.getByRole("heading", { name: "Contexto de OP-DEM-2048" })
+  ).toBeVisible()
+  await page
+    .getByRole("link", { name: "Cerrar contexto y volver a resultados" })
+    .click()
+  await expect(page).toHaveURL("/operaciones")
+  await page.goto("/mi-trabajo?trabajo=wrk-imp-control-01")
 
   await page.getByRole("link", { name: "Cerrar contexto" }).click()
   await expect(page).toHaveURL("/mi-trabajo")
