@@ -80,5 +80,10 @@ color como señal única. Axe es apoyo, no certificación WCAG 2.2 AA.
   honorarios en la ficha común.
 - Anchos: 390–1440 px sin overflow y acciones utilizables.
 
-Resultados de tests, CI y deployment se completarán al cerrar el PR. Revisión
+Etapa 5 integrada por [PR #12](https://github.com/Broco-Solutions/abt-comex/pull/12),
+squash `fce2db4ab9f0877cfd23de48bf2ae1c2fb55499a`; `quality`, `e2e-smoke`,
+Vercel Preview y producción READY. Rutas de alta, operación, cliente y
+cotización respondieron HTTP 200. Gate local: lint, typecheck, build, 64
+unitarias, 17 axe, 25 E2E smoke Chromium, validador documental y
+`git diff --check`; capturas revisadas a 1440×1000 y 390×844. Revisión
 funcional/visual integral pendiente.

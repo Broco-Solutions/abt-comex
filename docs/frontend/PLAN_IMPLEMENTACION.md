@@ -4,7 +4,7 @@
 
 ## Objetivo y siguiente corte
 
-Construir todas las Etapas 2 a 13 como primera versión integral, demostrativa y navegable del frontend para validar procesos con ABT. Las Etapas 0 y 1 están cerradas y fusionadas. **Etapa 2 — Inicio y Mi trabajo** se integró a `main` mediante PR #7 (squash `9359921d3cd3fb568e9ce923d3790c63d8a30a2d`); permanece `Under review`, pendiente de revisión humana integral. La rama histórica del PR #6 había sido fusionada contra una rama de prueba y no incorporó el contenido a `main`; no se reimplementó. Ver [especificación](screens/02-inicio-mi-trabajo.md). **Etapa 3 — Listado de Operaciones** se integró mediante PR #8 (squash `a83de1577ab1962d6e66fc862b81ee82bce383d8`), checks verdes y deployment `dpl_ENeTwNJcYZSh7eT3RoSz6EfBWWPi` READY. **Etapa 4 — Detalle común** se integró por [PR #9](https://github.com/Broco-Solutions/abt-comex/pull/9) (squash `80d77148de31eb0dfc388f31ab7bfd1e0b2bef0f`), checks verdes y deployment `dpl_AqoCyjYC3CYEnwNwz86kA1VZi2P7` READY. **Etapa 6 — Clientes** se integró por [PR #10](https://github.com/Broco-Solutions/abt-comex/pull/10), squash `26f19d9963e5669b4e251216ce9f4674ab6dac5e`, checks `quality`, `e2e-smoke` y Vercel Preview verdes; deployment de `main` `dpl_8vmJ5fUR8bPm3qb4ymGrPVZsjr2S` READY y rutas HTTP 200. Las Etapas 2–4 y 6 permanecen `Under review`, sujetas a revisión humana integral.
+Construir todas las Etapas 2 a 13 como primera versión integral, demostrativa y navegable del frontend para validar procesos con ABT. Las Etapas 0 y 1 están cerradas y fusionadas. **Etapa 2 — Inicio y Mi trabajo** se integró a `main` mediante PR #7 (squash `9359921d3cd3fb568e9ce923d3790c63d8a30a2d`); permanece `Under review`, pendiente de revisión humana integral. La rama histórica del PR #6 había sido fusionada contra una rama de prueba y no incorporó el contenido a `main`; no se reimplementó. Ver [especificación](screens/02-inicio-mi-trabajo.md). **Etapa 3 — Listado de Operaciones** se integró mediante PR #8 (squash `a83de1577ab1962d6e66fc862b81ee82bce383d8`), checks verdes y deployment `dpl_ENeTwNJcYZSh7eT3RoSz6EfBWWPi` READY. **Etapa 4 — Detalle común** se integró por [PR #9](https://github.com/Broco-Solutions/abt-comex/pull/9) (squash `80d77148de31eb0dfc388f31ab7bfd1e0b2bef0f`), checks verdes y deployment `dpl_AqoCyjYC3CYEnwNwz86kA1VZi2P7` READY. **Etapa 6 — Clientes** se integró por [PR #10](https://github.com/Broco-Solutions/abt-comex/pull/10), squash `26f19d9963e5669b4e251216ce9f4674ab6dac5e`, checks `quality`, `e2e-smoke` y Vercel Preview verdes; deployment de `main` `dpl_8vmJ5fUR8bPm3qb4ymGrPVZsjr2S` READY y rutas HTTP 200. **Etapa 9 — Cotizaciones** se integró por PR #11 (`1645bfc1094451447803c2f12af0f3ed7306a6af`). **Etapa 5 — Creación guiada** se integró después por [PR #12](https://github.com/Broco-Solutions/abt-comex/pull/12), squash `fce2db4ab9f0877cfd23de48bf2ae1c2fb55499a`, checks verdes y producción READY (`dpl_4swVdkXeUzdYsGES5miqqaQro87u`); alta, ficha, cotización y cliente respondieron HTTP 200. Las Etapas 2–6 y 9 permanecen `Under review`, sujetas a revisión humana integral.
 
 ## Gobierno y dependencias
 
@@ -12,20 +12,20 @@ Este plan es autoridad de orden, dependencias, entregables, gates, estado y cier
 
 La [matriz](MATRIZ_COBERTURA_FUNCIONAL.md) conserva necesidades, evidencia y certeza; el [mapa](MAPA_PANTALLAS_Y_RECORRIDOS.md) relaciona experiencias y recorridos. No agregan alcance ni reordenan este plan.
 
-| Etapa | Dependencia de entrega / especificación |
-|---|---|
-| 0–1 | Base completada; [Shell](screens/01-foundation-application-shell.md), decisiones y evidencia de cierre al final de este plan. |
-| 2 | Shell existente y gate G0; implementación integrada a `main`, Under review. Cuando existe destino profundo útil, Mi trabajo lo abre y conserva su contexto; acciones de proceso no disponibles se describen sin simularlas. |
-| 3 | Fuente/criterios de búsqueda y G1; implementación integrada mediante PR #8 a `main`, checks requeridos verdes, Under review. El listado abre el detalle común y preserva retorno. |
-| 4 | Listado y núcleo común G1; detalle común en implementación, [especificación](screens/04-operacion-detalle.md), Under review. Reutiliza fixture de Operaciones; no inventa datos de trámites, hitos, controles, estados ni datos económicos. |
-| 5 | Núcleo común y maestros/cotización de Etapas 6/9, G2; especificación pendiente. Reutiliza sus fixtures y relaciones para alta directa o desde versión aceptada. |
-| 6 | Núcleo y decisiones de maestros G2; especificación pendiente. |
-| 7 | Listado/detalle/alta común, maestros y G3; especificación pendiente. |
-| 8 | Núcleo común, maestros y G3; especificaciones Exportación/DJVE pendientes. |
-| 9 | Maestros y G2; completa circuito comercial y conexión con Etapa 5; especificación pendiente. |
-| 10 | Handoff de verticales, G4 y fuentes administrativas; especificación pendiente. |
-| 11 | Datos operativos y administrativos, definiciones de métricas y G4; especificación pendiente. |
-| 12–13 | Núcleo, identidad y visibilidad compartidas, G5; especificaciones pendientes. No implica backend autorizado hoy. |
+| Etapa | Dependencia de entrega / especificación                                                                                                                                                                                                     |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0–1   | Base completada; [Shell](screens/01-foundation-application-shell.md), decisiones y evidencia de cierre al final de este plan.                                                                                                               |
+| 2     | Shell existente y gate G0; implementación integrada a `main`, Under review. Cuando existe destino profundo útil, Mi trabajo lo abre y conserva su contexto; acciones de proceso no disponibles se describen sin simularlas.                 |
+| 3     | Fuente/criterios de búsqueda y G1; implementación integrada mediante PR #8 a `main`, checks requeridos verdes, Under review. El listado abre el detalle común y preserva retorno.                                                           |
+| 4     | Listado y núcleo común G1; detalle común en implementación, [especificación](screens/04-operacion-detalle.md), Under review. Reutiliza fixture de Operaciones; no inventa datos de trámites, hitos, controles, estados ni datos económicos. |
+| 5     | Núcleo común y maestros/cotización de Etapas 6/9, G2; especificación pendiente. Reutiliza sus fixtures y relaciones para alta directa o desde versión aceptada.                                                                             |
+| 6     | Núcleo y decisiones de maestros G2; especificación pendiente.                                                                                                                                                                               |
+| 7     | Listado/detalle/alta común, maestros y G3; especificación pendiente.                                                                                                                                                                        |
+| 8     | Núcleo común, maestros y G3; especificaciones Exportación/DJVE pendientes.                                                                                                                                                                  |
+| 9     | Maestros y G2; completa circuito comercial y conexión con Etapa 5; especificación pendiente.                                                                                                                                                |
+| 10    | Handoff de verticales, G4 y fuentes administrativas; especificación pendiente.                                                                                                                                                              |
+| 11    | Datos operativos y administrativos, definiciones de métricas y G4; especificación pendiente.                                                                                                                                                |
+| 12–13 | Núcleo, identidad y visibilidad compartidas, G5; especificaciones pendientes. No implica backend autorizado hoy.                                                                                                                            |
 
 Una dependencia de definición puede resolverse antes de implementar su módulo. Se conservan los IDs históricos 0–13; el orden de ejecución no tiene que coincidir con la numeración.
 
@@ -33,14 +33,14 @@ Una dependencia de definición puede resolverse antes de implementar su módulo.
 
 **Decisión interna del responsable del proyecto, 14/10/2026:** construir las Etapas 2 a 13 en sesiones extensas sucesivas. Secuencia recomendada evaluada: **2 → 3 → 4 → 6 → 9 → 5 → 7 → 8 → 10 → 11 → 12 → 13**. Adelantar Clientes y Cotizaciones al alta permite reutilizar datos y probar los dos caminos de apertura. No cambia alcance, IDs ni rutas aprobadas del Shell.
 
-| Bloque / orden | Resultado y dependencia principal | Verificación antes de continuar |
-|---|---|---|
-| 2 | Resumen y bandeja con contexto temporal; Shell existente. | Conteos/visibilidad coherentes, retorno, estados y escenarios de su especificación. |
-| 3 → 4 | Encontrar y comprender una operación; núcleo G1. | Lista → objeto → retorno; sustituir contexto temporal sólo con destino útil. |
-| 6 → 9 → 5 | Cliente → cotización/versiones → alta, más creación directa; G2. | Reutilización sin doble carga y sin exigir cotización; separar aprobación interna de aceptación. |
-| 7 → 8 | Verticales Impo/Expo y DJVE autónoma; G3. | Controles segregados, relaciones, documentos y cierres sin simular oficialización real. |
-| 10 → 11 | Handoff administrativo y Dirección; G4. | Situaciones independientes, permisos económicos y métricas pendientes identificadas. |
-| 12 → 13 | Portal y asistencia demostrativos; G5. | Visibilidad por canal, navegación y consultas de fixtures; sin identidad/integraciones reales. |
+| Bloque / orden | Resultado y dependencia principal                                | Verificación antes de continuar                                                                  |
+| -------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 2              | Resumen y bandeja con contexto temporal; Shell existente.        | Conteos/visibilidad coherentes, retorno, estados y escenarios de su especificación.              |
+| 3 → 4          | Encontrar y comprender una operación; núcleo G1.                 | Lista → objeto → retorno; sustituir contexto temporal sólo con destino útil.                     |
+| 6 → 9 → 5      | Cliente → cotización/versiones → alta, más creación directa; G2. | Reutilización sin doble carga y sin exigir cotización; separar aprobación interna de aceptación. |
+| 7 → 8          | Verticales Impo/Expo y DJVE autónoma; G3.                        | Controles segregados, relaciones, documentos y cierres sin simular oficialización real.          |
+| 10 → 11        | Handoff administrativo y Dirección; G4.                          | Situaciones independientes, permisos económicos y métricas pendientes identificadas.             |
+| 12 → 13        | Portal y asistencia demostrativos; G5.                           | Visibilidad por canal, navegación y consultas de fixtures; sin identidad/integraciones reales.   |
 
 Aplicar [gates técnicos y documentales](TEST_STRATEGY.md#19-gate-de-etapa) por etapa dentro de cada bloque. No exigir revisión visual humana después de cada una; los cortes técnicamente terminados quedan `Under review` y se puede continuar. Registrar pruebas, limitaciones, supuestos y punto de reanudación en plan/especificación. La revisión humana integral es obligatoria antes de declarar aprobada la primera pasada. No aprobar reglas de negocio por completar un mock ni eludir bloqueos funcionales; procedimiento en el [runbook](CODEX_RUNBOOK.md#preparación-y-cierre).
 
@@ -55,10 +55,10 @@ Aplicar [gates técnicos y documentales](TEST_STRATEGY.md#19-gate-de-etapa) por 
 
 ## Frontend demostrativo y producto operativo real
 
-| Línea | Entrega verificable | Qué no acredita |
-|---|---|---|
-| A — Frontend integral demostrativo | Pantallas, acciones locales identificadas como prototipo, recorridos conectados, fixtures y pruebas de Etapas 2–13. Revisión humana integral al cierre. | Persistencia, autorización efectiva, datos externos disponibles o aptitud de producción. |
-| B — Implementación operativa real | Arquitectura aprobada, backend/persistencia, identidad, permisos efectivos, contratos e integraciones, carga inicial desde fuentes aprobadas cuando corresponda, seguridad y pruebas con fuentes reales autorizadas. | No queda implementada ni autorizada por terminar A. |
+| Línea                              | Entrega verificable                                                                                                                                                                                                  | Qué no acredita                                                                          |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| A — Frontend integral demostrativo | Pantallas, acciones locales identificadas como prototipo, recorridos conectados, fixtures y pruebas de Etapas 2–13. Revisión humana integral al cierre.                                                              | Persistencia, autorización efectiva, datos externos disponibles o aptitud de producción. |
+| B — Implementación operativa real  | Arquitectura aprobada, backend/persistencia, identidad, permisos efectivos, contratos e integraciones, carga inicial desde fuentes aprobadas cuando corresponda, seguridad y pruebas con fuentes reales autorizadas. | No queda implementada ni autorizada por terminar A.                                      |
 
 La línea B no debe esperar necesariamente a terminar todo A: el relevamiento con ABT, contratos, identificadores, fuentes maestras, sensibilidad y decisiones de arquitectura pueden avanzar en paralelo a los bloques consumidores. Una implementación real posterior sólo se inicia con alcance/arquitectura/autorización definidos y pruebas correspondientes; las fronteras mock simples permiten sustituir fuentes sin anticipar capas o tecnología.
 
@@ -74,25 +74,25 @@ Referencia: [relevamiento original Alpha2000](https://docs.google.com/spreadshee
 
 Alpha2000 es la integración prioritaria por decisión interna del responsable del proyecto. La prioridad fina de consultas y datos debe completarse con ABT. Fuente de verdad significa autoridad prevista por dato, no disponibilidad de API.
 
-| Sistema / trazabilidad | Capacidad, proceso e información requerida | Operación deseada y fuente de verdad | Etapas consumidoras / prioridad de relevamiento |
-|---|---|---|---|
-| Alpha2000 / MARÍA — INT-001, ALP-001 a ALP-004, ALP-009 | Preparación y seguimiento Impo/Expo: destinaciones y regímenes Impo/Expo, referencias/números y fechas de oficialización, canal/estados, arribo/liberación, documentos/intervenciones, transporte, valores aduaneros, permisos de embarque, cumplidos cuando estén disponibles y novedades pertinentes; alcance por tipo/régimen a confirmar. | Lectura prioritaria externo → ABT; escritura no definida ni autorizada. Alpha2000/MARÍA para registros aduaneros; autoridad por campo y maestros a confirmar. | 3–8; contexto 2 y consumidores 10–13. Alta por dependencia operativa. |
-| Alpha2000 administrativo — INT-001, ALP-005 a ALP-009 | Facturación/facturas por cliente, cobranzas, cuentas corrientes, compras/proveedores, órdenes de pago/retenciones, gastos/rendiciones e información contable y referencias para Dirección, vinculadas a clientes, operaciones y documentos. | Lectura propuesta externo → ABT; cualquier preparación/emisión/escritura requiere definición aparte. Alpha2000 conserva contabilidad/cuentas corrientes; gastos e imputaciones por dato pendientes. | 10–11, referencias autorizadas en 4/6/9. Alta por handoff y fuentes económicas. |
-| Interbanking — INT-005, REP-007, REP-008, REP-018 | Evaluar consulta bancaria/tesorería: potenciales saldos, movimientos y otros datos sólo si se confirma disponibilidad. | Exclusivamente lectura propuesta externo → ABT. Autoridad bancaria por institución y dato por confirmar; sin transferencias, emisión/ejecución de pagos, operaciones con ECheqs, conciliación automática, escritura bancaria ni autorización de movimientos. | 10–11. Factibilidad previa; no compromiso de disponibilidad. |
-| ARCA / MOA — INT-003 | Evaluar cumplidos y otros datos aduaneros necesarios. Caso inicial: Exportación. | Primero ARCA/MOA → Alpha2000 → ABT mediante API autorizada; directo ARCA → ABT sólo si la vía prioritaria no alcanza o existe justificación suficiente. Sin escritura ni dos conectores obligatorios. Fuente original identificada. | 7–8, referencias en 10–11. Evaluación subordinada a cobertura Alpha2000; no bloqueo del prototipo. |
-| Microsoft 365 — INT-004 | Correo y documentos vinculados a operaciones, origen e historial; alcance de integración pendiente. | Consulta/vinculación a evaluar; envío, carga o archivado automático no autorizados. M365 conserva contenido de origen; relación con operación en ABT, autoridad/retención por definir. | 4, 7–10 y eventualmente 12. Complementaria; confirmar necesidad y alcance antes de conectar. |
+| Sistema / trazabilidad                                  | Capacidad, proceso e información requerida                                                                                                                                                                                                                                                                                                    | Operación deseada y fuente de verdad                                                                                                                                                                                                                         | Etapas consumidoras / prioridad de relevamiento                                                    |
+| ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
+| Alpha2000 / MARÍA — INT-001, ALP-001 a ALP-004, ALP-009 | Preparación y seguimiento Impo/Expo: destinaciones y regímenes Impo/Expo, referencias/números y fechas de oficialización, canal/estados, arribo/liberación, documentos/intervenciones, transporte, valores aduaneros, permisos de embarque, cumplidos cuando estén disponibles y novedades pertinentes; alcance por tipo/régimen a confirmar. | Lectura prioritaria externo → ABT; escritura no definida ni autorizada. Alpha2000/MARÍA para registros aduaneros; autoridad por campo y maestros a confirmar.                                                                                                | 3–8; contexto 2 y consumidores 10–13. Alta por dependencia operativa.                              |
+| Alpha2000 administrativo — INT-001, ALP-005 a ALP-009   | Facturación/facturas por cliente, cobranzas, cuentas corrientes, compras/proveedores, órdenes de pago/retenciones, gastos/rendiciones e información contable y referencias para Dirección, vinculadas a clientes, operaciones y documentos.                                                                                                   | Lectura propuesta externo → ABT; cualquier preparación/emisión/escritura requiere definición aparte. Alpha2000 conserva contabilidad/cuentas corrientes; gastos e imputaciones por dato pendientes.                                                          | 10–11, referencias autorizadas en 4/6/9. Alta por handoff y fuentes económicas.                    |
+| Interbanking — INT-005, REP-007, REP-008, REP-018       | Evaluar consulta bancaria/tesorería: potenciales saldos, movimientos y otros datos sólo si se confirma disponibilidad.                                                                                                                                                                                                                        | Exclusivamente lectura propuesta externo → ABT. Autoridad bancaria por institución y dato por confirmar; sin transferencias, emisión/ejecución de pagos, operaciones con ECheqs, conciliación automática, escritura bancaria ni autorización de movimientos. | 10–11. Factibilidad previa; no compromiso de disponibilidad.                                       |
+| ARCA / MOA — INT-003                                    | Evaluar cumplidos y otros datos aduaneros necesarios. Caso inicial: Exportación.                                                                                                                                                                                                                                                              | Primero ARCA/MOA → Alpha2000 → ABT mediante API autorizada; directo ARCA → ABT sólo si la vía prioritaria no alcanza o existe justificación suficiente. Sin escritura ni dos conectores obligatorios. Fuente original identificada.                          | 7–8, referencias en 10–11. Evaluación subordinada a cobertura Alpha2000; no bloqueo del prototipo. |
+| Microsoft 365 — INT-004                                 | Correo y documentos vinculados a operaciones, origen e historial; alcance de integración pendiente.                                                                                                                                                                                                                                           | Consulta/vinculación a evaluar; envío, carga o archivado automático no autorizados. M365 conserva contenido de origen; relación con operación en ABT, autoridad/retención por definir.                                                                       | 4, 7–10 y eventualmente 12. Complementaria; confirmar necesidad y alcance antes de conectar.       |
 
 ### Seguimiento técnico por frente
 
 Estado al 14/10/2026: los cinco frentes de seguimiento siguen **Pendiente de relevamiento**: hay necesidades documentadas, sin relevamiento completo con ABT. La documentación pública ARCA fue contrastada, pero la disponibilidad efectiva para ABT y los contratos de integración siguen pendientes en todos. La factibilidad preliminar Alpha2000 informada por el responsable no equivale a API disponible. Las direcciones anteriores son deseadas, no sincronizaciones implementadas. Frecuencia/SLA y responsable técnico/validador están pendientes en cada frente.
 
-| Sistema | Identificadores a relacionar (definición pendiente) | Permisos/sensibilidad | Errores, fallback y pruebas requeridas | Bloqueo o próxima decisión | Estado |
-|---|---|---|---|---|---|
-| Alpha2000 / MARÍA | Clave externa de destinación/despacho/permiso, operación y maestros ABT; distinguir referencia visible de ID estable. | Acceso aduanero por proceso; valores/tributos separados de honorarios según alcance §7.2. | Dato ausente, parcial, stale, error o sin permiso; mantener origen/fecha sin inferir oficialización. Probar mapeo, unidades/monedas, estados, duplicados y vínculo Impo/Expo. | Completar E5 con ABT/proveedor; confirmar consultas, muestras autorizadas, frecuencia e IDs. | Pendiente de relevamiento |
-| Alpha2000 administrativo | Comprobantes, cliente/proveedor, operación, imputación, cobranza, pago/rendición. | Separar las categorías económicas de §7.2; no distribuir información contable a perfiles operativos. | No inferir facturada/cobrada por ausencia de respuesta. Probar vínculos, moneda/período, consistencia, repetición de lecturas y pruebas negativas de acceso. | Completar E5; acordar fuente por dato, fechas de corte, dirección y eventual escritura por caso. | Pendiente de relevamiento |
-| Interbanking | Institución, cuenta e ID de movimiento; vínculo contable sólo al definirse. | Consulta bancaria específica, credenciales y consentimiento por definir; sin exposición en logs/fixtures. | No mostrar saldo cero si falta conexión. Probar no conectada, datos parciales/stale, permisos y moneda/fecha; demostrar ausencia de comandos de pago. | Factibilidad, disponibilidad de cada dato, acceso/contrato, frecuencia y límites; conciliación no asumida. | Pendiente de relevamiento |
-| ARCA / MOA (vías alternativas) | Permiso/destinación, cumplido y operación; validar correspondencia con IDs Alpha2000. | Acceso mediado según contrato Alpha2000; directo sujeto a certificado, WSAA, CUIT/relaciones, carácter y permisos efectivos. | Cumplido desconocido no equivale a incumplido. Probar correspondencia, origen/intermediario, frescura, errores, diferencias y acceso en la vía elegida. | Primero confirmar cobertura/costos Alpha2000; justificar alternativa directa y validar dependencias siguientes si es necesaria. | Pendiente de relevamiento |
-| Microsoft 365 | IDs de mensaje/archivo/versión y operación; asociación inequívoca. | Acceso a buzón/archivo no concede acceso económico; definir consentimiento, herencia, retención y revocación. | Referencia eliminada, revocada o inaccesible sin filtrar contenido. Probar vínculo, versiones, revocación, duplicados y recuperación sin envío real. | Definir lectura/escritura, archivo vs enlace, acceso/contrato y frecuencia; no asumir integración de correo. | Pendiente de relevamiento |
+| Sistema                        | Identificadores a relacionar (definición pendiente)                                                                   | Permisos/sensibilidad                                                                                                        | Errores, fallback y pruebas requeridas                                                                                                                                        | Bloqueo o próxima decisión                                                                                                      | Estado                    |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| Alpha2000 / MARÍA              | Clave externa de destinación/despacho/permiso, operación y maestros ABT; distinguir referencia visible de ID estable. | Acceso aduanero por proceso; valores/tributos separados de honorarios según alcance §7.2.                                    | Dato ausente, parcial, stale, error o sin permiso; mantener origen/fecha sin inferir oficialización. Probar mapeo, unidades/monedas, estados, duplicados y vínculo Impo/Expo. | Completar E5 con ABT/proveedor; confirmar consultas, muestras autorizadas, frecuencia e IDs.                                    | Pendiente de relevamiento |
+| Alpha2000 administrativo       | Comprobantes, cliente/proveedor, operación, imputación, cobranza, pago/rendición.                                     | Separar las categorías económicas de §7.2; no distribuir información contable a perfiles operativos.                         | No inferir facturada/cobrada por ausencia de respuesta. Probar vínculos, moneda/período, consistencia, repetición de lecturas y pruebas negativas de acceso.                  | Completar E5; acordar fuente por dato, fechas de corte, dirección y eventual escritura por caso.                                | Pendiente de relevamiento |
+| Interbanking                   | Institución, cuenta e ID de movimiento; vínculo contable sólo al definirse.                                           | Consulta bancaria específica, credenciales y consentimiento por definir; sin exposición en logs/fixtures.                    | No mostrar saldo cero si falta conexión. Probar no conectada, datos parciales/stale, permisos y moneda/fecha; demostrar ausencia de comandos de pago.                         | Factibilidad, disponibilidad de cada dato, acceso/contrato, frecuencia y límites; conciliación no asumida.                      | Pendiente de relevamiento |
+| ARCA / MOA (vías alternativas) | Permiso/destinación, cumplido y operación; validar correspondencia con IDs Alpha2000.                                 | Acceso mediado según contrato Alpha2000; directo sujeto a certificado, WSAA, CUIT/relaciones, carácter y permisos efectivos. | Cumplido desconocido no equivale a incumplido. Probar correspondencia, origen/intermediario, frescura, errores, diferencias y acceso en la vía elegida.                       | Primero confirmar cobertura/costos Alpha2000; justificar alternativa directa y validar dependencias siguientes si es necesaria. | Pendiente de relevamiento |
+| Microsoft 365                  | IDs de mensaje/archivo/versión y operación; asociación inequívoca.                                                    | Acceso a buzón/archivo no concede acceso económico; definir consentimiento, herencia, retención y revocación.                | Referencia eliminada, revocada o inaccesible sin filtrar contenido. Probar vínculo, versiones, revocación, duplicados y recuperación sin envío real.                          | Definir lectura/escritura, archivo vs enlace, acceso/contrato y frecuencia; no asumir integración de correo.                    | Pendiente de relevamiento |
 
 Al relevar cada consulta/acción, actualizar su frente con disponibilidad técnica, enlace a contrato/API confirmado, IDs, dirección y frecuencia, fuente maestra, capacidades, errores/fallback, pruebas, responsable, estado, bloqueo y evidencia/fecha. El detalle campo a campo permanece en el relevamiento/contrato autorizado enlazado, no duplicado en Markdown. Mientras no exista evidencia nueva, los pendientes comunes anteriores aplican a cada fila.
 
@@ -100,10 +100,10 @@ Al relevar cada consulta/acción, actualizar su frente con disponibilidad técni
 
 E17 de la matriz registra **información aportada por el responsable del proyecto en esta sesión**: hubo reunión inicial con predisposición y viabilidad preliminar para estudiar la integración; el proveedor explicó complejidad por régimen/tipo y posibilidad de desarrollar endpoints específicos con datos procesados. Fecha de reunión y acta no aportadas; no se atribuye a una reunión presenciada ni a una prueba de Codex. Necesidad funcional de integrar confirmada internamente; alcance de datos, API documentada/habilitada/contratada, condiciones comerciales y pruebas técnicas siguen pendientes.
 
-| Alternativa | Evaluación y ventajas potenciales | Condiciones / decisión pendiente |
-|---|---|---|
-| A — Alpha2000 primero | API autorizada del proveedor, posiblemente con datos MOA procesados. Podría reducir mecanismos de autenticación, consultas y transformaciones duplicadas, aprovechar conocimiento aduanero y simplificar correspondencias de IDs/estados. Son hipótesis, no garantías. | Confirmar datos/origen, actualidad, costo, latencia, frecuencia, regímenes cubiertos, disponibilidad, redistribución y responsabilidad ante errores. |
-| B — ARCA directo condicionado | Web Services oficiales autorizados sólo si A no cubre la necesidad o existe justificación técnica/funcional suficiente. | Definir acceso, seguridad, mantenimiento y alcance por consulta. No crear por defecto un segundo conector para el mismo dato ni una dependencia simultánea. |
+| Alternativa                   | Evaluación y ventajas potenciales                                                                                                                                                                                                                                      | Condiciones / decisión pendiente                                                                                                                            |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A — Alpha2000 primero         | API autorizada del proveedor, posiblemente con datos MOA procesados. Podría reducir mecanismos de autenticación, consultas y transformaciones duplicadas, aprovechar conocimiento aduanero y simplificar correspondencias de IDs/estados. Son hipótesis, no garantías. | Confirmar datos/origen, actualidad, costo, latencia, frecuencia, regímenes cubiertos, disponibilidad, redistribución y responsabilidad ante errores.        |
+| B — ARCA directo condicionado | Web Services oficiales autorizados sólo si A no cubre la necesidad o existe justificación técnica/funcional suficiente.                                                                                                                                                | Definir acceso, seguridad, mantenimiento y alcance por consulta. No crear por defecto un segundo conector para el mismo dato ni una dependencia simultánea. |
 
 La [ficha pública de Alpha Comex Movil](https://play.google.com/store/apps/details?hl=es_MX&id=alphacomexmovil.alphacomexmovil), consultada el 14/10/2026 (E19), atribuye sus datos a MOA Reingeniería; muestra actualización 18/06/2025. Esto sugiere experiencia del proveedor con esa fuente, **no** demuestra Web Service utilizado, API para terceros, permiso de redistribución, acceso ABT ni frescura garantizada. La URL original sin parámetro de idioma falló; se verificó la misma ficha en español de México.
 
@@ -143,17 +143,17 @@ COMEX360 queda fuera de este seguimiento objetivo por la [exclusión del alcance
 
 ### Estados de integración y evidencia
 
-| Estado | Evidencia mínima para usarlo |
-|---|---|
-| Pendiente de relevamiento | Necesidad identificada; faltan consultas/acciones o actores/datos. |
-| Relevada | Casos, datos, uso, fuente y responsable documentados con ABT; no implica factibilidad. |
-| En análisis técnico | Revisión efectiva de acceso, disponibilidad, seguridad e identificadores registrada. |
-| Contrato definido | Contrato enlazado con campos, operaciones, dirección/frecuencia, permisos y errores acordados. |
-| Lista para implementar | Contrato, arquitectura, accesos de prueba, autorización y criterios de aceptación resueltos. |
-| En implementación | Trabajo real iniciado con alcance y evidencia registrados. |
-| En pruebas | Conector disponible en entorno autorizado, ejecutando pruebas del contrato y seguridad. |
-| Validada | Resultados con fuentes reales autorizadas y aceptación técnica/funcional registradas: responsable, fecha, entorno y alcance. No equivale automáticamente a habilitación productiva. |
-| Bloqueada | Impedimento concreto, responsable de resolución y condición de salida; conservar último avance. |
+| Estado                    | Evidencia mínima para usarlo                                                                                                                                                        |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Pendiente de relevamiento | Necesidad identificada; faltan consultas/acciones o actores/datos.                                                                                                                  |
+| Relevada                  | Casos, datos, uso, fuente y responsable documentados con ABT; no implica factibilidad.                                                                                              |
+| En análisis técnico       | Revisión efectiva de acceso, disponibilidad, seguridad e identificadores registrada.                                                                                                |
+| Contrato definido         | Contrato enlazado con campos, operaciones, dirección/frecuencia, permisos y errores acordados.                                                                                      |
+| Lista para implementar    | Contrato, arquitectura, accesos de prueba, autorización y criterios de aceptación resueltos.                                                                                        |
+| En implementación         | Trabajo real iniciado con alcance y evidencia registrados.                                                                                                                          |
+| En pruebas                | Conector disponible en entorno autorizado, ejecutando pruebas del contrato y seguridad.                                                                                             |
+| Validada                  | Resultados con fuentes reales autorizadas y aceptación técnica/funcional registradas: responsable, fecha, entorno y alcance. No equivale automáticamente a habilitación productiva. |
+| Bloqueada                 | Impedimento concreto, responsable de resolución y condición de salida; conservar último avance.                                                                                     |
 
 Estos estados no son estados UI ni de etapa. Las fuentes externas en el frontend admiten **no conectada, desactualizada, parcial, error y sin permiso**, según el estándar. Un fixture, pantalla o prueba de mock no valida una integración. Ningún frente está conectado o validado por esta planificación.
 
@@ -592,35 +592,35 @@ Validar consultas y futuras acciones sin depender de proveedor.
 
 Se conservan los IDs de Etapas 0 a 13 y el estado aprobado de Etapas 0 y 1. La secuencia integral anterior cambia el orden de ejecución, no la identidad de las etapas. Los gates bloquean decisiones difíciles de revertir; no impiden prototipos con fixtures cuando los supuestos estén identificados, sean reemplazables y no se presenten como reglas aprobadas.
 
-| Gate | Debe estar validado antes de | Motivo |
-|---|---|---|
-| G0 — Inicio y Mi trabajo | Compromiso funcional de Etapa 2 | Revisar `screens/02-inicio-mi-trabajo.md`, validar que los fixtures no atribuyan perfiles o información sensible reales y registrar preguntas abiertas. Las fuentes externas no accesibles no bloquean el prototipo documental ni un mock reversible. |
-| G1 — núcleo de operación | Contratos, rutas definitivas y reglas irreversibles de Etapas 3, 4 y 5 | Cerrar ID, cardinalidades, estados, transiciones, responsables, permisos y auditoría comunes. Los prototipos pueden usar identificadores y estados explícitamente ficticios. |
-| G2 — datos maestros y cotización | Persistencia o automatización de Etapas 5, 6 y 9 | Definir reutilización de clientes, versionado, cálculo, aprobación interna, respuesta del cliente y cardinalidad versión aceptada→operaciones. |
-| G3 — Importación, Exportación y DJVE | Automatización o bloqueo de Etapas 7 y 8 | Validar requisitos variables, evidencia del doble control, custodia, cardinalidades DJVE/permiso/operación, fórmula observada de granos y criterios de cierre. La regla confirmada de dos personas antes de oficializar se conserva. |
-| G4 — Administración y fuentes externas | Cálculos, sincronización o escritura de Etapas 10 y 11 | Completar Alpha2000 campo a campo y evaluar cobertura de cumplidos/MOA, criterios de pase y fórmulas/fuentes de los 18 bloques de Dirección. Las maquetas pueden representar estados sin simular disponibilidad externa. |
-| G5 — canales externos | Publicación o acciones de Etapas 12 y 13 | Definir identidad, visibilidad, servicios compartidos, casos asistidos y auditoría de acciones. |
+| Gate                                   | Debe estar validado antes de                                           | Motivo                                                                                                                                                                                                                                                |
+| -------------------------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| G0 — Inicio y Mi trabajo               | Compromiso funcional de Etapa 2                                        | Revisar `screens/02-inicio-mi-trabajo.md`, validar que los fixtures no atribuyan perfiles o información sensible reales y registrar preguntas abiertas. Las fuentes externas no accesibles no bloquean el prototipo documental ni un mock reversible. |
+| G1 — núcleo de operación               | Contratos, rutas definitivas y reglas irreversibles de Etapas 3, 4 y 5 | Cerrar ID, cardinalidades, estados, transiciones, responsables, permisos y auditoría comunes. Los prototipos pueden usar identificadores y estados explícitamente ficticios.                                                                          |
+| G2 — datos maestros y cotización       | Persistencia o automatización de Etapas 5, 6 y 9                       | Definir reutilización de clientes, versionado, cálculo, aprobación interna, respuesta del cliente y cardinalidad versión aceptada→operaciones.                                                                                                        |
+| G3 — Importación, Exportación y DJVE   | Automatización o bloqueo de Etapas 7 y 8                               | Validar requisitos variables, evidencia del doble control, custodia, cardinalidades DJVE/permiso/operación, fórmula observada de granos y criterios de cierre. La regla confirmada de dos personas antes de oficializar se conserva.                  |
+| G4 — Administración y fuentes externas | Cálculos, sincronización o escritura de Etapas 10 y 11                 | Completar Alpha2000 campo a campo y evaluar cobertura de cumplidos/MOA, criterios de pase y fórmulas/fuentes de los 18 bloques de Dirección. Las maquetas pueden representar estados sin simular disponibilidad externa.                              |
+| G5 — canales externos                  | Publicación o acciones de Etapas 12 y 13                               | Definir identidad, visibilidad, servicios compartidos, casos asistidos y auditoría de acciones.                                                                                                                                                       |
 
 La secuencia integral adelanta Clientes y Cotizaciones al alta; las definiciones de negocio aún pendientes no se dan por cerradas con esos mocks. Etapa 2 no habilita acciones de negocio reales ni resuelve las decisiones abiertas del gate G0.
 
 ## Estado de etapas
 
-| Etapa | Estado |
-|---|---|
-| 0 — Frontend Foundation | Complete with environment limitation |
-| 1 — Application Shell | Complete with environment limitation |
-| 2 — Inicio y Mi trabajo | Under review |
-| 3 — Operaciones listado | Under review |
-| 4 — Operación detalle | Under review |
-| 5 — Crear Operación | Under review |
-| 6 — Clientes | Under review |
-| 7 — Importación | Pendiente |
-| 8 — Exportación/DJVE | Pendiente |
-| 9 — Cotizaciones | Under review |
-| 10 — Administración/Finanzas | Pendiente |
-| 11 — Gestión/Dirección | Pendiente |
-| 12 — Portal | Pendiente |
-| 13 — Canales asistidos | Pendiente |
+| Etapa                        | Estado                               |
+| ---------------------------- | ------------------------------------ |
+| 0 — Frontend Foundation      | Complete with environment limitation |
+| 1 — Application Shell        | Complete with environment limitation |
+| 2 — Inicio y Mi trabajo      | Under review                         |
+| 3 — Operaciones listado      | Under review                         |
+| 4 — Operación detalle        | Under review                         |
+| 5 — Crear Operación          | Under review                         |
+| 6 — Clientes                 | Under review                         |
+| 7 — Importación              | Under review                         |
+| 8 — Exportación/DJVE         | Pendiente                            |
+| 9 — Cotizaciones             | Under review                         |
+| 10 — Administración/Finanzas | Pendiente                            |
+| 11 — Gestión/Dirección       | Pendiente                            |
+| 12 — Portal                  | Pendiente                            |
+| 13 — Canales asistidos       | Pendiente                            |
 
 ### Implementación y gate técnico de Etapa 6
 
@@ -641,11 +641,24 @@ pasos: origen, cliente/tipo/modalidad, contexto, equipo responsable, requisitos
 pendientes y revisión. Revalida ID y versión aceptada; no marca consumida ni
 asume cardinalidad uno-a-uno. El registro local alimenta Operaciones, detalle y
 ficha Cliente mediante IDs estables. No configura reglas condicionales, usuarios
-ni permisos. Gate local: lint, typecheck, build; 64 pruebas unitarias, 17 axe,
+ni permisos. PR #12 integrado a `main` (`fce2db4ab9f0877cfd23de48bf2ae1c2fb55499a`), checks `quality`, `e2e-smoke` y Vercel Preview verdes; producción `dpl_4swVdkXeUzdYsGES5miqqaQro87u` READY. `/operaciones/nueva`, `/operaciones/op-demo-3142`, cotización y cliente respondieron HTTP 200. Gate local: lint, typecheck, build; 64 pruebas unitarias, 17 axe,
 25 E2E smoke Chromium; validador documental (117 IDs, 32 experiencias, 10
 recorridos) y `git diff --check` pasan. Capturas revisadas en Chromium a
 1440×1000 y 390×844; las pruebas de Operaciones y Clientes verifican la relación
-local. PR, CI y deployment pendientes; revisión humana integral pendiente.
+local. Datos, equipos, campos y cambios son sólo de demostración; revisión humana integral pendiente.
+
+### Implementación y gate técnico de Etapa 7
+
+El [workspace de Importación](screens/07-importacion.md) se abre desde Operación
+o las tareas relacionadas de Mi trabajo; vuelve a la operación y conserva el
+retorno. El doble control bloqueante por personas distintas se demuestra sólo
+en estado local. Alpha2000/MARÍA sigue no conectada; no se simulan preparación,
+oficialización, canal ni liberación. Documentación condicional y pase a
+Administración mantienen definiciones pendientes. Gate local: lint, typecheck,
+build; 67 unitarias, 18 axe, 29 E2E smoke Chromium; validador documental (117
+IDs, 32 experiencias, 10 recorridos) y `git diff --check` pasan. Capturas
+revisadas en Chromium a 1440×1000 y 390×844; E2E mide 390–1440 px. CI, PR y
+deployment pendientes; revisión humana integral pendiente.
 
 ### Implementación y gate técnico de Etapa 9
 
