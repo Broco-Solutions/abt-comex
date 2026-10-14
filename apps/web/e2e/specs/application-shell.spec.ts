@@ -470,13 +470,21 @@ test("@smoke design system remains outside the application shell", async ({
   page,
 }) => {
   const consoleErrors = collectConsoleErrors(page)
+  const shellFrame = page.locator("[data-shell-navigation-mode]")
+  await page.goto("/inicio")
+  await expect(shellFrame).toBeVisible()
+
   await page.goto("/design-system")
   await expect(
     page.getByRole("heading", { level: 1, name: "Design System ABT" })
   ).toBeVisible()
+  // Wait for the intentional sidebar examples, which share the shell's nav label.
   await expect(
-    page.getByRole("navigation", { name: "Navegación principal" })
-  ).toHaveCount(0)
+    page
+      .locator("#navegacion-shell")
+      .getByRole("navigation", { name: "Navegación principal" })
+  ).toHaveCount(2)
+  await expect(shellFrame).toHaveCount(0)
   expect(consoleErrors).toEqual([])
 })
 
