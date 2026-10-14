@@ -751,9 +751,9 @@ Autorización interna del responsable (14/10/2026): siete bloques frontend por P
 | Bloque | Alcance / dependencia | Estado |
 |---|---|---|
 | UX-01 | Coherencia funcional, retorno, URL, fechas e interactividad | Under review — PR #20 integrado, CI verde |
-| UX-02 | Listados selectivos, DataTable y responsive; UX-01 | Under review — validación local |
-| UX-03 | Acceso y escenarios, ayuda secundaria; UX-02 | Under review |
-| UX-04 | Inicio contextual y preparación Dirección; UX-03 | Pendiente |
+| UX-02 | Listados selectivos, DataTable y responsive; UX-01 | Under review — PR #21 integrado |
+| UX-03 | Acceso y escenarios, ayuda secundaria; UX-02 | Under review — PR #22 integrado |
+| UX-04 | Inicio contextual y preparación Dirección; UX-03 | Under review |
 | UX-05 | G1–G5 y registros; completa Dirección junto a UX-04 | Pendiente |
 | UX-06 | Fichas, procesos, documentos, Portal y limpieza transversal | Pendiente |
 | UX-07 | Regresión 32 experiencias/J1–J10, capacidades y responsive | Pendiente |
@@ -780,7 +780,7 @@ Gates por bloque: lint, tipos, pruebas proporcionales, build, E2E, inspección v
 | V14 | Iconografía ambigua | UX-01 | Corregido técnicamente; revisión pendiente |
 | V15 | Ayuda y textos reiterativos | UX-03/06 | Header y descripciones resueltos; limpieza particular en UX-06 |
 | V16 | Ausencia de analítica financiera | UX-05 | Pendiente |
-| V17 | Inicio poco contextual | UX-04 | Pendiente |
+| V17 | Inicio poco contextual | UX-04 | Implementado; G5 en UX-05 |
 | V18 | Gestión sin propósito diferencial | UX-04/05 | Pendiente |
 | V19 | Evaluación por capacidades | UX-03 | Implementada; Under review |
 | V20 | Documentación/Portal limitados | UX-06 | Pendiente |
@@ -797,3 +797,9 @@ UX-01 integrado por PR #20 en main 75beaea; quality/e2e-smoke/Vercel verdes, dep
 Clientes/Cotizaciones usan DataTable proporcionado; Operaciones protege identidad, elimina selección sin acción, conserva URL y tiene filtro móvil plegable; Administración ofrece lista compacta con apertura visible. Resize acotado y por teclado en desktop; calendario en español y referencia de escenario 14/10/2026. Unitarias, axe de consumidores, tipos/lint/build y E2E de geometría/retorno/resize; capturas desktop y móvil inspeccionadas. Primer registro móvil de Importaciones a y=663 frente a 1219 previo; no es una cuota de diseño. Preferencias sólo temporales; restauración explícita. PR/CI/deployment por registrar al cerrar.
 
 UX-02 integrado por PR #21 en main 1f17814; checks quality/e2e-smoke/Vercel verdes y producción dpl_2FgTZWsJbnSyC95ntwedrhCB35ib READY. UX-03 añade selección explícita de perspectiva; sin selección no se presentan datos internos. E2E inicia explícitamente una perspectiva de revisión, no altera el comportamiento del producto.
+
+### Evidencia UX-03 / UX-04
+
+UX-03 integrado por PR #22 en main 151e9c5; quality, e2e-smoke y Vercel verdes. Producción dpl_zJfFsF3n3Spy3zoWfAotRSgBtdpf READY. Acceso desktop/móvil inspeccionado, cambio/cancelación de escenario, aislamiento por tipo/capacidades, salida e inducción probados. No se modifica ni presume protección de infraestructura.
+
+UX-04: acciones rápidas contextuales, resumen y próximos vencimientos; apertura directa desde la bandeja con retorno explícito. La revisión comercial vigente y el doble control alimentan Inicio/Mi trabajo/Gestión sin duplicar pendientes. Capturas 1440/390 inspeccionadas; unitarias, axe, lint/tipos/build y smoke de navegación. G5 y la nueva identidad de Dirección se completan en UX-05, no se publica una vista analítica vacía.

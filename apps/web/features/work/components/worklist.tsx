@@ -386,6 +386,16 @@ function WorkRow({
           </div>
         </dl>
 
+        <div className="flex flex-wrap items-center gap-2 xl:col-span-2">
+          {relatedOperation ? (
+            <Link
+              href={`/operaciones/${relatedOperation.id}?returnTo=${encodeURIComponent(contextHref)}`}
+              className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+            >
+              Abrir operación
+            </Link>
+          ) : null}
+        </div>
         <div className="xl:col-span-2">
           <details
             open={selected}

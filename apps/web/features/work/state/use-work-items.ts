@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { loadDemoQuotes } from "@/features/quotes/data/quotes"
 import { loadImportationScenarios } from "@/features/importation/data/importation-scenarios"
 import { projectWorkItems, visibleWorkItems } from "../data/work-items"
 
@@ -11,10 +12,14 @@ import { demonstrationOperations } from "@/features/operations/data/operations"
 export function useWorkItems() {
   const [items, setItems] = useState(visibleWorkItems)
   useEffect(() => {
-    const refresh = () => setItems(projectWorkItems(loadImportationScenarios()))
+    const refresh = () => setItems(projectWorkItems(loadImportationScenarios(), loadDemoQuotes()))
     refresh()
     window.addEventListener("abt:importation-change", refresh)
-    return () => window.removeEventListener("abt:importation-change", refresh)
+    window.addEventListener("abt:demo-change", refresh)
+    return () => {
+      window.removeEventListener("abt:importation-change", refresh)
+      window.removeEventListener("abt:demo-change", refresh)
+    }
   }, [])
   const { scenario } = useScenario()
   const kind = scenarioKind(scenario)

@@ -6,6 +6,12 @@ import type {
 } from "../types/work-item"
 import type { ImportationScenario } from "@/features/importation/types/importation"
 
+import {
+  initialDemoQuotes,
+  getCurrentQuoteVersion,
+} from "@/features/quotes/data/quotes"
+import type { DemonstrationQuote } from "@/features/quotes/types/quote"
+
 export const DEMO_DATE = "2026-10-14"
 export const DEMO_PERSON = "Lucía Benítez"
 
@@ -27,7 +33,7 @@ export const workItems: WorkItem[] = [
     source: "ABT Comex · fixture local",
     freshness: "Disponible",
     nextStep:
-      "El contexto aduanero se completa en la etapa de Importación. No se puede oficializar desde esta bandeja.",
+      "Abrí el espacio de Importación para revisar el control pendiente. La oficialización se realiza externamente.",
     visible: true,
     activity: "Se registró una revisión para una segunda persona.",
   },
@@ -47,7 +53,7 @@ export const workItems: WorkItem[] = [
     source: "ABT Comex · fixture local",
     freshness: "Disponible",
     nextStep:
-      "El seguimiento de cumplido y post-embarque se completa en la etapa de Exportación.",
+      "Revisá originales, cumplido y documentación en el espacio de Exportación.",
     visible: true,
     activity: "La operación continúa activa después del pase a Facturación.",
   },
@@ -100,7 +106,7 @@ export const workItems: WorkItem[] = [
     source: "ABT Comex · fixture local",
     freshness: "Disponible",
     nextStep:
-      "La relación con rendiciones se aborda en Administración. Este caso no contiene importes.",
+      "Revisá la referencia pendiente en Administración; no se ha vinculado una operación.",
     visible: true,
     activity: "Se identificó una tarea preliminar sin operación asociada.",
   },
@@ -162,18 +168,42 @@ export const workItems: WorkItem[] = [
 export const visibleWorkItems = () => workItems.filter((item) => item.visible)
 
 // Completing a local control removes only that pending task, never officializes.
-export function projectWorkItems(scenarios: ImportationScenario[]) {
-  return visibleWorkItems().filter(
-    (item) =>
-      !(
-        item.kind === "Control" &&
-        scenarios.some(
-          (scenario) =>
-            scenario.operationId === item.relatedOperationId &&
-            scenario.doubleControl.completed
+export function projectWorkItems(
+  scenarios: ImportationScenario[],
+  quotes: DemonstrationQuote[] = initialDemoQuotes
+) {
+  return visibleWorkItems()
+    .filter(
+      (item) =>
+        !item.relatedQuoteId ||
+        quotes.some(
+          (quote) =>
+            quote.id === item.relatedQuoteId &&
+            getCurrentQuoteVersion(quote).workflow.internalApproval ===
+              "Pendiente"
         )
-      )
-  )
+    )
+    .map((item) => {
+      const quote = quotes.find((quote) => quote.id === item.relatedQuoteId)
+      return quote
+        ? {
+            ...item,
+            reference:
+              quote.reference + " · v" + getCurrentQuoteVersion(quote).number,
+          }
+        : item
+    })
+    .filter(
+      (item) =>
+        !(
+          item.kind === "Control" &&
+          scenarios.some(
+            (scenario) =>
+              scenario.operationId === item.relatedOperationId &&
+              scenario.doubleControl.completed
+          )
+        )
+    )
 }
 
 export function getWorkSummary(items: WorkItem[]): WorkSummary {
