@@ -28,6 +28,19 @@ anteriores abiertas. Saldo desconocido no es cero.
 
 ## Contrato visual de analítica V2
 
+V3-07 agrega `AnalysisPeriodPicker` sobre `DateField`: DD/MM/AAAA, calendario
+español con mes/año y borradores inválidos sin aplicar. Referencia explícita del
+escenario, rango inclusivo visible y comparación de cortes parciales equivalentes.
+Los atajos actualizan URL sin recargar documento ni mover el scroll. Referencia
+ejecutable en `/design-system`.
+
+Dirección utiliza tabla comparativa desktop y registros compactos móvil, métricas
+esenciales y detalle secundario. `Consultas (demo)` es una vista secundaria con
+una respuesta activa, foco sin scroll, anuncio polite y fuentes exactas. No es
+chat global ni comprensión abierta. USD, original y referencia sintética son
+consultables; cero, pendiente y subtotal parcial son estados distintos.
+Definiciones y límites: [Dirección](screens/11-gestion-direccion.md).
+
 Usar Recharts, ChartContainer y tokens existentes. Cada visualización declara período, unidad/moneda, dimensión, fuente y actualización; las series no mezclan monedas ni eventos. Gráfico y registros explicativos comparten datos y filtros, con selección por barra y alternativa mediante valores/enlaces accesibles sin hover. No animar cifras operativas innecesariamente. Vacío, error o información faltante no se representan como un cero confirmado. Los gráficos no sustituyen registros ni introducen fórmulas de negocio.
 
 > Documento vivo · Última actualización: 14/10/2026

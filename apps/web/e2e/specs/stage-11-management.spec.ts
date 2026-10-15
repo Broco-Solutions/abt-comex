@@ -16,7 +16,11 @@ test("@smoke management summary drills into operations, clients and work while k
   )
 
   await page.goto("/gestion?vista=clientes")
-  await page.getByRole("link", { name: "Abrir cliente" }).first().click()
+  await page
+    .getByRole("link", { name: /^Abrir cliente/ })
+    .filter({ visible: true })
+    .first()
+    .click()
   await expect(page).toHaveURL(/\/clientes\/client-demo-/)
   await page.getByRole("link", { name: "Volver al contexto anterior" }).click()
   await expect(page).toHaveURL(/\/gestion\?vista=clientes/)
@@ -54,7 +58,7 @@ test("@smoke management adapts to narrow screens and withholds counts on access 
     ).toBe(true)
   }
   await expect(
-    page.getByText("Deslizá horizontalmente para ver todas las vistas.")
+    page.getByLabel("Vista de Dirección", { exact: true })
   ).toBeVisible()
 
   await page.goto("/gestion?error=sin-permiso")

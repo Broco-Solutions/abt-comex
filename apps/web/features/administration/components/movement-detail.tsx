@@ -53,7 +53,11 @@ export function MovementDetail({
         </Link>
       </p>
     )
-  const self = "/administracion/movimientos/" + id
+  const self =
+    "/administracion/movimientos/" +
+    id +
+    "?returnTo=" +
+    encodeURIComponent(back)
   const party = organizations.find((org) => org.id === item.partyId)
   return (
     <div className="max-w-5xl space-y-5">

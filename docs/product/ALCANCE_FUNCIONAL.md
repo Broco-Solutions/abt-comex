@@ -1,5 +1,16 @@
 # ABT Comex — Alcance funcional
 
+V3-07 incorpora por decisión interna Dirección consolidada en USD y una demo
+local de consultas en lenguaje natural de catálogo cerrado: facturación total,
+por cliente y ranking; cobros de cliente; operaciones de cliente; saldo abierto
+de facturas al corte; gastos por categoría. Reutiliza registros y referencias de
+gestión históricos compartidos, con drill-down exacto y abstención por falta de
+datos/permisos/conversión. No integra IA, canal, API ni contabilidad productiva.
+Períodos al corte sintético, comparación, cartera global y proveedores distinguen
+flujos, saldos y actividad. [Definiciones y evidencia](../frontend/screens/11-gestion-direccion.md).
+No extiende el catálogo a márgenes, impuestos, liquidez, bancos o ECheqs. Revisión
+humana y reglas contables definitivas pendientes; no aprobación formal ABT.
+
 > Documento vivo · Última sincronización con el documento funcional de Drive: 09/10/2026
 >
 > Fuente de trabajo para implementación: este archivo.

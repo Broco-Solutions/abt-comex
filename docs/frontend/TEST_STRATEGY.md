@@ -1,5 +1,15 @@
 # ABT Comex — Estrategia de Pruebas de Frontend
 
+V3-07: `reporting.test.ts` contrasta población y USD entre indicador, tabla,
+gráficos y registros, cambios compartidos, conversión de evento frente a corte,
+historia parcial, proveedores/operaciones y capacidades negativas.
+`direction-queries.test.ts` cubre siete intenciones y variantes, ambigüedad de
+ingresos/cliente, rango, ausencia de FX, saldo incompleto, vacío, lectura y acceso.
+`v3-direction*.spec.ts` verifica filtros/comparaciones, consulta activa, fuentes
+exactas, original/USD/referencia, foco, retorno con contexto y móvil. Axe incluye
+respuestas/abstenciones y calendario/período DS. No basta HTTP/build ni se
+certifica WCAG por una herramienta; inspeccionar capturas y contraste efectivo.
+
 `DateField` se prueba con escritura DD/MM/AAAA, fechas imposibles/bisiestas,
 borrador incompleto, estados de error y calendario español con mes/año.
 La referencia DS tiene axe con el popover abierto; el recorrido móvil verifica
@@ -11,8 +21,9 @@ revisión/invalidación, ausencia de referencia/importe, precisión y entradas
 inválidas. `v3-management-rates.spec.ts` recorre edición → gasto sin cambiar su
 original → conversión pendiente, consulta al corte, restricción de capacidades,
 duplicados y diálogo móvil con retorno de foco. Axe cubre catálogo, disclosure y
-editor. La regresión de Dirección debe comprobar además tabla/gráfico/indicador
-con la misma población y valoración; estos casos no acreditan aún ese cierre.
+editor. La regresión V3-07 comprueba además tabla/gráfico/indicador con la misma
+población y valoración; las pruebas del catálogo de cambios por sí solas no
+acreditan ese cierre.
 
 Continuidad V3-06: `operational-continuity.test.ts` verifica roles activos,
 deduplicación, reenvío/devolución, conservación de dimensiones y filtros por ID.

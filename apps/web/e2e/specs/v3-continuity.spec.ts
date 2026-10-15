@@ -100,6 +100,12 @@ test("@smoke V3 operational handoff returns and resubmits through the same admin
     .click()
   await expect(page).toHaveURL(/administracion\/op-demo-2048\?returnTo=/)
   await expect(
+    page.getByRole("heading", {
+      name: "Administración · OP-DEM-2048",
+      exact: true,
+    })
+  ).toBeVisible()
+  await expect(
     handoff
       .getByText("Revisar documentación sintética", { exact: true })
       .first()
@@ -126,6 +132,12 @@ test("@smoke V3 operational handoff returns and resubmits through the same admin
   await handoff
     .getByRole("link", { name: "Abrir contexto administrativo" })
     .click()
+  await expect(
+    page.getByRole("heading", {
+      name: "Administración · OP-DEM-2048",
+      exact: true,
+    })
+  ).toBeVisible()
   await handoff
     .getByLabel("Próxima acción u observación")
     .fill("Recibida; control administrativo pendiente")

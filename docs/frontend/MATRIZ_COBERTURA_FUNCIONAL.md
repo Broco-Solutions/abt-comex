@@ -1,5 +1,13 @@
 # Matriz de cobertura funcional del frontend
 
+Ampliación V3-07 de MGT-001–MGT-005/REP y E1:DIR-001/005/006/007/008/010:
+análisis global USD por cliente/proveedor y siete consultas locales con fuentes
+exactas. Es evolución de MGT-01/MGT-02, sin renumerar necesidades ni crear otro
+plan. Catálogo, fórmula, fecha, fuente, permiso, drill-down y abstención por cada
+indicador en [Dirección](screens/11-gestion-direccion.md#indicadores-y-consultas-locales).
+E1/respuestas y E6/18 bloques del workbook conservan su carácter histórico; no se
+copian importes reales ni se cierran fórmulas de rentabilidad o fuente del dólar.
+
 **Estado:** primera pasada y UX V2 Under review; evolución V3 autorizada internamente
 **Fecha:** 15/10/2026
 **Base V3:** `main` ca01e7f; Etapas 0 y 1 preservadas

@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { PartySituation } from "@/features/finance/components/party-situation"
 import { AdministrativeRelationships } from "@/features/administration/components/administrative-relationships"
 import { isAdministrativeContext } from "@/features/administration/data/navigation"
 import { PageHeader } from "@/components/navigation/page-header"
@@ -199,7 +200,16 @@ export function OrganizationDetail({
           </Link>
         </section>
       )}
-      <AdministrativeRelationships partyId={organizationId} />
+      <PartySituation
+        partyId={organizationId}
+        supplier
+        origin={`/proveedores/${organizationId}?returnTo=${encodeURIComponent(back)}`}
+        returnTo={back}
+      />
+      <AdministrativeRelationships
+        partyId={organizationId}
+        origin={`/proveedores/${organizationId}?returnTo=${encodeURIComponent(back)}`}
+      />
       {organization.roles.some((entry) => entry.role === "operation-party") && (
         <section className="space-y-3">
           <h2 className="font-semibold">

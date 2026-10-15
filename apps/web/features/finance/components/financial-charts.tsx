@@ -34,13 +34,20 @@ export type Drill = (
 ) => string
 
 export function BillingChart({
-  records,
+  records = [],
   currency,
   drill,
+  series,
 }: {
-  records: FinancialRecord[]
+  records?: FinancialRecord[]
   currency: Currency
   drill: Drill
+  series?: {
+    key: string
+    label: string
+    invoice: number | null
+    receipt: number | null
+  }[]
 }) {
   const router = useRouter()
   const invoices = buckets(
@@ -54,16 +61,18 @@ export function BillingChart({
   const months = [
     ...new Set([...invoices, ...receipts].map((b) => b.key)),
   ].sort()
-  const data = months.map((key) => ({
-    key,
-    label: new Intl.DateTimeFormat("es-AR", {
-      month: "short",
-      year: "2-digit",
-      timeZone: "UTC",
-    }).format(new Date(key + "-01")),
-    invoice: invoices.find((b) => b.key === key)?.value ?? 0,
-    receipt: receipts.find((b) => b.key === key)?.value ?? 0,
-  }))
+  const data =
+    series ??
+    months.map((key) => ({
+      key,
+      label: new Intl.DateTimeFormat("es-AR", {
+        month: "short",
+        year: "2-digit",
+        timeZone: "UTC",
+      }).format(new Date(key + "-01")),
+      invoice: invoices.find((b) => b.key === key)?.value ?? 0,
+      receipt: receipts.find((b) => b.key === key)?.value ?? 0,
+    }))
   return (
     <section
       className="workspace-surface min-w-0 space-y-3 p-4"
@@ -72,6 +81,7 @@ export function BillingChart({
       <h2 id="billing-chart-title" className="text-base font-semibold">
         Facturación y cobranzas por mes
       </h2>
+      <p className="text-xs text-muted-foreground">Importes en {currency}</p>
       {data.length ? (
         <>
           <ChartContainer
@@ -160,7 +170,9 @@ export function BillingChart({
                             className="font-mono text-primary underline underline-offset-4"
                             href={drill(type, "month", item.key)}
                           >
-                            {money(item[type], currency)}
+                            {item[type] === null
+                              ? "Pendiente de conversión"
+                              : money(item[type]!, currency)}
                             <span className="sr-only">
                               {" "}
                               · {type === "invoice"
@@ -177,6 +189,14 @@ export function BillingChart({
               </table>
             </div>
           </details>
+          {data.some(
+            (item) => item.invoice === null || item.receipt === null
+          ) && (
+            <p className="text-xs text-muted-foreground">
+              Las series con conversión incompleta se muestran pendientes; no
+              son cero.
+            </p>
+          )}
         </>
       ) : (
         <p role="status" className="py-8 text-sm text-muted-foreground">
@@ -213,6 +233,7 @@ export function DistributionChart({
       <h2 id={id} className="text-base font-semibold">
         {title}
       </h2>
+      <p className="text-xs text-muted-foreground">Importes en {currency}</p>
       {data.length ? (
         <>
           <ChartContainer

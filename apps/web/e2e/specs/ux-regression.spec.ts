@@ -64,13 +64,17 @@ test("@smoke invalid financial dates recover without charts, confirmed totals or
   await expect(
     page.getByRole("navigation", { name: "Consultar registros financieros" })
   ).toHaveCount(0)
-  await expect(page.getByLabel("Moneda", { exact: true })).toHaveValue("USD")
-  await page.getByLabel("Desde · fecha del evento").fill("2026-10-01")
-  await page.getByRole("button", { name: "Aplicar análisis" }).click()
+  await expect(
+    page.getByLabel("Filtrar moneda original", { exact: true })
+  ).toHaveValue("USD")
+  await page.getByLabel("Desde", { exact: true }).fill("01/10/2026")
+  await page.getByRole("button", { name: "Aplicar período" }).click()
   await expect(
     page.getByRole("heading", { name: "Facturación y cobranzas por mes" })
   ).toBeVisible()
-  await expect(page.getByLabel("Moneda", { exact: true })).toHaveValue("USD")
+  await expect(
+    page.getByLabel("Filtrar moneda original", { exact: true })
+  ).toHaveValue("USD")
   await page.goto("/gestion?desde=2026-10-14&hasta=2026-05-01&moneda=USD")
   await expect(page.locator("#financial-period-error")).toContainText(
     "anterior o igual"

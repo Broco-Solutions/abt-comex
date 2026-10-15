@@ -1,5 +1,27 @@
 # Frontend Decisions
 
+## 2026-10-15 — V3-07: análisis compartido y consultas locales acotadas
+
+Decisión interna solicitada por el responsable: Dirección reúne panorama,
+cartera completa de clientes, proveedores ABT, evolución y obligaciones. USD por
+defecto, referencia 14/10/2026, períodos rápidos/personalizados y comparaciones
+de cortes equivalentes. `reporting.ts` comparte selección/valoración entre
+Administración, fichas y Dirección, apoyado en el libro histórico del PR #39;
+no se crea otra fuente ni cálculo financiero paralelo.
+
+Se incorpora `Consultas (demo)` dentro de `/gestion`, sin navegación principal
+adicional ni chat global: catálogo explícito de siete intenciones, reconocimiento
+local de variantes y funciones puras. No utiliza IA/proveedor/API, no ejecuta
+acciones ni registra consultas como auditoría. Respuestas con fuentes exactas y
+abstenciones explícitas; capacidad de Dirección previa a sugerencias y registros.
+El canal futuro no está decidido. [Contrato e indicadores](screens/11-gestion-direccion.md).
+
+E1/Directores, respuestas originales y E6/workbook son evidencia histórica, no
+autorización para copiar sus cifras ni fórmula contable aprobada. Fuente del
+dólar, valoración definitiva, Alpha2000, capacidades, datos laborales faltantes,
+asignaciones individuales y rentabilidad permanecen pendientes de ABT. El
+producto continúa Under review; cierre técnico no acredita revisión humana.
+
 ## 2026-10-15 — USD como referencia interna de análisis
 
 El responsable aprobó reportes USD, períodos rápidos/personalizados y análisis

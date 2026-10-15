@@ -1,5 +1,15 @@
 # Mapa de pantallas y recorridos del frontend
 
+V3-07 amplía MGT-01/MGT-02 dentro de `/gestion`: Panorama, Clientes, Proveedores,
+Evolución, Obligaciones y **Consultas (demo)** (`?vista=consultas`). Consultas
+operativas históricas compatibles; no nuevo módulo del sidebar. Período,
+comparación, cliente/tipo, búsqueda/orden y pregunta activa quedan en URL.
+Dirección → Cliente/Proveedor → comprobante/movimiento/gasto → operación →
+retorno conserva el origen; consulta → registros exactos → ficha → consulta
+conserva pregunta y filtros. Fichas reutilizan la misma situación económica.
+Sin permiso no hay cifras, conteos, sugerencias ni enlaces de resultados.
+Detalle: [pantalla responsable](screens/11-gestion-direccion.md).
+
 **Estado:** borrador de planificación integral para revisión humana
 **Fecha:** 14/10/2026
 **Base:** `main` con Etapas 0 y 1 aprobadas; Etapa 2 integrada y Under review; Etapa 3 implementada localmente y Under review

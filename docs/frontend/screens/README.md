@@ -35,7 +35,7 @@ Usar [SCREEN_TEMPLATE.md](SCREEN_TEMPLATE.md) y nombre `NN-area-vista.md`. La nu
 
 Etapa 10: [Administración y Finanzas](10-administracion-finanzas.md) · cola, detalle y fuentes financieras demostrativas; Under review.
 
-Etapa 11: [Gestión y Dirección](11-gestion-direccion.md) · panorama operativo sintético y fuentes económicas no conectadas; Under review.
+Etapa 11: [Gestión y Dirección](11-gestion-direccion.md) · panorama USD, cartera completa, proveedores, períodos/comparaciones y consultas locales de catálogo cerrado con fuentes exactas; Under review.
 
 Etapa 12: [Portal de Clientes](12-portal-clientes.md) · PR #17 integrado; identidad y permisos sólo demostrativos; Under review.
 
