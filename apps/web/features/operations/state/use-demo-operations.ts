@@ -9,6 +9,7 @@ import {
 } from "../data/operations"
 import type { DemonstrationOperation } from "../types/operation"
 
+import { useOrganizations } from "@/features/organizations/state/use-organizations"
 import { useScenario } from "@/features/demo/state/scenario-provider"
 import { scenarioKind } from "@/features/demo/data/scenarios"
 
@@ -39,14 +40,23 @@ export function useDemoOperations() {
     setOperations(demonstrationOperations)
   }, [])
 
+  const { organizations } = useOrganizations()
+  const projectedOperations = operations.map((operation) => ({
+    ...operation,
+    client:
+      organizations.find((item) => item.id === operation.clientId)?.name ??
+      operation.client,
+  }))
   const { scenario } = useScenario()
   const kind = scenarioKind(scenario)
   const visibleOperations =
     scenario.id === "client"
-      ? operations.filter((item) => item.clientId === scenario.clientId)
+      ? projectedOperations.filter(
+          (item) => item.clientId === scenario.clientId
+        )
       : kind
-        ? operations.filter((item) => item.kind === kind)
-        : operations
+        ? projectedOperations.filter((item) => item.kind === kind)
+        : projectedOperations
   return {
     operations: visibleOperations,
     ready,

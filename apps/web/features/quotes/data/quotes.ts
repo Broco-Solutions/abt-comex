@@ -1,4 +1,4 @@
-import { demonstrationClients } from "@/features/clients/data/clients"
+import { projectClients } from "@/features/organizations/data/organizations"
 
 import type {
   DemonstrationQuote,
@@ -150,7 +150,7 @@ export function parseQuoteListState(params: QuoteSearchParams) {
     ? requestedStatus
     : ""
   const error = first(params.error)
-  const clientId = demonstrationClients.some(
+  const clientId = projectClients().some(
     (client) => client.id === first(params.cliente)
   )
     ? first(params.cliente)
@@ -287,8 +287,7 @@ export function filterDemoQuotes(
     if (!statusMatches) return false
     const version = getCurrentQuoteVersion(quote)
     const clientName =
-      demonstrationClients.find((item) => item.id === quote.clientId)?.name ??
-      ""
+      projectClients().find((item) => item.id === quote.clientId)?.name ?? ""
     return [
       quote.reference,
       clientName,
@@ -357,7 +356,7 @@ function isDemonstrationQuote(value: unknown): value is DemonstrationQuote {
     typeof quote.id === "string" &&
     /^quote-demo-\d{3}$/.test(quote.id) &&
     typeof quote.reference === "string" &&
-    demonstrationClients.some((client) => client.id === quote.clientId) &&
+    projectClients().some((client) => client.id === quote.clientId) &&
     typeof quote.responsible === "string" &&
     Array.isArray(quote.versions) &&
     quote.versions.length > 0 &&

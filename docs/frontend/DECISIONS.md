@@ -352,3 +352,9 @@ Decisión técnica UX dentro de la ejecución autorizada: concentrar el reinicio
 Decisión interna del responsable: ejecutar V3-01 a V3-07 según el [plan](PLAN_IMPLEMENTACION.md#v3--evolución-integral-autorizada-internamente-15102026), con revisión técnica por incremento y aceptación humana integral pendiente. No aprobación formal ABT. Precisión funcional y exclusiones vigentes en [alcance V3](../product/ALCANCE_FUNCIONAL.md#evolución-v3--aprobación-interna-15102026).
 
 Decisión visual reversible V3-01: sidebar verde claro mediante el token accent existente y contenido sobre card; no nueva paleta ni identidad. Se prefiere sólido antes que degradado para mantener contraste y sobriedad. Filtros simples inmediatos, búsqueda confirmada y período avanzado agrupado; URL recuperable, sin recarga de documento. El combobox compartido se demuestra primero en DS y se aplica a Clientes en Cotización, no a selectores pequeños por inercia.
+
+## 2026-10-15 — V3-02: identidad común y roles contextuales
+
+Implementación demostrativa de ORG-001 y ORG-002 conforme a [alcance V3](../product/ALCANCE_FUNCIONAL.md#evolución-v3--aprobación-interna-15102026). Proveedores de ABT y contrapartes de operaciones tienen vistas diferenciadas; un rol no genera deuda ni equivale a una obligación. Roles activos independientes; historial preservado. Se conserva Clientes como término del menú y se agrega Proveedores localizable, con enlaces hermanos al maestro compartido. Identidad fiscal y fuente externa pendientes, no validadas por esta decisión UX.
+
+El formulario permite preparación local con nombre/rol; identificación requiere país para contextualizar coincidencias. No impone validación fiscal ni fusiona automáticamente. Creación contextual mediante diálogo preserva borradores; selección buscable reutiliza DS. Revisión humana/ABT pendiente.

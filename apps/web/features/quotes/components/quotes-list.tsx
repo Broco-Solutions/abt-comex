@@ -6,7 +6,8 @@ import { PageHeader } from "@/components/navigation/page-header"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { cn } from "@workspace/ui/lib/utils"
-import { demonstrationClients } from "@/features/clients/data/clients"
+import { useOrganizations } from "@/features/organizations/state/use-organizations"
+import { projectClients } from "@/features/organizations/data/organizations"
 
 import {
   filterDemoQuotes,
@@ -32,6 +33,8 @@ export function QuotesList({
 }: {
   searchParams: QuoteSearchParams
 }) {
+  const { organizations } = useOrganizations()
+  const demonstrationClients = projectClients(organizations)
   const state = parseQuoteListState(searchParams)
   const { quotes, ready } = useDemoQuotes()
   const restricted = state.error === "sin-permiso"

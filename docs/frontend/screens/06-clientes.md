@@ -1,20 +1,21 @@
-# Clientes — listado y ficha
+# Clientes, Proveedores y organizaciones — listado, ficha y ABM
 
 > Estado: Under review
 >
 > Etapa: 6 — Clientes
 >
-> Experiencias / recorridos: CLI-01, CLI-02; J1, J5
+> Experiencias / recorridos: CLI-01, CLI-02, SUP-01, SUP-02; J1, J5, J7
 >
-> Rutas: `/clientes`, `/clientes/[clientId]`
+> Rutas: `/clientes`, `/clientes/[clientId]`, `/proveedores`, `/proveedores/[organizationId]`
 
 ## Propósito y alcance
 
-Consultar el contexto maestro reutilizable de clientes y volver desde sus
-relaciones a la operación adecuada. Esta es una vista de demostración
-read-only, no un CRM ni un maestro operativo conectado. Alta, edición,
-deduplicación, validación de campos y responsables requieren definiciones
-pendientes con ABT.
+Gestionar organizaciones sintéticas reutilizables con identidad común y roles
+diferenciados: cliente ABT, proveedor contratado ABT y contraparte de una
+operación del cliente. Alta/edición, contactos múltiples, coincidencias,
+inactivación/reactivación y uso contextual en Cotizaciones/Operaciones.
+No es CRM ni maestro conectado. Fuente por campo, requisitos fiscales y
+capacidades definitivas siguen pendientes de ABT.
 
 ## Evidencia y trazabilidad
 
@@ -34,7 +35,7 @@ No hay aprobación formal de ABT de la propuesta de pantalla o de los campos.
 - La ficha muestra procedencia y fecha simulada, identidades de contacto inventadas sin datos personales reales y operaciones vinculadas por ID estable; las altas locales de Etapa 5 aparecen en la misma sesión.
 - Una operación puede abrir la ficha de su cliente y retornar al detalle; la ficha puede abrir la operación y recuperar el contexto de Clientes.
 - Sin datos, coincidencias, permiso o lectura se muestra el estado correspondiente sin exponer filas ni conteos en el estado restringido.
-- No se habilita alta, edición, configuración, aprobación, integración externa ni escritura.
+- V3 habilita alta/edición exclusivamente local y estado por rol. Configuración particular de requisitos, aprobación e integración externa siguen pendientes.
 - La ficha ofrece navegación filtrada a Cotizaciones por `clientId`; no muestra valores, honorarios, filas ni conteos comerciales. El acceso efectivo depende de una capacidad que el prototipo no implementa.
 
 ## Reglas, sensibilidad y procedencia
@@ -47,7 +48,7 @@ constituyen autorización ni seguridad productiva.
 
 ## Responsive y accesibilidad
 
-UX-02 usa DataTable compacto en desktop/tablet y lista de registros en móvil. Cliente, operaciones relacionadas, actualización y apertura; orden alfabético predeterminado. Sin selección, agrupación ni personalización innecesaria. Búsqueda mediante formulario GET nativo; enlaces y
+UX-02 usa DataTable compacto en desktop/tablet y lista de registros en móvil. Cliente, operaciones relacionadas, actualización y apertura; orden alfabético predeterminado. Sin selección, agrupación ni personalización innecesaria. Búsqueda local con URL recuperable; enlaces y
 acciones conservan foco de teclado visible. Los estados vacíos y de error
 usan anuncios semánticos. axe es apoyo automatizado, no certificación WCAG;
 revisión humana integral pendiente.
@@ -81,3 +82,15 @@ revisión humana integral pendiente.
 - Estado: Under review hasta revisión humana funcional/visual integral. La demostración está en un dominio personalizado público; contiene únicamente fixtures sintéticos y no está lista para uso operativo.
 
 UX-02: referencia enlazada y apertura visible; detalles personales/procedencia en ficha. Una tabla ayuda a comparar clientes sin trasladar toda la ficha al listado. La búsqueda y retorno existentes se conservan.
+
+## V3-02 — comportamiento vigente
+
+- Datos compartidos en features/organizations; fixtures iniciales preservan IDs históricos. Cambios temporales por sesión, reiniciados al cambiar escenario o salir.
+- Proveedores localizables desde navegación; subvista separada de contrapartes operativas. Un vendedor extranjero de mercadería no genera deuda de ABT.
+- Nombre y rol requeridos para preparación local. País requerido sólo cuando se informa identificación; no se valida CUIT/regla fiscal inexistente. Dirección y contactos opcionales. Campos y autoridad externa a validar.
+- Posibles duplicados por nombre normalizado o identificación/país: reutilización explícita agrega/reactiva el rol sin duplicar identidad; coincidencia dudosa puede confirmarse como distinta, sin fusión automática.
+- Roles existentes no se borran al editar; inactivación con confirmación conserva historial, operaciones y demás roles. Se excluyen de nuevas selecciones, no de relaciones históricas.
+- Contactos: agregar, editar y quitar en formulario local; actividad de cambios. No se copian contactos reales.
+- Nuevo cliente desde Cotización/alta de Operación abre diálogo sin abandonar el borrador, selecciona el registro creado y actualiza consumidores. Fichas y nombres relacionados consultan la misma fuente.
+- Sin registro contable ni comunicación externa; la ficha de proveedor no inventa importes o compromisos. Sus relaciones financieras se completan en incrementos consumidores.
+- Pruebas: organizations.test, organizations.a11y, v3-organizations; regresión de Clientes, Cotizaciones, apertura y confidencialidad. Evidencia de ejecución sólo en plan.

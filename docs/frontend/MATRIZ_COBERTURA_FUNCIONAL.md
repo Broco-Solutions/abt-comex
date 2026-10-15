@@ -10,7 +10,7 @@ Fuente: solicitud explícita del responsable 15/10/2026, no aprobación formal A
 
 | ID | Necesidad / recorrido | Disposición actual | Validación pendiente |
 |---|---|---|---|
-| ORG-001 | Distinguir cliente ABT, proveedor contratado ABT y contraparte comercial de una operación del cliente, compartiendo identidad sin generar deuda automáticamente | Pendiente V3-02 | Campos, autoridad y vínculo Alpha |
+| ORG-001 | Distinguir cliente ABT, proveedor contratado ABT y contraparte comercial de una operación del cliente, compartiendo identidad sin generar deuda automáticamente | V3-02 In implementation; CLI-01/CLI-02, SUP-01/SUP-02; estado sintético compartido | Campos, autoridad y vínculo Alpha |
 | ORG-002 | ABM, contactos, roles activos, duplicados y creación contextual reutilizable | Pendiente V3-02 | Datos obligatorios por proceso |
 | USR-001 | Persona separada de usuario, equipo, función, fecha de ingreso solicitada y capacidades | Pendiente V3-03 | Referentes y matriz ABT; sin datos personales reales |
 | USR-002 | Suspender acceso preservando historial y revisando/reasignando pendientes | Pendiente V3-03 | Responsables y suplencias |

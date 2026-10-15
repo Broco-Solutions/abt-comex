@@ -8,7 +8,8 @@ import { PageHeader } from "@/components/navigation/page-header"
 import { Badge } from "@workspace/ui/components/badge"
 import { buttonVariants } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
-import { demonstrationClients } from "@/features/clients/data/clients"
+import { useOrganizations } from "@/features/organizations/state/use-organizations"
+import { projectClients } from "@/features/organizations/data/organizations"
 import { useDemoOperations } from "@/features/operations/state/use-demo-operations"
 import { useWorkItems } from "@/features/work/state/use-work-items"
 import {
@@ -51,6 +52,8 @@ export function ManagementOverview({
 }: {
   searchParams: SearchParams
 }) {
+  const { organizations } = useOrganizations()
+  const demonstrationClients = projectClients(organizations)
   const { operations, ready } = useDemoOperations()
   const workItems = useWorkItems()
   const view = views.some(([key]) => key === first(searchParams.vista))

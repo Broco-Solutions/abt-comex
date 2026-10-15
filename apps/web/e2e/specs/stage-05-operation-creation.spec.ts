@@ -9,10 +9,11 @@ test("@smoke direct operation creation is guided, reversible, and appears in its
   ).toBeVisible()
   await page.getByRole("button", { name: /Continuar/ }).click()
   await page
-    .getByRole("region", { name: "Cliente y tipo" })
-    .getByRole("combobox")
-    .first()
-    .selectOption("client-demo-norte")
+    .getByRole("combobox", { name: "Cliente", exact: true })
+    .fill("Norte")
+  await page
+    .getByRole("option", { name: "Cliente Demo Norte", exact: true })
+    .click()
   await page.getByLabel("Importación", { exact: true }).check()
   await page.getByLabel("Modalidad de referencia").selectOption("Marítima")
   await page.getByRole("button", { name: /Continuar/ }).click()

@@ -1,4 +1,4 @@
-import { demonstrationClients } from "@/features/clients/data/clients"
+import { projectClients } from "@/features/organizations/data/organizations"
 import type { DemonstrationOperation } from "@/features/operations/types/operation"
 
 export const PORTAL_DEMO_CLIENT_ID = "client-demo-centro"
@@ -11,7 +11,7 @@ export type PortalOperation = Pick<
 export type PortalContext =
   | {
       authorized: true
-      client: (typeof demonstrationClients)[number]
+      client: { id: string; name: string }
       operations: PortalOperation[]
     }
   | { authorized: false }
@@ -24,14 +24,14 @@ export function getPortalContext(
     return { authorized: false }
   }
 
-  const client = demonstrationClients.find(
+  const client = projectClients().find(
     (item) => item.id === PORTAL_DEMO_CLIENT_ID
   )
   if (!client) return { authorized: false }
 
   return {
     authorized: true,
-    client,
+    client: { id: client.id, name: client.name },
     operations: operations
       .filter((operation) => operation.clientId === PORTAL_DEMO_CLIENT_ID)
       .map(({ id, reference, kind, situation, updatedOn }) => ({

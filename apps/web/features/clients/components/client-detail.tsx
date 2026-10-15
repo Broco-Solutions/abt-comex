@@ -4,6 +4,8 @@ import { formatRecordedDate } from "@workspace/ui/lib/date"
 
 import Link from "next/link"
 import { useScenario } from "@/features/demo/state/scenario-provider"
+import { useOrganizations } from "@/features/organizations/state/use-organizations"
+import { OrganizationIdentity } from "@/features/organizations/components/organization-detail"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
 import { PageHeader } from "@/components/navigation/page-header"
@@ -13,11 +15,7 @@ import { cn } from "@workspace/ui/lib/utils"
 import type { DemonstrationOperation } from "@/features/operations/types/operation"
 import { useDemoOperations } from "@/features/operations/state/use-demo-operations"
 
-import {
-  clientListHref,
-  demonstrationClients,
-  getClientOperations,
-} from "../data/clients"
+import { clientListHref, getClientOperations } from "../data/clients"
 
 function first(value: string | string[] | undefined) {
   return Array.isArray(value) ? (value[0] ?? "") : (value ?? "")
@@ -48,8 +46,13 @@ export function ClientDetail({
 }) {
   const { operations: allOperations, ready } = useDemoOperations()
   const { scenario } = useScenario()
-  const client = demonstrationClients.find((item) => item.id === clientId)
-  if (!ready)
+  const { organizations, ready: organizationsReady } = useOrganizations()
+  const client = organizations.find(
+    (item) =>
+      item.id === clientId &&
+      item.roles.some((entry) => entry.role === "client")
+  )
+  if (!ready || !organizationsReady)
     return (
       <p role="status" className="text-sm text-muted-foreground">
         Cargando escenario local…
@@ -88,6 +91,7 @@ export function ClientDetail({
       </Link>
 
       <PageHeader title={client.name} />
+      <OrganizationIdentity organization={client} />
 
       <section
         aria-labelledby="client-context-title"
@@ -105,7 +109,7 @@ export function ClientDetail({
           </div>
           <div>
             <dt className="text-xs text-muted-foreground">Procedencia</dt>
-            <dd className="mt-1 font-medium">{client.source}</dd>
+            <dd className="mt-1 font-medium">Registro local</dd>
           </div>
           <div>
             <dt className="text-xs text-muted-foreground">
@@ -135,6 +139,8 @@ export function ClientDetail({
             {client.contacts.map((contact) => (
               <li key={contact.id} className="py-3 text-sm">
                 {contact.label}
+                {contact.email && <p>{contact.email}</p>}
+                {contact.phone && <p>{contact.phone}</p>}
               </li>
             ))}
           </ul>
@@ -228,14 +234,18 @@ export function ClientDetail({
           <ArrowLeft aria-hidden="true" /> Volver al listado
         </Link>
       </div>
-      <p
-        id="client-readonly-note"
-        className="max-w-5xl text-xs text-muted-foreground"
-      >
-        La actualización de datos maestros y la parametrización de requisitos
-        requieren definición de campos, unicidad, responsables y capacidades con
-        ABT. No están habilitadas en este prototipo.
-      </p>
+      <details className="text-xs text-muted-foreground">
+        <summary className="min-h-9 cursor-pointer py-2">
+          Actividad del maestro
+        </summary>
+        <ul>
+          {client.activity.map((event, index) => (
+            <li key={index} className="py-2">
+              {formatRecordedDate(event.on)} · {event.description}
+            </li>
+          ))}
+        </ul>
+      </details>
     </div>
   )
 }

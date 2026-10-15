@@ -40,7 +40,8 @@ export function useListContext(ready: boolean, contextKey: string) {
     )
       return
     const href = link.getAttribute("href") ?? ""
-    if (!href.startsWith("/operaciones/")) return
+    if (!/^\/(?:operaciones|clientes|proveedores|cotizaciones)\//.test(href))
+      return
     positions.set(contextKey, {
       y: window.scrollY,
       href,

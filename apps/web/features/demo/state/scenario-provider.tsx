@@ -1,6 +1,10 @@
 "use client"
 import { useRouter } from "next/navigation"
 import { saveReceivedDocuments } from "@/features/documents/data/documents"
+import {
+  initialOrganizations,
+  saveOrganizations,
+} from "@/features/organizations/data/organizations"
 import { createContext, Fragment, useContext, useEffect, useState } from "react"
 import {
   demonstrationOperations,
@@ -83,6 +87,7 @@ export function ScenarioProvider({ children }: { children: React.ReactNode }) {
     )
   }
   function resetData() {
+    saveOrganizations(initialOrganizations)
     saveDemoOperations(demonstrationOperations)
     saveDemoQuotes(initialDemoQuotes)
     saveImportationScenarios([])
