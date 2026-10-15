@@ -55,7 +55,7 @@ function AppShellFrame({ children }: { children: React.ReactNode }) {
       >
         <aside
           data-slot="desktop-sidebar"
-          className="sticky top-0 hidden h-svh border-r border-sidebar-border lg:block"
+          className="sticky top-0 z-30 hidden h-svh border-r border-sidebar-border lg:block"
         >
           <Suspense fallback={<div className="h-full bg-sidebar" />}>
             <AppSidebar />
