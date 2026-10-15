@@ -153,6 +153,16 @@ describe("closed local Direction queries", () => {
       "clarification"
     )
     expect(
+      answer("Ingresos de Cliente Demo Norte el mes anterior", input, {
+        ...context,
+        clientId: "",
+      }).context
+    ).toMatchObject({
+      from: "2026-09-01",
+      to: "2026-09-30",
+      clientId: context.clientId,
+    })
+    expect(
       answer("Cuánto se facturó a Demo en este período", input, context).status
     ).toBe("ambiguous-client")
     expect(

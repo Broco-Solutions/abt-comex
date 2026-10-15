@@ -54,6 +54,10 @@ Consultar resuelve expresiones temporales al corte y fija rango/cliente en URL (
 
 Respuesta: frase natural primero; ranking compacto cuando corresponde; definición, fecha aplicable, cantidad de fuentes, fuente sintética, corte/actualización y **Ver registros**. El desglose contiene la misma población, importe original, USD y acceso a ficha. Método desplegable muestra ID/revisión/vigencia/fuente/fecha de valoración; cada ficha monetaria conserva el disclosure de PR #39. Foco en respuesta sin salto de scroll y anuncio polite, labels y teclado nativos, retorno desde registros a pregunta y filtros. Móvil usa selector de vistas y controles táctiles; sin conversación decorativa.
 
+Aclarar “ingresos” conserva el período y el cliente identificado por nombre
+completo antes de elegir la métrica; no vuelve silenciosamente al mes inicial
+ni a toda la cartera. Más de un nombre completo exige elegir cliente primero.
+
 Estados diferenciados: no admitida, aclaración, cliente ambiguo, fecha inválida, período sin registros, dato incompleto, referencia de cambio faltante/inválida, error de lectura y sin permiso. Ninguno se transforma en cero válido. No publicar total USD parcial en consultas. La analítica puede mostrar subtotal **explícitamente parcial**; gráficos omiten grupos incompletos o muestran serie pendiente, sin barra de cero inventada.
 
 ## Moneda y privacidad

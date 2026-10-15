@@ -262,9 +262,31 @@ export function answerDirectionQuestion(
   if (
     !intent &&
     (/\bingresos\b/.test(text) || /principales clientes/.test(text))
-  )
+  ) {
+    const context = interpretPeriod
+      ? resolvedPeriod(question, base)
+      : { ...base }
+    const namedClients = input.organizations.filter(
+      (org) =>
+        org.roles.some((role) => role.role === "client") &&
+        text.includes(normalize(org.name))
+    )
+    if (namedClients.length > 1)
+      return {
+        status: "ambiguous-client",
+        context,
+        message:
+          "El nombre coincide con más de un cliente. Elegí uno antes de precisar el indicador.",
+        options: namedClients.map((org) => ({
+          label: org.name,
+          clientId: org.id,
+          question: "Ingresos del cliente seleccionado en este período",
+        })),
+      }
+    if (namedClients.length === 1) context.clientId = namedClients[0]!.id
     return {
       status: "clarification",
+      context,
       message:
         "¿Qué indicador querés consultar? Facturación, cobros y cantidad de operaciones son métricas diferentes.",
       options: ["billing", "receipts", "operations"]
@@ -284,6 +306,7 @@ export function answerDirectionQuestion(
           question: directionQueryCatalog[key as DirectionIntent].example,
         })),
     }
+  }
   if (!intent)
     return {
       status: "unsupported",
