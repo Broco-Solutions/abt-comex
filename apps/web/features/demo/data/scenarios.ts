@@ -1,3 +1,5 @@
+import { hasCapability, type Capability } from "./capabilities"
+
 export type ScenarioId =
   | "import"
   | "export"
@@ -59,21 +61,63 @@ export const scenarios = [
     executive: false,
   },
 ] as const
-export type Scenario = (typeof scenarios)[number]
+export type Scenario = {
+  label: string
+  description: string
+  commercial: boolean
+  financial: boolean
+  executive: boolean
+  capabilities?: readonly Capability[]
+  memberId?: string
+} & (
+  | { id: "client"; clientId: string; kind?: undefined }
+  | {
+      id: Exclude<ScenarioId, "client">
+      clientId?: undefined
+      kind?: "Importación" | "Exportación"
+    }
+)
 export function getScenario(id: string): Scenario {
   return scenarios.find((item) => item.id === id) ?? scenarios[2]
 }
 export function canVisit(scenario: Scenario, pathname: string) {
-  if (pathname.startsWith("/portal")) return scenario.id === "client"
+  if (pathname.startsWith("/portal"))
+    return scenario.id === "client" && hasCapability(scenario, "portal.read")
   if (scenario.id === "client") return false
+  if (
+    pathname.startsWith("/configuracion/personas") ||
+    pathname.startsWith("/configuracion/equipos")
+  )
+    return hasCapability(scenario, "people.manage")
+  if (pathname.startsWith("/operaciones") || pathname.startsWith("/tramites")) {
+    if (!hasCapability(scenario, "operations.read")) return false
+    if (
+      pathname === "/operaciones/nueva" &&
+      !hasCapability(scenario, "operations.write")
+    )
+      return false
+  }
   if (
     pathname.startsWith("/tramites/djve") &&
     scenarioKind(scenario) === "Importación"
   )
     return false
-  if (pathname.startsWith("/cotizaciones")) return scenario.commercial
-  if (pathname.startsWith("/administracion")) return scenario.financial
-  if (pathname.startsWith("/gestion")) return scenario.executive
+  if (pathname.startsWith("/cotizaciones"))
+    return (
+      hasCapability(scenario, "commercial.read") &&
+      (!/\/(?:nueva|editar)$/.test(pathname) ||
+        hasCapability(scenario, "commercial.write"))
+    )
+  if (pathname.startsWith("/administracion"))
+    return [
+      "finance.billing",
+      "finance.collections",
+      "finance.treasury",
+      "finance.expenses",
+      "finance.prepare",
+    ].some((cap) => hasCapability(scenario, cap as Capability))
+  if (pathname.startsWith("/gestion"))
+    return hasCapability(scenario, "management.read")
   return true
 }
 export function scenarioKind(

@@ -16,6 +16,7 @@ import {
 } from "@workspace/ui/components/dialog"
 import { DEMONSTRATION_DATE } from "@/features/demo/data/scenarios"
 import { useScenario } from "@/features/demo/state/scenario-provider"
+import { hasCapability } from "@/features/demo/data/capabilities"
 import {
   loadOrganizations,
   nextOrganizationId,
@@ -68,7 +69,7 @@ export function OrganizationEditor({
   const [error, setError] = useState("")
   const [duplicates, setDuplicates] = useState<Organization[]>([])
   const [distinct, setDistinct] = useState(false)
-  if (scenario.id === "client") return null
+  if (scenario.id === "client" || !hasCapability(scenario,"catalogs.manage")) return null
   function finish(record: Organization, records: Organization[]) {
     saveOrganizations(
       records.some((item) => item.id === record.id)

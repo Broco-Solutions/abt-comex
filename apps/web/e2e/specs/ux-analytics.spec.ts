@@ -65,7 +65,7 @@ test("@smoke finance shows registered expenses and reported balances, never trea
 test("@smoke operational chart opens exactly its authorized situation", async ({
   page,
 }) => {
-  await page.goto("/acceso")
+  await page.goto("/acceso/escenarios")
   await page.getByRole("button", { name: /Operador de Importación/ }).click()
   await page
     .getByRole("list", { name: "Operaciones que explican el gráfico" })

@@ -12,6 +12,7 @@ import type { DemonstrationOperation } from "../types/operation"
 import { useOrganizations } from "@/features/organizations/state/use-organizations"
 import { useScenario } from "@/features/demo/state/scenario-provider"
 import { scenarioKind } from "@/features/demo/data/scenarios"
+import { hasCapability } from "@/features/demo/data/capabilities"
 
 export function useDemoOperations() {
   const [operations, setOperations] = useState(demonstrationOperations)
@@ -54,9 +55,11 @@ export function useDemoOperations() {
       ? projectedOperations.filter(
           (item) => item.clientId === scenario.clientId
         )
-      : kind
-        ? projectedOperations.filter((item) => item.kind === kind)
-        : projectedOperations
+      : !hasCapability(scenario, "operations.read")
+        ? []
+        : kind
+          ? projectedOperations.filter((item) => item.kind === kind)
+          : projectedOperations
   return {
     operations: visibleOperations,
     ready,

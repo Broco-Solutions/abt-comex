@@ -1,5 +1,14 @@
 "use client"
 import { useRouter } from "next/navigation"
+import { hasCapability } from "../data/capabilities"
+import {
+  initialPeople,
+  loadPeople,
+  savePeople,
+  memberForPerspective,
+  selectedMemberKey,
+  type Member,
+} from "@/features/people/data/people"
 import { saveReceivedDocuments } from "@/features/documents/data/documents"
 import {
   initialOrganizations,
@@ -30,6 +39,7 @@ type ScenarioContext = {
   scenario: Scenario
   dirty: boolean
   choose: (id: ScenarioId) => void
+  login: (memberId: string) => boolean
   exit: () => void
   reset: () => void
 }
@@ -38,10 +48,30 @@ const Context = createContext<ScenarioContext>({
   scenario: getScenario("direction"),
   dirty: false,
   choose: () => {},
+  login: () => false,
   exit: () => {},
   reset: () => {},
 })
 export const useScenario = () => useContext(Context)
+
+function memberScenario(member: Member): Scenario {
+  const base = getScenario(member.perspective)
+  const scoped = { ...base, capabilities: member.capabilities }
+  return {
+    ...scoped,
+    memberId: member.id,
+    commercial: hasCapability(scoped, "commercial.read"),
+    financial: [
+      "finance.billing",
+      "finance.collections",
+      "finance.treasury",
+      "finance.expenses",
+    ].some((cap) =>
+      member.capabilities.includes(cap as (typeof member.capabilities)[number])
+    ),
+    executive: hasCapability(scoped, "management.read"),
+  }
+}
 
 export function ScenarioProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
@@ -54,8 +84,19 @@ export function ScenarioProvider({ children }: { children: React.ReactNode }) {
     const hydrate = () => {
       try {
         const selected = sessionStorage.getItem(selectionKey)
-        setActive(scenarios.some((item) => item.id === selected))
-        setScenario(getScenario(selected ?? "operations"))
+        const selectedId = sessionStorage.getItem(selectedMemberKey)
+        const member = selectedId
+          ? loadPeople().members.find((item) => item.id === selectedId)
+          : memberForPerspective((selected ?? "operations") as ScenarioId)
+        setActive(
+          scenarios.some((item) => item.id === selected) &&
+            member?.access === "Activo"
+        )
+        setScenario(
+          member
+            ? memberScenario(member)
+            : getScenario(selected ?? "operations")
+        )
         setDirty(sessionStorage.getItem(dirtyKey) === "true")
       } catch {
         /* Browser memory only if storage is unavailable. */
@@ -63,6 +104,17 @@ export function ScenarioProvider({ children }: { children: React.ReactNode }) {
       setReady(true)
     }
     const changed = () => {
+      let memberId: string | null = null
+      try {
+        memberId = sessionStorage.getItem(selectedMemberKey)
+      } catch {
+        /* Memory-only browsing. */
+      }
+      if (memberId) {
+        const member = loadPeople().members.find((item) => item.id === memberId)
+        setActive(member?.access === "Activo")
+        if (member) setScenario(memberScenario(member))
+      }
       setDirty(true)
       try {
         sessionStorage.setItem(dirtyKey, "true")
@@ -101,14 +153,18 @@ export function ScenarioProvider({ children }: { children: React.ReactNode }) {
       /* Browser state stays available without storage. */
     }
   }
-  function choose(id: ScenarioId) {
-    if (!confirmReset()) return
+  function login(memberId: string) {
+    const member = loadPeople().members.find(
+      (item) => item.id === memberId && item.access === "Activo"
+    )
+    if (!member || !confirmReset()) return false
     resetData()
-    const nextScenario = getScenario(id)
+    const nextScenario = memberScenario(member)
     setScenario(nextScenario)
     setActive(true)
     try {
-      sessionStorage.setItem(selectionKey, id)
+      sessionStorage.setItem(selectionKey, member.perspective)
+      sessionStorage.setItem(selectedMemberKey, member.id)
     } catch {
       /* Browser state stays available without storage. */
     }
@@ -117,12 +173,19 @@ export function ScenarioProvider({ children }: { children: React.ReactNode }) {
         ? `/portal?cliente=${nextScenario.clientId}`
         : "/inicio"
     )
+    return true
+  }
+  function choose(id: ScenarioId) {
+    const member = memberForPerspective(id)
+    if (member) login(member.id)
   }
   function exit() {
     if (!confirmReset()) return
     resetData()
+    savePeople(initialPeople)
     try {
       sessionStorage.removeItem(selectionKey)
+      sessionStorage.removeItem(selectedMemberKey)
     } catch {
       /* Browser state stays available without storage. */
     }
@@ -132,6 +195,7 @@ export function ScenarioProvider({ children }: { children: React.ReactNode }) {
   function reset() {
     if (!confirmReset()) return
     resetData()
+    savePeople(initialPeople)
     router.refresh()
   }
   if (!ready)
@@ -143,7 +207,9 @@ export function ScenarioProvider({ children }: { children: React.ReactNode }) {
       </main>
     )
   return (
-    <Context.Provider value={{ active, scenario, dirty, choose, exit, reset }}>
+    <Context.Provider
+      value={{ active, scenario, dirty, choose, login, exit, reset }}
+    >
       <Fragment key={scenario.id + generation}>{children}</Fragment>
     </Context.Provider>
   )

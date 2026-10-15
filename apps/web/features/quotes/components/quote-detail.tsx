@@ -11,6 +11,8 @@ import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
 import { useOrganizations } from "@/features/organizations/state/use-organizations"
 import { projectClients } from "@/features/organizations/data/organizations"
+import { useScenario } from "@/features/demo/state/scenario-provider"
+import { hasCapability } from "@/features/demo/data/capabilities"
 
 import {
   calculateQuoteTotal,
@@ -45,6 +47,7 @@ export function QuoteDetail({
   searchParams: SearchParams
 }) {
   const { organizations } = useOrganizations()
+  const { scenario } = useScenario()
   const demonstrationClients = projectClients(organizations)
   const { quotes, ready, updateQuotes } = useDemoQuotes()
   const error = first(searchParams.error)
@@ -156,6 +159,13 @@ export function QuoteDetail({
   const currentQuoteId = quote.id
 
   function applyAction(action: "approve" | "send" | "accept" | "reject") {
+    if (
+      !hasCapability(
+        scenario,
+        action === "approve" ? "commercial.approve" : "commercial.write"
+      )
+    )
+      return
     if (historical) return
     updateQuotes((current) =>
       current.map((item) => {
@@ -183,16 +193,18 @@ export function QuoteDetail({
           </Badge>
         }
         secondaryActions={
-          <Link
-            href={
-              historical
-                ? `/cotizaciones/${quote.id}?returnTo=${encodeURIComponent(returnTo)}`
-                : `/cotizaciones/${quote.id}/editar`
-            }
-            className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
-          >
-            {historical ? "Ver versión vigente" : "Crear versión"}
-          </Link>
+          historical || hasCapability(scenario, "commercial.write") ? (
+            <Link
+              href={
+                historical
+                  ? `/cotizaciones/${quote.id}?returnTo=${encodeURIComponent(returnTo)}`
+                  : `/cotizaciones/${quote.id}/editar`
+              }
+              className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+            >
+              {historical ? "Ver versión vigente" : "Crear versión"}
+            </Link>
+          ) : undefined
         }
       />
 
@@ -282,6 +294,7 @@ export function QuoteDetail({
             size="sm"
             disabled={
               historical ||
+              !hasCapability(scenario, "commercial.approve") ||
               workflow.internalApproval !== "Pendiente" ||
               workflow.send !== "No enviado"
             }
@@ -295,6 +308,7 @@ export function QuoteDetail({
             size="sm"
             disabled={
               historical ||
+              !hasCapability(scenario, "commercial.write") ||
               workflow.internalApproval !== "Aprobación simulada" ||
               workflow.send !== "No enviado"
             }
@@ -308,6 +322,7 @@ export function QuoteDetail({
             size="sm"
             disabled={
               historical ||
+              !hasCapability(scenario, "commercial.write") ||
               workflow.send !== "Envío simulado" ||
               workflow.clientResponse !== "Sin respuesta"
             }

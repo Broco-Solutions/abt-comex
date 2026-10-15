@@ -18,6 +18,8 @@ import type { QuoteSearchParams } from "../data/quotes"
 import { useDemoQuotes } from "../state/use-demo-quotes"
 
 import { QuoteTable } from "./quote-table"
+import { useScenario } from "@/features/demo/state/scenario-provider"
+import { hasCapability } from "@/features/demo/data/capabilities"
 
 const statuses = [
   ["", "Todos los estados"],
@@ -34,6 +36,7 @@ export function QuotesList({
   searchParams: QuoteSearchParams
 }) {
   const { organizations } = useOrganizations()
+  const { scenario } = useScenario()
   const demonstrationClients = projectClients(organizations)
   const state = parseQuoteListState(searchParams)
   const { quotes, ready } = useDemoQuotes()
@@ -47,16 +50,18 @@ export function QuotesList({
       <PageHeader
         title="Cotizaciones"
         primaryAction={
-          <Link
-            href={
-              state.clientId
-                ? `/cotizaciones/nueva?cliente=${encodeURIComponent(state.clientId)}`
-                : "/cotizaciones/nueva"
-            }
-            className={cn(buttonVariants({ size: "sm" }))}
-          >
-            Nueva cotización
-          </Link>
+          hasCapability(scenario, "commercial.write") ? (
+            <Link
+              href={
+                state.clientId
+                  ? `/cotizaciones/nueva?cliente=${encodeURIComponent(state.clientId)}`
+                  : "/cotizaciones/nueva"
+              }
+              className={cn(buttonVariants({ size: "sm" }))}
+            >
+              Nueva cotización
+            </Link>
+          ) : undefined
         }
       />
 

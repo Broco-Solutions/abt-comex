@@ -12,9 +12,9 @@ Fuente: solicitud explícita del responsable 15/10/2026, no aprobación formal A
 |---|---|---|---|
 | ORG-001 | Distinguir cliente ABT, proveedor contratado ABT y contraparte comercial de una operación del cliente, compartiendo identidad sin generar deuda automáticamente | V3-02 Under review; SUP-01/SUP-02; participantes por operación en V3-06 | Campos, autoridad y vínculo Alpha |
 | ORG-002 | ABM, contactos, roles activos, duplicados y creación contextual reutilizable | V3-02 Under review; CLI-01/CLI-02, SUP-01/SUP-02 y E2E v3-organizations | Datos obligatorios por proceso |
-| USR-001 | Persona separada de usuario, equipo, función, fecha de ingreso solicitada y capacidades | Pendiente V3-03 | Referentes y matriz ABT; sin datos personales reales |
-| USR-002 | Suspender acceso preservando historial y revisando/reasignando pendientes | Pendiente V3-03 | Responsables y suplencias |
-| ACC-001 | Login convencional, contraseña visible/oculta y recuperación de UX; escenarios secundarios | Pendiente V3-03 | Política real diferida; no credenciales ni envíos |
+| USR-001 | Persona separada de usuario, equipo, función, fecha de ingreso solicitada y capacidades | V3-03 Under review; USR-01/USR-02/TEAM-01; J11 | Referentes y matriz ABT; sin datos personales reales |
+| USR-002 | Suspender acceso preservando historial y revisando/reasignando pendientes | V3-03 Under review; USR-02; J11 | Responsables y suplencias |
+| ACC-001 | Login convencional, contraseña visible/oculta y recuperación de UX; escenarios secundarios | V3-03 Under review; ACCESS-01; J11 | Política real diferida; no credenciales ni envíos |
 | CAT-001 | Categorías/conceptos activos e inactivos con significado histórico conservado | Pendiente V3-04 | Catálogo y mapeo externo |
 | MOV-001 | Gastos generales/operativos, movimientos, anticipos y rendiciones sintéticos sin doble registración | Pendiente V3-04 | Autoridad y circuito externo |
 | CAR-001 | Comprobantes/aplicaciones y carteras cobrar/pagar al corte incluyendo obligaciones previas abiertas | Pendiente V3-05 | Saldos, vencimientos y aplicaciones externas |

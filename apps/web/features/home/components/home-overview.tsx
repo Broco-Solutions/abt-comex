@@ -10,6 +10,7 @@ import { formatDate } from "@workspace/ui/lib/date"
 import { getWorkSummary } from "@/features/work/data/work-items"
 import { useWorkItems } from "@/features/work/state/use-work-items"
 import { useScenario } from "@/features/demo/state/scenario-provider"
+import { canVisit } from "@/features/demo/data/scenarios"
 
 const viewHref = (view: string) => `/mi-trabajo?vista=${view}`
 
@@ -114,16 +115,18 @@ export function HomeOverview() {
       </section>
 
       <nav aria-label="Acciones rápidas" className="flex flex-wrap gap-2">
-        {actions.map(([href, label, Icon]) => (
-          <Link
-            key={href}
-            href={href}
-            className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
-          >
-            <Icon aria-hidden="true" />
-            {label}
-          </Link>
-        ))}
+        {actions
+          .filter(([href]) => canVisit(scenario, href.split("?")[0]!))
+          .map(([href, label, Icon]) => (
+            <Link
+              key={href}
+              href={href}
+              className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+            >
+              <Icon aria-hidden="true" />
+              {label}
+            </Link>
+          ))}
       </nav>
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">

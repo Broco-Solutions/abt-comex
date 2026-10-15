@@ -25,6 +25,8 @@ import {
 import type { OperationListFilters, SearchParams } from "../data/operations"
 import type { DemonstrationOperation } from "../types/operation"
 import { useDemoOperations } from "../state/use-demo-operations"
+import { useScenario } from "@/features/demo/state/scenario-provider"
+import { hasCapability } from "@/features/demo/data/capabilities"
 
 const pageSize = 6
 const helper = createColumnHelper<
@@ -88,6 +90,7 @@ export function OperationsList({
 }: {
   searchParams: SearchParams
 }) {
+  const { scenario } = useScenario()
   const [visibleColumns, setVisibleColumns] = useState<string[]>([
     ...listColumnIds,
   ])
@@ -227,12 +230,14 @@ export function OperationsList({
               : "Operaciones"
         }
         primaryAction={
-          <Link
-            href="/operaciones/nueva"
-            className="inline-flex h-9 items-center rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-          >
-            Nueva operación
-          </Link>
+          hasCapability(scenario, "operations.write") ? (
+            <Link
+              href="/operaciones/nueva"
+              className="inline-flex h-9 items-center rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            >
+              Nueva operación
+            </Link>
+          ) : undefined
         }
       />
 

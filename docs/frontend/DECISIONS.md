@@ -358,3 +358,9 @@ Decisión visual reversible V3-01: sidebar verde claro mediante el token accent 
 Implementación demostrativa de ORG-001 y ORG-002 conforme a [alcance V3](../product/ALCANCE_FUNCIONAL.md#evolución-v3--aprobación-interna-15102026). Proveedores de ABT y contrapartes de operaciones tienen vistas diferenciadas; un rol no genera deuda ni equivale a una obligación. Roles activos independientes; historial preservado. Se conserva Clientes como término del menú y se agrega Proveedores localizable, con enlaces hermanos al maestro compartido. Identidad fiscal y fuente externa pendientes, no validadas por esta decisión UX.
 
 El formulario permite preparación local con nombre/rol; identificación requiere país para contextualizar coincidencias. No impone validación fiscal ni fusiona automáticamente. Creación contextual mediante diálogo preserva borradores; selección buscable reutiliza DS. Revisión humana/ABT pendiente.
+
+## 2026-10-15 — V3-03: acceso convencional y administración de evaluación
+
+USR-001, USR-002 y ACC-001 se implementan conforme al alcance aprobado internamente, no como política de roles de ABT. [Personas y acceso](screens/v3-personas-acceso.md) registra comportamiento, sensibilidad y pendientes. Área, función o equipo no conceden capacidades. Los presets requieren acción explícita; capacidades económicas se separan antes de proyectar gráficos y registros. Contraseñas efímeras, sin almacenamiento, verificación, invitación ni recuperación externas.
+
+Para poder evaluar nuevos usuarios y suspensiones, cambiar identidad conserva la configuración local de personas/equipos y reinicia transacciones; Salir o Reiniciar restaura ambos conjuntos. Inducción independiente preservada. Esta excepción acotada al nuevo catálogo es reversible y no persistencia productiva. La suspensión transfiere asignaciones actuales, no actores históricos; responsables/suplentes se revisan explícitamente.

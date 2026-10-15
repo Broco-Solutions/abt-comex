@@ -2,11 +2,34 @@
 import { PageHeader } from "@/components/navigation/page-header"
 import { useAppShellState } from "@/components/app-shell/app-shell-state"
 import { Button } from "@workspace/ui/components/button"
+import Link from "next/link"
+import { useScenario } from "@/features/demo/state/scenario-provider"
+import { hasCapability } from "@/features/demo/data/capabilities"
 export function PresentationPreferences() {
   const { mode, setMode, resetMode } = useAppShellState()
+  const { scenario } = useScenario()
   return (
     <div className="max-w-3xl space-y-6">
       <PageHeader title="Configuración" />
+      {hasCapability(scenario, "people.manage") && (
+        <nav
+          aria-label="Administración del acceso"
+          className="flex flex-wrap gap-4 rounded-lg border border-border bg-card p-4 text-sm"
+        >
+          <Link
+            className="font-medium text-primary underline"
+            href="/configuracion/personas"
+          >
+            Personas y acceso
+          </Link>
+          <Link
+            className="font-medium text-primary underline"
+            href="/configuracion/equipos"
+          >
+            Equipos y responsables
+          </Link>
+        </nav>
+      )}
       <section
         className="space-y-4 border-y border-border py-4"
         aria-labelledby="presentation-preferences"

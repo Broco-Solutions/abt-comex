@@ -1,80 +1,133 @@
 "use client"
-import Image from "next/image"
-import { ArrowRight } from "lucide-react"
+import Link from "next/link"
+import { useState } from "react"
+import { Eye, EyeOff } from "lucide-react"
+import { Button } from "@workspace/ui/components/button"
+import { Input } from "@workspace/ui/components/input"
+import { loadPeople } from "@/features/people/data/people"
 import { useScenario } from "../state/scenario-provider"
-import { scenarios } from "../data/scenarios"
-import { BrandAttribution } from "@/components/brand/brand-attribution"
-
-export function AccessPage() {
-  const { choose } = useScenario()
+import { AccessFrame } from "./access-frame"
+export function PasswordField({
+  label,
+  name = "password",
+}: {
+  label: string
+  name?: string
+}) {
+  const [visible, setVisible] = useState(false)
   return (
-    <main className="grid min-h-svh bg-background lg:grid-cols-2">
-      <section className="flex flex-col justify-between bg-primary px-6 py-8 text-primary-foreground sm:px-12 lg:px-16 lg:py-16">
-        <div>
-          <Image
-            src="/brand/ABT_COMEX_isotype_white_transparent.png"
-            alt="ABT Comex"
-            width={80}
-            height={72}
-            className="h-auto w-20"
-            priority
+    <label className="block text-sm font-medium">
+      {label}
+      <span className="relative mt-2 block">
+        <Input
+          name={name}
+          type={visible ? "text" : "password"}
+          required
+          autoComplete="off"
+          className="pr-12"
+        />
+        <button
+          type="button"
+          aria-label={
+            visible
+              ? "Ocultar " + label.toLowerCase()
+              : "Mostrar " + label.toLowerCase()
+          }
+          aria-pressed={visible}
+          onClick={() => setVisible(!visible)}
+          className="absolute inset-y-0 right-0 flex w-11 items-center justify-center rounded-md text-muted-foreground focus-visible:outline-2 focus-visible:outline-ring"
+        >
+          {visible ? (
+            <EyeOff aria-hidden="true" className="size-4" />
+          ) : (
+            <Eye aria-hidden="true" className="size-4" />
+          )}
+        </button>
+      </span>
+    </label>
+  )
+}
+export function AccessPage() {
+  const { login, dirty, reset } = useScenario()
+  const [error, setError] = useState("")
+  return (
+    <AccessFrame>
+      <h2 className="text-2xl font-semibold tracking-tight">
+        Ingresar a ABT Comex
+      </h2>
+      <p id="access-limit" className="mt-3 text-sm text-muted-foreground">
+        Probá con direccion@example.invalid y una contraseña de prueba. No
+        ingreses credenciales reales; no se guardan ni se verifican.
+      </p>
+      <form
+        aria-label="Acceso de evaluación"
+        aria-describedby="access-limit"
+        className="mt-8 space-y-5"
+        onSubmit={(event) => {
+          event.preventDefault()
+          const data = new FormData(event.currentTarget)
+          const email = String(data.get("email") ?? "")
+            .trim()
+            .toLowerCase()
+          const member = email.endsWith("@example.invalid")
+            ? loadPeople().members.find(
+                (item) =>
+                  item.email.toLowerCase() === email && item.access === "Activo"
+              )
+            : undefined
+          if (!member) {
+            setError(
+              "No se pudo ingresar. Usá una identidad de prueba con acceso activo o revisá su acceso en Personas."
+            )
+            return
+          }
+          if (login(member.id)) event.currentTarget.reset()
+        }}
+      >
+        <label className="block text-sm font-medium">
+          Correo laboral
+          <Input
+            name="email"
+            type="email"
+            required
+            autoComplete="off"
+            defaultValue="direccion@example.invalid"
+            className="mt-2"
           />
-        </div>
-        <div className="my-6 max-w-lg lg:my-12">
-          <p className="text-sm font-medium tracking-wider uppercase">
-            Comercio exterior
+        </label>
+        <PasswordField label="Contraseña" />
+        {error && (
+          <p role="alert" className="text-sm text-destructive">
+            {error}
           </p>
-          <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
-            Tu trabajo, conectado.
-          </h1>
-          <p className="mt-6 text-lg leading-relaxed opacity-90">
-            Operaciones, documentación y decisiones en un mismo espacio.
-          </p>
+        )}
+        <div className="flex items-center justify-between gap-4">
+          <Button type="submit">Ingresar</Button>
+          <Link
+            href="/acceso/recuperar"
+            className="text-sm font-medium text-primary underline underline-offset-4"
+          >
+            Olvidé mi contraseña
+          </Link>
         </div>
-        <p className="text-xs opacity-80">
-          Entorno de evaluación · sin operaciones reales
-        </p>
-      </section>
-      <section className="flex flex-col justify-center px-6 py-10 sm:px-12 lg:px-16">
-        <div className="mx-auto w-full max-w-lg">
-          <Image
-            src="/brand/ABT_COMEX_logo_green_transparent.png"
-            alt="ABT Comex"
-            width={160}
-            height={64}
-            className="mb-8 h-auto w-40"
-          />
-          <h2 className="text-2xl font-semibold tracking-tight">
-            Elegí una perspectiva
-          </h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Escenarios de evaluación, sin credenciales.
-          </p>
-          <div className="mt-8 divide-y divide-border border-y border-border">
-            {scenarios.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => choose(item.id)}
-                className="group flex min-h-16 w-full items-center justify-between gap-4 px-2 py-4 text-left hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-              >
-                <span>
-                  <span className="block font-medium">{item.label}</span>
-                  <span className="mt-1 block text-sm text-muted-foreground">
-                    {item.description}
-                  </span>
-                </span>
-                <ArrowRight
-                  aria-hidden="true"
-                  className="size-4 shrink-0 text-primary"
-                />
-              </button>
-            ))}
-          </div>
-          <div className="mt-8">
-            <BrandAttribution />
-          </div>
-        </div>
-      </section>
-    </main>
+      </form>
+      <div className="mt-8 border-t border-border pt-5">
+        <Link
+          href="/acceso/escenarios"
+          className="text-sm text-primary underline underline-offset-4"
+        >
+          Explorar escenarios de evaluación
+        </Link>
+        {dirty && (
+          <button
+            type="button"
+            onClick={reset}
+            className="mt-4 block text-sm text-primary underline underline-offset-4"
+          >
+            Reiniciar datos de evaluación
+          </button>
+        )}
+      </div>
+    </AccessFrame>
   )
 }

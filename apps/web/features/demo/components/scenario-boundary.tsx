@@ -23,7 +23,7 @@ export function ScenarioBoundary({ children }: { children: React.ReactNode }) {
           Esta perspectiva no incluye la información solicitada.
         </p>
         <Link
-          href="/acceso"
+          href="/acceso/escenarios"
           className="inline-flex min-h-11 items-center font-medium text-primary hover:underline focus-visible:outline-2 focus-visible:outline-ring"
         >
           Cambiar perspectiva
