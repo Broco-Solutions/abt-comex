@@ -1,8 +1,26 @@
 # Matriz de cobertura funcional del frontend
 
-**Estado:** borrador para revisión humana de planificación integral
-**Fecha:** 14/10/2026
-**Base:** `main` con Etapas 0 y 1 aprobadas
+**Estado:** primera pasada y UX V2 Under review; evolución V3 autorizada internamente
+**Fecha:** 15/10/2026
+**Base V3:** `main` ca01e7f; Etapas 0 y 1 preservadas
+
+## Ampliaciones V3 aprobadas internamente
+
+Fuente: solicitud explícita del responsable 15/10/2026, no aprobación formal ABT. Se conservan los 117 registros históricos; los siguientes son necesidades adicionales identificables. Alcance y restricciones: [V3](../product/ALCANCE_FUNCIONAL.md#evolución-v3--aprobación-interna-15102026).
+
+| ID | Necesidad / recorrido | Disposición actual | Validación pendiente |
+|---|---|---|---|
+| ORG-001 | Distinguir cliente ABT, proveedor contratado ABT y contraparte comercial de una operación del cliente, compartiendo identidad sin generar deuda automáticamente | Pendiente V3-02 | Campos, autoridad y vínculo Alpha |
+| ORG-002 | ABM, contactos, roles activos, duplicados y creación contextual reutilizable | Pendiente V3-02 | Datos obligatorios por proceso |
+| USR-001 | Persona separada de usuario, equipo, función, fecha de ingreso solicitada y capacidades | Pendiente V3-03 | Referentes y matriz ABT; sin datos personales reales |
+| USR-002 | Suspender acceso preservando historial y revisando/reasignando pendientes | Pendiente V3-03 | Responsables y suplencias |
+| ACC-001 | Login convencional, contraseña visible/oculta y recuperación de UX; escenarios secundarios | Pendiente V3-03 | Política real diferida; no credenciales ni envíos |
+| CAT-001 | Categorías/conceptos activos e inactivos con significado histórico conservado | Pendiente V3-04 | Catálogo y mapeo externo |
+| MOV-001 | Gastos generales/operativos, movimientos, anticipos y rendiciones sintéticos sin doble registración | Pendiente V3-04 | Autoridad y circuito externo |
+| CAR-001 | Comprobantes/aplicaciones y carteras cobrar/pagar al corte incluyendo obligaciones previas abiertas | Pendiente V3-05 | Saldos, vencimientos y aplicaciones externas |
+| REP-019 | Comparaciones equivalentes, rankings precisos y acceso a registros desde Dirección | Pendiente V3-07 | Definición de métricas, sin fórmulas no validadas |
+
+V3-01 mejora OPS-01/OPS-02, COT-03 y POR-02/POR-03 sin declarar resueltas las ampliaciones anteriores. Microsoft 365 queda fuera de V3; INT-004 conserva su ID histórico, no justifica una funcionalidad futura en esta ejecución.
 
 ## Propósito y criterio de lectura
 

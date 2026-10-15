@@ -885,3 +885,25 @@ Comparación visual inicial: DS coincide con su referencia; tres referencias del
 No se detectaron P0/P1 en los escenarios Chromium ejecutados. Persisten límites, no funcionalidades ficticiamente terminadas: parametrización por cliente, centro global de alertas/integraciones, excepciones que necesitan reglas ABT, archivos documentales reales, fórmulas financieras e identidad reales. Cobertura frontend por tramos no equivale a ejecutar procesos externos. La protección del dominio personalizado no está acreditada; no se modifica infraestructura ni se presenta la selección de perspectiva como seguridad real.
 
 Revisión sugerida desde /acceso: Importación→Inicio→Mi trabajo→control/copia→retorno; Exportación→permiso/DJVE→documentos→continuidad administrativa; Administración→bandeja/finanzas→G2/G3→registros; Dirección→G1/G4→registros→operación→retorno; recorrido comercial con perspectiva integral→cliente/cotización/versiones/alta; Cliente externo→Portal→documentos→salida. Comprobar comprensión, densidad, zoom/teclado/contraste y criterios pendientes con ABT antes de cualquier aprobación.
+
+## V3 — Evolución integral autorizada internamente (15/10/2026)
+
+Fuente: aprobación explícita del responsable sobre la auditoría integral y sus tres precisiones. Autoriza ejecución frontend, PR independientes y squash con checks verdes; no constituye validación formal ABT ni autoriza backend/integraciones. No reiniciar UX V2 ni renumerar Etapas 0–13. Estados técnicos separados de aceptación humana.
+
+| Incremento | Estado | Entregable y dependencia |
+|---|---|---|
+| V3-01 | In implementation | Continuidad, filtros compactos/dinámicos, contexto, combobox reutilizable, Portal consistente y superficies ABT |
+| V3-02 | Pendiente | Organizaciones multirrol, Clientes/Proveedores ABM y creación contextual; depende de V3-01 |
+| V3-03 | Pendiente | Personas, acceso/capacidades, equipos/reasignación, login y recuperación exclusivamente demostrativos |
+| V3-04 | Pendiente | Categorías, gastos generales/operativos, anticipos/rendiciones y movimientos sintéticos compartidos; depende de maestros |
+| V3-05 | Pendiente | Comprobantes, aplicaciones, obligaciones y carteras al corte; sin contabilidad paralela |
+| V3-06 | Pendiente | Continuidad Importación/Exportación/DJVE/documentos/Administración/Portal e información externa contextual |
+| V3-07 | Pendiente | Dirección: períodos equivalentes, rankings precisos, carteras, indicadores explicables y regresión integral |
+
+Gates por incremento: lint, typecheck, unitarias/componentes, a11y, build, E2E proporcional, revisión visual desktop/tablet/móvil, validador documental y diff limpio. PR contra main actualizado; confirmar integración y deployment. Mantener Under review hasta revisión humana. Detener sólo reglas críticas no definidas.
+
+### Checkpoint V3
+
+Base verificada: ca01e7fe8e8dd417a518ac8c4fae936cf14404b8. Trabajo en worktree separado del directorio histórico. V3-01 en ejecución: pruebas/evidencia y PR todavía pendientes de cierre. No hay API ni fuente externa conectada. Los otros seis incrementos no se consideran implementados.
+
+La autoridad funcional V3 está en [alcance](../product/ALCANCE_FUNCIONAL.md#evolución-v3--aprobación-interna-15102026). Microsoft 365 queda fuera de esta ejecución; sus filas anteriores conservan historia, no trabajo autorizado.

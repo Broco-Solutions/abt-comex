@@ -115,7 +115,8 @@ test("@smoke form errors focus their field and the operational perspective skips
   await page.goto("/cotizaciones/nueva")
   await page.getByRole("button", { name: "Guardar borrador local" }).click()
   await expect(page.locator("#quote-editor-client")).toBeFocused()
-  await page.locator("#quote-editor-client").selectOption("client-demo-norte")
+  await page.locator("#quote-editor-client").fill("Norte")
+  await page.getByRole("option", { name: "Cliente Demo Norte" }).click()
   await page.getByRole("button", { name: "Guardar borrador local" }).click()
   await expect(page.getByLabel("Servicio", { exact: true })).toBeFocused()
   await expect(page.getByLabel("Servicio", { exact: true })).toHaveAttribute(
@@ -139,7 +140,7 @@ test("@smoke form errors focus their field and the operational perspective skips
     .getByRole("link", { name: "Nueva cotización", exact: true })
     .click()
   await expect(page.locator("#quote-editor-client")).toHaveValue(
-    "client-demo-centro"
+    "Cliente Demo Centro"
   )
 })
 

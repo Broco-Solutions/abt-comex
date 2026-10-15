@@ -132,3 +132,7 @@ UX-03: /acceso ofrece entrada a Cliente externo → Portal con Shell propio. Ind
 Requiere selección del escenario externo para presentar datos. La entrada general conserva el cliente permitido; /portal sin parámetro usa esa identidad sintética, nunca una identidad arbitraria. /portal/acceso conserva su entrada compatible. Cambiar escenario y Salir retornan a /acceso; salida reinicia los cambios locales con confirmación sólo si existen, sin borrar inducción.
 
 Dos operaciones propias y sólo referencias documentales explícitamente compartidas, filtradas antes de renderizar. No recibe originales/custodia, datos financieros, responsables ni acciones internas. La referencia de copia abre metadatos, no un archivo real; no hay subida/descarga ni hitos aduaneros inventados.
+
+## Evolución V3-01 — resumen documental consistente
+
+Documentos compartidos en Inicio se obtiene de la misma proyección autorizada que el detalle, incluyendo copias locales recibidas. Una copia disponible aparece con requisito, versión y vínculo a su operación; requisitos pendientes no se presentan como archivos disponibles. No se expone custodia interna ni documentos de otros clientes. No se crean descargas, envíos ni integraciones.

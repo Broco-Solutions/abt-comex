@@ -263,3 +263,7 @@ Este mapa registra las Etapas 2–13 integradas técnicamente; no supone aprobac
 ### Entrada de evaluación UX-03
 
 /acceso y / redirigida a /acceso complementan SHELL-01, sin renumerar las 32 experiencias. Selección explícita → Inicio contextual o Portal externo. Cambiar/salir conserva inducción y reinicia datos temporales con confirmación cuando corresponde. Rutas originales se conservan; ninguna selección constituye rol ABT ni autorización productiva.
+
+## Continuidad V3
+
+Se conservan las 32 experiencias y J1–J10; [plan V3](PLAN_IMPLEMENTACION.md#v3--evolución-integral-autorizada-internamente-15102026) amplía capacidades progresivamente sin renumerar. V3-01 no añade rutas: OPS-01/OPS-02 compactan consulta y restauran contexto con OPS-03; POR-02 y POR-03 comparten disponibilidad documental. La selección de Cliente en COT-03 utiliza el patrón buscable del DS. Nuevas rutas/experiencias de maestros/acceso se registrarán en su incremento, no se consideran cubiertas por esta nota. Microsoft 365 no forma parte de las superficies V3.

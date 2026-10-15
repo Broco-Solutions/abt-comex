@@ -8,6 +8,8 @@ import { cn } from "@workspace/ui/lib/utils"
 import { formatDate } from "@workspace/ui/lib/date"
 import { useDemoOperations } from "@/features/operations/state/use-demo-operations"
 import { getPortalContext, PORTAL_DEMO_CLIENT_ID } from "../data/portal"
+import { projectDocuments } from "@/features/documents/data/documents"
+import { useReceivedDocuments } from "@/features/documents/state/use-received-documents"
 
 export function PortalHome({
   requestedClientId,
@@ -15,6 +17,7 @@ export function PortalHome({
   requestedClientId: string
 }) {
   const { operations, ready } = useDemoOperations()
+  const received = useReceivedDocuments()
 
   if (!ready) {
     return (
@@ -122,10 +125,35 @@ export function PortalHome({
         <h2 id="portal-documents-title" className="font-semibold">
           Documentos compartidos
         </h2>
-        <p className="text-sm text-muted-foreground">
-          No hay documentos externos disponibles en este escenario. La carga y
-          descarga documental todavía no están habilitadas.
-        </p>
+        {context.operations.some((operation) =>
+          projectDocuments(operation.id, received, true).some(
+            (document) => document.documentName
+          )
+        ) ? (
+          <ul className="divide-y divide-border">
+            {context.operations.flatMap((operation) =>
+              projectDocuments(operation.id, received, true)
+                .filter((document) => document.documentName)
+                .map((document) => (
+                  <li key={document.id} className="py-3 text-sm">
+                    <Link
+                      className="inline-flex min-h-9 items-center gap-2 font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
+                      href={`/portal/operaciones/${operation.id}?cliente=${PORTAL_DEMO_CLIENT_ID}`}
+                    >
+                      {document.requirement} · {operation.reference}
+                    </Link>
+                    <span className="block text-xs text-muted-foreground">
+                      Copia disponible · versión {document.version}
+                    </span>
+                  </li>
+                ))
+            )}
+          </ul>
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            No hay copias compartidas disponibles.
+          </p>
+        )}
       </section>
 
       <section

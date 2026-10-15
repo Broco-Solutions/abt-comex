@@ -441,3 +441,11 @@ Elegir por tarea: comparación → tabla; pendientes → bandeja; objeto → fic
 Identidad y apertura no ocultables; selección sólo con acción útil; columnas opcionales no habilitan datos restringidos. Limpiar filtros conserva contexto de tipo y restablecer vista recupera presentación. Orden/agrupación/página y retorno son coherentes en URL. Fechas declaran evento y rango; actualización no es arribo, factura ni cobro.
 
 Suprimir descripciones obvias y avisos reiterados en todas las superficies. Identificar el entorno globalmente, reservando aclaraciones para acciones sensibles, consecuencias, bloqueos y errores. Ayuda/inducción en menú secundario con progreso recuperable. Chevron expande, indicador de orden ordena y navegación interna usa icono interno. Responsive se verifica dentro del Shell con acciones visibles y encabezados sin colisión, no sólo por ausencia de overflow.
+
+## Continuidad y composición V3
+
+- Listados: búsqueda y filtro frecuente visibles; secundarios plegados, filtros activos removibles y una confirmación para rangos compuestos. No repetir el tipo fijado por una vista.
+- Actualizaciones locales de filtros/agrupación conservan foco y scroll mediante History API integrada con Next; URL conserva la consulta y Atrás/Adelante restaura el estado. Enlaces de detalle capturan origen/posición; retorno local restaura foco en el registro y posición, sin depender de back ambiguo.
+- Fecha de período siempre identifica evento: Actualización no equivale a arribo/oficialización/vencimiento.
+- Selector buscable compartido para catálogos potencialmente extensos: etiqueta persistente, consulta tolerante a acentos, opciones identificables, flechas/Inicio/Fin/Enter/Escape/Tab, selección conservada sin coincidencias. No crear registros ni ampliar capacidades desde el componente.
+- Sidebar claro usa accent/accent-foreground ABT; hover/activo/foco mantienen señales y contraste. Superficie de trabajo card sobre lienzo muted. DS y producto comparten tokens; no tipografías ni colores nuevos.

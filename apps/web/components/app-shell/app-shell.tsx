@@ -65,7 +65,7 @@ function AppShellFrame({ children }: { children: React.ReactNode }) {
           <AppHeader />
           <main id="main-content" tabIndex={-1} className="outline-none">
             <WelcomePanel />
-            <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
+            <div className="mx-auto my-4 w-full max-w-7xl rounded-lg border border-border bg-card px-4 py-5 sm:px-6 lg:px-8">
               <Suspense fallback={<p role="status">Preparando vista…</p>}>
                 <ScenarioBoundary>{children}</ScenarioBoundary>
               </Suspense>

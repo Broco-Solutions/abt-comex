@@ -9,6 +9,7 @@ import { PageHeader } from "@/components/navigation/page-header"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { cn } from "@workspace/ui/lib/utils"
+import { SearchableCombobox } from "@workspace/ui/components/searchable-combobox"
 import { demonstrationClients } from "@/features/clients/data/clients"
 
 import {
@@ -245,29 +246,19 @@ export function QuoteEditor({
             Contexto
           </h2>
           <div>
-            <label
-              htmlFor="quote-editor-client"
-              className="mb-1 block text-xs font-medium"
-            >
-              Cliente
-            </label>
-            <select
+            <SearchableCombobox
               id="quote-editor-client"
-              aria-invalid={Boolean(saveError && !clientId)}
-              aria-describedby={saveError ? "quote-editor-error" : undefined}
+              label="Cliente"
+              invalid={Boolean(saveError && !clientId)}
+              describedBy={saveError ? "quote-editor-error" : undefined}
               value={clientId}
-              onChange={(event) => setClientId(event.target.value)}
-              required
+              onChange={setClientId}
               disabled={Boolean(quote)}
-              className="h-9 w-full rounded-md border border-input bg-background px-2.5 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:bg-muted"
-            >
-              <option value="">Seleccionar cliente</option>
-              {demonstrationClients.map((client) => (
-                <option key={client.id} value={client.id}>
-                  {client.name}
-                </option>
-              ))}
-            </select>
+              options={demonstrationClients.map((client) => ({
+                value: client.id,
+                label: client.name,
+              }))}
+            />
           </div>
           <div>
             <label

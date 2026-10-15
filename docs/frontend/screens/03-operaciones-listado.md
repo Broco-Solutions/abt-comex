@@ -88,3 +88,9 @@ Feature `apps/web/features/operations`: tipos y dataset estables en `types/opera
 ## UX-02 — tabla proporcionada
 
 Referencia no ocultable, sin selección sin acción asociada, tipo omitido al consultar un tipo específico. Filtros plegables en móvil, controles frecuentes y período explícito; búsqueda conserva orden/agrupación. Anchos ajustables en desktop, acotados al espacio de otras columnas; no aplican al preset tablet. Restablecer vista recupera columnas/anchos. Agrupación conserva paginación y declara conteos de página. ux-lists.spec.ts verifica geometría de apertura y resize por teclado.
+
+## Evolución V3-01
+
+Búsqueda confirmada sin navegación de documento; situación, agrupación y accesos rápidos actualizan al seleccionar. Responsable y rango de Actualización en Más filtros, plegado inicialmente en todos los anchos. Tipo no se vuelve a solicitar en Importaciones/Exportaciones. Rango inválido conserva los campos y comunica error. Chips permiten quitar cada filtro. Orden/agrupación se conservan; página vuelve a 1 al cambiar la población. Identidad sigue obligatoria y no hay importes económicos.
+
+Retorno desde detalle: conservar URL, posición y foco sobre el registro de origen dentro de la sesión. Atrás/Adelante restaura la consulta. Referencias: prueba v3-continuity y suite stage-03 actualizada; ejecución real en el plan.
