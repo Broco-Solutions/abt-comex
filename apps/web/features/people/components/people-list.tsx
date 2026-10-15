@@ -59,7 +59,7 @@ export function PeopleList() {
         <MemberEditor onSaved={setSaved} />
       </div>
       <div className="flex flex-wrap items-end gap-3">
-        <label className="min-w-0 flex-1 text-xs font-medium">
+        <label className="w-full min-w-0 text-xs font-medium sm:w-auto sm:flex-1">
           Buscar integrante
           <Input
             value={query}
