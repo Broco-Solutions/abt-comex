@@ -44,10 +44,12 @@ export function AppSidebar({
       ...item,
       children: item.children?.filter(
         (child) =>
-          !kind ||
-          child.href.includes(
-            kind === "Importación" ? "importacion" : "exportacion"
-          )
+          canVisit(scenario, child.href) &&
+          (item.id !== "operaciones" ||
+            !kind ||
+            child.href.includes(
+              kind === "Importación" ? "importacion" : "exportacion"
+            ))
       ),
     }))
   const pathname = usePathname()
@@ -88,7 +90,7 @@ export function AppSidebar({
       <div
         data-sidebar-mode={mode}
         data-sidebar-presentation={presentation}
-        className="flex h-full min-h-0 flex-col bg-sidebar text-sidebar-foreground"
+        className="app-sidebar-surface flex h-full min-h-0 flex-col text-sidebar-foreground"
       >
         <div
           className={cn(
@@ -101,7 +103,7 @@ export function AppSidebar({
         <nav
           aria-label="Navegación principal"
           className={cn(
-            "min-h-0 flex-1 overflow-y-auto py-4",
+            "min-h-0 flex-1 overflow-y-auto overscroll-contain py-3 [scrollbar-width:thin]",
             compact ? "px-2" : "px-3"
           )}
         >
@@ -127,7 +129,7 @@ export function AppSidebar({
         </nav>
         <div
           className={cn(
-            "flex border-t border-sidebar-border p-3",
+            "flex shrink-0 border-t border-sidebar-border bg-muted p-3 text-foreground",
             compact && "justify-center px-2"
           )}
         >

@@ -454,7 +454,8 @@ Formularios en diálogo: el popup compartido limita altura al viewport dinámico
 - Actualizaciones locales de filtros/agrupación conservan foco y scroll mediante History API integrada con Next; URL conserva la consulta y Atrás/Adelante restaura el estado. Enlaces de detalle capturan origen/posición; retorno local restaura foco en el registro y posición, sin depender de back ambiguo.
 - Fecha de período siempre identifica evento: Actualización no equivale a arribo/oficialización/vencimiento.
 - Selector buscable compartido para catálogos potencialmente extensos: etiqueta persistente, consulta tolerante a acentos, opciones identificables, flechas/Inicio/Fin/Enter/Escape/Tab, selección conservada sin coincidencias. No crear registros ni ampliar capacidades desde el componente.
-- Sidebar claro usa accent/accent-foreground ABT; hover/activo/foco mantienen señales y contraste. Superficie de trabajo card sobre lienzo muted. DS y producto comparten tokens; no tipografías ni colores nuevos.
+- Sidebar institucional usa tokens verdes profundos con degradado discreto, texto jerarquizado, activo con indicador y foco claro. Marca ABT blanca oficial, sin filtros CSS; atribución Broco sobre pie neutro de la navegación. Superficie de trabajo card sobre lienzo muted. DS y producto comparten tokens.
+- Los padres con hijos conservan un enlace de navegación y un botón separado con chevron y `aria-expanded` para desplegar. Clientes abre `/clientes`; Cotizaciones es subopción directa; Proveedores es independiente. En rail, foco/hover abre los destinos secundarios; en móvil se usa drawer completo.
 
 ### Personas y capacidades V3
 

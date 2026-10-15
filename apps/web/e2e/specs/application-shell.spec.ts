@@ -283,12 +283,21 @@ test("@smoke relates Clients and Quotes without duplicating organization navigat
     navigation.getByRole("link", { name: "Cotizaciones", exact: true })
   ).toBeVisible()
   await navigation
+    .getByRole("button", { name: "Contraer Clientes", exact: true })
+    .click()
+  await expect(
+    navigation.getByRole("link", { name: "Cotizaciones", exact: true })
+  ).toBeHidden()
+  await expect(page).toHaveURL(/\/clientes$/)
+  await navigation
+    .getByRole("button", { name: "Expandir Clientes", exact: true })
+    .focus()
+  await page.keyboard.press("Enter")
+  await navigation
     .getByRole("link", { name: "Cotizaciones", exact: true })
     .click()
   await expect(page).toHaveURL(/\/cotizaciones$/)
-  await expect(
-    page.getByLabel("Ruta de navegación")
-  ).toContainText("Clientes")
+  await expect(page.getByLabel("Ruta de navegación")).toContainText("Clientes")
   await page.goto("/clientes")
   await expect(
     page.getByRole("navigation", { name: "Maestros de organizaciones" })
@@ -303,7 +312,9 @@ test("@smoke relates Clients and Quotes without duplicating organization navigat
   await expect(
     organizationNav.getByRole("link", { name: "Contrapartes de operaciones" })
   ).toBeVisible()
-  await expect(organizationNav.getByRole("link", { name: "Clientes" })).toHaveCount(0)
+  await expect(
+    organizationNav.getByRole("link", { name: "Clientes" })
+  ).toHaveCount(0)
 })
 
 test("@smoke mobile drawer manages focus, Escape and route selection", async ({

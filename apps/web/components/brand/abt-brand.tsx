@@ -25,17 +25,15 @@ export function AbtBrand({ compact = false }: { compact?: boolean }) {
       <Image
         src={
           compact
-            ? "/brand/ABT_COMEX_isotype_green_transparent.png"
-            : "/brand/ABT_COMEX_logo_green_transparent.png"
+            ? "/brand/ABT_COMEX_isotype_white_transparent.png"
+            : "/brand/ABT_COMEX_logo_white_transparent.png"
         }
         alt=""
         width={compact ? 796 : 1983}
         height={compact ? 717 : 793}
         priority
         className={
-          compact
-            ? "h-auto w-10 object-contain brightness-0 invert"
-            : "h-auto w-32 object-contain brightness-0 invert"
+          compact ? "h-auto w-10 object-contain" : "h-auto w-32 object-contain"
         }
       />
     </Link>

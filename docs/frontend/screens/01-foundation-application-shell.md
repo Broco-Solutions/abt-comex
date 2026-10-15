@@ -198,6 +198,18 @@ funcionales de ABT enumeradas arriba siguen pendientes.
 
 ## UX-03 — acceso y menú secundario
 
+### Refinamiento V3 del Shell (Under review)
+
+Clientes abre el listado y tiene Cotizaciones como subopción directa; Proveedores
+permanece separado. Los padres con hijos tienen un enlace y un botón de
+expansión independientes, sin ambigüedad al pulsar. Los hijos se filtran por
+capacidades también en el rail/drawer. El sidebar verde profundo con degradado
+discreto utiliza los assets blancos oficiales ABT, sin filtros; el pie neutro
+mantiene legible la atribución original Broco. La navegación tiene scroll
+interno de ancho fino cuando la altura es insuficiente y el pie no se encoge.
+Esto no cambia las rutas ni la aprobación histórica de Etapa 1; el refinamiento
+V3 requiere su propia revisión humana.
+
 Entrada /acceso fuera del Shell; seis perspectivas ficticias para evaluación, sin credenciales ni autenticación real. Sin selección válida se muestra acceso; enlaces directos no habilitan información financiera por defecto. El menú de usuario usa Popover del DS y contiene cambio de perspectiva, ayuda, retomar/reiniciar inducción, reset temporal y salida. Conserva progreso de inducción; cambiar/salir reinicia datos temporales y confirma sólo si hubo modificaciones. No borra preferencias de navegación ni progreso.
 
 Las capacidades de cada preset se definen en features/demo/data/scenarios.ts como decisión UX interna reversible. Operadores/responsable no acceden a Cotizaciones, Finanzas o Dirección; Administración no recibe capacidad comercial. Portal usa Shell y proyección propios. Son filtros de presentación, no seguridad productiva. Identificación global discreta y explicaciones específicas sólo cuando importan para acción, bloqueo o fuente.

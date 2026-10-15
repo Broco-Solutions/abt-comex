@@ -78,9 +78,7 @@ describe("buildBreadcrumbs", () => {
   })
 
   it("keeps Cotizaciones directly reachable below the client relationship", () => {
-    expect(
-      buildBreadcrumbs("/cotizaciones", new URLSearchParams())
-    ).toEqual([
+    expect(buildBreadcrumbs("/cotizaciones", new URLSearchParams())).toEqual([
       { label: "Clientes", href: "/clientes", current: false },
       { label: "Cotizaciones", current: true },
     ])
