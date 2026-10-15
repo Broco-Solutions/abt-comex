@@ -7,6 +7,7 @@ import {
 } from "./people"
 import { hasCapability } from "@/features/demo/data/capabilities"
 import { canVisit, getScenario } from "@/features/demo/data/scenarios"
+import { saveImportationScenarios } from "@/features/importation/data/importation-scenarios"
 it("keeps membership distinct from active access and does not infer economic access from responsibility", () => {
   expect(
     initialPeople.members.find((item) => item.id === "member-demo-07")?.access
@@ -35,6 +36,12 @@ it("suspends access and transfers current assignments without deleting the perso
   expect(() =>
     suspendAccess(initialPeople, "member-demo-01", "member-demo-01")
   ).toThrow()
+  expect(() =>
+    suspendAccess(initialPeople, "member-demo-05", "member-demo-03")
+  ).toThrow()
+  expect(() =>
+    suspendAccess(initialPeople, "member-demo-01", "member-demo-02")
+  ).toThrow()
 })
 it("capabilities, not perspective or area, govern internal administrative routes", () => {
   const scenario = { ...getScenario("direction"), capabilities: [] }
@@ -53,4 +60,25 @@ it("capabilities, not perspective or area, govern internal administrative routes
       "/configuracion/personas"
     )
   ).toBe(false)
+})
+it("does not reassign completed controls as pending work", () => {
+  try {
+    saveImportationScenarios([
+      {
+        operationId: "op-demo-2048",
+        doubleControl: {
+          firstReviewer: "demo-person-01",
+          secondReviewer: "demo-person-02",
+          completed: true,
+        },
+      },
+    ])
+    expect(pendingAssignments("member-demo-01", initialPeople)).toEqual([])
+    expect(
+      suspendAccess(initialPeople, "member-demo-01", "member-demo-03")
+        .assignments["wrk-imp-control-01"]
+    ).toBe("member-demo-01")
+  } finally {
+    saveImportationScenarios([])
+  }
 })

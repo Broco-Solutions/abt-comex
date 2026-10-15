@@ -121,6 +121,12 @@ test("@smoke membership edits persist, capabilities are independent of area and 
   await page.getByRole("button", { name: "Revisar suspensión o baja" }).click()
   await page
     .getByRole("combobox", { name: "Transferir pendientes a" })
+    .fill("Operador de prueba Exportación")
+  await expect(
+    page.getByRole("option", { name: /Operador de prueba Exportación/ })
+  ).toHaveCount(0)
+  await page
+    .getByRole("combobox", { name: "Transferir pendientes a" })
     .fill("Responsable operativo")
   await page
     .getByRole("option", { name: /Responsable operativo de prueba/ })

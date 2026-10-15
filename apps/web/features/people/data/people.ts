@@ -1,12 +1,19 @@
 import {
   DEMONSTRATION_DATE,
+  getScenario,
+  scenarioKind,
   type ScenarioId,
 } from "@/features/demo/data/scenarios"
 import {
   capabilityIds,
+  hasCapability,
   presetCapabilities,
   type Capability,
 } from "@/features/demo/data/capabilities"
+import { workItems, projectWorkItems } from "@/features/work/data/work-items"
+import { loadImportationScenarios } from "@/features/importation/data/importation-scenarios"
+import { loadDemoQuotes } from "@/features/quotes/data/quotes"
+import { demonstrationOperations } from "@/features/operations/data/operations"
 
 export type Member = {
   id: string
@@ -281,9 +288,49 @@ export function memberForPerspective(
   )
 }
 export function pendingAssignments(memberId: string, state = loadPeople()) {
+  const currentTasks = new Set(
+    projectWorkItems(loadImportationScenarios(), loadDemoQuotes()).map(
+      (item) => item.id
+    )
+  )
   return Object.entries(state.assignments)
-    .filter(([, owner]) => owner === memberId)
+    .filter(([id, owner]) => owner === memberId && currentTasks.has(id))
     .map(([id]) => id)
+}
+/** Visibility safeguard, not a definitive ABT assignment/approval policy. */
+export function canReceiveAssignments(member: Member, tasks: string[]) {
+  if (member.access !== "Activo" || member.perspective === "client")
+    return false
+  const scope = {
+    ...getScenario(member.perspective),
+    capabilities: member.capabilities,
+  }
+  const kind = scenarioKind(scope)
+  return tasks.every((id) => {
+    const task = workItems.find((item) => item.id === id)
+    if (!task) return false
+    if (task.relatedQuoteId && !hasCapability(scope, "commercial.read"))
+      return false
+    if (
+      task.id === "wrk-admin-no-operation-05" &&
+      ![
+        "finance.billing",
+        "finance.collections",
+        "finance.treasury",
+        "finance.expenses",
+        "finance.prepare",
+      ].some((cap) => member.capabilities.includes(cap as Capability))
+    )
+      return false
+    if (task.relatedOperationId) {
+      if (!hasCapability(scope, "operations.read")) return false
+      const operation = demonstrationOperations.find(
+        (item) => item.id === task.relatedOperationId
+      )
+      if (kind && operation?.kind !== kind) return false
+    }
+    return true
+  })
 }
 export function suspendAccess(
   state: PeopleState,
@@ -292,18 +339,20 @@ export function suspendAccess(
   status: "Suspendido" | "Baja de acceso" = "Suspendido"
 ): PeopleState {
   const current = state.members.find((item) => item.id === memberId)
+  const pending = new Set(pendingAssignments(memberId, state))
   if (!current) throw new Error("Integrante no disponible")
   if (
     nextOwner &&
     (!state.members.some(
       (item) =>
         item.id === nextOwner &&
-        item.access === "Activo" &&
-        item.perspective !== "client"
+        canReceiveAssignments(item, pendingAssignments(memberId, state))
     ) ||
       nextOwner === memberId)
   )
-    throw new Error("Elegí una persona interna activa o la bandeja del equipo")
+    throw new Error(
+      "Elegí una persona interna activa que pueda consultar los pendientes, o dejalos sin asignación individual"
+    )
   return {
     ...state,
     members: state.members.map((item) =>
@@ -312,7 +361,7 @@ export function suspendAccess(
     assignments: Object.fromEntries(
       Object.entries(state.assignments).map(([id, owner]) => [
         id,
-        owner === memberId ? nextOwner : owner,
+        owner === memberId && pending.has(id) ? nextOwner : owner,
       ])
     ),
     activity: [

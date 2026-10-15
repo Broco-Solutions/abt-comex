@@ -25,6 +25,8 @@ Una persona puede existir sin acceso. Correo funcional no se convierte automáti
 
 Suspender/bajar acceso presenta pendientes asignados y permite transferirlos a una persona interna activa o bandeja sin asignación individual. No borra persona, modifica actores históricos, completa controles ni cierra operaciones. Responsables y suplentes de equipos se muestran para revisión explícita; no reemplazo automático. Reactivación requiere edición y revisión de capacidades.
 
+La transferencia sólo ofrece personas que puedan consultar el contexto de los pendientes según las capacidades/ámbito actuales; no concede permisos ni define una política de asignación o aprobación ABT. Evita transferir tareas comerciales a un operador sin consulta comercial, o Exportación a una perspectiva sólo de Importación. Dejar sin asignación conserva la tarea para revisión del equipo.
+
 ## Estado compartido y sensibilidad
 
 Las asignaciones se proyectan en Inicio/Mi trabajo; escenarios leen capacidades vigentes. Las categorías económicas se filtran antes de gráficos, conteos y registros; selector de columnas no concede acceso. Sin capacidad de personas no se muestra su navegación ni sus fichas. Un usuario suspendido no accede por login ni por preset.

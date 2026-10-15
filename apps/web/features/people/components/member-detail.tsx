@@ -13,6 +13,7 @@ import {
   pendingAssignments,
   savePeople,
   suspendAccess,
+  canReceiveAssignments,
 } from "../data/people"
 import { MemberEditor } from "./member-editor"
 export function MemberDetail({
@@ -107,9 +108,7 @@ export function MemberDetail({
               ...state.members
                 .filter(
                   (item) =>
-                    item.id !== id &&
-                    item.access === "Activo" &&
-                    item.perspective !== "client"
+                    item.id !== id && canReceiveAssignments(item, pending)
                 )
                 .map((item) => ({
                   value: item.id,

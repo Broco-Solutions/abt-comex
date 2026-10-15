@@ -66,6 +66,7 @@ function memberScenario(member: Member): Scenario {
       "finance.collections",
       "finance.treasury",
       "finance.expenses",
+      "finance.prepare",
     ].some((cap) =>
       member.capabilities.includes(cap as (typeof member.capabilities)[number])
     ),
