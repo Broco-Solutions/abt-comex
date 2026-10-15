@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { OperationSituationChart } from "./operation-situation-chart"
 import { ArrowRight, CircleAlert, Clock3, Plus, Search } from "lucide-react"
 import { PageHeader } from "@/components/navigation/page-header"
 import { buttonVariants } from "@workspace/ui/components/button"
@@ -193,6 +194,7 @@ export function HomeOverview() {
           )}
         </section>
       </div>
+      <OperationSituationChart />
       {stale ? (
         <aside
           className="border-l-2 border-warning bg-muted/40 px-4 py-3 text-sm"

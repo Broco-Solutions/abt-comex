@@ -9,5 +9,5 @@ export default async function FinanzasPage({
   const workId = Array.isArray(query.trabajo)
     ? (query.trabajo[0] ?? "")
     : (query.trabajo ?? "")
-  return <FinanceOverview workId={workId} />
+  return <FinanceOverview workId={workId} searchParams={query} />
 }

@@ -97,14 +97,15 @@ export function ScenarioProvider({ children }: { children: React.ReactNode }) {
   function choose(id: ScenarioId) {
     if (!confirmReset()) return
     resetData()
-    setScenario(getScenario(id))
+    const nextScenario = getScenario(id)
+    setScenario(nextScenario)
     setActive(true)
     try {
       sessionStorage.setItem(selectionKey, id)
     } catch {
       /* Browser state stays available without storage. */
     }
-    router.replace(id === "client" ? "/portal" : "/inicio")
+    router.replace(nextScenario.id === "client" ? `/portal?cliente=${nextScenario.clientId}` : "/inicio")
   }
   function exit() {
     if (!confirmReset()) return

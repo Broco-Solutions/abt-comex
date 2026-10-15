@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { FinancialDashboard } from "@/features/finance/components/financial-dashboard"
 import { formatRecordedDate } from "@workspace/ui/lib/date"
 
 import { PageHeader } from "@/components/navigation/page-header"
@@ -65,6 +66,14 @@ export function ManagementOverview({
       </p>
     )
 
+  if (view === "resumen" && !restricted && !readError) return (
+    <div className="space-y-6">
+      <PageHeader title="Dirección" secondaryActions={<Link href="/administracion/finanzas" className={cn(buttonVariants({variant:"outline"}))}>Finanzas</Link>} />
+      <FinancialDashboard executive searchParams={searchParams} />
+      <Link href="/gestion?vista=economia" className="text-sm text-primary underline underline-offset-4">Fuentes y definiciones pendientes</Link>
+    </div>
+  )
+
   const snapshot = getManagementSnapshot(
     operations,
     demonstrationClients,
@@ -74,7 +83,7 @@ export function ManagementOverview({
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Gestión"
+        title="Dirección"
         secondaryActions={
           <Link
             href="/administracion/finanzas"
@@ -86,7 +95,7 @@ export function ManagementOverview({
       />
 
       <nav
-        aria-label="Vistas de Gestión"
+        aria-label="Consultas históricas de Dirección"
         className="flex gap-2 overflow-x-auto border-b border-border pb-3"
       >
         {views.map(([key, label]) => (

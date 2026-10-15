@@ -1,5 +1,9 @@
 # ABT Comex — Frontend Standard
 
+## Contrato visual de analítica V2
+
+Usar Recharts, ChartContainer y tokens existentes. Cada visualización declara período, unidad/moneda, dimensión, fuente y actualización; las series no mezclan monedas ni eventos. Gráfico y registros explicativos comparten datos y filtros, con selección por barra y alternativa mediante valores/enlaces accesibles sin hover. No animar cifras operativas innecesariamente. Vacío, error o información faltante no se representan como un cero confirmado. Los gráficos no sustituyen registros ni introducen fórmulas de negocio.
+
 > Documento vivo · Última actualización: 14/10/2026
 
 ## Objetivo

@@ -43,7 +43,7 @@ export function useDemoOperations() {
   const kind = scenarioKind(scenario)
   const visibleOperations =
     scenario.id === "client"
-      ? []
+      ? operations.filter((item) => item.clientId === scenario.clientId)
       : kind
         ? operations.filter((item) => item.kind === kind)
         : operations

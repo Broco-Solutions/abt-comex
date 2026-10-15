@@ -52,11 +52,12 @@ test("@smoke task without an operation opens its own context and finance sources
   await expect(
     page.getByText(/sin operación vinculada y sin importes/i)
   ).toBeVisible()
-  await expect(page.getByText("Interbanking")).toBeVisible()
+  await page.getByText("Fuentes y definiciones pendientes", { exact: true }).click()
+  await expect(page.getByText("Interbanking", { exact: true })).toBeVisible()
   await expect(page.getByText(/Fuera del alcance actual/)).toBeVisible()
   await expect(
     page.getByText(
-      /no se presentan importes, totales ni resultados económicos/i
+      /Resultados, rentabilidad y márgenes no están definidos/i
     )
   ).toBeVisible()
 })

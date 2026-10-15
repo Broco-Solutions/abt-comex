@@ -3,18 +3,8 @@ import { expect, test } from "../fixtures"
 test("@smoke management summary drills into operations, clients and work while keeping economic sources unavailable", async ({
   page,
 }) => {
-  await page.goto("/gestion")
-  await expect(page.getByRole("heading", { name: "Gestión" })).toBeVisible()
-  await expect(
-    page.getByText("Escenario ficticio", { exact: false })
-  ).toBeVisible()
-  await expect(
-    page.getByText(
-      /no representan volumen, productividad ni resultados de ABT/i
-    )
-  ).toBeVisible()
-  await expect(page.getByRole("link", { name: "Abrir desglose" })).toBeVisible()
-
+  await page.goto("/gestion?vista=operaciones")
+  await expect(page.getByRole("heading", { name: "Dirección" })).toBeVisible()
   await page.getByRole("link", { name: "Operación", exact: true }).click()
   await expect(page).toHaveURL(/\/gestion\?vista=operaciones/)
   await expect(

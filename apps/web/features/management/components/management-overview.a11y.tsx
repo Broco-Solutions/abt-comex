@@ -4,6 +4,8 @@ import { axe } from "vitest-axe"
 import { renderComponent } from "@/test/utils/render"
 import { ManagementOverview } from "./management-overview"
 
+vi.mock("next/navigation", () => ({ useRouter: () => ({ push: vi.fn() }) }))
+
 it("has no known automated accessibility violations in management views and restricted states", async () => {
   const canvasContext = vi
     .spyOn(HTMLCanvasElement.prototype, "getContext")
