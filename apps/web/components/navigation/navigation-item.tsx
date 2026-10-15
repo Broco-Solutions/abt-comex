@@ -153,15 +153,14 @@ function ExpandedNavigationLink({
       data-navigation-level={depth === 0 ? "primary" : "secondary"}
       onClick={onNavigate}
       className={cn(
-        "group flex min-h-11 items-center gap-3 rounded-md border-l-2 px-3 py-2 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sidebar-ring",
-        selected &&
-          "border-sidebar-primary bg-sidebar-accent font-semibold text-sidebar-foreground",
+        "group flex min-h-11 items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sidebar-ring",
+        selected && "bg-white/12 font-semibold text-sidebar-foreground",
         navigationState === "section-active" &&
-          "border-transparent bg-sidebar-accent/45 font-semibold text-sidebar-foreground hover:bg-sidebar-accent",
+          "font-semibold text-sidebar-foreground hover:bg-sidebar-accent",
         navigationState === "inactive" &&
           (depth === 0
-            ? "border-transparent font-medium text-sidebar-foreground/85 hover:bg-sidebar-accent hover:text-sidebar-foreground"
-            : "border-transparent font-normal text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-foreground")
+            ? "font-medium text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+            : "font-normal text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground")
       )}
     >
       {Icon ? (
@@ -338,10 +337,10 @@ function CompactNavigationGroup({
                     onNavigate?.()
                   }}
                   className={cn(
-                    "flex min-h-11 items-center rounded-md border-l-2 px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+                    "flex min-h-11 items-center rounded-md px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
                     childSelected
-                      ? "border-primary bg-muted font-semibold text-foreground"
-                      : "border-transparent text-foreground/80 hover:bg-muted hover:text-foreground"
+                      ? "bg-muted font-semibold text-foreground"
+                      : "text-foreground/80 hover:bg-muted hover:text-foreground"
                   )}
                 >
                   {child.label}
@@ -380,12 +379,12 @@ function PendingBadge({
 
 function compactLinkClassName(navigationState: NavigationState) {
   return cn(
-    "flex size-11 items-center justify-center rounded-md border-l-2 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sidebar-ring",
+    "flex size-11 items-center justify-center rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sidebar-ring",
     navigationState === "selected" &&
-      "border-sidebar-primary bg-sidebar-accent text-sidebar-primary",
+      "bg-white/12 font-semibold text-sidebar-foreground",
     navigationState === "section-active" &&
-      "border-transparent bg-sidebar-accent/45 text-sidebar-primary hover:bg-sidebar-accent",
+      "text-sidebar-foreground hover:bg-sidebar-accent",
     navigationState === "inactive" &&
-      "border-transparent text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+      "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground"
   )
 }

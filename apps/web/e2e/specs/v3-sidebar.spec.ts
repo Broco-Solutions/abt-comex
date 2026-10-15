@@ -1,5 +1,33 @@
 import { expect, test } from "../fixtures"
 
+test("@smoke sidebar reveals the active destination and scrolls without covering its footer", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 480 })
+  await page.goto("/gestion")
+  const sidebar = page.locator('[data-slot="desktop-sidebar"]')
+  const nav = sidebar.getByRole("navigation", {
+    name: "Navegación principal",
+    exact: true,
+  })
+  const selected = nav.getByRole("link", { name: "Dirección", exact: true })
+  await expect(selected).toHaveAttribute("aria-current", "page")
+  await expect(selected).toBeInViewport()
+  expect(await nav.evaluate((element) => element.scrollTop)).toBeGreaterThan(0)
+  await nav.hover()
+  await page.mouse.wheel(0, -800)
+  await expect.poll(() => nav.evaluate((element) => element.scrollTop)).toBe(0)
+  await selected.focus()
+  await expect(selected).toBeFocused()
+  await expect(selected).toBeInViewport()
+  await expect(
+    sidebar.getByRole("link", { name: "Configuración", exact: true })
+  ).toBeInViewport()
+  await expect(
+    sidebar.getByRole("button", { name: "Menú de usuario", exact: true })
+  ).toBeInViewport()
+})
+
 test("@smoke sidebar groups persist independently, keep parent routes and remove decorative arrows", async ({
   page,
 }) => {

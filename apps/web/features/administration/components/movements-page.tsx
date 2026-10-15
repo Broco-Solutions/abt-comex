@@ -101,190 +101,199 @@ export function MovementsPage() {
         primaryAction={<MovementEditor onSaved={setSaved} />}
       />
       <AdministrationNav />
-      <div className="flex flex-wrap items-end gap-3">
-        <label className="w-full min-w-0 text-xs font-medium sm:w-auto sm:flex-1">
-          Buscar movimiento
-          <Input
-            className="mt-1"
-            value={query}
-            onChange={(event) => change("q", event.target.value)}
-            placeholder="Referencia, contraparte o concepto"
-          />
-        </label>
-        <label className="text-xs font-medium">
-          Naturaleza
-          <select
-            aria-label="Filtrar naturaleza"
-            className="mt-1 block h-10 max-w-full rounded-md border border-input bg-background px-3 text-sm"
-            value={nature}
-            onChange={(event) => change("naturaleza", event.target.value)}
-          >
-            <option value="">Todas las autorizadas</option>
-            {movementNatures
-              .filter((item) =>
-                movementDirection(item) === "Ingreso" ? canIncome : canOutflow
-              )
-              .map((item) => (
-                <option key={item}>{item}</option>
-              ))}
-          </select>
-        </label>
-        <label className="text-xs font-medium">
-          Moneda
-          <select
-            aria-label="Filtrar moneda"
-            className="mt-1 block h-10 rounded-md border border-input bg-background px-3 text-sm"
-            value={currency}
-            onChange={(event) => change("moneda", event.target.value)}
-          >
-            <option value="">Sin total combinado</option>
-            <option>ARS</option>
-            <option>USD</option>
-          </select>
-        </label>
-      </div>
-      <details className="rounded-md border border-border px-3 py-2">
-        <summary className="cursor-pointer text-sm font-medium">
-          Período del movimiento{from || to ? " · activo" : ""}
-        </summary>
-        <div className="mt-3 flex flex-wrap gap-3">
-          <label className="text-xs font-medium">
-            Movimiento desde
+      <div className="workspace-surface space-y-4 p-4 sm:p-5">
+        <div className="flex flex-wrap items-end gap-3">
+          <label className="w-full min-w-0 text-xs font-medium sm:w-auto sm:flex-1">
+            Buscar movimiento
             <Input
-              type="date"
-              className="mt-1 w-auto"
-              value={from}
-              onChange={(event) => change("desde", event.target.value)}
+              className="mt-1"
+              value={query}
+              onChange={(event) => change("q", event.target.value)}
+              placeholder="Referencia, contraparte o concepto"
             />
           </label>
           <label className="text-xs font-medium">
-            Movimiento hasta
-            <Input
-              type="date"
-              className="mt-1 w-auto"
-              value={to}
-              onChange={(event) => change("hasta", event.target.value)}
-            />
-          </label>
-        </div>
-      </details>
-      {params.size > 0 && (
-        <div className="flex flex-wrap gap-3 text-xs">
-          {party && (
-            <button
-              className="text-primary underline"
-              onClick={() => change("contraparte", "")}
+            Naturaleza
+            <select
+              aria-label="Filtrar naturaleza"
+              className="mt-1 block h-10 max-w-full rounded-md border border-input bg-background px-3 text-sm"
+              value={nature}
+              onChange={(event) => change("naturaleza", event.target.value)}
             >
-              Quitar contraparte
-            </button>
-          )}
-          <Link
-            href="/administracion/movimientos"
-            scroll={false}
-            className="text-primary underline"
-          >
-            Limpiar filtros
-          </Link>
+              <option value="">Todas las autorizadas</option>
+              {movementNatures
+                .filter((item) =>
+                  movementDirection(item) === "Ingreso" ? canIncome : canOutflow
+                )
+                .map((item) => (
+                  <option key={item}>{item}</option>
+                ))}
+            </select>
+          </label>
+          <label className="text-xs font-medium">
+            Moneda
+            <select
+              aria-label="Filtrar moneda"
+              className="mt-1 block h-10 rounded-md border border-input bg-background px-3 text-sm"
+              value={currency}
+              onChange={(event) => change("moneda", event.target.value)}
+            >
+              <option value="">Sin total combinado</option>
+              <option>ARS</option>
+              <option>USD</option>
+            </select>
+          </label>
         </div>
-      )}
-      {saved && (
-        <p role="status" className="text-sm">
-          Movimiento guardado.{" "}
-          <Link
-            href={
-              "/administracion/movimientos/" +
-              saved +
-              "?returnTo=" +
-              encodeURIComponent(context)
-            }
-            className="text-primary underline"
-          >
-            Abrir movimiento
-          </Link>
-        </p>
-      )}
-      {invalid ? (
-        <p role="alert" className="text-sm text-destructive">
-          Revisá el rango de fechas del movimiento; no se confirma un total.
-        </p>
-      ) : !ready ? (
-        <p role="status">Preparando movimientos…</p>
-      ) : (
-        <>
-          <p role="status" className="text-sm text-muted-foreground">
-            {rows.length} movimientos · referencias locales, no ejecución de
-            fondos
-          </p>
-          <ul
-            aria-label="Movimientos autorizados"
-            className="divide-y divide-border rounded-lg border border-border bg-card px-4"
-          >
-            {visibleRows.map((item) => (
-              <li
-                key={item.id}
-                className="grid gap-2 py-4 text-sm sm:grid-cols-[minmax(0,1fr)_auto]"
+        <details className="rounded-md border border-border px-3 py-2">
+          <summary className="cursor-pointer text-sm font-medium">
+            Período del movimiento{from || to ? " · activo" : ""}
+          </summary>
+          <div className="mt-3 flex flex-wrap gap-3">
+            <label className="text-xs font-medium">
+              Movimiento desde
+              <Input
+                type="date"
+                className="mt-1 w-auto"
+                value={from}
+                onChange={(event) => change("desde", event.target.value)}
+              />
+            </label>
+            <label className="text-xs font-medium">
+              Movimiento hasta
+              <Input
+                type="date"
+                className="mt-1 w-auto"
+                value={to}
+                onChange={(event) => change("hasta", event.target.value)}
+              />
+            </label>
+          </div>
+        </details>
+        {params.size > 0 && (
+          <div className="flex flex-wrap gap-3 text-xs">
+            {party && (
+              <button
+                className="text-primary underline"
+                onClick={() => change("contraparte", "")}
               >
-                <div>
-                  <Link
-                    href={
-                      "/administracion/movimientos/" +
-                      item.id +
-                      "?returnTo=" +
-                      encodeURIComponent(context)
-                    }
-                    className="font-medium text-primary underline"
-                  >
-                    {item.reference}
-                  </Link>
-                  <p className="mt-1">
-                    {item.nature} · {movementDirection(item.nature)} ·{" "}
-                    {formatDate(item.date)}
-                  </p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    {organizations.find((org) => org.id === item.partyId)
-                      ?.name ?? "Sin contraparte comercial"}
-                    {item.notes ? " · " + item.notes : ""}
-                  </p>
-                </div>
-                <p className="font-mono font-medium">
-                  {money(item.amount, item.currency)}
-                </p>
-              </li>
-            ))}
-            {!rows.length && (
-              <li className="py-6 text-sm">
-                Sin movimientos para estos filtros.
-              </li>
+                Quitar contraparte
+              </button>
             )}
-          </ul>
-        </>
-      )}
-      {!invalid && rows.length > 12 && (
-        <nav
-          aria-label="Paginación de movimientos"
-          className="flex items-center justify-between gap-3 border-t border-border pt-3 text-sm"
-        >
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={page <= 1}
-            onClick={() => change("pagina", String(page - 1))}
+            <Link
+              href="/administracion/movimientos"
+              scroll={false}
+              className="text-primary underline"
+            >
+              Limpiar filtros
+            </Link>
+          </div>
+        )}
+        {saved && (
+          <p role="status" className="text-sm">
+            Movimiento guardado.{" "}
+            <Link
+              href={
+                "/administracion/movimientos/" +
+                saved +
+                "?returnTo=" +
+                encodeURIComponent(context)
+              }
+              className="text-primary underline"
+            >
+              Abrir movimiento
+            </Link>
+          </p>
+        )}
+        {invalid ? (
+          <p role="alert" className="text-sm text-destructive">
+            Revisá el rango de fechas del movimiento; no se confirma un total.
+          </p>
+        ) : !ready ? (
+          <p role="status">Preparando movimientos…</p>
+        ) : (
+          <>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 text-sm text-muted-foreground">
+              <p role="status" className="tabular-nums">
+                {rows.length} {rows.length === 1 ? "movimiento" : "movimientos"}
+              </p>
+              {pages > 1 ? (
+                <span>
+                  {(page - 1) * 12 + 1}–{Math.min(page * 12, rows.length)} de{" "}
+                  {rows.length}
+                </span>
+              ) : null}
+            </div>
+            <ul
+              aria-label="Movimientos autorizados"
+              className="divide-y divide-border rounded-lg border border-border bg-card px-4"
+            >
+              {visibleRows.map((item) => (
+                <li
+                  key={item.id}
+                  className="grid gap-2 py-4 text-sm sm:grid-cols-[minmax(0,1fr)_auto]"
+                >
+                  <div>
+                    <Link
+                      href={
+                        "/administracion/movimientos/" +
+                        item.id +
+                        "?returnTo=" +
+                        encodeURIComponent(context)
+                      }
+                      className="font-medium text-primary underline"
+                    >
+                      {item.reference}
+                    </Link>
+                    <p className="mt-1">
+                      {item.nature} · {movementDirection(item.nature)} ·{" "}
+                      {formatDate(item.date)}
+                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {organizations.find((org) => org.id === item.partyId)
+                        ?.name ?? "Sin contraparte comercial"}
+                      {item.notes ? " · " + item.notes : ""}
+                    </p>
+                  </div>
+                  <p className="font-mono font-medium">
+                    {money(item.amount, item.currency)}
+                  </p>
+                </li>
+              ))}
+              {!rows.length && (
+                <li className="py-6 text-sm">
+                  Sin movimientos para estos filtros.
+                </li>
+              )}
+            </ul>
+          </>
+        )}
+        {!invalid && rows.length > 12 && (
+          <nav
+            aria-label="Paginación de movimientos"
+            className="flex items-center justify-between gap-3 border-t border-border pt-3 text-sm"
           >
-            Anterior
-          </Button>
-          <span>
-            Página {page} de {pages}
-          </span>
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={page >= pages}
-            onClick={() => change("pagina", String(page + 1))}
-          >
-            Siguiente
-          </Button>
-        </nav>
-      )}
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={page <= 1}
+              onClick={() => change("pagina", String(page - 1))}
+            >
+              Anterior
+            </Button>
+            <span>
+              Página {page} de {pages}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={page >= pages}
+              onClick={() => change("pagina", String(page + 1))}
+            >
+              Siguiente
+            </Button>
+          </nav>
+        )}
+      </div>
     </div>
   )
 }

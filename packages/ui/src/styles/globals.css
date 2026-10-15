@@ -108,12 +108,12 @@
 
   --radius: 0.5rem;
 
-  --sidebar: #103e29;
-  --sidebar-end: #0a2e1e;
-  --sidebar-foreground: #f2fbf6;
+  --sidebar: #0f4429;
+  --sidebar-end: #155c38;
+  --sidebar-foreground: #ffffff;
   --sidebar-primary: #b5f0ce;
   --sidebar-primary-foreground: #063b29;
-  --sidebar-accent: #1c6040;
+  --sidebar-accent: rgb(255 255 255 / 6%);
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: rgb(255 255 255 / 16%);
   --sidebar-ring: #d1fae5;
@@ -162,20 +162,82 @@
   --chart-4: #7dd3fc;
   --chart-5: #9ca3af;
 
-  --sidebar: #103e29;
-  --sidebar-end: #0a2e1e;
-  --sidebar-foreground: #f3f4f6;
+  --sidebar: #0f4429;
+  --sidebar-end: #155c38;
+  --sidebar-foreground: #ffffff;
   --sidebar-primary: #b5f0ce;
   --sidebar-primary-foreground: #063b29;
-  --sidebar-accent: #1c6040;
+  --sidebar-accent: rgb(255 255 255 / 6%);
   --sidebar-accent-foreground: #f3f4f6;
   --sidebar-border: rgb(255 255 255 / 10%);
   --sidebar-ring: #d1fae5;
 }
 
 .app-sidebar-surface {
-  background: radial-gradient(ellipse at top left, rgb(69 135 85 / 14%), transparent 65%), linear-gradient(170deg, var(--sidebar), var(--sidebar-end));
+  background: linear-gradient(180deg, var(--sidebar), var(--sidebar-end));
 }
+
+.sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(255 255 255 / 22%) transparent;
+}
+.sidebar-scroll:hover { scrollbar-color: rgb(255 255 255 / 38%) transparent; }
+@supports selector(::-webkit-scrollbar) {
+  .sidebar-scroll { scrollbar-width: auto; scrollbar-color: auto; }
+  .sidebar-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
+  .sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
+  .sidebar-scroll::-webkit-scrollbar-thumb { background: rgb(255 255 255 / 22%); border-radius: 999px; }
+  .sidebar-scroll::-webkit-scrollbar-thumb:hover { background: rgb(255 255 255 / 38%); }
+  .sidebar-scroll::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+}
+@media (forced-colors: active) {
+  .sidebar-scroll { scrollbar-color: auto; }
+  .sidebar-scroll::-webkit-scrollbar-thumb { background: CanvasText; }
+}
+
+/* Internal shell composition; access, Portal and overlay surfaces retain theirs. */
+.app-workspace-canvas {
+  background: radial-gradient(800px 400px at 0% 0%, rgb(20 83 45 / 4%), rgb(20 83 45 / 0%)), #f5f7f6;
+}
+
+:root:not(.dark) .app-workspace {
+  --primary: #14532d;
+  --input: #dde3e0;
+  --accent: #e4efe8;
+  --accent-foreground: #14532d;
+}
+.app-workspace input:is([type="radio"], [type="checkbox"]) { accent-color: var(--primary); }
+
+.workspace-surface {
+  min-width: 0;
+  border: 1px solid #e8ecea;
+  border-radius: 10px;
+  background: var(--card);
+  box-shadow: 0 1px 2px rgb(16 24 20 / 4%);
+}
+
+.app-workspace table thead { background: transparent; }
+.app-workspace table thead th { color: #6b7a72; font-size: 13px; font-weight: 500; }
+.app-workspace table tbody tr { border-color: #eef2ef; }
+.app-workspace table tbody tr:hover { background: #fafbfa; }
+.app-workspace .workspace-surface :is(input[data-slot="input"], select) {
+  min-height: 2.25rem;
+  border-radius: 8px;
+}
+.app-workspace [data-page-actions] :is(a, button),
+.app-workspace .workspace-surface form button[type="submit"] { min-height: 2.25rem; }
+@media (max-width: 767px) {
+  .app-workspace [data-page-actions] :is(a, button),
+  .app-workspace .workspace-surface :is(input[data-slot="input"], select, button, a[role="button"]) {
+    min-height: 2.75rem;
+  }
+}
+
+.dark .app-workspace-canvas { background: var(--background); }
+.dark .workspace-surface { border-color: var(--border); }
+.dark .app-workspace table thead th { color: var(--muted-foreground); }
+.dark .app-workspace table tbody tr { border-color: var(--border); }
+.dark .app-workspace table tbody tr:hover { background: var(--muted); }
 
 @layer base {
   * {

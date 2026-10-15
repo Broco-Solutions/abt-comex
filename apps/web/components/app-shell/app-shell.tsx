@@ -47,7 +47,7 @@ function AppShellFrame({ children }: { children: React.ReactNode }) {
       <div
         data-shell-navigation-mode={mode}
         className={cn(
-          "min-h-svh bg-muted/30 lg:grid lg:transition-[grid-template-columns] lg:duration-200 lg:motion-reduce:transition-none",
+          "app-workspace-canvas min-h-svh lg:grid lg:transition-[grid-template-columns] lg:duration-200 lg:motion-reduce:transition-none",
           mode === "compact"
             ? "lg:grid-cols-[4.5rem_minmax(0,1fr)]"
             : "lg:grid-cols-[16.5rem_minmax(0,1fr)]"
@@ -65,7 +65,7 @@ function AppShellFrame({ children }: { children: React.ReactNode }) {
           <AppHeader />
           <main id="main-content" tabIndex={-1} className="outline-none">
             <WelcomePanel />
-            <div className="mx-auto my-4 w-full max-w-7xl rounded-lg border border-border bg-card px-4 py-5 sm:px-6 lg:px-8">
+            <div className="app-workspace mx-auto w-full max-w-[1400px] px-4 py-5 sm:px-6 lg:px-8 xl:px-10 xl:py-7">
               <Suspense fallback={<p role="status">Preparando vista…</p>}>
                 <ScenarioBoundary>{children}</ScenarioBoundary>
               </Suspense>

@@ -29,7 +29,7 @@ export function OperationSituationChart() {
   }
   return (
     <section
-      className="min-w-0 space-y-3 border-t border-border pt-4"
+      className="workspace-surface min-w-0 space-y-3 p-4"
       aria-labelledby="operation-situation-title"
     >
       <h2 id="operation-situation-title" className="text-base font-semibold">
@@ -69,7 +69,7 @@ export function OperationSituationChart() {
               />
               <Tooltip content={<ChartTooltipContent />} />
               <Bar
-            isAnimationActive={false}
+                isAnimationActive={false}
                 dataKey="count"
                 name="Operaciones"
                 fill="var(--color-count)"

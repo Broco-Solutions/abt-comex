@@ -66,7 +66,7 @@ export function BillingChart({
   }))
   return (
     <section
-      className="min-w-0 space-y-3 border-t border-border pt-4"
+      className="workspace-surface min-w-0 space-y-3 p-4"
       aria-labelledby="billing-chart-title"
     >
       <h2 id="billing-chart-title" className="text-base font-semibold">
@@ -207,7 +207,7 @@ export function DistributionChart({
   const router = useRouter()
   return (
     <section
-      className="min-w-0 space-y-3 border-t border-border pt-4"
+      className="workspace-surface min-w-0 space-y-3 p-4"
       aria-labelledby={id}
     >
       <h2 id={id} className="text-base font-semibold">

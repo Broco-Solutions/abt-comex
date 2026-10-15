@@ -9,6 +9,12 @@
 
 ## 1. Objetivo
 
+Precisión visual posterior: lienzo interno y contenedores según el
+[contrato visual del estándar](../FRONTEND_STANDARD.md#continuidad-y-composición-v3).
+El Shell no agrega una tarjeta blanca universal. Header blanco, sidebar verde
+vertical continuo, activos sin borde lateral ni flecha. Las superficies de
+trabajo se eligen según el contexto de cada módulo, sin cambios funcionales.
+
 La base fundacional fue Approved; el refinamiento V3 requiere nueva revisión.
 Agrupa Operación diaria, Registros y Gestión, con Configuración,
 perfil consultivo y atribución al pie. Clientes contiene Cotizaciones conservando
