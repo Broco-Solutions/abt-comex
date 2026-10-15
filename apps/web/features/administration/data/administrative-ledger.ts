@@ -212,6 +212,7 @@ export const cents = (amount: number) => Math.round(amount * 100)
 export const sumAmounts = (amounts: number[]) =>
   amounts.reduce((sum, value) => sum + cents(value), 0) / 100
 export const validAmount = (amount: number) =>
+  Number.isSafeInteger(cents(amount)) &&
   Number.isFinite(amount) &&
   amount > 0 &&
   Math.abs(amount * 100 - cents(amount)) < 0.000001

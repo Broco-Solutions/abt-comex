@@ -24,6 +24,7 @@ import {
   nextAdministrativeId,
   nextAdministrativeReference,
   sumAmounts,
+  cents,
   validateRendition,
   type LocalRendition,
 } from "../data/administrative-ledger"
@@ -170,7 +171,10 @@ export function RenditionEditor({
                   setDraft((current) => ({
                     ...current,
                     advanceId: id,
-                    advanceAmount: Math.max(0, (item?.amount ?? 0) - used),
+                    advanceAmount: Math.max(
+                      0,
+                      (cents(item?.amount ?? 0) - cents(used)) / 100
+                    ),
                     expenseIds: [],
                     refundId: "",
                     refundAmount: 0,
