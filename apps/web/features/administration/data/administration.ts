@@ -39,7 +39,7 @@ export function getAdministrationQueue(
   const operationEntries: AdministrationQueueEntry[] = operations.flatMap(
     (operation) => {
       const progress = getDemonstrationOperationProgress(operation.id)
-      if (progress.billing === "Sin referencia") return []
+      if (progress.billing === "Sin referencia" && !operation.handoff) return []
       return [
         {
           kind: "operation" as const,
@@ -53,7 +53,9 @@ export function getAdministrationQueue(
           fulfilled: progress.fulfilled,
           postShipment: progress.postShipment,
           documentaryClose: progress.documentaryClose,
-          nextAction: operation.nextAction,
+          nextAction: operation.handoff
+            ? `${operation.handoff.status}: ${operation.handoff.note}`
+            : operation.nextAction,
           responsible: operation.responsible,
           updatedOn: operation.updatedOn,
         },
@@ -94,7 +96,9 @@ export function filterAdministrationQueue(
         ? entry.status
         : entry.billing === "Lista para facturar"
           ? "Lista para facturar"
-          : "Facturada"
+          : entry.billing === "Facturada"
+            ? "Facturada"
+            : "Con pendientes"
     return matchesQuery && (!status || queueStatus === status)
   })
 }

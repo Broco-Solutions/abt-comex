@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import { formatDate } from "@workspace/ui/lib/date"
+import { SearchableCombobox } from "@workspace/ui/components/searchable-combobox"
+import { usePeople } from "@/features/people/state/use-people"
 import type { OperationListFilters } from "../data/operations"
 
 const control =
@@ -28,6 +30,7 @@ export function OperationsToolbar({
   change: (patch: Partial<OperationListFilters>) => void
 }) {
   const [query, setQuery] = useState(filters.q)
+  const { state: people } = usePeople()
   const [from, setFrom] = useState(filters.from)
   const [to, setTo] = useState(filters.to)
   const [rangeError, setRangeError] = useState("")
@@ -40,10 +43,7 @@ export function OperationsToolbar({
     setTo(filters.to)
   }
   return (
-    <section
-      aria-label="Filtros de operaciones"
-      className="space-y-3"
-    >
+    <section aria-label="Filtros de operaciones" className="space-y-3">
       <div className="flex flex-wrap items-end gap-3">
         <form
           className="flex w-full min-w-0 items-end gap-2 sm:w-auto sm:min-w-64 sm:flex-1"
@@ -113,22 +113,25 @@ export function OperationsToolbar({
                 </select>
               </label>
             )}
-            <label className="grid gap-1 text-xs font-medium">
-              Responsable
-              <select
-                className={control}
-                name="responsable"
-                value={filters.responsible}
-                onChange={(event) =>
-                  change({ responsible: event.target.value, page: 1 })
-                }
-              >
-                <option value="">Todos</option>
-                {teams.map((value) => (
-                  <option key={value}>{value}</option>
-                ))}
-              </select>
-            </label>
+            <SearchableCombobox
+              label="Responsable"
+              value={filters.responsible}
+              onChange={(responsible) => change({ responsible, page: 1 })}
+              options={[
+                { value: "", label: "Todos" },
+                { value: "pending", label: "Sin asignación individual" },
+                ...people.members.map((person) => ({
+                  value: person.id,
+                  label: person.name,
+                  description: person.area,
+                })),
+                ...teams.map((value) => ({
+                  value,
+                  label: value,
+                  description: "Referencia de evaluación",
+                })),
+              ]}
+            />
             <form
               className="grid gap-2 sm:col-span-2 sm:grid-cols-[1fr_1fr_auto] sm:items-end"
               onSubmit={(event) => {
@@ -188,7 +191,15 @@ export function OperationsToolbar({
           {(
             [
               ["q", filters.q],
-              ["responsible", filters.responsible],
+              [
+                "responsible",
+                people.members.find(
+                  (person) => person.id === filters.responsible
+                )?.name ??
+                  (filters.responsible === "pending"
+                    ? "Sin asignación individual"
+                    : filters.responsible),
+              ],
               ["situation", filters.situation],
               [
                 "from",

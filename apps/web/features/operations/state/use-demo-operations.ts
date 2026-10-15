@@ -13,27 +13,31 @@ import { useOrganizations } from "@/features/organizations/state/use-organizatio
 import { useScenario } from "@/features/demo/state/scenario-provider"
 import { scenarioKind } from "@/features/demo/data/scenarios"
 import { hasCapability } from "@/features/demo/data/capabilities"
+import { usePeople } from "@/features/people/state/use-people"
 
 export function useDemoOperations() {
   const [operations, setOperations] = useState(demonstrationOperations)
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
-    // Hydrate browser-only scenario state after SSR to keep initial markup stable.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setOperations(loadDemoOperations())
-    setReady(true)
+    const refresh = () => {
+      setOperations(loadDemoOperations())
+      setReady(true)
+    }
+    refresh()
+    window.addEventListener("abt:demo-change", refresh)
+    return () => window.removeEventListener("abt:demo-change", refresh)
   }, [])
 
   const updateOperations = useCallback(
     (
       update: (current: DemonstrationOperation[]) => DemonstrationOperation[]
     ) => {
-      const next = update(operations)
+      const next = update(loadDemoOperations())
       saveDemoOperations(next)
       setOperations(next)
     },
-    [operations]
+    []
   )
 
   const resetOperations = useCallback(() => {
@@ -42,8 +46,14 @@ export function useDemoOperations() {
   }, [])
 
   const { organizations } = useOrganizations()
+  const { state: people } = usePeople()
   const projectedOperations = operations.map((operation) => ({
     ...operation,
+    responsibleReference: operation.responsible,
+    responsible: operation.responsibleId
+      ? (people.members.find((person) => person.id === operation.responsibleId)
+          ?.name ?? "Responsable pendiente de identificación")
+      : `Sin asignación individual · ${operation.kind}`,
     client:
       organizations.find((item) => item.id === operation.clientId)?.name ??
       operation.client,

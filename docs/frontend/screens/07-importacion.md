@@ -17,7 +17,8 @@ ver qué falta definir o verificar, representar el doble control bloqueante y
 entender las dependencias externas. El workspace usa los datos comunes de la
 Operación. Esta pasada no prepara ni oficializa destinaciones, no recibe datos
 externos, no registra documentos reales ni entrega una carpeta efectiva a
-Administración.
+Administración. V3-06 permite preparar un envío local para revisión, con
+observaciones e historial compartidos; no acredita carpeta completa.
 
 ## Evidencia y trazabilidad
 
@@ -28,7 +29,7 @@ Administración.
 | IMP-003   | Matriz; guía Alpha E5; dependencia externa                                                       | Alpha2000/MARÍA se identifica como sistema especializado, no conectado                                                      | Datos, permisos, API, campos y sincronización                   |
 | IMP-004   | Reglas transversales confirmadas en matriz y alcance                                             | Bloqueo previo a la oficialización requiere dos personas diferentes; la demostración sólo prueba dos identidades sintéticas | Evidencia, reemplazos, auditoría y capacidades reales           |
 | IMP-005   | Matriz; procesos E1/E4; dependencia externa                                                      | Arribo, canal, liberación y fechas figuran sin dato conectado                                                               | Eventos, fuente, frescura y cobertura por régimen               |
-| IMP-006   | Matriz; hipótesis pendiente                                                                      | Pase a Administración se mantiene bloqueado por criterio de carpeta completa no definido                                    | Criterios, campos, aceptación y retorno del handoff             |
+| IMP-006   | Matriz; criterio definitivo pendiente | Coordinación local de envío, recepción para revisión y devolución, separada del cierre | Criterio de carpeta completa, aceptación efectiva y evidencia |
 
 Los seis originales de Importación están localizados; cuatro XLSX fueron
 inspeccionados parcialmente y dos XLS requieren interpretación. No hay archivo

@@ -7,6 +7,7 @@ import { formatDate } from "@workspace/ui/lib/date"
 import { PageHeader } from "@/components/navigation/page-header"
 import { capabilityLabels } from "@/features/demo/data/capabilities"
 import { workItems } from "@/features/work/data/work-items"
+import { useDemoOperations } from "@/features/operations/state/use-demo-operations"
 import { usePeople } from "../state/use-people"
 import {
   loadPeople,
@@ -27,6 +28,7 @@ export function MemberDetail({
     ? returnTo
     : "/configuracion/personas"
   const { state, ready } = usePeople()
+  const { operations } = useDemoOperations()
   const [review, setReview] = useState(false)
   const [target, setTarget] = useState("")
   const [status, setStatus] = useState<"Suspendido" | "Baja de acceso">(
@@ -206,6 +208,28 @@ export function MemberDetail({
             </li>
           ))}
           {!teams.length && <li>Sin equipos asignados.</li>}
+        </ul>
+      </section>
+      <section className="space-y-3">
+        <h2 className="font-semibold">
+          Operaciones con responsabilidad explícita
+        </h2>
+        <ul className="space-y-2 text-sm">
+          {operations
+            .filter((operation) => operation.responsibleId === id)
+            .map((operation) => (
+              <li key={operation.id}>
+                <Link
+                  href={`/operaciones/${operation.id}?returnTo=${encodeURIComponent(`/configuracion/personas/${id}?returnTo=${encodeURIComponent(back)}`)}`}
+                  className="inline-flex min-h-11 items-center text-primary underline"
+                >
+                  {operation.reference} · {operation.client}
+                </Link>
+              </li>
+            ))}
+          {!operations.some((operation) => operation.responsibleId === id) && (
+            <li>Sin asignaciones individuales registradas.</li>
+          )}
         </ul>
       </section>
       <section className="space-y-3">

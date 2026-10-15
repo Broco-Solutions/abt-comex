@@ -1,3 +1,5 @@
+"use client"
+
 import { formatRecordedDate } from "@workspace/ui/lib/date"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
@@ -6,11 +8,14 @@ import { PageHeader } from "@/components/navigation/page-header"
 import { Badge } from "@workspace/ui/components/badge"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
-import { demonstrationOperations } from "@/features/operations/data/operations"
+import { useDemoOperations } from "@/features/operations/state/use-demo-operations"
+import { OperationHandoff } from "@/features/operations/components/operation-handoff"
 import { getDemonstrationOperationProgress } from "@/features/operations/data/operation-progress"
 
 function safeReturnTo(value: string) {
-  return /^\/(administracion|operaciones|mi-trabajo)(\?.*)?$/.test(value)
+  return /^\/(administracion|operaciones|mi-trabajo)(?:\/[^?#]*)?(\?[^#]*)?$/.test(
+    value
+  )
     ? value
     : "/administracion"
 }
@@ -22,10 +27,10 @@ export function AdministrationDetail({
   operationId: string
   returnTo: string
 }) {
-  const operation = demonstrationOperations.find(
-    (item) => item.id === operationId
-  )
+  const { operations, ready } = useDemoOperations()
+  const operation = operations.find((item) => item.id === operationId)
   const returnTo = safeReturnTo(rawReturnTo)
+  if (!ready) return <p role="status">Preparando contexto administrativo…</p>
 
   if (!operation) {
     return (
@@ -142,6 +147,7 @@ export function AdministrationDetail({
         </dl>
       </section>
 
+      <OperationHandoff operationId={operationId} administrative />
       <section className="grid gap-6 lg:grid-cols-2">
         <div className="space-y-2">
           <h2 className="font-semibold">Documentación y referencias</h2>

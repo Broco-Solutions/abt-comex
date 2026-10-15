@@ -200,6 +200,36 @@ export function OrganizationDetail({
         </section>
       )}
       <AdministrativeRelationships partyId={organizationId} />
+      {organization.roles.some((entry) => entry.role === "operation-party") && (
+        <section className="space-y-3">
+          <h2 className="font-semibold">
+            Participaciones como contraparte operativa
+          </h2>
+          <ul className="divide-y divide-border">
+            {operations
+              .filter((operation) =>
+                operation.participantIds?.includes(organizationId)
+              )
+              .map((operation) => (
+                <li key={operation.id}>
+                  <Link
+                    className="inline-flex min-h-11 items-center text-sm text-primary underline"
+                    href={`/operaciones/${operation.id}?returnTo=${encodeURIComponent(`/proveedores/${organizationId}?returnTo=${encodeURIComponent(back)}`)}`}
+                  >
+                    {operation.reference} · {operation.client}
+                  </Link>
+                </li>
+              ))}
+          </ul>
+          {!operations.some((operation) =>
+            operation.participantIds?.includes(organizationId)
+          ) && (
+            <p className="text-sm text-muted-foreground">
+              Sin participaciones vinculadas.
+            </p>
+          )}
+        </section>
+      )}
       <section className="space-y-3">
         <h2 className="font-semibold">Actividad</h2>
         <ul className="divide-y divide-border">

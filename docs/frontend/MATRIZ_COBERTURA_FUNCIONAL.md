@@ -6,6 +6,12 @@
 
 ## Ampliaciones V3 aprobadas internamente
 
+V3-06 amplía ORG-001/OPE-003/IMP-006/EXP-006 mediante vínculos operativos y
+coordinación administrativa local compartida. No cambia la certeza de las reglas
+de carpeta completa, aceptación o facturación pendientes. Responsable por ID y
+asignación explícita; equipos de evaluación separados de nómina/acceso. Evidencia
+ejecutable en `operational-continuity.test.ts` y `v3-continuity.spec.ts`.
+
 Ampliación del 15/10/2026: USR-001/USR-002 incluyen nómina laboral real con
 autorización explícita para la evaluación pública. Relectura de la planilla
 organizativa: 16 filas nominales, sin buzones ni cuentas sin referente. IDs y

@@ -159,6 +159,7 @@ export function OperationCreation({
       modality,
       situation: "Pre-embarque",
       updatedOn: "2026-10-14",
+      openedOn: "2026-10-14",
       alert: "Sin alerta",
       nextAction: "Revisar datos de apertura del escenario",
       initialContext: [

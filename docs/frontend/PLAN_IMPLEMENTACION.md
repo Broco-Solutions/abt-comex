@@ -957,6 +957,23 @@ Evidencia local inicial V3-05: lint/typecheck/build, 121 unitarias web, 37 axe y
 
 ### Avance del Shell — PR #32; V3-06/V3-07 siguen en ejecución
 
+PR #37 integrado en `25aca2a34f3ca1479d12083d0eba74615e4fb5f3`, CI quality,
+e2e-smoke y Vercel verdes. Buscador: 110/110 Chromium, 38 axe y 131 unitarias
+locales (incluyen cuatro pruebas preparatorias USD aún no integradas). La rama
+de continuidad preservada se actualizó desde main sin tocar el directorio
+histórico. V3-06 incorpora contrapartes por operación, responsable explícito por
+ID y envío/recepción para revisión/devolución con historial; sus gates finales
+se registran al cerrar el PR. USD y Dirección permanecen pendientes.
+
+V3-06 en [PR #38](https://github.com/Broco-Solutions/abt-comex/pull/38): 112/112
+Chromium, cuatro referencias visuales sin cambios y 38 axe pasan localmente.
+Se inspeccionaron capturas operativas reales en 390/768/1024/1440. Una prueba
+adicional contrasta apertura sintética contra gastos/movimientos/comprobantes
+relacionados: OP-DEM-3107 abre el 10/08, antes de su compra de agosto y pago de
+septiembre, sin modificar esos registros. Lint/tipos/build y documental/diff
+verificados; CI debe aprobar el último head antes del squash. Sin aprobación
+humana ni integración externa acreditadas.
+
 PR visual #36 integrado con CI verde en `b7872df`; regresión Chromium completa
 105/105 y 37 axe. Sidebar vertical, superficies, scroll integrado y conteos
 administrativos compactos ya forman parte de main. PR B se ejecuta en

@@ -1,5 +1,13 @@
 # ABT Comex — Estrategia de Pruebas de Frontend
 
+Continuidad V3-06: `operational-continuity.test.ts` verifica roles activos,
+deduplicación, reenvío/devolución, conservación de dimensiones y filtros por ID.
+`v3-continuity.spec.ts` recorre asignación explícita → ficha de persona/listado,
+contraparte → participaciones → operación, envío → bandeja → devolución →
+recepción para revisión y aislamiento documental del Portal. La regresión previa
+de Importación/Exportación/DJVE/documentos conserva control de dos identidades,
+autonomía del trámite, permisos múltiples y separación de originales/copias.
+
 > Documento vivo · Última actualización: 14/10/2026
 
 ## 1. Objetivo

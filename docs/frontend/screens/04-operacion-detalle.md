@@ -22,6 +22,18 @@ Dar una ficha común desde la que la persona reconoce la operación, su cliente,
 
 ## Información, acciones y navegación
 
+V3-06 comparte responsable individual, contrapartes y coordinación administrativa
+con Importación/Exportación. La nómina relevada se selecciona explícitamente por
+ID: conocer un área no asigna operaciones, tareas ni acceso. Sin selección se
+muestra pendiente; los equipos históricos quedan como referencias del escenario.
+Se vinculan sólo roles operativos activos; una organización multirrol conserva
+su identidad y sus relaciones al desvincularla. La ficha de contraparte muestra
+participaciones y permite volver al contexto exacto. El envío administrativo
+exige próxima acción/observación y conserva historial; recibir para revisión no
+factura, cobra, cumple ni cierra la operación. El Portal no incorpora estos
+campos internos. El evento sintético `openedOn` identifica la apertura para el
+posterior análisis; no se sustituye por última actualización.
+
 - La cabecera identifica referencia ficticia, cliente, tipo, situación de referencia, equipo responsable, modalidad y fecha del escenario.
 - Si el registro se abrió durante la sesión local, muestra su contexto inicial y si nació de alta directa o de una versión de Cotización aceptada; el vínculo conserva el ID y versión de origen.
 - “Próximo paso” reproduce la orientación sintética existente; no crea una tarea ni afirma una acción cumplida.

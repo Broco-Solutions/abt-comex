@@ -4,6 +4,8 @@ import { formatRecordedDate } from "@workspace/ui/lib/date"
 
 import Link from "next/link"
 import { DocumentsPanel } from "@/features/documents/components/documents-panel"
+import { OperationHandoff } from "@/features/operations/components/operation-handoff"
+import { OperationRelationships } from "@/features/operations/components/operation-relationships"
 import { useScenario } from "@/features/demo/state/scenario-provider"
 import { hasCapability } from "@/features/demo/data/capabilities"
 import { useState } from "react"
@@ -497,6 +499,11 @@ export function ExportationWorkspace({
         </section>
       </div>
 
+      <OperationRelationships operationId={operation.id} />
+      <OperationHandoff
+        operationId={operation.id}
+        origin={`/operaciones/${operation.id}/exportacion?returnTo=${encodeURIComponent(returnTo)}`}
+      />
       <DocumentsPanel operationId={operation.id} />
       <section
         aria-labelledby="custody-title"

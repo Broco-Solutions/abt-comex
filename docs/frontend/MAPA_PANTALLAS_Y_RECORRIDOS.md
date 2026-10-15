@@ -6,6 +6,13 @@
 
 ## Cómo usar este mapa
 
+Continuidad V3-06: OPS-03 ↔ IMP-01/EXP-01 comparte persona responsable explícita
+y contrapartes → SUP-02 muestra participaciones → retorno al contexto anterior.
+OPS-03/IMP-01/EXP-01 → ADM-02 permite enviar para revisión, recibir/devolver y
+reenviar con historial; ADM-01 refleja la próxima acción sin inferir facturación.
+USR-02 consulta las operaciones asignadas por ID. No hay ruta nueva, obligación
+generada por un rol ni exposición de estos campos internos en POR-01/POR-02.
+
 Refinamiento V3 de navegación: **Operación diaria** reúne Inicio, Mi trabajo y
 Operaciones (Importaciones/Exportaciones); **Registros**, Clientes
 (Cotizaciones) y Proveedores; **Gestión**, Administración y Finanzas y Dirección.

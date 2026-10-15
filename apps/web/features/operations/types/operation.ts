@@ -14,9 +14,23 @@ export type DemonstrationOperation = {
   clientId: string
   client: string
   responsible: string
+  /** Legacy synthetic team context, projected separately from an individual. */
+  responsibleReference?: string
   modality: "Marítima" | "Aérea" | "Terrestre"
   situation: OperationSituation
   updatedOn: string
+  /** Explicit synthetic opening event; never inferred from last update. */
+  openedOn?: string
+  responsibleId?: string
+  participantIds?: string[]
+  handoff?: {
+    status:
+      | "En revisión administrativa"
+      | "Recibida para revisión"
+      | "Devuelta con observaciones"
+    note: string
+    history: { status: string; note: string; on: string; context: string }[]
+  }
   alert: "Bloqueo" | "Vencimiento" | "Sin alerta"
   nextAction: string
   initialContext?: string
