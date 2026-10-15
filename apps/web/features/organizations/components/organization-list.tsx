@@ -141,6 +141,7 @@ export function OrganizationList({
         title={title}
         primaryAction={
           <OrganizationEditor
+            primary
             role={role}
             onSaved={(item) => {
               setLastSaved(item.id)
@@ -178,92 +179,94 @@ export function OrganizationList({
           Contrapartes de operaciones
         </Link>
       </nav>
-      <div className="flex flex-wrap items-end gap-3 rounded-lg border border-border bg-card p-3">
-        <label className="grid min-w-0 flex-1 gap-1 text-xs font-medium">
-          Buscar organización
-          <Input
-            type="search"
-            value={query}
-            onChange={(event) => change(event.target.value, state, true)}
-          />
-        </label>
-        <label className="grid gap-1 text-xs font-medium">
-          Estado
-          <select
-            value={state}
-            onChange={(event) => change(query, event.target.value)}
-            className="h-9 rounded-md border border-input bg-background px-2 text-sm"
-          >
-            <option value="active">Activos</option>
-            <option value="inactive">Inactivos</option>
-            <option value="all">Todos</option>
-          </select>
-        </label>
-      </div>
-      {role === "operation-party" && (
-        <p className="text-sm text-muted-foreground">
-          Participantes de operaciones de clientes. Su inclusión no genera
-          obligaciones de pago de ABT.
-        </p>
-      )}
-      <p role="status" className="text-sm">
-        {feedback || `${list.length} organizaciones`}
-      </p>
-      {lastSaved && (
-        <Link
-          className="inline-flex min-h-9 items-center text-sm font-medium text-primary underline"
-          href={`/proveedores/${lastSaved}?returnTo=${encodeURIComponent(path)}`}
-        >
-          Abrir organización guardada
-        </Link>
-      )}
-      {!list.length ? (
-        <p className="py-5 text-sm">
-          No hay coincidencias. Revisá búsqueda y estado.
-        </p>
-      ) : (
-        <>
-          <DataTableFrame className="hidden md:block">
-            <DataTable
-              caption={title}
-              columns={columns}
-              data={list}
-              getRowId={(item) => item.id}
+      <div className="workspace-surface space-y-4 p-4 sm:p-5">
+        <div className="flex flex-wrap items-end gap-3">
+          <label className="grid min-w-0 flex-1 gap-1 text-xs font-medium">
+            Buscar organización
+            <Input
+              type="search"
+              value={query}
+              onChange={(event) => change(event.target.value, state, true)}
             />
-          </DataTableFrame>
-          <ul aria-label={title} className="divide-y divide-border md:hidden">
-            {list.map((item) => (
-              <li
-                key={item.id}
-                className="flex items-center justify-between gap-3 py-3"
-              >
-                <div>
-                  <p className="font-medium">{item.name}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {item.country || "País sin informar"} ·{" "}
-                    {item.roles.find((entry) => entry.role === role)?.active
-                      ? "Activo"
-                      : "Inactivo"}
-                  </p>
-                </div>
-                <Link
-                  className="inline-flex min-h-10 shrink-0 items-center text-sm font-medium text-primary"
-                  href={href(item)}
+          </label>
+          <label className="grid gap-1 text-xs font-medium">
+            Estado
+            <select
+              value={state}
+              onChange={(event) => change(query, event.target.value)}
+              className="h-9 rounded-md border border-input bg-background px-2 text-sm"
+            >
+              <option value="active">Activos</option>
+              <option value="inactive">Inactivos</option>
+              <option value="all">Todos</option>
+            </select>
+          </label>
+        </div>
+        {role === "operation-party" && (
+          <p className="text-sm text-muted-foreground">
+            Participantes de operaciones de clientes. Su inclusión no genera
+            obligaciones de pago de ABT.
+          </p>
+        )}
+        <p role="status" className="text-sm">
+          {feedback || `${list.length} organizaciones`}
+        </p>
+        {lastSaved && (
+          <Link
+            className="inline-flex min-h-9 items-center text-sm font-medium text-primary underline"
+            href={`/proveedores/${lastSaved}?returnTo=${encodeURIComponent(path)}`}
+          >
+            Abrir organización guardada
+          </Link>
+        )}
+        {!list.length ? (
+          <p className="py-5 text-sm">
+            No hay coincidencias. Revisá búsqueda y estado.
+          </p>
+        ) : (
+          <>
+            <DataTableFrame className="hidden md:block">
+              <DataTable
+                caption={title}
+                columns={columns}
+                data={list}
+                getRowId={(item) => item.id}
+              />
+            </DataTableFrame>
+            <ul aria-label={title} className="divide-y divide-border md:hidden">
+              {list.map((item) => (
+                <li
+                  key={item.id}
+                  className="flex items-center justify-between gap-3 py-3"
                 >
-                  Abrir ficha
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-      <details className="text-xs text-muted-foreground">
-        <summary className="min-h-9 cursor-pointer py-2">
-          Fuente del maestro
-        </summary>
-        Preparación local de {roleLabels[role].toLocaleLowerCase("es-AR")}.
-        Identificadores y autoridad por campo a validar con ABT/Alpha2000.
-      </details>
+                  <div>
+                    <p className="font-medium">{item.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {item.country || "País sin informar"} ·{" "}
+                      {item.roles.find((entry) => entry.role === role)?.active
+                        ? "Activo"
+                        : "Inactivo"}
+                    </p>
+                  </div>
+                  <Link
+                    className="inline-flex min-h-10 shrink-0 items-center text-sm font-medium text-primary"
+                    href={href(item)}
+                  >
+                    Abrir ficha
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+        <details className="text-xs text-muted-foreground">
+          <summary className="min-h-9 cursor-pointer py-2">
+            Fuente del maestro
+          </summary>
+          Preparación local de {roleLabels[role].toLocaleLowerCase("es-AR")}.
+          Identificadores y autoridad por campo a validar con ABT/Alpha2000.
+        </details>
+      </div>
     </div>
   )
 }

@@ -6,6 +6,7 @@ import Link from "next/link"
 import { ArrowLeft, ArrowRight, CircleAlert, ChevronDown } from "lucide-react"
 
 import { PageHeader } from "@/components/navigation/page-header"
+import { isApplicationReturn } from "@/components/navigation/return-context"
 import { Badge } from "@workspace/ui/components/badge"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
@@ -30,6 +31,7 @@ function first(value: string | string[] | undefined) {
 }
 
 function safeReturnTo(value: string) {
+  if (isApplicationReturn(value)) return value
   if (
     /^\/(?:mi-trabajo|cotizaciones|operaciones\/op-demo-\d{4})(\?[^#]*)?(#.*)?$/.test(
       value
@@ -56,7 +58,15 @@ export function QuoteDetail({
     ? "Volver a la operación"
     : returnTo.startsWith("/mi-trabajo")
       ? "Volver a Mi trabajo"
-      : "Volver a Cotizaciones"
+      : returnTo.startsWith("/clientes/")
+        ? "Volver al cliente"
+        : returnTo.startsWith("/clientes")
+          ? "Volver a Clientes"
+          : returnTo.startsWith("/gestion")
+            ? "Volver a Dirección"
+            : returnTo.startsWith("/cotizaciones")
+              ? "Volver a Cotizaciones"
+              : "Volver al contexto anterior"
 
   if (error === "sin-permiso") {
     return (

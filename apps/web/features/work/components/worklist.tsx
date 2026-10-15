@@ -79,7 +79,7 @@ export function Worklist({
     <div className="space-y-6">
       <PageHeader title="Mi trabajo" />
 
-      <section aria-label="Alcance de la bandeja" className="max-w-6xl">
+      <section aria-label="Alcance de la bandeja">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-3">
           <p className="text-sm text-muted-foreground">
             {readError || noAccess ? (
@@ -121,179 +121,183 @@ export function Worklist({
           })}
         </div>
 
-        <form
-          key={JSON.stringify(filters)}
-          action="/mi-trabajo"
-          method="get"
-          className="grid gap-3 border-y border-border py-3 sm:grid-cols-[minmax(12rem,1fr)_12rem_auto] sm:items-end"
-        >
-          {filters.view !== "all" ? (
-            <input type="hidden" name="vista" value={filters.view} />
-          ) : null}
-          {selectedId ? (
-            <input type="hidden" name="trabajo" value={selectedId} />
-          ) : null}
-          <div className="min-w-0">
-            <label
-              htmlFor="work-search"
-              className="mb-1 block text-xs font-medium"
-            >
-              Buscar en título, origen o referencia
-            </label>
-            <Input
-              id="work-search"
-              name="q"
-              type="search"
-              defaultValue={filters.query}
-              placeholder="Ej.: post-embarque"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="work-kind"
-              className="mb-1 block text-xs font-medium"
-            >
-              Tipo
-            </label>
-            <select
-              id="work-kind"
-              name="tipo"
-              defaultValue={
-                kinds.find(([, kind]) => kind === filters.kind)?.[0] ?? ""
-              }
-              className="h-8 w-full rounded-md border border-input bg-background px-2.5 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-            >
-              {kinds.map(([key, , label]) => (
-                <option key={key || "all"} value={key}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button type="submit" size="sm">
-              Aplicar filtros
-            </Button>
-            {filterCount > 0 ? (
-              <Link
-                href="/mi-trabajo"
-                className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
-              >
-                Limpiar
-              </Link>
+        <div className="workspace-surface p-4 sm:p-5">
+          <form
+            key={JSON.stringify(filters)}
+            action="/mi-trabajo"
+            method="get"
+            className="grid gap-3 border-y border-border py-3 sm:grid-cols-[minmax(12rem,1fr)_12rem_auto] sm:items-end"
+          >
+            {filters.view !== "all" ? (
+              <input type="hidden" name="vista" value={filters.view} />
             ) : null}
-          </div>
-        </form>
-
-        {readError ? (
-          <section
-            role="alert"
-            aria-labelledby="work-read-error"
-            className="mt-4 max-w-2xl border-l-2 border-destructive bg-background px-5 py-5"
-          >
-            <h2 id="work-read-error" className="text-base font-semibold">
-              No pudimos cargar tus pendientes
-            </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Este es un estado de error recuperable de la demostración.
-              Conservamos la búsqueda, el tipo y la vista; no se muestra un
-              conteo que no pudimos confirmar.
-            </p>
-            <Link
-              href={queryHref(filters, filters.view)}
-              className={cn(
-                buttonVariants({ variant: "outline", size: "sm" }),
-                "mt-3"
-              )}
-            >
-              Reintentar lectura
-            </Link>
-          </section>
-        ) : null}
-
-        {noAccess ? (
-          <section
-            role="status"
-            aria-labelledby="work-no-access"
-            className="mt-4 max-w-2xl border-l-2 border-border bg-background px-5 py-5"
-          >
-            <h2 id="work-no-access" className="text-base font-semibold">
-              No hay información disponible en esta vista
-            </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Esta perspectiva no permite mostrar elementos ni confirmar si hay
-              otros pendientes. No se publican conteos ni referencias
-              restringidas.
-            </p>
-            <Link
-              href="/inicio"
-              className={cn(
-                buttonVariants({ variant: "outline", size: "sm" }),
-                "mt-3"
-              )}
-            >
-              Volver a Inicio
-            </Link>
-          </section>
-        ) : null}
-
-        {!readError && !noAccess && missingContext ? (
-          <div
-            role="status"
-            className="mt-4 border-l-2 border-warning bg-muted/40 px-4 py-3 text-sm"
-          >
-            <p className="font-medium">
-              No encontramos ese contexto dentro de los resultados actuales.
-            </p>
-            <p className="mt-1 text-muted-foreground">
-              Se conservaron tus filtros y no se mostraron datos restringidos.
-            </p>
-          </div>
-        ) : null}
-
-        {!readError && !noAccess ? (
-          items.length === 0 ? (
-            <section
-              aria-labelledby="work-empty-title"
-              className="max-w-2xl border-l-2 border-border px-5 py-6"
-            >
-              <h2 id="work-empty-title" className="text-base font-semibold">
-                {filterCount
-                  ? "No hay resultados con estos filtros"
-                  : "No hay trabajo pendiente en este escenario"}
-              </h2>
-              <p className="mt-1 text-sm text-muted-foreground">
-                La bandeja conserva el estado de búsqueda y tipo en la URL. No
-                se muestran elementos no autorizados.
-              </p>
-              {filterCount ? (
+            {selectedId ? (
+              <input type="hidden" name="trabajo" value={selectedId} />
+            ) : null}
+            <div className="min-w-0">
+              <label
+                htmlFor="work-search"
+                className="mb-1 block text-xs font-medium"
+              >
+                Buscar en título, origen o referencia
+              </label>
+              <Input
+                id="work-search"
+                name="q"
+                type="search"
+                defaultValue={filters.query}
+                placeholder="Ej.: post-embarque"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="work-kind"
+                className="mb-1 block text-xs font-medium"
+              >
+                Tipo
+              </label>
+              <select
+                id="work-kind"
+                name="tipo"
+                defaultValue={
+                  kinds.find(([, kind]) => kind === filters.kind)?.[0] ?? ""
+                }
+                className="h-8 w-full rounded-md border border-input bg-background px-2.5 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              >
+                {kinds.map(([key, , label]) => (
+                  <option key={key || "all"} value={key}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button type="submit" size="sm">
+                Aplicar filtros
+              </Button>
+              {filterCount > 0 ? (
                 <Link
                   href="/mi-trabajo"
                   className={cn(
-                    buttonVariants({ variant: "outline", size: "sm" }),
-                    "mt-3"
+                    buttonVariants({ variant: "ghost", size: "sm" })
                   )}
                 >
-                  Limpiar filtros
+                  Limpiar
                 </Link>
               ) : null}
-            </section>
-          ) : (
-            <ul
-              className="divide-y divide-border"
-              aria-label="Pendientes visibles"
+            </div>
+          </form>
+
+          {readError ? (
+            <section
+              role="alert"
+              aria-labelledby="work-read-error"
+              className="mt-4 max-w-2xl border-l-2 border-destructive bg-background px-5 py-5"
             >
-              {items.map((item) => (
-                <WorkRow
-                  key={item.id}
-                  item={item}
-                  selected={item.id === selectedId}
-                  filters={filters}
-                />
-              ))}
-            </ul>
-          )
-        ) : null}
+              <h2 id="work-read-error" className="text-base font-semibold">
+                No pudimos cargar tus pendientes
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Este es un estado de error recuperable de la demostración.
+                Conservamos la búsqueda, el tipo y la vista; no se muestra un
+                conteo que no pudimos confirmar.
+              </p>
+              <Link
+                href={queryHref(filters, filters.view)}
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "sm" }),
+                  "mt-3"
+                )}
+              >
+                Reintentar lectura
+              </Link>
+            </section>
+          ) : null}
+
+          {noAccess ? (
+            <section
+              role="status"
+              aria-labelledby="work-no-access"
+              className="mt-4 max-w-2xl border-l-2 border-border bg-background px-5 py-5"
+            >
+              <h2 id="work-no-access" className="text-base font-semibold">
+                No hay información disponible en esta vista
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Esta perspectiva no permite mostrar elementos ni confirmar si
+                hay otros pendientes. No se publican conteos ni referencias
+                restringidas.
+              </p>
+              <Link
+                href="/inicio"
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "sm" }),
+                  "mt-3"
+                )}
+              >
+                Volver a Inicio
+              </Link>
+            </section>
+          ) : null}
+
+          {!readError && !noAccess && missingContext ? (
+            <div
+              role="status"
+              className="mt-4 border-l-2 border-warning bg-muted/40 px-4 py-3 text-sm"
+            >
+              <p className="font-medium">
+                No encontramos ese contexto dentro de los resultados actuales.
+              </p>
+              <p className="mt-1 text-muted-foreground">
+                Se conservaron tus filtros y no se mostraron datos restringidos.
+              </p>
+            </div>
+          ) : null}
+
+          {!readError && !noAccess ? (
+            items.length === 0 ? (
+              <section
+                aria-labelledby="work-empty-title"
+                className="max-w-2xl border-l-2 border-border px-5 py-6"
+              >
+                <h2 id="work-empty-title" className="text-base font-semibold">
+                  {filterCount
+                    ? "No hay resultados con estos filtros"
+                    : "No hay trabajo pendiente en este escenario"}
+                </h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  La bandeja conserva el estado de búsqueda y tipo en la URL. No
+                  se muestran elementos no autorizados.
+                </p>
+                {filterCount ? (
+                  <Link
+                    href="/mi-trabajo"
+                    className={cn(
+                      buttonVariants({ variant: "outline", size: "sm" }),
+                      "mt-3"
+                    )}
+                  >
+                    Limpiar filtros
+                  </Link>
+                ) : null}
+              </section>
+            ) : (
+              <ul
+                className="divide-y divide-border"
+                aria-label="Pendientes visibles"
+              >
+                {items.map((item) => (
+                  <WorkRow
+                    key={item.id}
+                    item={item}
+                    selected={item.id === selectedId}
+                    filters={filters}
+                  />
+                ))}
+              </ul>
+            )
+          ) : null}
+        </div>
       </section>
     </div>
   )

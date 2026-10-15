@@ -440,6 +440,15 @@ No colocar totales económicos genéricos en el listado principal de Operaciones
 - exportación controlada;
 - indicadores con acceso a registros subyacentes.
 
+Concreción frontend V3 por decisión interna: el buscador global navega a
+operaciones, cotizaciones, clientes, proveedores ABT y pantallas existentes del
+escenario, sin ejecutar acciones ni indexar importes sensibles. Se reutiliza el
+estado compartido y se restringe antes de sugerir o contar; no se incorpora al
+Portal. Atajos, teclado, vacío y retornos definidos en la
+[especificación Shell](../frontend/screens/01-foundation-application-shell.md).
+Sin backend de búsqueda ni validación formal ABT; sincronización posterior del
+alcance en Drive no realizada por este cambio local.
+
 ### 7.6 API y contratos
 
 **Incluido**

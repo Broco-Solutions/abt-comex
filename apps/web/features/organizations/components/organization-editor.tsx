@@ -31,10 +31,12 @@ export function OrganizationEditor({
   organization,
   role = "client",
   onSaved,
+  primary = false,
 }: {
   organization?: Organization
   role?: OrganizationRole
   onSaved?: (organization: Organization) => void
+  primary?: boolean
 }) {
   const { scenario } = useScenario()
   const formId = useId()
@@ -69,7 +71,8 @@ export function OrganizationEditor({
   const [error, setError] = useState("")
   const [duplicates, setDuplicates] = useState<Organization[]>([])
   const [distinct, setDistinct] = useState(false)
-  if (scenario.id === "client" || !hasCapability(scenario,"catalogs.manage")) return null
+  if (scenario.id === "client" || !hasCapability(scenario, "catalogs.manage"))
+    return null
   function finish(record: Organization, records: Organization[]) {
     saveOrganizations(
       records.some((item) => item.id === record.id)
@@ -117,7 +120,13 @@ export function OrganizationEditor({
       }}
     >
       <DialogTrigger
-        render={<Button type="button" variant="outline" size="sm" />}
+        render={
+          <Button
+            type="button"
+            variant={primary ? "default" : "outline"}
+            size="sm"
+          />
+        }
       >
         {organization
           ? "Editar organización"

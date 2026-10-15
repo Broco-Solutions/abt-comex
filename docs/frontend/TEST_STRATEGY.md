@@ -4,11 +4,26 @@
 
 ## 1. Objetivo
 
+Buscador global: `v3-global-search.spec.ts` cubre apertura clic/Ctrl/Meta+K, foco,
+grupos, operación/cotización/cliente/pantalla, cero resultados, flechas/Enter,
+Escape/exterior/Tab, retorno al formulario, capacidades negativas, cambio de
+escenario, aislamiento Portal y altas reales del escenario compartido. Reflow
+320–1440. Proyección y validación de retorno tienen unitarias; diálogo abierto y
+sin resultados se revisan con axe y contraste efectivo en navegador. Meta+K se
+comprueba como evento en Chromium Linux, sin atribuir prueba nativa macOS.
+
 Regresión del refinamiento de navegación V3 en `e2e/specs/v3-sidebar.spec.ts`:
 grupos independientes y persistentes, padre/hijos, selección sin flechas,
 contador reactivo al doble control, perfil consultivo con retorno de foco,
 cambio de escenario y drawer en altura reducida. Complementa la suite del Shell,
 axe, snapshots inspeccionados y revisión efectiva desktop/rail/tablet/móvil.
+
+El scroll se verifica también en 1280×480: ruta activa revelada, rueda, foco de
+teclado y pie alcanzable. El contrato WebKit usa 5 px y track transparente;
+Firefox conserva el fallback estándar `thin`/`scrollbar-color`. No confundir
+inspección Chromium con una ejecución Firefox/WebKit cuando el host no permite
+iniciarlos. El refinamiento de superficies recorre las 13 vistas solicitadas en
+390/768/1024/1280/1440 y revisa capturas reales antes de actualizar snapshots.
 
 Asegurar que el frontend de ABT Comex sea confiable, consistente, accesible y navegable antes de incorporar backend real.
 

@@ -4,6 +4,7 @@ import Link from "next/link"
 import { AdministrativeRelationships } from "@/features/administration/components/administrative-relationships"
 import { isAdministrativeContext } from "@/features/administration/data/navigation"
 import { PageHeader } from "@/components/navigation/page-header"
+import { isApplicationReturn } from "@/components/navigation/return-context"
 import { Button } from "@workspace/ui/components/button"
 import { formatDate } from "@workspace/ui/lib/date"
 import { useOrganizations } from "../state/use-organizations"
@@ -126,11 +127,12 @@ export function OrganizationDetail({
   const { organizations, ready } = useOrganizations()
   const { operations } = useDemoOperations()
   const organization = organizations.find((item) => item.id === organizationId)
-  const back = isAdministrativeContext(returnTo)
-    ? returnTo
-    : /^\/(?:proveedores|clientes)(?:\?[^#]*)?$/.test(returnTo)
+  const back =
+    isApplicationReturn(returnTo) || isAdministrativeContext(returnTo)
       ? returnTo
-      : "/proveedores"
+      : /^\/(?:proveedores|clientes)(?:\?[^#]*)?$/.test(returnTo)
+        ? returnTo
+        : "/proveedores"
   if (!ready) return <p role="status">Cargando organización…</p>
   if (!organization)
     return (
@@ -147,7 +149,8 @@ export function OrganizationDetail({
         href={back}
         className="inline-flex min-h-9 items-center text-sm font-medium text-primary"
       >
-        {isAdministrativeContext(back)
+        {isAdministrativeContext(back) ||
+        !/^\/(?:proveedores|clientes)(?:\?|$)/.test(back)
           ? "Volver al contexto anterior"
           : "Volver al listado"}
       </Link>

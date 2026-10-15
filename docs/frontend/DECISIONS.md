@@ -1,5 +1,18 @@
 # Frontend Decisions
 
+## 2026-10-15 — Buscador global como navegación del estado compartido
+
+Decisión interna explícita del encargo: incorporar búsqueda funcional al header
+en un PR separado del contrato visual. Sin backend ni ejecución de acciones.
+Al abrir consulta los mismos registros de Operaciones, Cotizaciones y
+Organizaciones; resultados y pantallas se restringen por capacidades antes de
+filtrar o contar. No indexa importes, condiciones privadas o nómina laboral.
+No hay historial: vacío muestra accesos directos, evitando falsos recientes y
+traspaso de registros entre escenarios. El Portal conserva aislamiento y no
+monta este componente. Contrato de teclado, responsive y límites en el
+[estándar](FRONTEND_STANDARD.md#buscador-global-de-navegación-v3). Under review;
+no aprobación funcional formal ABT ni seguridad productiva.
+
 ## 2026-10-15 — Administración organizada por trabajo
 
 Decisión interna aprobada: Bandeja administrativa, Gastos y rendiciones,
@@ -31,9 +44,11 @@ operaciones.
 
 ## 2026-10-15 — V3: profundidad visual del Application Shell
 
-El refinamiento posterior usa una superficie ABT verde profunda (`#103e29` a
-`#0a2e1e`), iluminación superior discreta, acento `#1c6040`, bordes translúcidos
-y estados activos/foco basados en contraste.
+La última precisión interna del encargo reemplaza el tratamiento previo:
+degradado vertical `#0F4429` a `#155C38`, sin iluminación radial, con selección
+blanca al 12% y hover al 6%. No hay indicador lateral decorativo; estado
+comunicado por fondo, peso y semántica. El lienzo interno usa `#F5F7F6` y radial
+verde al 4% extremadamente sutil; el header es blanco sin transparencia.
 El wordmark/isotipo oficial ABT se presenta en blanco mediante el asset
 institucional existente; Broco continúa como atribución secundaria en el pie.
 La misma variante se inspecciona en sidebar expandido, rail compacto y drawer.
@@ -47,6 +62,13 @@ Mi perfil consulta la identidad propia cuando fue elegida explícitamente; los
 escenarios muestran su condición de evaluación. No habilita edición laboral ni
 infiere capacidades. El contador deriva del trabajo visible y las asignaciones
 explícitas. Broco usa assets negativos oficiales ya disponibles en el workspace.
+
+Se retira el envoltorio blanco universal del Shell. Títulos/acciones/navegación
+quedan en el lienzo y se reutiliza una clase de superficie para consultas,
+tablas o gráficos según el contexto, sin rehacer DataTable ni forzar fichas y
+formularios a un ancho único. Conteos administrativos como metadatos compactos,
+sin avisos repetidos junto a su cantidad. El buscador global se implementa en
+un PR separado para verificar navegación y capacidades con este contrato visual.
 
 ## 2026-10-15 — V3-05: preparación, aplicaciones y saldo al corte
 

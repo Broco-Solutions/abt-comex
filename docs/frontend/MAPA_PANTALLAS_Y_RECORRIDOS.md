@@ -14,6 +14,13 @@ abre en diálogo, conserva ruta/filtros y no agrega una pantalla. Los grupos
 desplegables tienen apertura independiente durante la sesión. Todas las rutas y
 recorridos existentes se conservan y se filtran por capacidades.
 
+SHELL-01 incorpora `Buscar o ir a…`, sin nueva ruta: clic o Ctrl/Cmd+K → consulta
+de registros/pantallas autorizados → enlace a ficha con origen → retorno con
+filtros. Operaciones, Cotizaciones, Clientes, Proveedores ABT y Pantallas usan
+los estados compartidos. Sin consulta: accesos directos autorizados, sin
+historial. El Portal queda fuera. [Contrato](screens/01-foundation-application-shell.md)
+y [pruebas](../../apps/web/e2e/specs/v3-global-search.spec.ts).
+
 Este documento organiza experiencias, objetos y recorridos. No constituye una aprobación de rutas nuevas ni una orden de implementar pantallas. Las rutas marcadas como **aprobadas** son las conocidas del Application Shell de Etapa 1. Las rutas marcadas como **propuestas** sirven para discutir una arquitectura navegable y requieren definir su comportamiento antes de prototiparse. La [primera pasada integral](PLAN_IMPLEMENTACION.md#primera-pasada-integral-del-frontend) admite rutas propuestas reversibles con fixtures, sin cambiar las aprobadas del Shell; su uso operativo real exige validación funcional, permisos efectivos y contratos.
 
 `/design-system` queda fuera del Application Shell y sigue siendo una referencia interna del sistema de diseño.

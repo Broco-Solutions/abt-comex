@@ -957,6 +957,29 @@ Evidencia local inicial V3-05: lint/typecheck/build, 121 unitarias web, 37 axe y
 
 ### Avance del Shell — PR #32; V3-06/V3-07 siguen en ejecución
 
+PR visual #36 integrado con CI verde en `b7872df`; regresión Chromium completa
+105/105 y 37 axe. Sidebar vertical, superficies, scroll integrado y conteos
+administrativos compactos ya forman parte de main. PR B se ejecuta en
+`feat/v3-global-search` desde esa base: búsqueda navegable compartida, atajos,
+capacidades y retornos; gates se registran al concluir. Continuidad preservada
+en su rama, USD/Dirección pendientes de integración y regresión conjunta.
+
+PR #35 integrado con CI verde en `292585e`: grupos independientes persistentes,
+perfil inferior único, contador reactivo y variantes negativas oficiales. La
+precisión visual posterior se trabaja en `feat/v3-shell-surfaces`, con base en
+ese main, y el buscador global tendrá su propio PR. El trabajo comenzado de
+continuidad se preserva en `feat/v3-06-continuidad-operativa` (`3879876`, local),
+sin mezclarlo con el Shell. No se repite V3-01 a V3-05 ni se acredita el cierre
+de los incrementos pendientes por estas mejoras.
+
+PR visual A: lienzo, superficies según tarea, controles/tablas, sidebar vertical
+y scroll transparente. Primera inspección de 13 pantallas × 5 anchos sin errores
+de página ni overflow global; se corrigieron contenedores anidados antes de
+actualizar referencias. Unitarias web, 37 axe, build y validador documental
+pasaron localmente; la regresión/CI final se registra al concluir. Los timeouts
+locales previos de DS y dos axe bajo ejecuciones simultáneas pasaron aislados;
+CI de PR #35 confirmó ambas suites verdes sin cambiar aserciones ni timeouts.
+
 Continuidad posterior: PR #32 integrado en `1223cd7`, nómina relevada PR #33 en
 `781a897` y cuatro áreas administrativas PR #34 en `ed470eb`, con CI verde en
 sus últimos heads. El refinamiento adicional del sidebar se realiza separado

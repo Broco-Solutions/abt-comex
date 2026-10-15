@@ -458,14 +458,36 @@ Suprimir descripciones obvias y avisos reiterados en todas las superficies. Iden
 Formularios en diálogo: el popup compartido limita altura al viewport dinámico menos el padding existente (2rem), con scroll interno. Título y acciones deben ser alcanzables en móvil/zoom, sin recorte superior. Comprobar con contenido extenso y teclado; no asumirlo por ausencia de overflow global.
 
 - Listados: búsqueda y filtro frecuente visibles; secundarios plegados, filtros activos removibles y una confirmación para rangos compuestos. No repetir el tipo fijado por una vista.
-- Conteos como metadatos compactos en la línea de resultados o junto al título de sección, sin una superficie/banda propia. Aclaraciones sobre ejecución de fondos pertenecen al formulario o detalle de la acción, no al conteo repetido del listado.
 - Actualizaciones locales de filtros/agrupación conservan foco y scroll mediante History API integrada con Next; URL conserva la consulta y Atrás/Adelante restaura el estado. Enlaces de detalle capturan origen/posición; retorno local restaura foco en el registro y posición, sin depender de back ambiguo.
 - Fecha de período siempre identifica evento: Actualización no equivale a arribo/oficialización/vencimiento.
 - Selector buscable compartido para catálogos potencialmente extensos: etiqueta persistente, consulta tolerante a acentos, opciones identificables, flechas/Inicio/Fin/Enter/Escape/Tab, selección conservada sin coincidencias. No crear registros ni ampliar capacidades desde el componente.
-- Sidebar institucional usa verde profundo con degradado discreto, texto jerarquizado, activo con indicador y foco claro. Marca ABT y atribución Broco usan variantes negativas oficiales, sin filtros CSS. Superficie de trabajo card sobre lienzo muted. DS y producto comparten tokens.
+- Sidebar institucional usa degradado vertical `#0F4429` → `#155C38`, sin radial, textura ni sombra. Selección mediante fondo blanco al 12%, texto/peso y `aria-current`; sin borde lateral, punto o flecha decorativa. Hover blanco al 6%, foco con contorno visible. Marca ABT y Broco negativos oficiales, sobre verde continuo hasta abajo, sin filtros CSS ni bloque neutro. DS y producto comparten tokens.
 - Los padres con hijos conservan un enlace de navegación y un botón separado con chevron y `aria-expanded` para desplegar. Clientes abre `/clientes`; Cotizaciones es subopción directa; Proveedores es independiente. En rail, foco/hover abre los destinos secundarios; en móvil se usa drawer completo.
 
-### Personas y capacidades V3
+### Buscador global de navegación V3
+
+`Buscar o ir a…` es un botón de apertura en el header, campo compacto hasta
+440 px desktop y acción de 44 px móvil. Ctrl/Cmd+K abre la misma experiencia,
+incluso desde un formulario por activación explícita. El diálogo recibe foco en
+el combobox: flechas recorren resultados agrupados, Enter navega, Escape/clic
+exterior cierran y Tab conserva el foco dentro del diálogo. Al cerrar vuelve al
+disparador o al campo de origen. Respeta reducción de movimiento.
+
+Agrupa Operaciones, Cotizaciones, Clientes, Proveedores ABT y Pantallas. Proyecta
+estado compartido al abrir, sin dataset paralelo, red, motor externo ni importes
+económicos en los resultados. Capacidades y tipo operativo filtran antes de
+consultar, agrupar o contar. Portal y acceso sin escenario no montan el buscador.
+Vacío: accesos directos autorizados, nunca recientes inventados. No se guarda
+historial. Normaliza acentos y términos; sin coincidencias informa y Enter no
+actúa. Máximo 40 filas visibles con indicación si se requiere precisar.
+
+Los resultados son enlaces a pantallas/fichas existentes y nunca acciones de
+negocio. Fichas conservan origen mediante `returnTo` validado dentro de familias
+de rutas internas. Consulta local no recarga ni desplaza el documento. El menú
+de cuenta sigue siendo único en el sidebar; el header no agrega notificaciones
+ni acciones comerciales globales. Referencia ejecutable en `/design-system`.
+
+### Navegación y superficies del Shell
 
 Tres grupos informativos, no botones: Operación diaria (Inicio, Mi trabajo,
 Operaciones), Registros (Clientes/Cotizaciones, Proveedores) y Gestión
@@ -476,11 +498,40 @@ la sesión de pestaña; navegar o contraer el rail no la reinicia. Chevron sólo
 para desplegables; un enlace seleccionado nunca agrega flecha derecha. Control
 de modo compacto junto al branding con tooltip/nombre accesible y foco.
 
+Scroll de navegación: track transparente y thumb blanco translúcido 22%/38%
+hover, redondeado; 5 px en motores WebKit compatibles y `thin`/`scrollbar-color`
+en Firefox. Se respetan barras superpuestas nativas y colores forzados. El scroll
+aparece sólo por desborde real; no ocultarlo permanentemente. Al cambiar ruta se
+revela el enlace activo (o su padre si está cerrado) ajustando sólo el scroll de
+la navegación, sin desplazar el documento. Pie accesible, tipografía conservada.
+
 Mi trabajo muestra un contador derivado de su población visible compartida;
 para un integrante seleccionado, sólo sus asignaciones explícitas. Cero oculta
 la insignia. El menú inferior unifica perfil consultivo, cambio de escenario,
 ayuda, inducción, reinicio temporal y salida. No duplicarlo en header ni
 presentar un escenario como identidad autenticada.
+
+Contrato visual incremental del Shell: lienzo interno `#F5F7F6` con radial
+800×400 arriba a la izquierda, verde al 4% como máximo aplicado. Header blanco,
+borde `#E6EAE8`, sin transparencia ni sombra. Contenedor de página hasta 1400 px
+con padding 16/24/32/40 según viewport, sin envoltorio blanco universal. Título,
+acciones y navegación contextual quedan en el lienzo; cada pantalla elige las
+superficies de trabajo necesarias, sin imponer una plantilla única.
+
+`workspace-surface`: blanco, borde `#E8ECEA`, radio 10 px y elevación de 1 px al
+4%. Listados agrupan filtros/resultados en una superficie; Dirección mantiene
+gráficos separados. Formularios/fichas conservan sus límites propios. Tablas en
+el Shell usan cabecera transparente, texto 13 px/500, separadores ligeros y
+hover discreto. DataTable conserva sus funciones. Controles de consulta en esas
+superficies: mínimo 36 px desktop y 44 px móvil; acciones de encabezado siguen
+el mismo criterio. No se aplica al Portal, acceso, diálogos ni popovers. Fuente,
+iconos y colores semánticos permanecen. Botón principal contextual `#14532D`.
+
+Conteos compactos junto al título o en línea de resultados, sin una banda propia.
+Las aclaraciones sobre ejecución real de fondos pertenecen a formularios o
+detalles de acción, no a la cantidad de registros.
+
+### Personas y capacidades V3
 
 Acceso convencional visual en /acceso; escenarios ficticios en entrada secundaria /acceso/escenarios, sin presentar elección de rol como seguridad. Contraseña mostrar/ocultar con nombre accesible y estado pulsado, sin almacenamiento; recuperación informa ausencia de envío/cambio efectivo. El menú de usuario conserva inducción. Las capacidades son diferentes de área/cargo y de preferencias de columnas; filtrar poblaciones antes de conteos, gráficos y drill-down. Comportamiento particular y reinicio: [Personas](screens/v3-personas-acceso.md).
 

@@ -161,237 +161,241 @@ export function ExpensesPage() {
         primaryAction={<ExpenseEditor onSaved={setSaved} />}
       />
       <AdministrationNav />
-      {saved && (
-        <p role="status" className="text-sm">
-          Gasto guardado.{" "}
-          <Link
-            className="text-primary underline"
-            href={
-              "/administracion/gastos/" +
-              saved +
-              "?returnTo=" +
-              encodeURIComponent(current)
-            }
-          >
-            Abrir gasto
-          </Link>
-        </p>
-      )}
-      <div className="flex flex-wrap items-end gap-3">
-        <label className="w-full min-w-0 text-xs font-medium sm:w-auto sm:flex-1">
-          Buscar gasto
-          <Input
-            className="mt-1"
-            value={query}
-            onChange={(event) => change("q", event.target.value)}
-            placeholder="Referencia, concepto o proveedor"
-          />
-        </label>
-        <label className="text-xs font-medium">
-          Categoría
-          <select
-            aria-label="Filtrar categoría"
-            className="mt-1 block h-10 max-w-full rounded-md border border-input bg-background px-3 text-sm"
-            value={category}
-            onChange={(event) => change("categoria", event.target.value)}
-          >
-            <option value="">Todas</option>
-            {state.categories
-              .filter(
-                (item) => item.scope === "Gasto" || item.scope === "Compartida"
-              )
-              .map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.name}
-                  {item.active ? "" : " · Inactiva"}
-                </option>
-              ))}
-          </select>
-        </label>
-        <Link
-          href="/configuracion/categorias"
-          className="inline-flex min-h-10 items-center text-sm font-medium text-primary underline"
-        >
-          Categorías
-        </Link>
-      </div>
-      <details className="rounded-md border border-border px-3 py-2">
-        <summary className="cursor-pointer text-sm font-medium">
-          Más filtros
-          {from || to || party || pending || currency ? " · activos" : ""}
-        </summary>
-        <div className="mt-3 flex flex-wrap items-end gap-3">
-          <SearchableCombobox
-            label="Proveedor ABT"
-            value={party}
-            onChange={(value) => change("contraparte", value)}
-            options={[
-              { value: "", label: "Todos los proveedores" },
-              ...organizations
-                .filter((item) =>
-                  item.roles.some((role) => role.role === "abt-supplier")
-                )
-                .map((item) => ({ value: item.id, label: item.name })),
-            ]}
-          />
-          <label className="text-xs font-medium">
-            Moneda
-            <select
-              aria-label="Moneda de gastos"
-              className="mt-1 block h-10 rounded-md border border-input bg-background px-3 text-sm"
-              value={currency}
-              onChange={(event) => change("moneda", event.target.value)}
+      <div className="workspace-surface space-y-4 p-4 sm:p-5">
+        {saved && (
+          <p role="status" className="text-sm">
+            Gasto guardado.{" "}
+            <Link
+              className="text-primary underline"
+              href={
+                "/administracion/gastos/" +
+                saved +
+                "?returnTo=" +
+                encodeURIComponent(current)
+              }
             >
-              <option value="">Todas · sin conversión</option>
-              <option>ARS</option>
-              <option>USD</option>
+              Abrir gasto
+            </Link>
+          </p>
+        )}
+        <div className="flex flex-wrap items-end gap-3">
+          <label className="w-full min-w-0 text-xs font-medium sm:w-auto sm:flex-1">
+            Buscar gasto
+            <Input
+              className="mt-1"
+              value={query}
+              onChange={(event) => change("q", event.target.value)}
+              placeholder="Referencia, concepto o proveedor"
+            />
+          </label>
+          <label className="text-xs font-medium">
+            Categoría
+            <select
+              aria-label="Filtrar categoría"
+              className="mt-1 block h-10 max-w-full rounded-md border border-input bg-background px-3 text-sm"
+              value={category}
+              onChange={(event) => change("categoria", event.target.value)}
+            >
+              <option value="">Todas</option>
+              {state.categories
+                .filter(
+                  (item) =>
+                    item.scope === "Gasto" || item.scope === "Compartida"
+                )
+                .map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                    {item.active ? "" : " · Inactiva"}
+                  </option>
+                ))}
             </select>
           </label>
-          <label className="text-xs font-medium">
-            Registro desde
-            <Input
-              type="date"
-              value={from}
-              onChange={(event) => change("desde", event.target.value)}
-              className="mt-1 w-auto"
-            />
-          </label>
-          <label className="text-xs font-medium">
-            Registro hasta
-            <Input
-              type="date"
-              value={to}
-              onChange={(event) => change("hasta", event.target.value)}
-              className="mt-1 w-auto"
-            />
-          </label>
-          <label className="flex min-h-10 items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={pending}
-              onChange={(event) =>
-                change("evidencia", event.target.checked ? "pendiente" : "")
-              }
-            />
-            Evidencia pendiente
-          </label>
-        </div>
-      </details>
-      {params.size > 0 && (
-        <div className="flex flex-wrap gap-3 text-xs">
-          {party && (
-            <button
-              className="text-primary underline"
-              onClick={() => change("contraparte", "")}
-            >
-              Quitar proveedor:{" "}
-              {organizations.find((item) => item.id === party)?.name ??
-                "Referencia"}
-            </button>
-          )}
           <Link
-            href="/administracion/gastos"
-            scroll={false}
-            className="text-primary underline"
+            href="/configuracion/categorias"
+            className="inline-flex min-h-10 items-center text-sm font-medium text-primary underline"
           >
-            Limpiar filtros
+            Categorías
           </Link>
         </div>
-      )}
-      {invalid ? (
-        <p role="alert" className="text-sm text-destructive">
-          Revisá las fechas de registro; el rango no es válido. No se confirma
-          un total.
-        </p>
-      ) : !ready ? (
-        <p role="status">Preparando gastos…</p>
-      ) : (
-        <>
-          <p role="status" className="text-sm text-muted-foreground">
-            {rows.length} gastos · importes sin conversión de moneda
-          </p>
-          {rows.length ? (
-            <>
-              <div className="hidden xl:block">
-                <DataTableFrame>
-                  <DataTable
-                    columns={columns}
-                    data={visibleRows}
-                    getRowId={(item) => item.id}
-                    caption="Gastos registrados localmente, no pagos"
-                  />
-                </DataTableFrame>
-              </div>
-              <ul
-                aria-label="Gastos registrados"
-                className="divide-y divide-border xl:hidden"
+        <details className="rounded-md border border-border px-3 py-2">
+          <summary className="cursor-pointer text-sm font-medium">
+            Más filtros
+            {from || to || party || pending || currency ? " · activos" : ""}
+          </summary>
+          <div className="mt-3 flex flex-wrap items-end gap-3">
+            <SearchableCombobox
+              label="Proveedor ABT"
+              value={party}
+              onChange={(value) => change("contraparte", value)}
+              options={[
+                { value: "", label: "Todos los proveedores" },
+                ...organizations
+                  .filter((item) =>
+                    item.roles.some((role) => role.role === "abt-supplier")
+                  )
+                  .map((item) => ({ value: item.id, label: item.name })),
+              ]}
+            />
+            <label className="text-xs font-medium">
+              Moneda
+              <select
+                aria-label="Moneda de gastos"
+                className="mt-1 block h-10 rounded-md border border-input bg-background px-3 text-sm"
+                value={currency}
+                onChange={(event) => change("moneda", event.target.value)}
               >
-                {visibleRows.map((item) => (
-                  <li key={item.id} className="grid gap-2 py-4 text-sm">
-                    <div className="flex items-start justify-between gap-3">
-                      <Link
-                        href={href(item)}
-                        className="font-medium text-primary underline"
-                      >
-                        {item.reference}
-                      </Link>
-                      <span className="shrink-0 font-mono">
-                        {money(item.amount, item.currency)}
-                      </span>
-                    </div>
-                    <p>{item.description}</p>
-                    <p className="text-muted-foreground">
-                      {organizations.find((org) => org.id === item.partyId)
-                        ?.name ?? "Sin proveedor identificado"}{" "}
-                      · {formatDate(item.date)}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {item.evidence.trim()
-                        ? "Referencia de evidencia preparada"
-                        : "Evidencia pendiente"}{" "}
-                      ·{" "}
-                      {item.operationIds.length
-                        ? item.operationIds.length + " operaciones relacionadas"
-                        : "Gasto general"}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : (
-            <p className="py-6 text-sm">
-              Sin gastos para estos filtros. Limpiá la búsqueda o prepará un
-              registro.
+                <option value="">Todas · sin conversión</option>
+                <option>ARS</option>
+                <option>USD</option>
+              </select>
+            </label>
+            <label className="text-xs font-medium">
+              Registro desde
+              <Input
+                type="date"
+                value={from}
+                onChange={(event) => change("desde", event.target.value)}
+                className="mt-1 w-auto"
+              />
+            </label>
+            <label className="text-xs font-medium">
+              Registro hasta
+              <Input
+                type="date"
+                value={to}
+                onChange={(event) => change("hasta", event.target.value)}
+                className="mt-1 w-auto"
+              />
+            </label>
+            <label className="flex min-h-10 items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={pending}
+                onChange={(event) =>
+                  change("evidencia", event.target.checked ? "pendiente" : "")
+                }
+              />
+              Evidencia pendiente
+            </label>
+          </div>
+        </details>
+        {params.size > 0 && (
+          <div className="flex flex-wrap gap-3 text-xs">
+            {party && (
+              <button
+                className="text-primary underline"
+                onClick={() => change("contraparte", "")}
+              >
+                Quitar proveedor:{" "}
+                {organizations.find((item) => item.id === party)?.name ??
+                  "Referencia"}
+              </button>
+            )}
+            <Link
+              href="/administracion/gastos"
+              scroll={false}
+              className="text-primary underline"
+            >
+              Limpiar filtros
+            </Link>
+          </div>
+        )}
+        {invalid ? (
+          <p role="alert" className="text-sm text-destructive">
+            Revisá las fechas de registro; el rango no es válido. No se confirma
+            un total.
+          </p>
+        ) : !ready ? (
+          <p role="status">Preparando gastos…</p>
+        ) : (
+          <>
+            <p role="status" className="text-sm text-muted-foreground">
+              {rows.length} gastos · importes sin conversión de moneda
             </p>
-          )}
-        </>
-      )}
-      {!invalid && rows.length > 12 && (
-        <nav
-          aria-label="Paginación de gastos"
-          className="flex items-center justify-between gap-3 border-t border-border pt-3 text-sm"
-        >
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={page <= 1}
-            onClick={() => change("pagina", String(page - 1))}
+            {rows.length ? (
+              <>
+                <div className="hidden xl:block">
+                  <DataTableFrame>
+                    <DataTable
+                      columns={columns}
+                      data={visibleRows}
+                      getRowId={(item) => item.id}
+                      caption="Gastos registrados localmente, no pagos"
+                    />
+                  </DataTableFrame>
+                </div>
+                <ul
+                  aria-label="Gastos registrados"
+                  className="divide-y divide-border xl:hidden"
+                >
+                  {visibleRows.map((item) => (
+                    <li key={item.id} className="grid gap-2 py-4 text-sm">
+                      <div className="flex items-start justify-between gap-3">
+                        <Link
+                          href={href(item)}
+                          className="font-medium text-primary underline"
+                        >
+                          {item.reference}
+                        </Link>
+                        <span className="shrink-0 font-mono">
+                          {money(item.amount, item.currency)}
+                        </span>
+                      </div>
+                      <p>{item.description}</p>
+                      <p className="text-muted-foreground">
+                        {organizations.find((org) => org.id === item.partyId)
+                          ?.name ?? "Sin proveedor identificado"}{" "}
+                        · {formatDate(item.date)}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {item.evidence.trim()
+                          ? "Referencia de evidencia preparada"
+                          : "Evidencia pendiente"}{" "}
+                        ·{" "}
+                        {item.operationIds.length
+                          ? item.operationIds.length +
+                            " operaciones relacionadas"
+                          : "Gasto general"}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <p className="py-6 text-sm">
+                Sin gastos para estos filtros. Limpiá la búsqueda o prepará un
+                registro.
+              </p>
+            )}
+          </>
+        )}
+        {!invalid && rows.length > 12 && (
+          <nav
+            aria-label="Paginación de gastos"
+            className="flex items-center justify-between gap-3 border-t border-border pt-3 text-sm"
           >
-            Anterior
-          </Button>
-          <span>
-            Página {page} de {pages}
-          </span>
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={page >= pages}
-            onClick={() => change("pagina", String(page + 1))}
-          >
-            Siguiente
-          </Button>
-        </nav>
-      )}
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={page <= 1}
+              onClick={() => change("pagina", String(page - 1))}
+            >
+              Anterior
+            </Button>
+            <span>
+              Página {page} de {pages}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={page >= pages}
+              onClick={() => change("pagina", String(page + 1))}
+            >
+              Siguiente
+            </Button>
+          </nav>
+        )}
+      </div>
     </div>
   )
 }

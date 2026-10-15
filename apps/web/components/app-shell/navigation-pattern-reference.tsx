@@ -6,11 +6,22 @@ import { AppShellStateProvider } from "./app-shell-state"
 import { AppSidebar } from "./app-sidebar"
 import { MobileNavigation } from "./mobile-navigation"
 import { OnboardingProvider } from "../onboarding/onboarding-provider"
+import { GlobalSearch } from "@/features/search/components/global-search"
 
 export function NavigationPatternReference() {
   return (
     <AppShellStateProvider>
       <OnboardingProvider>
+        <div className="mb-6 max-w-xl rounded-lg border border-border bg-background p-4">
+          <h3 className="mb-3 text-sm font-semibold">Buscar o ir a…</h3>
+          <Suspense>
+            <GlobalSearch />
+          </Suspense>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Navegación por registros y pantallas del escenario activo.
+            Ctrl/Cmd+K, flechas, Enter y Escape.
+          </p>
+        </div>
         <Suspense
           fallback={
             <p className="text-sm text-muted-foreground">

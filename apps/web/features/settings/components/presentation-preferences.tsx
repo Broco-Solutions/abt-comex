@@ -45,7 +45,7 @@ export function PresentationPreferences() {
         </nav>
       )}
       <section
-        className="space-y-4 border-y border-border py-4"
+        className="workspace-surface space-y-4 p-4 sm:p-5"
         aria-labelledby="presentation-preferences"
       >
         <h2 id="presentation-preferences" className="text-base font-semibold">

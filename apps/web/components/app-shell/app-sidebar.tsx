@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useRef } from "react"
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react"
 import { usePathname, useSearchParams } from "next/navigation"
 
@@ -81,6 +82,25 @@ export function AppSidebar({
       ? resolveActiveNavigation(pathname, searchParams)
       : activeIdOverride
   const toggleLabel = compact ? "Expandir navegación" : "Contraer navegación"
+  const navigationRef = useRef<HTMLElement>(null)
+  useEffect(() => {
+    const navigation = navigationRef.current
+    const destination = navigation?.querySelector<HTMLElement>(
+      '[aria-current="page"]'
+    )
+    const selected = destination?.getClientRects().length
+      ? destination
+      : navigation?.querySelector<HTMLElement>(
+          '[data-navigation-state="section-active"]'
+        )
+    if (!navigation || !selected) return
+    const viewport = navigation.getBoundingClientRect()
+    const row = selected.getBoundingClientRect()
+    if (row.top < viewport.top)
+      navigation.scrollTop += row.top - viewport.top - 8
+    else if (row.bottom > viewport.bottom)
+      navigation.scrollTop += row.bottom - viewport.bottom + 8
+  }, [activeId, mode])
 
   const modeControl = (
     <Button
@@ -125,9 +145,10 @@ export function AppSidebar({
           ) : null}
         </div>
         <nav
+          ref={navigationRef}
           aria-label="Navegación principal"
           className={cn(
-            "min-h-0 flex-1 overflow-y-auto overscroll-contain py-3 [scrollbar-width:thin]",
+            "sidebar-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain py-3",
             compact ? "px-2" : "px-3"
           )}
         >
@@ -174,7 +195,7 @@ export function AppSidebar({
         </nav>
         <div
           className={cn(
-            "shrink-0 border-t border-sidebar-border bg-black/10 px-3 pt-2 pb-3",
+            "shrink-0 border-t border-sidebar-border px-3 pt-2 pb-3",
             compact && "px-2"
           )}
         >

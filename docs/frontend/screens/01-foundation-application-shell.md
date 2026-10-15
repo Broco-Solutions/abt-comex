@@ -9,6 +9,22 @@
 
 ## 1. Objetivo
 
+El header agrega búsqueda global mediante clic o Ctrl/Cmd+K, con combobox,
+resultados agrupados y enlaces semánticos a registros/pantallas existentes.
+Foco, flechas, Enter, Escape, cierre exterior y retorno al disparador forman
+parte del corte. Poblaciones autorizadas antes de conteos; no importes ni
+acciones de negocio. Accesos directos cuando está vacío y sin historial local.
+Se hidratan los mismos estados compartidos al abrir, por lo que las altas
+demostrativas quedan disponibles sin un dataset de búsqueda separado. La ruta
+de origen se conserva al abrir fichas; Portal y acceso sin escenario quedan
+fuera. [Contrato transversal](../FRONTEND_STANDARD.md#buscador-global-de-navegación-v3).
+
+Precisión visual posterior: lienzo interno y contenedores según el
+[contrato visual del estándar](../FRONTEND_STANDARD.md#continuidad-y-composición-v3).
+El Shell no agrega una tarjeta blanca universal. Header blanco, sidebar verde
+vertical continuo, activos sin borde lateral ni flecha. Las superficies de
+trabajo se eligen según el contexto de cada módulo, sin cambios funcionales.
+
 La base fundacional fue Approved; el refinamiento V3 requiere nueva revisión.
 Agrupa Operación diaria, Registros y Gestión, con Configuración,
 perfil consultivo y atribución al pie. Clientes contiene Cotizaciones conservando
