@@ -57,7 +57,7 @@ describe("demonstration work items", () => {
       (entry) => entry.id === "wrk-doc-review-03"
     )
 
-    expect(item?.source).toContain("fixture local")
+    expect(item?.source).toBe("ABT Comex · registro local")
     expect(item?.sourceUpdatedAt).toBeUndefined()
   })
 })
