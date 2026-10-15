@@ -94,12 +94,12 @@ export function AdministrationDetail({
           <Badge variant="outline">{operation.kind}</Badge>
           <Badge variant="secondary">{progress.billing}</Badge>
           <span className="text-sm text-muted-foreground">
-            Fixture local · fuente ABT Comex demostrativa
+            ABT Comex · registro local
           </span>
         </div>
         <dl className="grid gap-x-8 gap-y-3 sm:grid-cols-2 xl:grid-cols-4">
           <div>
-            <dt className="text-xs text-muted-foreground">Cliente sintético</dt>
+            <dt className="text-xs text-muted-foreground">Cliente</dt>
             <dd className="mt-1 font-medium">{operation.client}</dd>
           </div>
           <div>
@@ -110,7 +110,7 @@ export function AdministrationDetail({
           </div>
           <div>
             <dt className="text-xs text-muted-foreground">
-              Última referencia del fixture
+              Actualización del registro
             </dt>
             <dd className="mt-1 font-medium">
               {formatRecordedDate(operation.updatedOn)}

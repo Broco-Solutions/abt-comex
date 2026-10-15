@@ -12,7 +12,7 @@ for (const width of [320, 430, 768, 1024, 1280, 1440]) {
     })
     for (const [path, name] of [
       ["/operaciones?tipo=importacion", "OP-DEM-2048"],
-      ["/clientes", "Cliente Demo Norte"],
+      ["/clientes", "Abrir Cliente Demo Norte"],
       ["/cotizaciones", "COT-DEM-001"],
       ["/administracion", "Abrir OP-DEM-3107"],
     ] as const) {

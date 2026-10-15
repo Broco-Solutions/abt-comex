@@ -109,7 +109,7 @@ export function ClientDetail({
           </div>
           <div>
             <dt className="text-xs text-muted-foreground">
-              Última actualización simulada
+              Actualización del registro
             </dt>
             <dd className="mt-1 font-medium">
               <time dateTime={client.updatedOn}>
@@ -118,8 +118,8 @@ export function ClientDetail({
             </dd>
           </div>
           <div>
-            <dt className="text-xs text-muted-foreground">Conexión</dt>
-            <dd className="mt-1 font-medium">No conectada · fixture local</dd>
+            <dt className="text-xs text-muted-foreground">Fuente</dt>
+            <dd className="mt-1 font-medium">ABT Comex · registro local</dd>
           </div>
         </dl>
       </section>
