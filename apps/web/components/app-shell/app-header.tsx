@@ -1,7 +1,6 @@
 import { Suspense } from "react"
 
 import { Breadcrumbs } from "../navigation/breadcrumbs"
-import { UserMenu } from "./user-menu"
 import { MobileNavigation } from "./mobile-navigation"
 
 export function AppHeader() {
@@ -25,7 +24,6 @@ export function AppHeader() {
             <span className="hidden md:inline">Entorno de evaluación</span>
             <span className="md:hidden">Evaluación</span>
           </span>
-          <UserMenu />
         </Suspense>
       </div>
     </header>

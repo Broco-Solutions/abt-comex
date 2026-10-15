@@ -461,10 +461,25 @@ Formularios en diálogo: el popup compartido limita altura al viewport dinámico
 - Actualizaciones locales de filtros/agrupación conservan foco y scroll mediante History API integrada con Next; URL conserva la consulta y Atrás/Adelante restaura el estado. Enlaces de detalle capturan origen/posición; retorno local restaura foco en el registro y posición, sin depender de back ambiguo.
 - Fecha de período siempre identifica evento: Actualización no equivale a arribo/oficialización/vencimiento.
 - Selector buscable compartido para catálogos potencialmente extensos: etiqueta persistente, consulta tolerante a acentos, opciones identificables, flechas/Inicio/Fin/Enter/Escape/Tab, selección conservada sin coincidencias. No crear registros ni ampliar capacidades desde el componente.
-- Sidebar institucional usa tokens verdes profundos con degradado discreto, texto jerarquizado, activo con indicador y foco claro. Marca ABT blanca oficial, sin filtros CSS; atribución Broco sobre pie neutro de la navegación. Superficie de trabajo card sobre lienzo muted. DS y producto comparten tokens.
+- Sidebar institucional usa verde profundo con degradado discreto, texto jerarquizado, activo con indicador y foco claro. Marca ABT y atribución Broco usan variantes negativas oficiales, sin filtros CSS. Superficie de trabajo card sobre lienzo muted. DS y producto comparten tokens.
 - Los padres con hijos conservan un enlace de navegación y un botón separado con chevron y `aria-expanded` para desplegar. Clientes abre `/clientes`; Cotizaciones es subopción directa; Proveedores es independiente. En rail, foco/hover abre los destinos secundarios; en móvil se usa drawer completo.
 
 ### Personas y capacidades V3
+
+Tres grupos informativos, no botones: Operación diaria (Inicio, Mi trabajo,
+Operaciones), Registros (Clientes/Cotizaciones, Proveedores) y Gestión
+(Administración y Finanzas, Dirección). Ocultar grupos vacíos por capacidades.
+Configuración y cuenta al pie; una sola zona central desplazable sin superponer
+el pie. Apertura de Operaciones y Clientes independiente y persistida durante
+la sesión de pestaña; navegar o contraer el rail no la reinicia. Chevron sólo
+para desplegables; un enlace seleccionado nunca agrega flecha derecha. Control
+de modo compacto junto al branding con tooltip/nombre accesible y foco.
+
+Mi trabajo muestra un contador derivado de su población visible compartida;
+para un integrante seleccionado, sólo sus asignaciones explícitas. Cero oculta
+la insignia. El menú inferior unifica perfil consultivo, cambio de escenario,
+ayuda, inducción, reinicio temporal y salida. No duplicarlo en header ni
+presentar un escenario como identidad autenticada.
 
 Acceso convencional visual en /acceso; escenarios ficticios en entrada secundaria /acceso/escenarios, sin presentar elección de rol como seguridad. Contraseña mostrar/ocultar con nombre accesible y estado pulsado, sin almacenamiento; recuperación informa ausencia de envío/cambio efectivo. El menú de usuario conserva inducción. Las capacidades son diferentes de área/cargo y de preferencias de columnas; filtrar poblaciones antes de conteos, gráficos y drill-down. Comportamiento particular y reinicio: [Personas](screens/v3-personas-acceso.md).
 

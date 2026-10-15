@@ -15,7 +15,6 @@ describe("appNavigation", () => {
     ])
     expect(appNavigation[1]).toMatchObject({
       href: "/mi-trabajo",
-      separatorAfter: true,
     })
     expect(appNavigation[0]?.children).toBeUndefined()
     expect(appNavigation[1]?.children).toBeUndefined()

@@ -108,12 +108,12 @@
 
   --radius: 0.5rem;
 
-  --sidebar: #075b3d;
-  --sidebar-end: #064b36;
+  --sidebar: #103e29;
+  --sidebar-end: #0a2e1e;
   --sidebar-foreground: #f2fbf6;
   --sidebar-primary: #b5f0ce;
   --sidebar-primary-foreground: #063b29;
-  --sidebar-accent: #0b7650;
+  --sidebar-accent: #1c6040;
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: rgb(255 255 255 / 16%);
   --sidebar-ring: #d1fae5;
@@ -162,19 +162,19 @@
   --chart-4: #7dd3fc;
   --chart-5: #9ca3af;
 
-  --sidebar: #075b3d;
-  --sidebar-end: #064b36;
+  --sidebar: #103e29;
+  --sidebar-end: #0a2e1e;
   --sidebar-foreground: #f3f4f6;
   --sidebar-primary: #b5f0ce;
-  --sidebar-primary-foreground: #f7fffa;
-  --sidebar-accent: #0b7650;
+  --sidebar-primary-foreground: #063b29;
+  --sidebar-accent: #1c6040;
   --sidebar-accent-foreground: #f3f4f6;
   --sidebar-border: rgb(255 255 255 / 10%);
   --sidebar-ring: #d1fae5;
 }
 
 .app-sidebar-surface {
-  background: linear-gradient(165deg, var(--sidebar), var(--sidebar-end));
+  background: radial-gradient(ellipse at top left, rgb(69 135 85 / 14%), transparent 65%), linear-gradient(170deg, var(--sidebar), var(--sidebar-end));
 }
 
 @layer base {

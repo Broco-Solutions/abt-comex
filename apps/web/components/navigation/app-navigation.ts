@@ -18,6 +18,7 @@ export type NavigationItem = {
   icon?: LucideIcon
   children?: NavigationItem[]
   separatorAfter?: boolean
+  pendingCount?: number
 }
 
 export type BreadcrumbItem = {
@@ -40,7 +41,6 @@ export const appNavigation: NavigationItem[] = [
     href: "/mi-trabajo",
     description: "Trabajo accionable y asignaciones.",
     icon: BriefcaseBusiness,
-    separatorAfter: true,
   },
   {
     id: "operaciones",

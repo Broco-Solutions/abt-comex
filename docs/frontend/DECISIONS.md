@@ -31,11 +31,22 @@ operaciones.
 
 ## 2026-10-15 — V3: profundidad visual del Application Shell
 
-El sidebar usa una superficie ABT verde profunda (`#075b3d`) con acento medio
-(`#0b7650`), bordes translúcidos y estados activos/foco basados en contraste.
+El refinamiento posterior usa una superficie ABT verde profunda (`#103e29` a
+`#0a2e1e`), iluminación superior discreta, acento `#1c6040`, bordes translúcidos
+y estados activos/foco basados en contraste.
 El wordmark/isotipo oficial ABT se presenta en blanco mediante el asset
 institucional existente; Broco continúa como atribución secundaria en el pie.
 La misma variante se inspecciona en sidebar expandido, rail compacto y drawer.
+
+Decisión interna del encargo: agrupar Operación diaria, Registros y Gestión;
+mantener Configuración/cuenta al pie y unificar allí el menú antes presente en
+header. Padres navegables con chevron separado, apertura independiente en
+sessionStorage y rail con destinos secundarios accesibles por foco. El botón
+de modo queda junto al branding. No hay flechas decorativas en seleccionados.
+Mi perfil consulta la identidad propia cuando fue elegida explícitamente; los
+escenarios muestran su condición de evaluación. No habilita edición laboral ni
+infiere capacidades. El contador deriva del trabajo visible y las asignaciones
+explícitas. Broco usa assets negativos oficiales ya disponibles en el workspace.
 
 ## 2026-10-15 — V3-05: preparación, aplicaciones y saldo al corte
 

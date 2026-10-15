@@ -957,6 +957,13 @@ Evidencia local inicial V3-05: lint/typecheck/build, 121 unitarias web, 37 axe y
 
 ### Avance del Shell — PR #32; V3-06/V3-07 siguen en ejecución
 
+Continuidad posterior: PR #32 integrado en `1223cd7`, nómina relevada PR #33 en
+`781a897` y cuatro áreas administrativas PR #34 en `ed470eb`, con CI verde en
+sus últimos heads. El refinamiento adicional del sidebar se realiza separado
+de USD/Dirección: grupos, control superior, cuenta única inferior, contador
+compartido y negativos oficiales. V3-06/V3-07 continúan en ejecución; estos
+refinamientos no acreditan su cierre ni aprobación humana.
+
 La base `c115f89` contiene workspaces anteriores de Importación/Exportación,
 DJVE, documentos, Administración, Portal y Dirección. Su existencia y una
 regresión focalizada no acreditan el alcance completo de V3-06/V3-07.

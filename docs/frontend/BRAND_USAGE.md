@@ -37,7 +37,9 @@ assets/brand/
 ├── ABT_COMEX_isotype_green_transparent.png
 ├── ABT_COMEX_isotype_white_transparent.png
 ├── BROCO_SOLUTIONS_logo_gradient.svg
-└── BROCO_SOLUTIONS_isotype_gradient.svg
+├── BROCO_SOLUTIONS_isotype_gradient.svg
+├── BROCO_SOLUTIONS_logo_white.svg
+└── BROCO_SOLUTIONS_isotype_white.png
 ```
 
 Cuando una aplicación necesite servir un asset desde web, se copia explícitamente a:
@@ -110,14 +112,21 @@ BROCO_SOLUTIONS_isotype_gradient.svg
 El SVG `logo` contiene la marca completa y el SVG `isotype` contiene sólo el
 símbolo. Se sirven como SVG, sin rasterizar ni alterar sus colores.
 
-Sobre el pie neutro de la navegación institucional, el patrón es:
+Las variantes negativas oficiales se incorporan sin transformar desde los assets
+existentes `broco-app/public/Logo BS - Negativo.svg` e `Icono BS - Negativo.png`
+del workspace Broco. Logo SVG 1809.53 × 704.68, isotipo PNG 589 × 706; se
+conservan proporciones, colores y transparencia. No son una recreación ni un
+filtro aplicado a otra variante. Sobre el pie verde profundo, usar estos assets;
+las superficies claras y externas conservan los de gradiente.
+
+En la navegación institucional, el patrón es:
 
 - expandida y drawer: texto visible `Powered by` más logo completo;
 - rail compacto: sólo isotipo con tooltip y nombre accesible completos.
 
 No repetir `Broco Solutions` en texto visible junto al logo completo, porque el
 nombre ya forma parte del asset. La atribución no agrega una tarjeta propia:
-usa el pie neutro del sidebar/drawer. Se mantiene claramente
+usa el pie existente del sidebar/drawer. Se mantiene claramente
 menor que la marca ABT. No recolorear, deformar ni rasterizar los SVG.
 
 ## 6. Powered by Broco Solutions
