@@ -217,7 +217,7 @@ export function OrganizationList({
               getRowId={(item) => item.id}
             />
           </DataTableFrame>
-          <ul className="divide-y divide-border md:hidden">
+          <ul aria-label={title} className="divide-y divide-border md:hidden">
             {list.map((item) => (
               <li
                 key={item.id}

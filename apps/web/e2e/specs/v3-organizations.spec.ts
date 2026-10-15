@@ -69,7 +69,9 @@ test("@smoke V3 reuses roles without duplicating organizations and preserves ina
     page.getByRole("heading", { name: "Proveedores de ABT", exact: true })
   ).toBeVisible()
   await expect(
-    page.getByText("Vendedor Exterior de Ejemplo", { exact: true })
+    page
+      .getByRole("list", { name: "Contrapartes de operaciones" })
+      .getByText("Vendedor Exterior de Ejemplo", { exact: true })
   ).toHaveCount(0)
   await page
     .getByRole("button", { name: "Nuevo proveedor de ABT", exact: true })

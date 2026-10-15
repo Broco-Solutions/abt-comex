@@ -93,41 +93,6 @@ export function ClientDetail({
       <PageHeader title={client.name} />
       <OrganizationIdentity organization={client} />
 
-      <section
-        aria-labelledby="client-context-title"
-        className="max-w-5xl border-y border-border py-4"
-      >
-        <h2 id="client-context-title" className="text-base font-semibold">
-          Datos de referencia
-        </h2>
-        <dl className="mt-4 grid gap-x-8 gap-y-4 sm:grid-cols-2">
-          <div>
-            <dt className="text-xs text-muted-foreground">
-              Identificador del escenario
-            </dt>
-            <dd className="mt-1 font-medium">{client.id}</dd>
-          </div>
-          <div>
-            <dt className="text-xs text-muted-foreground">Procedencia</dt>
-            <dd className="mt-1 font-medium">Registro local</dd>
-          </div>
-          <div>
-            <dt className="text-xs text-muted-foreground">
-              Actualización del registro
-            </dt>
-            <dd className="mt-1 font-medium">
-              <time dateTime={client.updatedOn}>
-                {formatRecordedDate(client.updatedOn)}
-              </time>
-            </dd>
-          </div>
-          <div>
-            <dt className="text-xs text-muted-foreground">Fuente</dt>
-            <dd className="mt-1 font-medium">ABT Comex · registro local</dd>
-          </div>
-        </dl>
-      </section>
-
       <section aria-labelledby="client-contacts-title" className="max-w-5xl">
         <div className="border-b border-border pb-3">
           <h2 id="client-contacts-title" className="font-semibold">
