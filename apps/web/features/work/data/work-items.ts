@@ -12,6 +12,10 @@ import {
   getCurrentQuoteVersion,
 } from "@/features/quotes/data/quotes"
 import type { DemonstrationQuote } from "@/features/quotes/types/quote"
+import {
+  loadAdministrativeLedger,
+  renditionSummary,
+} from "@/features/administration/data/administrative-ledger"
 
 export const DEMO_DATE = DEMONSTRATION_DATE
 export const DEMO_PERSON = "Lucía Benítez"
@@ -173,7 +177,18 @@ export function projectWorkItems(
   scenarios: ImportationScenario[],
   quotes: DemonstrationQuote[] = initialDemoQuotes
 ) {
+  const administrative = loadAdministrativeLedger()
+  const rendition = administrative.renditions.find(
+    (item) => item.id === "rendition-demo-014"
+  )
   return visibleWorkItems()
+    .filter(
+      (item) =>
+        item.id !== "wrk-admin-no-operation-05" ||
+        !rendition ||
+        !rendition.expenseIds.length ||
+        renditionSummary(rendition, administrative).missing > 0
+    )
     .filter(
       (item) =>
         !item.relatedQuoteId ||

@@ -15,8 +15,8 @@ Fuente: solicitud explícita del responsable 15/10/2026, no aprobación formal A
 | USR-001 | Persona separada de usuario, equipo, función, fecha de ingreso solicitada y capacidades | V3-03 Under review; USR-01/USR-02/TEAM-01; J11 | Referentes y matriz ABT; sin datos personales reales |
 | USR-002 | Suspender acceso preservando historial y revisando/reasignando pendientes | V3-03 Under review; USR-02; J11 | Responsables y suplencias |
 | ACC-001 | Login convencional, contraseña visible/oculta y recuperación de UX; escenarios secundarios | V3-03 Under review; ACCESS-01; J11 | Política real diferida; no credenciales ni envíos |
-| CAT-001 | Categorías/conceptos activos e inactivos con significado histórico conservado | Pendiente V3-04 | Catálogo y mapeo externo |
-| MOV-001 | Gastos generales/operativos, movimientos, anticipos y rendiciones sintéticos sin doble registración | Pendiente V3-04 | Autoridad y circuito externo |
+| CAT-001 | Categorías/conceptos activos e inactivos con significado histórico conservado | V3-04 Under review; CAT-01; J12 | Catálogo y mapeo externo |
+| MOV-001 | Gastos generales/operativos, movimientos, anticipos y rendiciones sintéticos sin doble registración | V3-04 Under review; GAS-01/MOV-01/REN-01; J12 | Autoridad y circuito externo |
 | CAR-001 | Comprobantes/aplicaciones y carteras cobrar/pagar al corte incluyendo obligaciones previas abiertas | Pendiente V3-05 | Saldos, vencimientos y aplicaciones externas |
 | REP-019 | Comparaciones equivalentes, rankings precisos y acceso a registros desde Dirección | Pendiente V3-07 | Definición de métricas, sin fórmulas no validadas |
 

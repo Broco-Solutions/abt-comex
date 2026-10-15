@@ -105,7 +105,7 @@ export function BillingChart({
               />
               <Legend />
               <Bar
-            isAnimationActive={false}
+                isAnimationActive={false}
                 name="Facturación"
                 dataKey="invoice"
                 fill="var(--color-invoice)"
@@ -115,7 +115,7 @@ export function BillingChart({
                 }}
               />
               <Bar
-            isAnimationActive={false}
+                isAnimationActive={false}
                 name="Cobros registrados"
                 dataKey="receipt"
                 fill="var(--color-receipt)"
@@ -256,7 +256,7 @@ export function DistributionChart({
                 }
               />
               <Bar
-            isAnimationActive={false}
+                isAnimationActive={false}
                 dataKey="value"
                 name={title}
                 fill="var(--color-value)"

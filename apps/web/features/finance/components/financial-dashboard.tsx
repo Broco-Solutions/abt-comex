@@ -1,5 +1,7 @@
 "use client"
 import Link from "next/link"
+import { useAdministrativeLedger } from "@/features/administration/state/use-administrative-ledger"
+import { projectAdministrativeFinancialRecords } from "@/features/administration/data/administrative-ledger"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { cn } from "@workspace/ui/lib/utils"
@@ -33,6 +35,7 @@ export function FinancialDashboard({
     )
   )
   const { scenario } = useScenario()
+  const { state: ledger } = useAdministrativeLedger()
   const billing = hasCapability(scenario, "finance.billing")
   const collections = hasCapability(scenario, "finance.collections")
   const expenses =
@@ -94,9 +97,10 @@ export function FinancialDashboard({
     )
   const records = periodError
     ? []
-    : filterFinancialRecords(filters).filter((record) =>
-        allowedTypes.includes(record.type)
-      )
+    : filterFinancialRecords(
+        filters,
+        projectAdministrativeFinancialRecords(ledger)
+      ).filter((record) => allowedTypes.includes(record.type))
   const invoices = records.filter((r) => r.type === "invoice")
   const type = params.get("serie")
   const dimension = params.get("dimension")
@@ -109,7 +113,7 @@ export function FinancialDashboard({
         : dimension === "client"
           ? r.clientId === key
           : dimension === "category"
-            ? r.category === key
+            ? r.categoryId === key || r.category === key
             : dimension === "due"
               ? r.openBalance !== undefined &&
                 r.openBalance > 0 &&
@@ -117,6 +121,15 @@ export function FinancialDashboard({
               : dimension === "all")
   )
   const missing = invoices.filter((r) => r.openBalance === undefined).length
+  const selectionLabel =
+    dimension === "category"
+      ? (ledger.categories.find((item) => item.id === key)?.name ?? key)
+      : dimension === "client"
+        ? (demonstrationClients.find((item) => item.id === key)?.name ??
+          "Cliente no disponible")
+        : dimension === "all"
+          ? "Período seleccionado"
+          : key
   return (
     <div className="space-y-6">
       <form
@@ -316,8 +329,8 @@ export function FinancialDashboard({
                   : type === "receipt"
                     ? "Cobros registrados"
                     : "Gastos registrados"}{" "}
-                · {key ?? "Período seleccionado"} · {selected.length} registros
-                · {currency}
+                · {selectionLabel ?? "Período seleccionado"} · {selected.length}{" "}
+                registros · {currency}
               </p>
               {selected.length ? (
                 <FinancialRecords
@@ -348,7 +361,6 @@ function FinancialRecords({
   returnTo: string
 }) {
   const { organizations } = useOrganizations()
-  const demonstrationClients = projectClients(organizations)
   return (
     <ul
       className="divide-y divide-border"
@@ -360,9 +372,27 @@ function FinancialRecords({
           className="grid gap-2 py-3 text-sm sm:grid-cols-[minmax(0,1fr)_auto]"
         >
           <div>
-            <p className="font-medium">{record.reference}</p>
+            {record.type === "invoice" ? (
+              <p className="font-medium">{record.reference}</p>
+            ) : (
+              <Link
+                className="font-medium text-primary underline"
+                href={
+                  "/administracion/" +
+                  (record.type === "expense" ? "gastos" : "movimientos") +
+                  "/" +
+                  record.id +
+                  "?returnTo=" +
+                  encodeURIComponent(returnTo)
+                }
+              >
+                {record.reference}
+              </Link>
+            )}
             <p className="mt-1 text-muted-foreground">
-              {demonstrationClients.find((c) => c.id === record.clientId)?.name}{" "}
+              {organizations.find(
+                (c) => c.id === (record.partyId || record.clientId)
+              )?.name ?? "Sin contraparte identificada"}{" "}
               ·{" "}
               {record.type === "invoice"
                 ? "Factura"

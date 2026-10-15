@@ -1,6 +1,8 @@
 "use client"
 
 import Link from "next/link"
+import { AdministrativeRelationships } from "@/features/administration/components/administrative-relationships"
+import { isAdministrativeContext } from "@/features/administration/data/navigation"
 import { PageHeader } from "@/components/navigation/page-header"
 import { Button } from "@workspace/ui/components/button"
 import { formatDate } from "@workspace/ui/lib/date"
@@ -24,7 +26,7 @@ export function OrganizationIdentity({
   organization: Organization
 }) {
   const [feedback, setFeedback] = useState("")
-  const {scenario}=useScenario()
+  const { scenario } = useScenario()
   return (
     <section
       className="space-y-4 rounded-lg border border-border bg-card p-4"
@@ -72,7 +74,7 @@ export function OrganizationIdentity({
               {roleLabels[entry.role]} · {entry.active ? "Activo" : "Inactivo"}
             </span>
             <Button
-              disabled={!hasCapability(scenario,"catalogs.manage")}
+              disabled={!hasCapability(scenario, "catalogs.manage")}
               type="button"
               variant="outline"
               size="sm"
@@ -124,9 +126,11 @@ export function OrganizationDetail({
   const { organizations, ready } = useOrganizations()
   const { operations } = useDemoOperations()
   const organization = organizations.find((item) => item.id === organizationId)
-  const back = /^\/(?:proveedores|clientes)(?:\?[^#]*)?$/.test(returnTo)
+  const back = isAdministrativeContext(returnTo)
     ? returnTo
-    : "/proveedores"
+    : /^\/(?:proveedores|clientes)(?:\?[^#]*)?$/.test(returnTo)
+      ? returnTo
+      : "/proveedores"
   if (!ready) return <p role="status">Cargando organización…</p>
   if (!organization)
     return (
@@ -143,7 +147,9 @@ export function OrganizationDetail({
         href={back}
         className="inline-flex min-h-9 items-center text-sm font-medium text-primary"
       >
-        Volver al listado
+        {isAdministrativeContext(back)
+          ? "Volver al contexto anterior"
+          : "Volver al listado"}
       </Link>
       <PageHeader title={organization.name} />
       <OrganizationIdentity organization={organization} />
@@ -190,13 +196,7 @@ export function OrganizationDetail({
           </Link>
         </section>
       )}
-      <section className="space-y-3">
-        <h2 className="font-semibold">Relaciones administrativas</h2>
-        <p className="text-sm text-muted-foreground">
-          Sin registros administrativos vinculados en este escenario. Un rol no
-          crea una deuda ni acredita una registración externa.
-        </p>
-      </section>
+      <AdministrativeRelationships partyId={organizationId} />
       <section className="space-y-3">
         <h2 className="font-semibold">Actividad</h2>
         <ul className="divide-y divide-border">

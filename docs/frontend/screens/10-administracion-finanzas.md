@@ -18,11 +18,11 @@ Dar continuidad al pase operativo-administrativo sin reemplazar la contabilidad 
 - `/administracion/[operationId]`: contexto por operación, dimensiones separadas, fuente, límites y navegación a ficha común/Exportación.
 - `/administracion/finanzas`: G2 gastos registrados por categoría y G3 cuentas por cobrar según saldos informados al corte; fuentes bajo demanda. El vínculo a la rendición sin operación conserva su contexto y no le asigna importes artificiales.
 
-La cola comparte el fixture de ciclo operativo con Exportación. Sólo hay referencias sintéticas; no se emiten facturas, no se registran cobros ni diferencias, no se cargan comprobantes y no se conecta Alpha2000. El botón para registrar referencia externa queda deshabilitado y explica la dependencia. UX-05 incorpora importes sintéticos autorizados para evaluación frontend, no definiciones financieras productivas.
+Corte V2 (ampliado por V3 más abajo): la cola comparte el fixture de ciclo operativo con Exportación. Sólo hay referencias sintéticas; no se emiten facturas, no se registran cobros ni diferencias, no se cargan comprobantes y no se conecta Alpha2000. El botón para registrar referencia externa queda deshabilitado y explica la dependencia. UX-05 incorpora importes sintéticos autorizados para evaluación frontend, no definiciones financieras productivas.
 
 ## Fuentes, privacidad y estados
 
-Alpha2000 permanece fuente prevista para contabilidad, facturación, cobranzas, cuentas corrientes, gastos y otros datos administrativos; en esta versión está no conectada. Interbanking se mantiene en evaluación de lectura, sin pagos, transferencias, ECheqs, escritura ni conciliación automática. Microsoft 365 conserva alcance pendiente. Las integraciones y disponibilidades no se deducen de pantallas mock.
+Alpha2000 permanece fuente prevista para contabilidad, facturación, cobranzas, cuentas corrientes, gastos y otros datos administrativos; en esta versión está no conectada. Interbanking se mantiene en evaluación de lectura, sin pagos, transferencias, ECheqs, escritura ni conciliación automática. Microsoft 365 está excluido de V3 según el alcance vigente. Las integraciones y disponibilidades no se deducen de pantallas mock.
 
 La cola y el detalle no exponen honorarios, condiciones comerciales, costos internos, márgenes ni totales monetarios genéricos. Finanzas muestra únicamente registros sintéticos y saldos informados a las perspectivas con capacidad financiera. Ser responsable de la operación o jefe de área no concede acceso comercial. Los valores aduaneros pertenecen a su contexto operativo y no habilitan acceso económico. La matriz definitiva de capacidades sigue pendiente; los límites mock no constituyen seguridad productiva.
 
@@ -64,3 +64,32 @@ Filtros URL: desde/hasta (fecha del evento), moneda y cliente; drill-down agrega
 UX-06 añade accesos a facturas, cobros y gastos del período autorizado, derivados de los mismos registros/filtros analíticos; no exige acceso a Dirección para explorar registros administrativos. No hay emisión/pago ni asignación artificial de importes a la rendición sin operación.
 
 UX-07 valida fechas calendario de la URL y rango Desde/Hasta: un valor imposible o invertido ofrece corrección y restablecimiento, conserva moneda/cliente, no renderiza gráficos ni confirma totales. No se convierten fechas inválidas en un período distinto silenciosamente. Se comparte el comportamiento con Dirección.
+
+## V3-04 — Preparación administrativa local
+
+Preparación técnica revisada 15/10/2026 sobre el alcance V3 aprobado internamente; no reglas contables/roles ABT definitivos. CAT-001 y MOV-001 amplían el corte anterior sin sustituir la contabilidad de Alpha2000. Personas/organizaciones son fuentes compartidas, no copias en cada formulario. Fuente actual: features/administration/data/administrative-ledger.ts; financial-records.ts conserva semillas inmutables, no el estado de gastos/cobros modificado.
+
+### Rutas y recorridos
+
+- /administracion/categorias: buscar, alta, edición, inactivación/reactivación confirmada. Uso Gasto/Ingreso/Egreso/Compartida es clasificación sintética, no catálogo contable validado. Cambiar nombre no elimina la denominación histórica del registro; un uso ya referenciado no se cambia silenciosamente. Sin subcategorías ni centros de costo especulativos.
+- /administracion/gastos y /administracion/gastos/[expenseId]: concepto, fecha de registro, moneda/importe, categoría, proveedor ABT opcional, operaciones opcionales/múltiples, referencias de evidencia, notas y referencia externa por verificar. Gasto general sin operación ficticia. Alta contextual de categoría/proveedor conserva borrador y selecciona el nuevo registro. Tabla desktop amplia; lista compacta con apertura e importe visibles debajo. Búsqueda/filtros en URL sin recarga de documento.
+- /administracion/movimientos y /administracion/movimientos/[movementId]: naturaleza explícita, ingreso/egreso, fecha propia, moneda/importe, categoría, contraparte administrativa, integrante para anticipos/devoluciones cuando corresponda, operaciones y evidencia. Cobro no es factura; pago no es gasto; anticipo no implica gasto justificado. No se ejecutan transferencias ni se contabiliza.
+- /administracion/rendiciones y /administracion/rendiciones/[renditionId]: referencia, anticipo e importe aplicado, gastos relacionados, devolución e importe aplicado, evidencia y diferencia por revisar. Anticipo puede distribuirse entre preparaciones sin superar su importe; no conversión entre monedas. El escenario utiliza referencias completas de gasto, sin prorrateo documental validado. Estado preparado para revisión no equivale a aprobación o cierre externo.
+
+J12 conecta proveedor/categoría → gasto general u operativo → registro/gráfico; anticipo → rendición → gasto/evidencia → tarea. La rendición de la tarea sin operación continúa sin operación; su preparación sintética tiene referencias propias, no importes inventados sobre la tarea original. Completar la referencia pendiente actualiza rendición y proyecciones de trabajo, no aprueba gastos.
+
+### Reglas de presentación y sensibilidad
+
+Preparación local, referencia del escenario, referencia externa por verificar y registro contable externo son conceptos distintos. Capturar una referencia no confirma vínculo/sincronización. Un vendedor/proveedor de mercadería del cliente no se convierte en proveedor de ABT ni genera deuda; gastos/movimientos sólo aceptan roles administrativos pertinentes del escenario. Ninguna escritura en Alpha2000.
+
+Gastos requieren consulta de gastos y costos internos; ingresos/cobros consulta de cobranzas, egresos consulta de tesorería; preparación y catálogo se habilitan por capacidades explícitas. Rendición con importes de anticipos requiere también tesorería. Ser responsable operativo no habilita estas categorías. Columnas, opciones, gráficos y relaciones respetan capacidades; las restricciones mock no son seguridad real.
+
+Registros y G2 comparten exactamente las mismas fuentes/filtros; sólo naturaleza Cobro alimenta su serie, no todos los ingresos. Importe conserva dos decimales, agregaciones aritméticas en centavos, monedas sin suma/conversión implícita. Facturas/saldos informados continúan el contrato V2 hasta V3-05: no se infiere cartera como facturación menos cobros.
+
+### Aceptación y pendientes
+
+Crear categoría/proveedor dentro de gasto preserva concepto e importe, permite seleccionar nuevos registros y los reutiliza en listas/fichas. Guardar produce feedback y enlace aunque filtros oculten la fila. Editar evidencia se refleja en rendición y tareas; sin aprobación externa. Gráfico → gasto/movimiento → contraparte/operación → retorno conserva el contexto permitido. Datos inexistentes/error/sin permiso no se sustituyen por importes cero.
+
+Pruebas: administrative-ledger.test.ts (moneda, referencias, capacidad relacional, inactivos/historia, agregación y rendición); v3-administration.spec.ts (recorridos reales); administrative-ledger.a11y.tsx. Gates y revisión visual reales en el plan; no certificación WCAG automática.
+
+Pendientes ABT/Alpha: catálogo/centros de costo, prorrateos, aprobación de gastos/rendiciones, obligaciones, aplicaciones/saldos informados y autoridad de escritura. Comprobantes/carteras se completan en V3-05; no afirmar cubiertos por esta preparación. Contratos externos no implementados.

@@ -41,7 +41,7 @@ export function useListContext(ready: boolean, contextKey: string) {
       return
     const href = link.getAttribute("href") ?? ""
     if (
-      !/^\/(?:operaciones|clientes|proveedores|cotizaciones|configuracion\/personas)\//.test(
+      !/^\/(?:operaciones|clientes|proveedores|cotizaciones|configuracion\/personas|administracion\/(?:gastos|movimientos|rendiciones))\//.test(
         href
       )
     )

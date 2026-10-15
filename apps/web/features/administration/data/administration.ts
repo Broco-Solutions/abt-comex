@@ -1,6 +1,7 @@
 import { getDemonstrationOperationProgress } from "@/features/operations/data/operation-progress"
 import type { DemonstrationOperation } from "@/features/operations/types/operation"
 import { visibleWorkItems } from "@/features/work/data/work-items"
+import type { WorkItem } from "@/features/work/types/work-item"
 
 export type AdministrationQueueStatus =
   | "Lista para facturar"
@@ -31,7 +32,8 @@ export type AdministrationQueueEntry =
     }
 
 export function getAdministrationQueue(
-  operations: DemonstrationOperation[]
+  operations: DemonstrationOperation[],
+  work: WorkItem[] = visibleWorkItems()
 ): AdministrationQueueEntry[] {
   const operationEntries: AdministrationQueueEntry[] = operations.flatMap(
     (operation) => {
@@ -55,7 +57,7 @@ export function getAdministrationQueue(
     }
   )
 
-  const independentWork = visibleWorkItems()
+  const independentWork = work
     .filter((item) => item.id === "wrk-admin-no-operation-05")
     .map((item) => ({
       kind: "work" as const,
