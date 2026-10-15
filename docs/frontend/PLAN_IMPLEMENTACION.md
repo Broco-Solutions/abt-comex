@@ -893,7 +893,7 @@ Fuente: aprobación explícita del responsable sobre la auditoría integral y su
 | Incremento | Estado | Entregable y dependencia |
 |---|---|---|
 | V3-01 | Under review | PR #27 contra main; cierre técnico local, CI y revisión humana separados |
-| V3-02 | In implementation | Organizaciones multirrol, Clientes/Proveedores ABM y creación contextual; depende de V3-01 |
+| V3-02 | Under review | ABM local multirrol, contactos, coincidencias, estado por rol y creación contextual; PR #28, CI final pendiente de confirmación |
 | V3-03 | Pendiente | Personas, acceso/capacidades, equipos/reasignación, login y recuperación exclusivamente demostrativos |
 | V3-04 | Pendiente | Categorías, gastos generales/operativos, anticipos/rendiciones y movimientos sintéticos compartidos; depende de maestros |
 | V3-05 | Pendiente | Comprobantes, aplicaciones, obligaciones y carteras al corte; sin contabilidad paralela |
@@ -912,4 +912,4 @@ La autoridad funcional V3 está en [alcance](../product/ALCANCE_FUNCIONAL.md#evo
 
 PR #27 integrado por squash a main 1c5c4f40415fb14eaa9653d86173328492af7498; todos los checks verdes en HEAD f7eacb8. Deployment dpl_6NegdYFZ3yYFhE6Yh8kLo1QMMykK READY desde main; dominio verificado con navegador a 1024: Más filtros y primer registro a 449px. No se considera privado.
 
-V3-02 se ejecuta desde ese main en worktree separado, sin ramas apiladas. Organizaciones comparten identidad, no obligaciones. Estado local integrado con Clientes, Cotizaciones y apertura de Operaciones; las relaciones administrativas se completan en V3-04/V3-05. Pruebas y PR de V3-02 aún en curso.
+V3-02 desde ese main en worktree separado, sin ramas apiladas: [PR #28](https://github.com/Broco-Solutions/abt-comex/pull/28). Organizaciones comparten identidad, no obligaciones. Estado local integrado con Clientes, Cotizaciones y apertura de Operaciones; relaciones administrativas en V3-04/V3-05 y participantes por operación en V3-06. Gates locales: 107 unitarias web, 34 axe, lint/typecheck/build y documental/diff OK. Primera smoke 75/77: dos localizadores ambiguos ajustados por región; CI sobre 1566caa confirmó 76/77, con el mismo localizador móvil ya corregido. Reejecución focalizada 5/5 incluye creación contextual, reutilización multirrol, inactivación/reactivación, recarga de cotización y formulario largo móvil. Capturas de proveedores 390/768/1440 sin overflow; la revisión encontró diálogo largo recortado y se corrigió altura/scroll en DS, con regresión específica. El drawer de navegación conserva explícitamente altura completa y no hereda el máximo de un diálogo centrado. Confirmar referencias visuales y CI/preview del SHA final antes de fusionar; no omitir checks previos fallidos. V3-03 a V3-07 siguen pendientes.

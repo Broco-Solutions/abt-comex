@@ -36,7 +36,7 @@ No hay aprobación formal de ABT de la propuesta de pantalla o de los campos.
 - Una operación puede abrir la ficha de su cliente y retornar al detalle; la ficha puede abrir la operación y recuperar el contexto de Clientes.
 - Sin datos, coincidencias, permiso o lectura se muestra el estado correspondiente sin exponer filas ni conteos en el estado restringido.
 - V3 habilita alta/edición exclusivamente local y estado por rol. Configuración particular de requisitos, aprobación e integración externa siguen pendientes.
-- La ficha ofrece navegación filtrada a Cotizaciones por `clientId`; no muestra valores, honorarios, filas ni conteos comerciales. El acceso efectivo depende de una capacidad que el prototipo no implementa.
+- La ficha ofrece navegación filtrada a Cotizaciones por `clientId`; no muestra valores, honorarios, filas ni conteos comerciales. El acceso se filtra por capacidades del escenario; no constituye seguridad productiva.
 
 ## Reglas, sensibilidad y procedencia
 
