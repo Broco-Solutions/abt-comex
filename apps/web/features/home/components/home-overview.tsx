@@ -52,7 +52,10 @@ export function HomeOverview() {
   return (
     <div className="space-y-6">
       <PageHeader title="Inicio" />
-      <section aria-labelledby="home-attention-title">
+      <section
+        aria-labelledby="home-attention-title"
+        className="workspace-surface p-4 sm:p-5"
+      >
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3">
           <h2 id="home-attention-title" className="text-lg font-semibold">
             Requiere atención

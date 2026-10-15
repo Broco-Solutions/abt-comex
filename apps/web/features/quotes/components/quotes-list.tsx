@@ -67,7 +67,7 @@ export function QuotesList({
 
       <section
         aria-label="Búsqueda y filtros de cotizaciones"
-        className="max-w-6xl"
+        className="workspace-surface p-4 sm:p-5"
       >
         <form
           key={JSON.stringify(state)}

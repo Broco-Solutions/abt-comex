@@ -91,6 +91,7 @@ export function ClientsList({
         primaryAction={
           !restricted && !failed ? (
             <OrganizationEditor
+              primary
               onSaved={(organization) => {
                 setLastSaved(organization.id)
                 setFeedback(
@@ -101,142 +102,146 @@ export function ClientsList({
           ) : undefined
         }
       />
-      {!restricted && !failed && (
-        <label className="flex min-h-9 items-center gap-2 text-sm">
-          <input
-            type="checkbox"
-            checked={includeInactive}
-            onChange={(event) => {
-              const includeInactive = event.target.checked
-              setState((current) => ({ ...current, includeInactive }))
+      <div className="workspace-surface space-y-4 p-4 sm:p-5">
+        {!restricted && !failed && (
+          <label className="flex min-h-9 items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={includeInactive}
+              onChange={(event) => {
+                const includeInactive = event.target.checked
+                setState((current) => ({ ...current, includeInactive }))
+                window.history.pushState(
+                  null,
+                  "",
+                  clientListHref(state.query, includeInactive)
+                )
+              }}
+            />
+            Incluir clientes inactivos
+          </label>
+        )}
+        {feedback && (
+          <p role="status" className="text-sm">
+            {feedback}
+          </p>
+        )}
+        {lastSaved && (
+          <Link
+            className="inline-flex min-h-9 items-center text-sm font-medium text-primary underline"
+            href={`/clientes/${lastSaved}?returnTo=${encodeURIComponent(clientListHref(state.query, includeInactive))}`}
+          >
+            Abrir organización guardada
+          </Link>
+        )}
+
+        <section aria-label="Búsqueda de clientes">
+          <form
+            action="/clientes"
+            method="get"
+            onSubmit={(event) => {
+              event.preventDefault()
+              const query = String(
+                new FormData(event.currentTarget).get("q") ?? ""
+              )
               window.history.pushState(
                 null,
                 "",
-                clientListHref(state.query, includeInactive)
+                clientListHref(query, includeInactive)
               )
+              setState({ query, error: "", includeInactive })
             }}
-          />
-          Incluir clientes inactivos
-        </label>
-      )}
-      {feedback && (
-        <p role="status" className="text-sm">
-          {feedback}
-        </p>
-      )}
-      {lastSaved && (
-        <Link
-          className="inline-flex min-h-9 items-center text-sm font-medium text-primary underline"
-          href={`/clientes/${lastSaved}?returnTo=${encodeURIComponent(clientListHref(state.query, includeInactive))}`}
-        >
-          Abrir organización guardada
-        </Link>
-      )}
-
-      <section aria-label="Búsqueda de clientes" className="max-w-5xl">
-        <form
-          action="/clientes"
-          method="get"
-          onSubmit={(event) => {
-            event.preventDefault()
-            const query = String(
-              new FormData(event.currentTarget).get("q") ?? ""
-            )
-            window.history.pushState(
-              null,
-              "",
-              clientListHref(query, includeInactive)
-            )
-            setState({ query, error: "", includeInactive })
-          }}
-          className="grid gap-3 border-b border-border pb-4 sm:grid-cols-[minmax(14rem,32rem)_auto] sm:items-end"
-        >
-          <div>
-            <label
-              htmlFor="client-search"
-              className="mb-1 block text-xs font-medium"
-            >
-              Buscar cliente o referencia de operación
-            </label>
-            <Input
-              id="client-search"
-              type="search"
-              name="q"
-              value={queryDraft}
-              onChange={(event) => setQueryDraft(event.target.value)}
-              placeholder="Ej.: Cliente Demo Norte u OP-DEM-2048"
-            />
-          </div>
-          <div className="flex items-center gap-2">
-            <Button type="submit" size="sm">
-              Buscar
-            </Button>
-            {state.query ? (
-              <Link
-                href="/clientes"
-                className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
+            className="grid gap-3 border-b border-border pb-4 sm:grid-cols-[minmax(14rem,32rem)_auto] sm:items-end"
+          >
+            <div>
+              <label
+                htmlFor="client-search"
+                className="mb-1 block text-xs font-medium"
               >
-                Limpiar
-              </Link>
-            ) : null}
-          </div>
-        </form>
+                Buscar cliente o referencia de operación
+              </label>
+              <Input
+                id="client-search"
+                type="search"
+                name="q"
+                value={queryDraft}
+                onChange={(event) => setQueryDraft(event.target.value)}
+                placeholder="Ej.: Cliente Demo Norte u OP-DEM-2048"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <Button type="submit" size="sm">
+                Buscar
+              </Button>
+              {state.query ? (
+                <Link
+                  href="/clientes"
+                  className={cn(
+                    buttonVariants({ variant: "ghost", size: "sm" })
+                  )}
+                >
+                  Limpiar
+                </Link>
+              ) : null}
+            </div>
+          </form>
 
-        {restricted ? (
-          <div role="status" className="border-b border-border py-5">
-            <h2 className="font-medium">Clientes no disponibles</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Este escenario no tiene información autorizada para mostrar. No se
-              confirma si existen registros.
-            </p>
-          </div>
-        ) : failed ? (
-          <div role="alert" className="border-b border-border py-5">
-            <h2 className="font-medium">No se pudo leer el escenario</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Se conservaron los filtros. No hay conexión con un maestro de
-              clientes externo.
-            </p>
-            <Link
-              href={clientListHref(state.query)}
-              className={cn(
-                buttonVariants({ variant: "outline", size: "sm" }),
-                "mt-3"
-              )}
-            >
-              Reintentar
-            </Link>
-          </div>
-        ) : clients.length === 0 ? (
-          <div role="status" className="border-b border-border py-5">
-            <h2 className="font-medium">
-              {state.query
-                ? "No hay coincidencias"
-                : "No hay clientes en este escenario"}
-            </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {state.query
-                ? "Probá con otro nombre o referencia y volvé a buscar."
-                : "No hay clientes disponibles en esta vista."}
-            </p>
-          </div>
-        ) : (
-          <>
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border py-3 text-sm">
-              <p role="status" aria-label="Resultados de clientes">
-                <span className="font-medium">{clients.length}</span> de{" "}
-                {allClients.length} clientes
+          {restricted ? (
+            <div role="status" className="border-b border-border py-5">
+              <h2 className="font-medium">Clientes no disponibles</h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Este escenario no tiene información autorizada para mostrar. No
+                se confirma si existen registros.
               </p>
             </div>
-            <ClientTable
-              clients={clients}
-              operations={operations}
-              query={state.query}
-              includeInactive={includeInactive}
-            />
-          </>
-        )}
-      </section>
+          ) : failed ? (
+            <div role="alert" className="border-b border-border py-5">
+              <h2 className="font-medium">No se pudo leer el escenario</h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Se conservaron los filtros. No hay conexión con un maestro de
+                clientes externo.
+              </p>
+              <Link
+                href={clientListHref(state.query)}
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "sm" }),
+                  "mt-3"
+                )}
+              >
+                Reintentar
+              </Link>
+            </div>
+          ) : clients.length === 0 ? (
+            <div role="status" className="border-b border-border py-5">
+              <h2 className="font-medium">
+                {state.query
+                  ? "No hay coincidencias"
+                  : "No hay clientes en este escenario"}
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {state.query
+                  ? "Probá con otro nombre o referencia y volvé a buscar."
+                  : "No hay clientes disponibles en esta vista."}
+              </p>
+            </div>
+          ) : (
+            <>
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border py-3 text-sm">
+                <p role="status" aria-label="Resultados de clientes">
+                  <span className="font-medium">{clients.length}</span> de{" "}
+                  {allClients.length} clientes
+                </p>
+              </div>
+              <ClientTable
+                clients={clients}
+                operations={operations}
+                query={state.query}
+                includeInactive={includeInactive}
+              />
+            </>
+          )}
+        </section>
+      </div>
     </div>
   )
 }

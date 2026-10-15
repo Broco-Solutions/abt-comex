@@ -42,7 +42,7 @@ export function OperationsToolbar({
   return (
     <section
       aria-label="Filtros de operaciones"
-      className="space-y-3 rounded-lg border border-border bg-card p-3 sm:p-4"
+      className="space-y-3"
     >
       <div className="flex flex-wrap items-end gap-3">
         <form

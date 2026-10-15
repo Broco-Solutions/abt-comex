@@ -139,252 +139,254 @@ export function VoucherList({ cartera = false }: { cartera?: boolean }) {
         }
       />
       <AdministrationNav />
-      <form
-        aria-label="Filtros de comprobantes"
-        onSubmit={(event) => event.preventDefault()}
-        className="flex flex-wrap items-end gap-3 rounded-lg border border-border bg-muted/40 p-3"
-      >
-        <label className="w-full text-xs font-medium sm:w-auto sm:flex-1">
-          Buscar referencia o contraparte
-          <Input
-            value={params.get("q") ?? ""}
-            onChange={(event) => update("q", event.target.value)}
-          />
-        </label>
-        <label className="text-xs font-medium">
-          Cartera
-          <select
-            aria-label="Cartera"
-            className="mt-1 block h-9 rounded-md border border-input bg-background px-3 text-sm"
-            value={side}
-            onChange={(event) =>
-              update(
-                "cartera",
-                event.target.value === "Pagar" ? "pagar" : "cobrar"
-              )
-            }
-          >
-            {receivables && <option>Cobrar</option>}
-            {payables && <option>Pagar</option>}
-          </select>
-        </label>
-        <label className="text-xs font-medium">
-          Moneda
-          <select
-            className="mt-1 block h-9 rounded-md border border-input bg-background px-3 text-sm"
-            value={currency}
-            onChange={(event) => update("moneda", event.target.value)}
-          >
-            <option>ARS</option>
-            <option>USD</option>
-          </select>
-        </label>
-        {cartera && (
-          <label className="text-xs font-medium">
-            Fecha de corte
+      <div className="workspace-surface space-y-4 p-4 sm:p-5">
+        <form
+          aria-label="Filtros de comprobantes"
+          onSubmit={(event) => event.preventDefault()}
+          className="flex flex-wrap items-end gap-3"
+        >
+          <label className="w-full text-xs font-medium sm:w-auto sm:flex-1">
+            Buscar referencia o contraparte
             <Input
-              type="date"
-              max={DEMONSTRATION_DATE}
-              value={cut}
-              onChange={(event) => update("corte", event.target.value)}
+              value={params.get("q") ?? ""}
+              onChange={(event) => update("q", event.target.value)}
             />
           </label>
-        )}
-        <details className="w-full">
-          <summary className="w-fit cursor-pointer text-sm font-medium text-primary">
-            Más filtros{party || params.get("situacion") ? " · activos" : ""}
-          </summary>
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
-            <SearchableCombobox
-              label="Contraparte"
-              value={party}
-              onChange={(value) => update("contraparte", value)}
-              options={[
-                { value: "", label: "Todas las autorizadas" },
-                ...organizations
-                  .filter((item) =>
-                    item.roles.some(
-                      (role) =>
-                        role.role ===
-                        (side === "Cobrar" ? "client" : "abt-supplier")
-                    )
-                  )
-                  .map((item) => ({ value: item.id, label: item.name })),
-              ]}
-            />
+          <label className="text-xs font-medium">
+            Cartera
+            <select
+              aria-label="Cartera"
+              className="mt-1 block h-9 rounded-md border border-input bg-background px-3 text-sm"
+              value={side}
+              onChange={(event) =>
+                update(
+                  "cartera",
+                  event.target.value === "Pagar" ? "pagar" : "cobrar"
+                )
+              }
+            >
+              {receivables && <option>Cobrar</option>}
+              {payables && <option>Pagar</option>}
+            </select>
+          </label>
+          <label className="text-xs font-medium">
+            Moneda
+            <select
+              className="mt-1 block h-9 rounded-md border border-input bg-background px-3 text-sm"
+              value={currency}
+              onChange={(event) => update("moneda", event.target.value)}
+            >
+              <option>ARS</option>
+              <option>USD</option>
+            </select>
+          </label>
+          {cartera && (
             <label className="text-xs font-medium">
-              Situación
-              <select
-                className="mt-1 block h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
-                value={params.get("situacion") ?? ""}
-                onChange={(event) => update("situacion", event.target.value)}
-              >
-                <option value="">Todas</option>
-                {cartera ? (
-                  <>
-                    <option value="vencido">Vencidas al corte</option>
-                    <option value="sin-saldo">Sin saldo disponible</option>
-                  </>
-                ) : (
-                  <>
-                    <option>Preparado</option>
-                    <option>Referencia de evaluación</option>
-                  </>
-                )}
-              </select>
+              Fecha de corte
+              <Input
+                type="date"
+                max={DEMONSTRATION_DATE}
+                value={cut}
+                onChange={(event) => update("corte", event.target.value)}
+              />
             </label>
-            <Button
-              variant="outline"
-              type="button"
-              size="sm"
-              onClick={() => {
-                window.history.pushState(null, "", path)
-                setQuery("")
-              }}
-            >
-              Restablecer vista
-            </Button>
-          </div>
-        </details>
-      </form>
-      {saved && (
-        <p role="status" className="text-sm">
-          Comprobante guardado.{" "}
-          <Link
-            className="text-primary underline"
-            href={
-              "/administracion/comprobantes/" +
-              saved +
-              "?returnTo=" +
-              encodeURIComponent(self)
-            }
-          >
-            Abrir comprobante
-          </Link>
-        </p>
-      )}
-      {cartera && !invalidCut && (
-        <section
-          className="flex flex-wrap gap-5 rounded-lg border border-border bg-accent/40 p-4"
-          aria-label="Resumen de cartera"
-        >
-          <div>
-            <p className="text-xs text-muted-foreground">
-              Saldo conocido del escenario al {formatDate(cut)}
-            </p>
-            <p className="font-mono text-xl font-semibold">
-              {money(total, currency)}
-            </p>
-          </div>
-          <p className="self-center text-sm">
-            {all.filter((item) => item.balance === undefined).length}{" "}
-            comprobantes sin saldo disponible
-          </p>
-          <p className="w-full text-xs text-muted-foreground">
-            Incluye obligaciones anteriores abiertas al corte, sin filtro por
-            emisión. Las notas de crédito y fondos sin aplicación no se
-            descuentan automáticamente.
-          </p>
-        </section>
-      )}
-      {cartera && invalidCut ? (
-        <p role="alert">
-          Elegí un corte válido hasta {formatDate(DEMONSTRATION_DATE)}. No se
-          confirman importes.
-        </p>
-      ) : (
-        <>
-          <p role="status" className="text-xs text-muted-foreground">
-            {all.length} registros · {currency} · página {page} de {pages}
-          </p>
-          <ul
-            aria-label={
-              cartera ? "Obligaciones de cartera" : "Comprobantes disponibles"
-            }
-            className="divide-y divide-border rounded-lg border border-border bg-card px-4"
-          >
-            {records.map((item) => (
-              <li
-                key={item.id}
-                className="grid gap-3 py-4 sm:grid-cols-[minmax(0,1fr)_auto]"
-              >
-                <div className="space-y-1">
-                  <Link
-                    scroll={false}
-                    className="font-semibold text-primary underline"
-                    href={
-                      "/administracion/comprobantes/" +
-                      item.id +
-                      "?returnTo=" +
-                      encodeURIComponent(self)
-                    }
-                  >
-                    {item.reference}
-                  </Link>
-                  <p className="text-sm">
-                    {organizations.find((org) => org.id === item.partyId)
-                      ?.name ?? "Contraparte no disponible"}{" "}
-                    · {item.kind}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Emisión {formatDate(item.issuedOn)}
-                    {item.dueOn
-                      ? " · Vencimiento " + formatDate(item.dueOn)
-                      : " · Sin vencimiento"}{" "}
-                    · {item.stage}
-                  </p>
-                  {cartera && item.dueOn && item.dueOn < cut && (
-                    <p className="text-xs font-semibold text-foreground">
-                      Vencida al corte
-                    </p>
+          )}
+          <details className="w-full">
+            <summary className="w-fit cursor-pointer text-sm font-medium text-primary">
+              Más filtros{party || params.get("situacion") ? " · activos" : ""}
+            </summary>
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <SearchableCombobox
+                label="Contraparte"
+                value={party}
+                onChange={(value) => update("contraparte", value)}
+                options={[
+                  { value: "", label: "Todas las autorizadas" },
+                  ...organizations
+                    .filter((item) =>
+                      item.roles.some(
+                        (role) =>
+                          role.role ===
+                          (side === "Cobrar" ? "client" : "abt-supplier")
+                      )
+                    )
+                    .map((item) => ({ value: item.id, label: item.name })),
+                ]}
+              />
+              <label className="text-xs font-medium">
+                Situación
+                <select
+                  className="mt-1 block h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
+                  value={params.get("situacion") ?? ""}
+                  onChange={(event) => update("situacion", event.target.value)}
+                >
+                  <option value="">Todas</option>
+                  {cartera ? (
+                    <>
+                      <option value="vencido">Vencidas al corte</option>
+                      <option value="sin-saldo">Sin saldo disponible</option>
+                    </>
+                  ) : (
+                    <>
+                      <option>Preparado</option>
+                      <option>Referencia de evaluación</option>
+                    </>
                   )}
-                </div>
-                <div className="text-sm sm:text-right">
-                  <p className="font-mono font-medium">
-                    {cartera
-                      ? item.balance === undefined
-                        ? "Saldo no disponible"
-                        : money(item.balance, currency)
-                      : money(item.amount, currency)}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {cartera ? "Saldo del escenario" : "Importe original"}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-          {!all.length && (
-            <p role="status">
-              Sin registros para esta vista. Podés quitar filtros o cambiar la
-              moneda.
-            </p>
-          )}
-          {pages > 1 && (
-            <nav
-              className="flex items-center justify-end gap-2"
-              aria-label="Páginas de comprobantes"
+                </select>
+              </label>
+              <Button
+                variant="outline"
+                type="button"
+                size="sm"
+                onClick={() => {
+                  window.history.pushState(null, "", path)
+                  setQuery("")
+                }}
+              >
+                Restablecer vista
+              </Button>
+            </div>
+          </details>
+        </form>
+        {saved && (
+          <p role="status" className="text-sm">
+            Comprobante guardado.{" "}
+            <Link
+              className="text-primary underline"
+              href={
+                "/administracion/comprobantes/" +
+                saved +
+                "?returnTo=" +
+                encodeURIComponent(self)
+              }
             >
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={page === 1}
-                onClick={() => pageTo(page - 1)}
+              Abrir comprobante
+            </Link>
+          </p>
+        )}
+        {cartera && !invalidCut && (
+          <section
+            className="flex flex-wrap gap-5 rounded-lg border border-border bg-accent/40 p-4"
+            aria-label="Resumen de cartera"
+          >
+            <div>
+              <p className="text-xs text-muted-foreground">
+                Saldo conocido del escenario al {formatDate(cut)}
+              </p>
+              <p className="font-mono text-xl font-semibold">
+                {money(total, currency)}
+              </p>
+            </div>
+            <p className="self-center text-sm">
+              {all.filter((item) => item.balance === undefined).length}{" "}
+              comprobantes sin saldo disponible
+            </p>
+            <p className="w-full text-xs text-muted-foreground">
+              Incluye obligaciones anteriores abiertas al corte, sin filtro por
+              emisión. Las notas de crédito y fondos sin aplicación no se
+              descuentan automáticamente.
+            </p>
+          </section>
+        )}
+        {cartera && invalidCut ? (
+          <p role="alert">
+            Elegí un corte válido hasta {formatDate(DEMONSTRATION_DATE)}. No se
+            confirman importes.
+          </p>
+        ) : (
+          <>
+            <p role="status" className="text-xs text-muted-foreground">
+              {all.length} registros · {currency} · página {page} de {pages}
+            </p>
+            <ul
+              aria-label={
+                cartera ? "Obligaciones de cartera" : "Comprobantes disponibles"
+              }
+              className="divide-y divide-border"
+            >
+              {records.map((item) => (
+                <li
+                  key={item.id}
+                  className="grid gap-3 py-4 sm:grid-cols-[minmax(0,1fr)_auto]"
+                >
+                  <div className="space-y-1">
+                    <Link
+                      scroll={false}
+                      className="font-semibold text-primary underline"
+                      href={
+                        "/administracion/comprobantes/" +
+                        item.id +
+                        "?returnTo=" +
+                        encodeURIComponent(self)
+                      }
+                    >
+                      {item.reference}
+                    </Link>
+                    <p className="text-sm">
+                      {organizations.find((org) => org.id === item.partyId)
+                        ?.name ?? "Contraparte no disponible"}{" "}
+                      · {item.kind}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Emisión {formatDate(item.issuedOn)}
+                      {item.dueOn
+                        ? " · Vencimiento " + formatDate(item.dueOn)
+                        : " · Sin vencimiento"}{" "}
+                      · {item.stage}
+                    </p>
+                    {cartera && item.dueOn && item.dueOn < cut && (
+                      <p className="text-xs font-semibold text-foreground">
+                        Vencida al corte
+                      </p>
+                    )}
+                  </div>
+                  <div className="text-sm sm:text-right">
+                    <p className="font-mono font-medium">
+                      {cartera
+                        ? item.balance === undefined
+                          ? "Saldo no disponible"
+                          : money(item.balance, currency)
+                        : money(item.amount, currency)}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {cartera ? "Saldo del escenario" : "Importe original"}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            {!all.length && (
+              <p role="status">
+                Sin registros para esta vista. Podés quitar filtros o cambiar la
+                moneda.
+              </p>
+            )}
+            {pages > 1 && (
+              <nav
+                className="flex items-center justify-end gap-2"
+                aria-label="Páginas de comprobantes"
               >
-                Anterior
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={page === pages}
-                onClick={() => pageTo(page + 1)}
-              >
-                Siguiente
-              </Button>
-            </nav>
-          )}
-        </>
-      )}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={page === 1}
+                  onClick={() => pageTo(page - 1)}
+                >
+                  Anterior
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={page === pages}
+                  onClick={() => pageTo(page + 1)}
+                >
+                  Siguiente
+                </Button>
+              </nav>
+            )}
+          </>
+        )}
+      </div>
     </div>
   )
 }

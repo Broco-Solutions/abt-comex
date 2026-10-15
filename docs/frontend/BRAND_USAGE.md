@@ -121,6 +121,10 @@ las superficies claras y externas conservan los de gradiente.
 
 En la navegación institucional, el patrón es:
 
+El fondo verde vertical es continuo hasta el pie, sin panel neutro, tarjeta ni
+sombra propia para la atribución. Sólo un separador translúcido sutil. La
+indicación Powered by mantiene 12 px y contraste legible sin competir con ABT.
+
 - expandida y drawer: texto visible `Powered by` más logo completo;
 - rail compacto: sólo isotipo con tooltip y nombre accesible completos.
 

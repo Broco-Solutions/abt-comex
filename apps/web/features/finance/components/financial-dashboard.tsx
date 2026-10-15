@@ -153,7 +153,7 @@ export function FinancialDashboard({
         action={path}
         method="get"
         aria-label="Filtros del análisis"
-        className="flex flex-wrap items-end gap-3 border-b border-border pb-4"
+        className="workspace-surface flex flex-wrap items-end gap-3 p-4"
       >
         <label className="text-xs font-medium">
           Desde · fecha del evento

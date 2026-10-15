@@ -5,8 +5,8 @@ import { MobileNavigation } from "./mobile-navigation"
 
 export function AppHeader() {
   return (
-    <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/90">
-      <div className="flex min-h-14 items-center gap-2 px-3 sm:px-5 lg:px-8">
+    <header className="sticky top-0 z-30 border-b border-[#e6eae8] bg-background">
+      <div className="flex min-h-14 items-center gap-3 px-3 py-2 sm:px-5 lg:px-8 lg:py-3">
         <Suspense fallback={<div className="size-9 lg:hidden" />}>
           <MobileNavigation />
         </Suspense>
