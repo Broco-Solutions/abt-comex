@@ -209,7 +209,7 @@ export function ExpensesPage() {
           </select>
         </label>
         <Link
-          href="/administracion/categorias"
+          href="/configuracion/categorias"
           className="inline-flex min-h-10 items-center text-sm font-medium text-primary underline"
         >
           Categorías

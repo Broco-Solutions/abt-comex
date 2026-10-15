@@ -154,6 +154,7 @@ export function VoucherList({ cartera = false }: { cartera?: boolean }) {
         <label className="text-xs font-medium">
           Cartera
           <select
+            aria-label="Cartera"
             className="mt-1 block h-9 rounded-md border border-input bg-background px-3 text-sm"
             value={side}
             onChange={(event) =>

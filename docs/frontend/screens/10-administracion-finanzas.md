@@ -10,6 +10,23 @@
 
 ## Propósito y trazabilidad
 
+### Navegación vigente V3 — decisión interna del 15/10/2026
+
+`/administracion` abre la Bandeja administrativa para ejecutar trabajo recibido,
+revisiones y faltantes. Cuatro áreas comprensibles sustituyen siete pestañas al
+mismo nivel: Bandeja administrativa; Gastos y rendiciones; Ingresos y egresos;
+Comprobantes y cuentas. Sólo la sección activa expone subconsultas: Gastos,
+Anticipos y rendiciones y análisis especializado G2/G3; o Comprobantes, Cuentas
+por cobrar y Cuentas por pagar. En móvil un selector compacto de área conserva
+espacio y acceso. Capacidad restringida elimina destinos no utilizables.
+
+Rutas históricas de gastos/movimientos/rendiciones/comprobantes/carteras/finanzas
+se conservan. Categorías/conceptos tienen entrada en `/configuracion/categorias`
+y acceso desde Gastos; `/administracion/categorias` sigue funcionando para
+enlaces anteriores. Dirección es la entrada de análisis ejecutivo transversal.
+Las cuentas conservan fecha de corte, moneda original y distinción cobrar/pagar;
+un gasto registrado no implica pago.
+
 Dar continuidad al pase operativo-administrativo sin reemplazar la contabilidad de Alpha2000 ni inferir reglas financieras. Cubre `FIN-001` a `FIN-009`, `ALP-005` a `ALP-008`, `EXP-006/007`, `IMP-006`, `WRK-003`, experiencias `ADM-01/02/03` y el recorrido J7; J10 aplica a fuente, actualidad y errores. La matriz conserva evidencia y pendientes de negocio.
 
 ## Rutas y alcance implementado

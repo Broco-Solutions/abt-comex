@@ -13,7 +13,6 @@ import {
   saveAdministrativeLedger,
 } from "../data/administrative-ledger"
 import { CategoryEditor } from "./category-editor"
-import { AdministrationNav } from "./administration-nav"
 export function CategoriesPage() {
   const { state } = useAdministrativeLedger()
   const { scenario } = useScenario()
@@ -50,7 +49,12 @@ export function CategoriesPage() {
           />
         }
       />
-      <AdministrationNav />
+      <Link
+        href="/configuracion"
+        className="inline-flex min-h-10 items-center text-sm text-primary underline"
+      >
+        Volver a Configuración
+      </Link>
       <Link
         href="/administracion/gastos"
         className="text-sm text-primary underline"

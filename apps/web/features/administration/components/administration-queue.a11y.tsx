@@ -4,6 +4,12 @@ import { axe } from "vitest-axe"
 import { renderComponent } from "@/test/utils/render"
 import { AdministrationQueue } from "./administration-queue"
 
+vi.mock("next/navigation", () => ({
+  usePathname: () => "/administracion",
+  useSearchParams: () => new URLSearchParams(),
+  useRouter: () => ({ push: vi.fn() }),
+}))
+
 it("has no known automated accessibility violations and omits economics in all queue states", async () => {
   const canvasContext = vi
     .spyOn(HTMLCanvasElement.prototype, "getContext")

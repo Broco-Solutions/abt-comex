@@ -2,7 +2,14 @@
 
 ## Carteras y navegación administrativa V3
 
-La navegación secundaria de una colección administrativa no debe consumir varias filas en móvil: una franja desplazable conserva enlaces, foco y sección activa visible. Contenido y acciones principales no dependen de desplazar esa franja. Avisos de vencimiento sobre fondo neutro usan texto legible, no un token diseñado para fondo de advertencia. Consulta de flujos usa fechas del evento; cartera usa fecha de corte e incluye emisiones anteriores abiertas. Saldo desconocido, saldo conocido del escenario y saldo informado de referencia se identifican sin equipararlos.
+Cuatro áreas administrativas por tarea, con subconsultas sólo del área activa:
+Bandeja administrativa; Gastos y rendiciones; Ingresos y egresos; Comprobantes y
+cuentas. En móvil un selector de área evita una franja de siete pestañas. Las
+categorías se administran en Configuración y se reutilizan contextualmente.
+Análisis de gastos/vencimientos mantiene G2/G3; los reportes transversales están
+en Dirección. Avisos de vencimiento usan texto legible sobre fondo neutro.
+Flujos usan fecha del evento; cuentas usan corte e incluyen emisiones
+anteriores abiertas. Saldo desconocido no es cero.
 
 ## Contrato visual de analítica V2
 
