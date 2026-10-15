@@ -154,6 +154,7 @@ export function buildSearchIndex({
     ["Personas y acceso", "/configuracion/personas"],
     ["Equipos y responsables", "/configuracion/equipos"],
     ["Categorías y conceptos", "/configuracion/categorias"],
+    ["Cotizaciones de gestión", "/configuracion/cotizaciones-gestion"],
   ]) {
     if (canVisit(scenario, href!))
       pages.push({ title: `Configuración › ${title}`, href: href! })

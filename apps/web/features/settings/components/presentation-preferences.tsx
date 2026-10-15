@@ -23,6 +23,12 @@ export function PresentationPreferences() {
             >
               Categorías y conceptos
             </Link>
+            <Link
+              href="/configuracion/cotizaciones-gestion"
+              className="inline-flex min-h-10 items-center font-medium text-primary underline"
+            >
+              Cotizaciones de gestión
+            </Link>
           </nav>
         )}
       {hasCapability(scenario, "people.manage") && (

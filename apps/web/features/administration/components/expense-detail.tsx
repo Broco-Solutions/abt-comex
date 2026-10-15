@@ -6,6 +6,7 @@ import { formatDate } from "@workspace/ui/lib/date"
 import { useScenario } from "@/features/demo/state/scenario-provider"
 import { hasCapability } from "@/features/demo/data/capabilities"
 import { money } from "@/features/finance/data/financial-records"
+import { UsdEquivalent } from "@/features/finance/components/usd-equivalent"
 import { useOrganizations } from "@/features/organizations/state/use-organizations"
 import { useDemoOperations } from "@/features/operations/state/use-demo-operations"
 import { useAdministrativeLedger } from "../state/use-administrative-ledger"
@@ -63,6 +64,11 @@ export function ExpenseDetail({
         <p className="mt-2 font-mono text-xl">
           {money(item.amount, item.currency)}
         </p>
+        <UsdEquivalent
+          amount={item.amount}
+          currency={item.currency}
+          date={item.date}
+        />
         <p className="mt-2 text-sm">
           {item.evidence.trim()
             ? "Referencia de evidencia preparada"

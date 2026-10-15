@@ -1,5 +1,20 @@
 # ABT Comex — Frontend Standard
 
+## Moneda de análisis V3
+
+`DateField` permite escribir DD/MM/AAAA y seleccionar día, mes y año en un
+calendario español. Conserva borradores incompletos/erróneos para validar rangos
+coordinados sin aplicar una fecha anterior silenciosamente. Entrada y calendario
+comparten valor ISO válido; fechas imposibles se rechazan. Se reutiliza en las
+referencias de gestión y en los períodos de Dirección, con ejemplo ejecutable en
+DS. El control nativo del navegador no garantiza el orden visible día/mes.
+
+Reportes consolidados en USD, sin selector obligatorio al ingresar. Conservar
+moneda e importe originales en detalle autorizado; un disclosure compacto indica
+equivalente, evento/corte y referencia/revisión aplicable. No sumar originales
+incompatibles ni convertir ausentes a cero. Importes y totales incompletos se
+identifican como pendientes/parciales. [Regla común](screens/10-administracion-finanzas.md#cotizaciones-de-gestión-y-equivalentes-usd-v3).
+
 ## Carteras y navegación administrativa V3
 
 Cuatro áreas administrativas por tarea, con subconsultas sólo del área activa:

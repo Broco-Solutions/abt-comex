@@ -6,6 +6,13 @@
 
 ## Ampliaciones V3 aprobadas internamente
 
+Decisión interna del 15/10: reportes USD y equivalentes compartidos para
+FIN-001–FIN-009 y REP-001–REP-018, manteniendo registros originales. Referencias
+de gestión sintéticas por vigencia/revisión en Configuración; evento y saldo al
+corte se distinguen. Fuente real y criterio contable siguen pendientes. Períodos
+rápidos/personalizados y análisis global de clientes/proveedores son parte del
+alcance de V3-07, cuyo cierre se registra en el plan.
+
 V3-06 amplía ORG-001/OPE-003/IMP-006/EXP-006 mediante vínculos operativos y
 coordinación administrativa local compartida. No cambia la certeza de las reglas
 de carpeta completa, aceptación o facturación pendientes. Responsable por ID y

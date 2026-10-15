@@ -918,7 +918,7 @@ Fuente: aprobación explícita del responsable sobre la auditoría integral y su
 | V3-03 | Under review | Personas, acceso/capacidades, equipos/reasignación, login y recuperación exclusivamente demostrativos |
 | V3-04 | Under review | Categorías, gastos generales/operativos, anticipos/rendiciones y movimientos sintéticos compartidos; depende de maestros |
 | V3-05 | Under review | Comprobantes preparados/referencias, aplicaciones parciales y carteras al corte; sin emisión ni contabilidad paralela |
-| V3-06 | En ejecución | Continuidad Importación/Exportación/DJVE/documentos/Administración/Portal e información externa contextual; cierre aún no acreditado |
+| V3-06 | Under review | PR #38 integrado en ca63d08; continuidad compartida, contrapartes y responsables explícitos; CI del PR verde, revisión humana pendiente |
 | V3-07 | En ejecución | Dirección USD, períodos comparables, análisis global de clientes/proveedores y regresión integral; cierre aún no acreditado |
 
 Gates por incremento: lint, typecheck, unitarias/componentes, a11y, build, E2E proporcional, revisión visual desktop/tablet/móvil, validador documental y diff limpio. PR contra main actualizado; confirmar integración y deployment. Mantener Under review hasta revisión humana. Detener sólo reglas críticas no definidas.
@@ -955,7 +955,25 @@ PR #30 integrado a main 5090a27f950a3f0fdb0eb78336f756db8f543ce2 con todos los c
 
 Evidencia local inicial V3-05: lint/typecheck/build, 121 unitarias web, 37 axe y 93 E2E Chromium verdes. Revisión real de carteras 390/768/1024/1440, comprobante/aplicación desktop y diálogo móvil; sin overflow global ni errores de página observados. Se detectaron navegación secundaria de tres filas y aviso de vencido con contraste insuficiente sobre blanco; corregidos antes del cierre. Reejecutar regresión focalizada/visual y confirmar CI/preview en SHA final, no basarse sólo en esta primera pasada. 44 experiencias (32 históricas +12 V3), J1–J10 preservados y J11–J13 añadidos; 126 IDs. No revisión humana aprobatoria ni certificación AA.
 
-### Avance del Shell — PR #32; V3-06/V3-07 siguen en ejecución
+### Avances de Shell, continuidad y USD
+
+Corte USD: 136 unitarias web + cuatro UI, 40 axe, lint/tipos/build y documental/
+diff pasan. Regresión focalizada 26 Chromium (Administración/comprobantes,
+cotizaciones, búsqueda y escenarios) y cinco de fechas/DS, con solapamiento de
+tres recorridos monetarios. Capturas reales de catálogo, editor y valoración
+inspeccionadas en 320/390/768/1024/1440: sin overflow ni errores de página. La
+inspección corrigió el formato nativo de fecha y el contraste de días adyacentes;
+la repetición de contraste en navegador no detectó infracciones en esas vistas.
+No es certificación AA ni aprobación funcional. CI y despliegue del PR final se
+confirman antes de fusionar; Dirección todavía debe consolidar sus reportes.
+
+PR #38 integrado por squash a `ca63d08c78e4ace9f3b96b0e85deff4800b70e28`,
+quality/e2e-smoke/Vercel verdes en `3e40654`. V3-06 queda Under review técnico;
+V3-07 continúa abierto. El corte USD se desarrolla sobre ese main en rama
+focalizada: referencias sintéticas históricas, revisiones y equivalentes en
+detalles autorizados. La consolidación de gráficos/indicadores y análisis por
+cartera se completa en el corte siguiente de Dirección; no se acredita con el
+catálogo de cotizaciones. Los originales permanecen intactos.
 
 PR #37 integrado en `25aca2a34f3ca1479d12083d0eba74615e4fb5f3`, CI quality,
 e2e-smoke y Vercel verdes. Buscador: 110/110 Chromium, 38 axe y 131 unitarias

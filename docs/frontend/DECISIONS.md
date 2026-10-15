@@ -1,5 +1,16 @@
 # Frontend Decisions
 
+## 2026-10-15 — USD como referencia interna de análisis
+
+El responsable aprobó reportes USD, períodos rápidos/personalizados y análisis
+global de clientes/proveedores ABT. No equivale a aprobación contable formal.
+Se incorpora una referencia histórica sintética compartida, administrada en
+Configuración, con revisiones y originales intactos. La regla provisional por
+evento/corte, precisión, propagación y pendientes se define en el
+[contrato administrativo](screens/10-administracion-finanzas.md#cotizaciones-de-gestión-y-equivalentes-usd-v3).
+No se presume dólar oficial, vendedor/comprador, MEP ni otra fuente. No se
+calculan rentabilidad, neto ni deuda por diferencia entre facturación y cobros.
+
 ## 2026-10-15 — Continuidad operativa local sin inferir estados ni personas
 
 V3-06 evoluciona los workspaces existentes: contrapartes por organización/rol,

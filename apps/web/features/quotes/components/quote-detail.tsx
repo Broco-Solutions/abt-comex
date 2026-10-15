@@ -1,6 +1,7 @@
 "use client"
 
 import { formatRecordedDate } from "@workspace/ui/lib/date"
+import { UsdEquivalent } from "@/features/finance/components/usd-equivalent"
 
 import Link from "next/link"
 import { ArrowLeft, ArrowRight, CircleAlert, ChevronDown } from "lucide-react"
@@ -408,9 +409,14 @@ export function QuoteDetail({
           </p>
         </div>
         <p className="text-xs leading-5 text-muted-foreground">
-          No hay conversión monetaria, descuentos, impuestos, gastos ni redondeo
-          configurado. Esas reglas siguen pendientes de validación comercial.
+          El total conserva su moneda original. Descuentos, impuestos y gastos
+          no están configurados; requieren validación comercial.
         </p>
+        <UsdEquivalent
+          amount={currentTotal}
+          currency={version.currency}
+          date={version.updatedOn.slice(0, 10)}
+        />
       </section>
 
       <section

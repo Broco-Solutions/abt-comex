@@ -10,6 +10,10 @@ import {
 } from "@/features/administration/data/administrative-ledger"
 import { hasCapability } from "../data/capabilities"
 import {
+  initialRateBook,
+  saveRateBook,
+} from "@/features/finance/data/management-rates"
+import {
   initialPeople,
   loadPeople,
   savePeople,
@@ -153,6 +157,7 @@ export function ScenarioProvider({ children }: { children: React.ReactNode }) {
     )
   }
   function resetData() {
+    saveRateBook(initialRateBook)
     saveVouchers(initialVoucherState)
     saveAdministrativeLedger(initialAdministrativeLedger)
     saveOrganizations(initialOrganizations)

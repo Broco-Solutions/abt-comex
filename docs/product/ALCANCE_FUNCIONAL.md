@@ -610,6 +610,17 @@ Stress-testear la arquitectura con:
 
 ## Evolución V3 — aprobación interna 15/10/2026
 
+Decisión interna ampliada del responsable: **USD es la moneda de referencia de
+reportes económicos**. Cada registro conserva importe/moneda original, evento y
+relaciones. Cotizaciones de gestión con vigencia, referencia, ID, validez e
+histórico permiten conversión automática; transacciones por evento y saldos por
+corte. La demostración usa referencias sintéticas, no dólar oficial/MEP/otro
+proveedor supuesto. Fuente definitiva, criterio contable de evento/valoración de
+saldos y reglas dependientes de Alpha2000 siguen pendientes de ABT. Un importe
+sin conversión es pendiente, no cero ni total confirmado. [Contrato demostrativo](../frontend/screens/10-administracion-finanzas.md#cotizaciones-de-gestión-y-equivalentes-usd-v3).
+La sincronización de esta ampliación con el alcance de Drive sigue pendiente;
+no se realizó ninguna escritura externa.
+
 Ampliación interna: Administración se organiza por trabajo (Bandeja
 administrativa, Gastos y rendiciones, Ingresos y egresos, Comprobantes y cuentas).
 Dirección concentra la analítica transversal; G2/G3 siguen accesibles desde el
@@ -625,7 +636,7 @@ El responsable aprobó la dirección de la auditoría integral para construir y 
   - Contrato V3-05: preparado no equivale a emitido; aplicaciones parciales de fondos/créditos conservan contraparte y moneda, sin descontar fondos no aplicados. Cartera al corte incluye obligaciones anteriores abiertas; saldo ausente no es cero. [Comportamiento y pendientes](../frontend/screens/10-administracion-finanzas.md#v3-05--comprobantes-aplicaciones-y-carteras). Requiere sincronización posterior del alcance funcional en Drive por responsable autorizado; no realizada aquí.
 - Carteras al corte incluyen obligaciones anteriores abiertas; no se calcula deuda restando flujos del período. Notas, aplicaciones parciales y monedas deben conservar procedencia y límites.
 - Login convencional y recuperación únicamente de UX, con datos de prueba y escenarios secundarios; ninguna credencial real, correo enviado o autenticación productiva.
-- Dirección conserva necesidades de los 18 bloques del Excel, sin copiar sus fórmulas no validadas. Comparaciones equivalentes, monedas separadas y registros explicativos compartidos.
+- Dirección conserva necesidades de los 18 bloques del Excel, sin copiar sus fórmulas no validadas. Comparaciones equivalentes, reportes USD con originales separados y registros explicativos compartidos. Períodos rápidos con Este mes inicial y Desde/Hasta personalizado; análisis de toda la cartera de clientes y proveedores ABT, no sólo los primeros de un ranking.
 - Microsoft 365 queda **excluido de la demo y de V3** (sustituye su consideración prospectiva anterior). La planilla organizativa sólo aporta contexto de personas/áreas, no gestión de correo, buzones, licencias ni tenant. COMEX360 continúa excluido.
 
 La confidencialidad de §7.2 no cambia. Las capacidades mock no constituyen autorización productiva. Sincronización del documento funcional de Drive pendiente: esta sesión sólo actualiza autoridades locales y no modifica originales.
