@@ -11,6 +11,7 @@ import {
 } from "@workspace/ui/components/tooltip"
 import { cn } from "@workspace/ui/lib/utils"
 import type { NavigationItem as NavigationItemType } from "./app-navigation"
+import { useNavigationGroup } from "./use-navigation-group"
 
 type NavigationState = "selected" | "section-active" | "inactive"
 
@@ -28,7 +29,7 @@ export function NavigationItem({
   depth?: 0 | 1
 }) {
   const isSelected = item.id === activeId
-  const [expanded, setExpanded] = React.useState(true)
+  const { expanded, toggle } = useNavigationGroup(item.id)
   const childrenId = React.useId()
   const isSectionActive = Boolean(
     !isSelected && item.children?.some((child) => child.id === activeId)
@@ -76,7 +77,7 @@ export function NavigationItem({
             aria-label={`${expanded ? "Contraer" : "Expandir"} ${item.label}`}
             aria-expanded={expanded}
             aria-controls={childrenId}
-            onClick={() => setExpanded(!expanded)}
+            onClick={toggle}
             className="flex size-11 shrink-0 items-center justify-center rounded-md text-sidebar-foreground/85 hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sidebar-ring"
           >
             <ChevronRight
@@ -142,6 +143,12 @@ function ExpandedNavigationLink({
     <Link
       href={item.href}
       aria-current={selected ? "page" : undefined}
+      aria-label={item.label}
+      aria-description={
+        item.pendingCount
+          ? `${item.pendingCount} pendientes visibles del escenario`
+          : undefined
+      }
       data-navigation-state={navigationState}
       data-navigation-level={depth === 0 ? "primary" : "secondary"}
       onClick={onNavigate}
@@ -169,7 +176,7 @@ function ExpandedNavigationLink({
         />
       ) : null}
       <span className="min-w-0 flex-1">{item.label}</span>
-      {selected ? <ChevronRight aria-hidden="true" className="size-4" /> : null}
+      {item.pendingCount ? <PendingBadge count={item.pendingCount} /> : null}
     </Link>
   )
 }
@@ -190,12 +197,20 @@ function CompactNavigationLink({
       href={item.href}
       aria-current={selected ? "page" : undefined}
       aria-label={item.label}
+      aria-description={
+        item.pendingCount
+          ? `${item.pendingCount} pendientes visibles del escenario`
+          : undefined
+      }
       data-navigation-state={navigationState}
       data-navigation-level="primary"
       onClick={onNavigate}
-      className={compactLinkClassName(navigationState)}
+      className={cn(compactLinkClassName(navigationState), "relative")}
     >
       {Icon ? <Icon aria-hidden="true" className="size-5" /> : null}
+      {item.pendingCount ? (
+        <PendingBadge count={item.pendingCount} compact />
+      ) : null}
     </Link>
   )
 
@@ -209,7 +224,12 @@ function CompactNavigationLink({
     >
       <Tooltip>
         <TooltipTrigger render={link} />
-        <TooltipContent>{item.label}</TooltipContent>
+        <TooltipContent>
+          {item.label}
+          {item.pendingCount
+            ? ` · ${item.pendingCount} pendientes del escenario`
+            : ""}
+        </TooltipContent>
       </Tooltip>
     </li>
   )
@@ -235,10 +255,14 @@ function CompactNavigationGroup({
   const openFlyout = React.useCallback(() => {
     const rect = triggerRef.current?.getBoundingClientRect()
     if (rect) {
-      setPosition({ left: rect.right + 8, top: rect.top })
+      const height = 56 + (item.children?.length ?? 0) * 48
+      setPosition({
+        left: rect.right + 8,
+        top: Math.max(8, Math.min(rect.top, window.innerHeight - height - 8)),
+      })
     }
     setOpen(true)
-  }, [])
+  }, [item.children?.length])
 
   const closeFlyout = React.useCallback(() => setOpen(false), [])
 
@@ -292,7 +316,7 @@ function CompactNavigationGroup({
       <div
         data-slot="operations-flyout"
         hidden={!open}
-        className="fixed z-60 w-56 rounded-md border border-border bg-popover p-2 text-popover-foreground shadow-lg"
+        className="fixed z-60 max-h-[calc(100dvh-1rem)] w-56 overflow-y-auto rounded-md border border-border bg-popover p-2 text-popover-foreground shadow-lg"
         style={{ left: position.left, top: position.top }}
       >
         <p className="px-3 py-2 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
@@ -328,6 +352,29 @@ function CompactNavigationGroup({
         </ul>
       </div>
     </li>
+  )
+}
+
+function PendingBadge({
+  count,
+  compact = false,
+}: {
+  count: number
+  compact?: boolean
+}) {
+  return (
+    <span
+      aria-hidden="true"
+      data-work-count={count}
+      className={cn(
+        "rounded-full bg-sidebar-primary px-1.5 text-xs font-semibold text-sidebar-primary-foreground tabular-nums",
+        compact
+          ? "absolute -top-1 -right-1 min-w-4 leading-4"
+          : "min-w-5 text-center leading-5"
+      )}
+    >
+      {count > 99 ? "99+" : count}
+    </span>
   )
 }
 

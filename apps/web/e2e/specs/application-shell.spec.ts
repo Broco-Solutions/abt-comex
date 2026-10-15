@@ -32,7 +32,7 @@ test("@smoke redirects the root and navigates the complete application shell", a
     name: "Navegación principal",
   })
   await expect(desktopNavigation.getByRole("link").nth(0)).toHaveText("Inicio")
-  await expect(desktopNavigation.getByRole("link").nth(1)).toHaveText(
+  await expect(desktopNavigation.getByRole("link").nth(1)).toContainText(
     "Mi trabajo"
   )
   await expect(desktopNavigation.getByRole("link").nth(2)).toHaveText(
@@ -61,7 +61,8 @@ test("@smoke redirects the root and navigates the complete application shell", a
   ] as const
 
   for (const [label, path] of destinations) {
-    await desktopNavigation
+    await page
+      .locator('[data-slot="desktop-sidebar"]')
       .getByRole("link", { name: label, exact: true })
       .click()
     await expect(page).toHaveURL(new RegExp(`${path}$`))
@@ -69,7 +70,9 @@ test("@smoke redirects the root and navigates the complete application shell", a
       page.getByRole("heading", { level: 1, name: label })
     ).toBeVisible()
     await expect(
-      desktopNavigation.getByRole("link", { name: label, exact: true })
+      page
+        .locator('[data-slot="desktop-sidebar"]')
+        .getByRole("link", { name: label, exact: true })
     ).toHaveAttribute("aria-current", "page")
   }
   expect(consoleErrors).toEqual([])
@@ -98,9 +101,7 @@ test("@smoke desktop navigation adapts, persists and keeps every destination ope
   await expect(fullAttribution).toHaveText("Powered by")
   await expect(fullAttribution).not.toHaveText("Powered by Broco Solutions")
   await expect(
-    fullAttribution.locator(
-      'img[src="/brand/BROCO_SOLUTIONS_logo_gradient.svg"]'
-    )
+    fullAttribution.locator('img[src="/brand/BROCO_SOLUTIONS_logo_white.svg"]')
   ).toBeVisible()
 
   const collapseButton = page.getByRole("button", {
@@ -119,12 +120,12 @@ test("@smoke desktop navigation adapts, persists and keeps every destination ope
   })
   await expect(
     compactAttribution.locator(
-      'img[src="/brand/BROCO_SOLUTIONS_isotype_gradient.svg"]'
+      'img[src="/brand/BROCO_SOLUTIONS_isotype_white.png"]'
     )
   ).toBeVisible()
   await expect(
     compactAttribution.locator(
-      'img[src="/brand/BROCO_SOLUTIONS_logo_gradient.svg"]'
+      'img[src="/brand/BROCO_SOLUTIONS_logo_white.svg"]'
     )
   ).toHaveCount(0)
   await expect
@@ -136,9 +137,9 @@ test("@smoke desktop navigation adapts, persists and keeps every destination ope
 
   const workLink = navigation.getByRole("link", { name: "Mi trabajo" })
   await workLink.hover()
-  await expect(page.getByRole("tooltip", { name: "Mi trabajo" })).toBeVisible()
+  await expect(page.getByRole("tooltip", { name: /^Mi trabajo/ })).toBeVisible()
   await workLink.focus()
-  await expect(page.getByRole("tooltip", { name: "Mi trabajo" })).toBeVisible()
+  await expect(page.getByRole("tooltip", { name: /^Mi trabajo/ })).toBeVisible()
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= window.innerWidth
@@ -197,10 +198,10 @@ test("@smoke desktop navigation adapts, persists and keeps every destination ope
   await expect(drawer.locator('[data-brand-variant="wordmark"]')).toBeVisible()
   await expect(drawer.locator('[data-brand-variant="isotype"]')).toHaveCount(0)
   await expect(
-    drawer.locator('img[src="/brand/BROCO_SOLUTIONS_logo_gradient.svg"]')
+    drawer.locator('img[src="/brand/BROCO_SOLUTIONS_logo_white.svg"]')
   ).toBeVisible()
   await expect(
-    drawer.locator('img[src="/brand/BROCO_SOLUTIONS_isotype_gradient.svg"]')
+    drawer.locator('img[src="/brand/BROCO_SOLUTIONS_isotype_white.png"]')
   ).toHaveCount(0)
   await page.keyboard.press("Escape")
   await page.setViewportSize({ width: 1440, height: 900 })
@@ -346,7 +347,7 @@ test("@smoke mobile drawer manages focus, Escape and route selection", async ({
     .getByRole("dialog", { name: "Navegación principal" })
     .getByRole("navigation", { name: "Navegación principal" })
   await expect(drawerNavigation.getByRole("link").nth(0)).toHaveText("Inicio")
-  await expect(drawerNavigation.getByRole("link").nth(1)).toHaveText(
+  await expect(drawerNavigation.getByRole("link").nth(1)).toContainText(
     "Mi trabajo"
   )
   await expect(drawerNavigation.getByRole("link").nth(2)).toHaveText(

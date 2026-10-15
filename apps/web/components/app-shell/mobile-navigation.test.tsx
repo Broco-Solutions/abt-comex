@@ -8,19 +8,25 @@ import {
   NAVIGATION_STORAGE_KEY,
 } from "./app-shell-state"
 import { MobileNavigation } from "./mobile-navigation"
+import { OnboardingProvider } from "../onboarding/onboarding-provider"
 
 vi.mock("next/navigation", () => ({
   usePathname: () => "/inicio",
   useSearchParams: () => new URLSearchParams(),
 }))
 
-beforeEach(() => window.localStorage.clear())
+beforeEach(() => {
+  window.localStorage.clear()
+  sessionStorage.clear()
+})
 
 function renderMobileNavigation() {
   return renderComponent(
-    <AppShellStateProvider>
-      <MobileNavigation />
-    </AppShellStateProvider>
+    <OnboardingProvider>
+      <AppShellStateProvider>
+        <MobileNavigation />
+      </AppShellStateProvider>
+    </OnboardingProvider>
   )
 }
 
@@ -45,7 +51,7 @@ it("opens, focuses navigation, closes after selection and restores focus", async
     within(navigation)
       .getAllByRole("link")
       .slice(0, 5)
-      .map((link) => link.textContent)
+      .map((link) => link.getAttribute("aria-label"))
   ).toEqual([
     "Inicio",
     "Mi trabajo",
@@ -123,15 +129,17 @@ it("keeps the complete drawer when the desktop preference is compact", async () 
   expect(attribution).not.toHaveTextContent("Broco Solutions")
   expect(attribution.querySelector("img")).toHaveAttribute(
     "src",
-    "/brand/BROCO_SOLUTIONS_logo_gradient.svg"
+    "/brand/BROCO_SOLUTIONS_logo_white.svg"
   )
 })
 
 it("can expose its trigger inside the Design System reference", () => {
   renderComponent(
-    <AppShellStateProvider>
-      <MobileNavigation forceVisible />
-    </AppShellStateProvider>
+    <OnboardingProvider>
+      <AppShellStateProvider>
+        <MobileNavigation forceVisible />
+      </AppShellStateProvider>
+    </OnboardingProvider>
   )
 
   expect(

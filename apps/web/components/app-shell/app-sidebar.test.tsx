@@ -1,6 +1,12 @@
 import { screen, waitFor, within } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-import { expect, it, vi } from "vitest"
+import { beforeEach, expect, it, vi } from "vitest"
+import { OnboardingProvider } from "../onboarding/onboarding-provider"
+
+beforeEach(() => {
+  localStorage.clear()
+  sessionStorage.clear()
+})
 
 import { renderComponent } from "@/test/utils/render"
 import { AppShellStateProvider } from "./app-shell-state"
@@ -13,9 +19,11 @@ vi.mock("next/navigation", () => ({
 
 it("renders the complete navigation, active state and brand attribution", () => {
   renderComponent(
-    <AppShellStateProvider>
-      <AppSidebar />
-    </AppShellStateProvider>
+    <OnboardingProvider>
+      <AppShellStateProvider>
+        <AppSidebar />
+      </AppShellStateProvider>
+    </OnboardingProvider>
   )
 
   expect(
@@ -50,7 +58,9 @@ it("renders the complete navigation, active state and brand attribution", () => 
     name: "Navegación principal",
   })
   const links = within(navigation).getAllByRole("link")
-  expect(links.slice(0, 5).map((link) => link.textContent)).toEqual([
+  expect(
+    links.slice(0, 5).map((link) => link.getAttribute("aria-label"))
+  ).toEqual([
     "Inicio",
     "Mi trabajo",
     "Operaciones",
@@ -69,17 +79,28 @@ it("renders the complete navigation, active state and brand attribution", () => 
   expect(
     within(navigation).getByRole("link", { name: "Exportaciones" })
   ).toHaveAttribute("href", "/operaciones?tipo=exportacion")
+  expect(screen.getByRole("region", { name: "Operación diaria" })).toBeVisible()
+  expect(screen.getByRole("region", { name: "Registros" })).toBeVisible()
+  expect(screen.getByRole("region", { name: "Gestión" })).toBeVisible()
   expect(
-    within(navigation).getByRole("link", { name: "Mi trabajo" }).closest("li")
-  ).toHaveAttribute("data-navigation-separator", "after")
+    within(navigation).queryByRole("link", { name: "Configuración" })
+  ).toBeNull()
+  expect(
+    screen.getByRole("navigation", { name: "Configuración y cuenta" })
+  ).toContainElement(screen.getByRole("link", { name: "Configuración" }))
+  expect(
+    screen.getByRole("link", { name: "Importaciones" }).querySelector("svg")
+  ).toBeNull()
 })
 
 it("switches to a fully operable compact rail with tooltips and flyout", async () => {
   const user = userEvent.setup()
   renderComponent(
-    <AppShellStateProvider>
-      <AppSidebar />
-    </AppShellStateProvider>
+    <OnboardingProvider>
+      <AppShellStateProvider>
+        <AppSidebar />
+      </AppShellStateProvider>
+    </OnboardingProvider>
   )
 
   const collapseButton = screen.getByRole("button", {

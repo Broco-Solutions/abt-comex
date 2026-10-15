@@ -4,6 +4,12 @@
 
 ## 1. Objetivo
 
+Regresión del refinamiento de navegación V3 en `e2e/specs/v3-sidebar.spec.ts`:
+grupos independientes y persistentes, padre/hijos, selección sin flechas,
+contador reactivo al doble control, perfil consultivo con retorno de foco,
+cambio de escenario y drawer en altura reducida. Complementa la suite del Shell,
+axe, snapshots inspeccionados y revisión efectiva desktop/rail/tablet/móvil.
+
 Asegurar que el frontend de ABT Comex sea confiable, consistente, accesible y navegable antes de incorporar backend real.
 
 Los datos mock no reducen la exigencia de calidad: navegación, reglas de presentación, formularios, filtros, cálculos, estados, permisos simulados y recorridos completos deben probarse desde el comienzo.

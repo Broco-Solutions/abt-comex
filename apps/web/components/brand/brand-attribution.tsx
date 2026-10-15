@@ -9,7 +9,13 @@ import {
   TooltipTrigger,
 } from "@workspace/ui/components/tooltip"
 
-export function BrandAttribution({ compact = false }: { compact?: boolean }) {
+export function BrandAttribution({
+  compact = false,
+  inverted = false,
+}: {
+  compact?: boolean
+  inverted?: boolean
+}) {
   const attributionLink = (
     <a
       href="https://brocosolutions.com"
@@ -24,16 +30,20 @@ export function BrandAttribution({ compact = false }: { compact?: boolean }) {
       className={
         compact
           ? "inline-flex size-11 items-center justify-center rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-          : "inline-flex flex-col items-start rounded-md px-1 py-1 text-xs text-muted-foreground underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          : `inline-flex flex-col items-start rounded-md px-1 py-1 text-xs ${inverted ? "text-sidebar-foreground/70 focus-visible:outline-sidebar-ring" : "text-muted-foreground focus-visible:outline-primary"} underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2`
       }
     >
       {compact ? null : <span>Powered by</span>}
       <Image
         alt=""
         src={
-          compact
-            ? "/brand/BROCO_SOLUTIONS_isotype_gradient.svg"
-            : "/brand/BROCO_SOLUTIONS_logo_gradient.svg"
+          inverted
+            ? compact
+              ? "/brand/BROCO_SOLUTIONS_isotype_white.png"
+              : "/brand/BROCO_SOLUTIONS_logo_white.svg"
+            : compact
+              ? "/brand/BROCO_SOLUTIONS_isotype_gradient.svg"
+              : "/brand/BROCO_SOLUTIONS_logo_gradient.svg"
         }
         width={compact ? 588 : 1810}
         height={705}

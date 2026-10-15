@@ -1,6 +1,6 @@
 # Fundamentos — Application Shell
 
-> Estado: Approved
+> Estado: Under review
 > Estado de etapa y limitación de entorno: [Plan](../PLAN_IMPLEMENTACION.md#estado-de-etapas)
 > Etapa: 1 — Application Shell e infraestructura de experiencia  
 > Última actualización: 10/10/2026
@@ -8,6 +8,18 @@
 > Ruta prevista: grupo `(app)`; `/` redirige a `/inicio`
 
 ## 1. Objetivo
+
+La base fundacional fue Approved; el refinamiento V3 requiere nueva revisión.
+Agrupa Operación diaria, Registros y Gestión, con Configuración,
+perfil consultivo y atribución al pie. Clientes contiene Cotizaciones conservando
+ambas rutas; Proveedores mantiene su entrada. Operaciones y Clientes se expanden
+independientemente por chevron separado del enlace y conservan su estado en la
+sesión, incluso al cambiar rail/drawer o navegar. Selección sin flechas derechas.
+El botón compacto de modo queda en el branding; el menú inferior reemplaza al
+del header. Cuenta de evaluación explícita, sin editar datos laborales desde el
+perfil. Contador de trabajo compartido visible, con asignación individual sólo
+si es explícita. Marca negativa oficial y verde profundo documentados en
+[Marca](../BRAND_USAGE.md) y [Estándar](../FRONTEND_STANDARD.md).
 
 Dar orientación, navegación y acceso a ayuda consistentes a la aplicación interna. El shell envuelve vistas futuras sin decidir sus reglas de negocio.
 
