@@ -1,4 +1,5 @@
 import type { DemonstrationOperation } from "../types/operation"
+import { validHandoff } from "./operational-continuity"
 
 const operationStorageKey = "abt-comex:demo:operations:v1"
 
@@ -7,6 +8,7 @@ export const demonstrationOperations: DemonstrationOperation[] = [
   {
     id: "op-demo-2048",
     reference: "OP-DEM-2048",
+    openedOn: "2026-10-02",
     kind: "Importación",
     clientId: "client-demo-norte",
     client: "Cliente Demo Norte",
@@ -20,6 +22,7 @@ export const demonstrationOperations: DemonstrationOperation[] = [
   {
     id: "op-demo-2054",
     reference: "OP-DEM-2054",
+    openedOn: "2026-09-18",
     kind: "Importación",
     clientId: "client-demo-centro",
     client: "Cliente Demo Centro",
@@ -33,6 +36,7 @@ export const demonstrationOperations: DemonstrationOperation[] = [
   {
     id: "op-demo-2061",
     reference: "OP-DEM-2061",
+    openedOn: "2026-09-25",
     kind: "Importación",
     clientId: "client-demo-sur",
     client: "Cliente Demo Sur",
@@ -46,6 +50,7 @@ export const demonstrationOperations: DemonstrationOperation[] = [
   {
     id: "op-demo-3107",
     reference: "OP-DEM-3107",
+    openedOn: "2026-10-01",
     kind: "Exportación",
     clientId: "client-demo-norte",
     client: "Cliente Demo Norte",
@@ -59,6 +64,7 @@ export const demonstrationOperations: DemonstrationOperation[] = [
   {
     id: "op-demo-3112",
     reference: "OP-DEM-3112",
+    openedOn: "2026-10-05",
     kind: "Exportación",
     clientId: "client-demo-centro",
     client: "Cliente Demo Centro",
@@ -72,6 +78,7 @@ export const demonstrationOperations: DemonstrationOperation[] = [
   {
     id: "op-demo-3120",
     reference: "OP-DEM-3120",
+    openedOn: "2026-09-10",
     kind: "Exportación",
     clientId: "client-demo-este",
     client: "Cliente Demo Este",
@@ -85,6 +92,7 @@ export const demonstrationOperations: DemonstrationOperation[] = [
   {
     id: "op-demo-3133",
     reference: "OP-DEM-3133",
+    openedOn: "2026-08-20",
     kind: "Exportación",
     clientId: "client-demo-sur",
     client: "Cliente Demo Sur",
@@ -98,6 +106,7 @@ export const demonstrationOperations: DemonstrationOperation[] = [
   {
     id: "op-demo-2073",
     reference: "OP-DEM-2073",
+    openedOn: "2026-10-03",
     kind: "Importación",
     clientId: "client-demo-este",
     client: "Cliente Demo Este",
@@ -111,6 +120,7 @@ export const demonstrationOperations: DemonstrationOperation[] = [
   {
     id: "op-demo-3141",
     reference: "OP-DEM-3141",
+    openedOn: "2026-09-01",
     kind: "Exportación",
     clientId: "client-demo-norte",
     client: "Cliente Demo Norte",
@@ -164,6 +174,17 @@ function isDemonstrationOperation(
       String(operation.alert)
     ) &&
     typeof operation.nextAction === "string" &&
+    validHandoff(operation.handoff) &&
+    (operation.responsibleId === undefined ||
+      typeof operation.responsibleId === "string") &&
+    (operation.openedOn === undefined ||
+      (typeof operation.openedOn === "string" &&
+        /^\d{4}-\d{2}-\d{2}$/.test(operation.openedOn))) &&
+    (operation.participantIds === undefined ||
+      (Array.isArray(operation.participantIds) &&
+        operation.participantIds.every(
+          (id: unknown) => typeof id === "string"
+        ))) &&
     validOrigin &&
     (operation.initialContext === undefined ||
       typeof operation.initialContext === "string")

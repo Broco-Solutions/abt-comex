@@ -458,6 +458,7 @@ Suprimir descripciones obvias y avisos reiterados en todas las superficies. Iden
 Formularios en diálogo: el popup compartido limita altura al viewport dinámico menos el padding existente (2rem), con scroll interno. Título y acciones deben ser alcanzables en móvil/zoom, sin recorte superior. Comprobar con contenido extenso y teclado; no asumirlo por ausencia de overflow global.
 
 - Listados: búsqueda y filtro frecuente visibles; secundarios plegados, filtros activos removibles y una confirmación para rangos compuestos. No repetir el tipo fijado por una vista.
+- Conteos como metadatos compactos en la línea de resultados o junto al título de sección, sin una superficie/banda propia. Aclaraciones sobre ejecución de fondos pertenecen al formulario o detalle de la acción, no al conteo repetido del listado.
 - Actualizaciones locales de filtros/agrupación conservan foco y scroll mediante History API integrada con Next; URL conserva la consulta y Atrás/Adelante restaura el estado. Enlaces de detalle capturan origen/posición; retorno local restaura foco en el registro y posición, sin depender de back ambiguo.
 - Fecha de período siempre identifica evento: Actualización no equivale a arribo/oficialización/vencimiento.
 - Selector buscable compartido para catálogos potencialmente extensos: etiqueta persistente, consulta tolerante a acentos, opciones identificables, flechas/Inicio/Fin/Enter/Escape/Tab, selección conservada sin coincidencias. No crear registros ni ampliar capacidades desde el componente.

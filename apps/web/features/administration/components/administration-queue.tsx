@@ -68,7 +68,17 @@ export function AdministrationQueue({
       />
 
       <AdministrationNav />
-      <h2 className="text-base font-semibold">Bandeja administrativa</h2>
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <h2 className="text-base font-semibold">Bandeja administrativa</h2>
+        {!restricted && !readError ? (
+          <p
+            role="status"
+            className="text-sm text-muted-foreground tabular-nums"
+          >
+            {entries.length} {entries.length === 1 ? "elemento" : "elementos"}
+          </p>
+        ) : null}
+      </div>
       {restricted || readError ? (
         <section
           className="max-w-3xl border-y border-border py-4"
@@ -87,16 +97,6 @@ export function AdministrationQueue({
         </section>
       ) : (
         <>
-          <section
-            className="border-y border-border py-3"
-            aria-label="Alcance de la bandeja"
-          >
-            <p className="text-sm">
-              <span className="font-medium">{entries.length}</span> elementos
-              visibles.
-            </p>
-          </section>
-
           <form
             action="/administracion"
             method="get"

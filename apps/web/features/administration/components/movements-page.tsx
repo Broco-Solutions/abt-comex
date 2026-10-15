@@ -211,10 +211,17 @@ export function MovementsPage() {
         <p role="status">Preparando movimientos…</p>
       ) : (
         <>
-          <p role="status" className="text-sm text-muted-foreground">
-            {rows.length} movimientos · referencias locales, no ejecución de
-            fondos
-          </p>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 text-sm text-muted-foreground">
+            <p role="status" className="tabular-nums">
+              {rows.length} {rows.length === 1 ? "movimiento" : "movimientos"}
+            </p>
+            {pages > 1 ? (
+              <span>
+                {(page - 1) * 12 + 1}–{Math.min(page * 12, rows.length)} de{" "}
+                {rows.length}
+              </span>
+            ) : null}
+          </div>
           <ul
             aria-label="Movimientos autorizados"
             className="divide-y divide-border rounded-lg border border-border bg-card px-4"
