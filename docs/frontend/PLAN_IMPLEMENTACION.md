@@ -756,7 +756,7 @@ Autorización interna del responsable (14/10/2026): siete bloques frontend por P
 | UX-04 | Inicio contextual y preparación Dirección; UX-03 | Under review — PR #23 integrado |
 | UX-05 | G1–G5 y registros; completa Dirección junto a UX-04 | Under review — PR #24 integrado |
 | UX-06 | Fichas, procesos, documentos, Portal y limpieza transversal | Under review — PR #25 integrado |
-| UX-07 | Regresión 32 experiencias/J1–J10, capacidades y responsive | Under review — validación integral en curso |
+| UX-07 | Regresión 32 experiencias/J1–J10, capacidades y responsive | Under review — cierre técnico, revisión humana pendiente; PR #26 |
 
 Gates por bloque: lint, tipos, pruebas proporcionales, build, E2E, inspección visual, validador y diff; CI verde antes de squash, contenido comprobado en main y deployment existente. Comandos en [estrategia de pruebas](TEST_STRATEGY.md).
 
@@ -875,3 +875,13 @@ Cada ID conserva su alcance: no equivale a una pantalla independiente ni a una f
 Perspectivas: operadores comparten componentes con contexto de tipo; responsable operativo sin capacidades económicas implícitas; Administración con bandeja y lectura financiera; Dirección con análisis; Portal separado. El recorrido comercial se evalúa con la perspectiva integral, no un rol Comercial aprobado inexistente. Se comprueban objetos propios y ausencia de referencias/importes ajenos, no sólo menú oculto.
 
 Nuevo ux-regression: identidad/apertura dentro del ancho útil a 320/430/768/1024/1280/1440 px, primer resultado móvil tras filtros compactos, consola, fechas inválidas y ayuda/preferencias. Viewport comprueba reflow, no certifica zoom de cada motor. Las referencias visuales se inspeccionan antes de incorporarlas y quedan Under review. Firefox no inicia por perfil del host; WebKit informa bibliotecas faltantes: no se declaran validados ni se alteran sus pruebas para ocultarlo.
+
+#### Evidencia final y revisión humana
+
+Lint, tipos, build, 101 unitarias/componentes web + 3 de UI, 32 axe y 72 E2E Chromium pasaron; CI quality/e2e-smoke/Vercel verde. La primera ejecución unitaria local saturó la concurrencia y tuvo tres timeouts: se repitió con dos workers, sin aumentar tiempos ni cambiar aserciones; CI ejecutó sus comandos originales. Validador y self-test mantienen 117 IDs, 32 experiencias y J1–J10.
+
+Comparación visual inicial: DS coincide con su referencia; tres referencias del Shell/Inicio fundacionales quedan obsoletas por contenido real, menú de usuario y nombre Dirección. Se inspeccionaron imágenes reales y diferencias antes de actualizar sólo esas tres bases técnicas, sin declarar aprobación humana. Capturas adicionales inspeccionadas: /acceso 1440, Inicio 430, Importaciones 1024, Administración 320, Dirección 1366, Cotización y Portal 390. Sin overflow global ni errores de navegador en esa pasada. Controles de fecha nativos respetan la configuración del navegador; registros y período explicativo usan DD/MM/AAAA. No se afirma localización forzada de controles del sistema operativo ni prueba de zoom nativo.
+
+No se detectaron P0/P1 en los escenarios Chromium ejecutados. Persisten límites, no funcionalidades ficticiamente terminadas: parametrización por cliente, centro global de alertas/integraciones, excepciones que necesitan reglas ABT, archivos documentales reales, fórmulas financieras e identidad reales. Cobertura frontend por tramos no equivale a ejecutar procesos externos. La protección del dominio personalizado no está acreditada; no se modifica infraestructura ni se presenta la selección de perspectiva como seguridad real.
+
+Revisión sugerida desde /acceso: Importación→Inicio→Mi trabajo→control/copia→retorno; Exportación→permiso/DJVE→documentos→continuidad administrativa; Administración→bandeja/finanzas→G2/G3→registros; Dirección→G1/G4→registros→operación→retorno; recorrido comercial con perspectiva integral→cliente/cotización/versiones/alta; Cliente externo→Portal→documentos→salida. Comprobar comprensión, densidad, zoom/teclado/contraste y criterios pendientes con ABT antes de cualquier aprobación.
