@@ -104,7 +104,10 @@ test("@smoke external scenario opens its own shell and authorized records", asyn
 }) => {
   await page.goto("/acceso")
   await page.getByRole("button", { name: /Cliente externo/ }).click()
-  await expect(page).toHaveURL(/portal$/)
+  await expect(page.getByText("OP-DEM-2054", { exact: true }).first()).toBeVisible()
+  await expect(page.getByText("OP-DEM-3112", { exact: true })).toBeVisible()
+  await expect(page.getByText("OP-DEM-2048", { exact: true })).toHaveCount(0)
+  await expect(page).toHaveURL(/portal\?cliente=client-demo-centro$/)
   await expect(
     page.getByRole("navigation", { name: "Navegación del Portal" })
   ).toBeVisible()

@@ -556,3 +556,7 @@ Inicio conserva atención y acceso al contexto; incorpora tres acciones según c
 Las revisiones comerciales se proyectan de la versión vigente: la aprobación local retira ese pendiente, no implica envío, aceptación ni alta de operación. Inicio, Mi trabajo y la vista histórica de gestión leen esa misma proyección. G5 se incorpora en UX-05; la identidad visible de Dirección se completa junto con su analítica, sin publicar un módulo vacío.
 
 Pruebas: work-projection.test.ts, ux-workspace.spec.ts y regresión de Etapa 2. Las perspectivas son presets de evaluación, no perfiles ABT aprobados.
+
+### G5 — operaciones por situación
+
+Un único gráfico operativo lee la colección autorizada del estado compartido de Operaciones; agrupa por situación existente, no productividad ni etapa inferida. Barra y enlace textual muestran el mismo conteo y abren el listado con situación y tipo contextual en URL. Identidad/acciones se conservan en el listado. Sin cifras financieras; carga, vacío y alternativa por enlaces explícitos.

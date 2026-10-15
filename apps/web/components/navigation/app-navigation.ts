@@ -86,7 +86,7 @@ export const appNavigation: NavigationItem[] = [
   },
   {
     id: "gestion",
-    label: "Gestión",
+    label: "Dirección",
     href: "/gestion",
     description: "Información para seguimiento y dirección.",
     icon: ChartNoAxesCombined,

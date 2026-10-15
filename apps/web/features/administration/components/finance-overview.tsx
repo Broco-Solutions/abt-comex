@@ -1,16 +1,17 @@
 import Link from "next/link"
+import { FinancialDashboard } from "@/features/finance/components/financial-dashboard"
 
 import { PageHeader } from "@/components/navigation/page-header"
 import { buttonVariants } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
 import { visibleWorkItems } from "@/features/work/data/work-items"
 
-export function FinanceOverview({ workId }: { workId: string }) {
+export function FinanceOverview({ workId, searchParams={} }: { workId: string;searchParams?:Record<string,string|string[]|undefined> }) {
   const task = visibleWorkItems().find((item) => item.id === workId)
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Fuentes y finanzas"
+        title="Finanzas"
         secondaryActions={
           <Link
             href="/administracion"
@@ -35,6 +36,8 @@ export function FinanceOverview({ workId }: { workId: string }) {
           </p>
         </section>
       ) : null}
+      <FinancialDashboard searchParams={searchParams} />
+      <details><summary className="cursor-pointer text-sm font-medium focus-visible:outline-2 focus-visible:outline-ring">Fuentes y definiciones pendientes</summary>
       <section
         className="grid gap-5 md:grid-cols-2"
         aria-label="Fuentes externas"
@@ -104,10 +107,11 @@ export function FinanceOverview({ workId }: { workId: string }) {
             exponer métricas.
           </p>
           <p className="text-xs text-muted-foreground">
-            No se presentan importes, totales ni resultados económicos.
+            Los gráficos utilizan registros sintéticos. Resultados, rentabilidad y márgenes no están definidos.
           </p>
         </article>
       </section>
+      </details>
       <p className="border-t border-border pt-4 text-xs text-muted-foreground">
         Fuentes sintéticas o no conectadas. Última actualización externa: no
         disponible. Una pantalla mock no valida contrato ni integración.

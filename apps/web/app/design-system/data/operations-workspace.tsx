@@ -1486,7 +1486,7 @@ function EmptyFiltered({ onClear }: { onClear: () => void }) {
 const chartConfig = {
   import: { label: "Importaciones", color: "var(--chart-1)" },
   export: { label: "Exportaciones", color: "var(--chart-2)" },
-  amount: { label: "Importe", color: "var(--chart-1)" },
+  count: { label: "Operaciones", color: "var(--chart-1)" },
   attention: { label: "Requiere atención", color: "var(--destructive)" },
   pending: { label: "Pendiente", color: "var(--warning)" },
   active: { label: "En curso", color: "var(--info)" },
@@ -1494,13 +1494,9 @@ const chartConfig = {
 } satisfies ChartConfig
 
 function ChartsSection({ data }: { data: Operation[] }) {
-  const [metric, setMetric] = React.useState<"count" | "amount">("count")
   const statusData = statuses.map((item) => ({
     status: item,
     count: data.filter((operation) => operation.status === item).length,
-    amount: data
-      .filter((operation) => operation.status === item)
-      .reduce((sum, operation) => sum + operation.amount, 0),
   }))
   const supplierData = groupOperations(data, (item) => item.counterpart)
     .map(({ label, items }) => ({ supplier: label, count: items.length }))
@@ -1542,22 +1538,6 @@ function ChartsSection({ data }: { data: Operation[] }) {
             operativo.
           </p>
         </div>
-        <div className="flex rounded-md border border-border p-0.5">
-          <Button
-            size="xs"
-            variant={metric === "count" ? "secondary" : "ghost"}
-            onClick={() => setMetric("count")}
-          >
-            Cantidad
-          </Button>
-          <Button
-            size="xs"
-            variant={metric === "amount" ? "secondary" : "ghost"}
-            onClick={() => setMetric("amount")}
-          >
-            Importe
-          </Button>
-        </div>
       </div>
       <div className="mt-5 grid gap-5 lg:grid-cols-2">
         <ChartPanel
@@ -1584,7 +1564,7 @@ function ChartsSection({ data }: { data: Operation[] }) {
               <Bar
                 dataKey="count"
                 name="Operaciones"
-                fill="var(--color-amount)"
+                fill="var(--color-count)"
                 radius={2}
               />
             </BarChart>
@@ -1663,7 +1643,7 @@ function ChartsSection({ data }: { data: Operation[] }) {
           </ChartContainer>
         </ChartPanel>
         <ChartPanel
-          title={`Distribución por estado · ${metric === "count" ? "cantidad" : "importe"}`}
+          title="Distribución por estado · cantidad"
           description="Donut para composición de la cartera."
         >
           <ChartContainer config={chartConfig} className="h-64">
@@ -1671,19 +1651,13 @@ function ChartsSection({ data }: { data: Operation[] }) {
               <ChartTooltip
                 content={
                   <ChartTooltipContent
-                    valueFormatter={(value) =>
-                      metric === "amount"
-                        ? new Intl.NumberFormat("es-AR", {
-                            maximumFractionDigits: 0,
-                          }).format(Number(value))
-                        : String(value)
-                    }
+                    valueFormatter={(value) => String(value)}
                   />
                 }
               />
               <Pie
                 data={statusData}
-                dataKey={metric}
+                dataKey="count"
                 nameKey="status"
                 innerRadius={58}
                 outerRadius={88}

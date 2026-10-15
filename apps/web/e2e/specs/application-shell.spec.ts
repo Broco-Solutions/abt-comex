@@ -53,7 +53,7 @@ test("@smoke redirects the root and navigates the complete application shell", a
     ["Clientes", "/clientes"],
     ["Cotizaciones", "/cotizaciones"],
     ["Administración y Finanzas", "/administracion"],
-    ["Gestión", "/gestion"],
+    ["Dirección", "/gestion"],
     ["Configuración", "/configuracion"],
   ] as const
 

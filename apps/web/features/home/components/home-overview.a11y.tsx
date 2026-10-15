@@ -4,6 +4,8 @@ import { expect, it, vi } from "vitest"
 import { renderComponent } from "@/test/utils/render"
 import { HomeOverview } from "./home-overview"
 
+vi.mock("next/navigation", () => ({ useRouter: () => ({ push: vi.fn() }) }))
+
 it("has no known automated accessibility violations in Inicio", async () => {
   const { container } = renderComponent(<HomeOverview />)
   const canvasContext = vi

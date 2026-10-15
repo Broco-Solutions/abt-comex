@@ -50,6 +50,7 @@ export const scenarios = [
   },
   {
     id: "client",
+    clientId: "client-demo-centro",
     label: "Cliente externo",
     description: "Operaciones y documentos propios",
     commercial: false,
