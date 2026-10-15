@@ -1,5 +1,9 @@
 # ABT Comex — Frontend Standard
 
+## Carteras y navegación administrativa V3
+
+La navegación secundaria de una colección administrativa no debe consumir varias filas en móvil: una franja desplazable conserva enlaces, foco y sección activa visible. Contenido y acciones principales no dependen de desplazar esa franja. Avisos de vencimiento sobre fondo neutro usan texto legible, no un token diseñado para fondo de advertencia. Consulta de flujos usa fechas del evento; cartera usa fecha de corte e incluye emisiones anteriores abiertas. Saldo desconocido, saldo conocido del escenario y saldo informado de referencia se identifican sin equipararlos.
+
 ## Contrato visual de analítica V2
 
 Usar Recharts, ChartContainer y tokens existentes. Cada visualización declara período, unidad/moneda, dimensión, fuente y actualización; las series no mezclan monedas ni eventos. Gráfico y registros explicativos comparten datos y filtros, con selección por barra y alternativa mediante valores/enlaces accesibles sin hover. No animar cifras operativas innecesariamente. Vacío, error o información faltante no se representan como un cero confirmado. Los gráficos no sustituyen registros ni introducen fórmulas de negocio.

@@ -1,6 +1,10 @@
 "use client"
 import { useRouter } from "next/navigation"
 import {
+  initialVoucherState,
+  saveVouchers,
+} from "@/features/administration/data/vouchers"
+import {
   initialAdministrativeLedger,
   saveAdministrativeLedger,
 } from "@/features/administration/data/administrative-ledger"
@@ -144,6 +148,7 @@ export function ScenarioProvider({ children }: { children: React.ReactNode }) {
     )
   }
   function resetData() {
+    saveVouchers(initialVoucherState)
     saveAdministrativeLedger(initialAdministrativeLedger)
     saveOrganizations(initialOrganizations)
     saveDemoOperations(demonstrationOperations)

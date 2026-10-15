@@ -17,7 +17,7 @@ Fuente: solicitud explícita del responsable 15/10/2026, no aprobación formal A
 | ACC-001 | Login convencional, contraseña visible/oculta y recuperación de UX; escenarios secundarios | V3-03 Under review; ACCESS-01; J11 | Política real diferida; no credenciales ni envíos |
 | CAT-001 | Categorías/conceptos activos e inactivos con significado histórico conservado | V3-04 Under review; CAT-01; J12 | Catálogo y mapeo externo |
 | MOV-001 | Gastos generales/operativos, movimientos, anticipos y rendiciones sintéticos sin doble registración | V3-04 Under review; GAS-01/MOV-01/REN-01; J12 | Autoridad y circuito externo |
-| CAR-001 | Comprobantes/aplicaciones y carteras cobrar/pagar al corte incluyendo obligaciones previas abiertas | Pendiente V3-05 | Saldos, vencimientos y aplicaciones externas |
+| CAR-001 | Comprobantes/aplicaciones y carteras cobrar/pagar al corte incluyendo obligaciones previas abiertas | V3-05 Under review; CAR-01/COM-01; J13 | Saldos, vencimientos y aplicaciones externas |
 | REP-019 | Comparaciones equivalentes, rankings precisos y acceso a registros desde Dirección | Pendiente V3-07 | Definición de métricas, sin fórmulas no validadas |
 
 V3-01 mejora OPS-01/OPS-02, COT-03 y POR-02/POR-03 sin declarar resueltas las ampliaciones anteriores. Microsoft 365 queda fuera de V3; INT-004 conserva su ID histórico, no justifica una funcionalidad futura en esta ejecución.

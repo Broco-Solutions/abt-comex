@@ -1,6 +1,7 @@
 "use client"
 import Link from "next/link"
 import { useAdministrativeLedger } from "@/features/administration/state/use-administrative-ledger"
+import { useVouchers } from "@/features/administration/state/use-vouchers"
 import { projectAdministrativeFinancialRecords } from "@/features/administration/data/administrative-ledger"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
@@ -36,6 +37,7 @@ export function FinancialDashboard({
   )
   const { scenario } = useScenario()
   const { state: ledger } = useAdministrativeLedger()
+  const { state: vouchers } = useVouchers()
   const billing = hasCapability(scenario, "finance.billing")
   const collections = hasCapability(scenario, "finance.collections")
   const expenses =
@@ -99,13 +101,25 @@ export function FinancialDashboard({
     ? []
     : filterFinancialRecords(
         filters,
-        projectAdministrativeFinancialRecords(ledger)
+        projectAdministrativeFinancialRecords(ledger, vouchers)
       ).filter((record) => allowedTypes.includes(record.type))
   const invoices = records.filter((r) => r.type === "invoice")
+  const portfolioInvoices = projectAdministrativeFinancialRecords(
+    ledger,
+    vouchers
+  ).filter(
+    (record) =>
+      record.type === "invoice" &&
+      record.currency === currency &&
+      record.date <= FINANCIAL_CUTOFF &&
+      (!clientId || record.clientId === clientId)
+  )
   const type = params.get("serie")
   const dimension = params.get("dimension")
   const key = params.get("grupo")
-  const selected = records.filter(
+  const selected = (
+    dimension === "due" && collections ? portfolioInvoices : records
+  ).filter(
     (r) =>
       r.type === type &&
       (dimension === "month"
@@ -120,7 +134,9 @@ export function FinancialDashboard({
                 receivableBand(r) === key
               : dimension === "all")
   )
-  const missing = invoices.filter((r) => r.openBalance === undefined).length
+  const missing = portfolioInvoices.filter(
+    (r) => r.openBalance === undefined
+  ).length
   const selectionLabel =
     dimension === "category"
       ? (ledger.categories.find((item) => item.id === key)?.name ?? key)
@@ -257,15 +273,15 @@ export function FinancialDashboard({
                 <div className="min-w-0">
                   <DistributionChart
                     id="due-chart"
-                    title="Cuentas por cobrar · saldo informado al corte"
-                    data={buckets(invoices, "due")}
+                    title="Cuentas por cobrar · saldo del escenario al corte"
+                    data={buckets(portfolioInvoices, "due")}
                     currency={currency}
                     href={(key) => drill("invoice", "due", key)}
                   />
                   <p className="mt-3 text-xs text-muted-foreground">
-                    Facturas del período seleccionado; saldos informados al{" "}
-                    {formatDate(FINANCIAL_CUTOFF)}. Tramos temporales, no
-                    calificación de riesgo.{" "}
+                    Obligaciones abiertas, incluidas emisiones anteriores al
+                    período; corte {formatDate(FINANCIAL_CUTOFF)}. Tramos
+                    temporales, no calificación de riesgo.{" "}
                     {missing
                       ? `${missing} factura sin saldo informado; no se interpreta como cero.`
                       : "No incluye documentos sin saldo informado."}
@@ -372,14 +388,16 @@ function FinancialRecords({
           className="grid gap-2 py-3 text-sm sm:grid-cols-[minmax(0,1fr)_auto]"
         >
           <div>
-            {record.type === "invoice" ? (
-              <p className="font-medium">{record.reference}</p>
-            ) : (
+            {
               <Link
                 className="font-medium text-primary underline"
                 href={
                   "/administracion/" +
-                  (record.type === "expense" ? "gastos" : "movimientos") +
+                  (record.type === "expense"
+                    ? "gastos"
+                    : record.type === "invoice"
+                      ? "comprobantes"
+                      : "movimientos") +
                   "/" +
                   record.id +
                   "?returnTo=" +
@@ -388,7 +406,7 @@ function FinancialRecords({
               >
                 {record.reference}
               </Link>
-            )}
+            }
             <p className="mt-1 text-muted-foreground">
               {organizations.find(
                 (c) => c.id === (record.partyId || record.clientId)

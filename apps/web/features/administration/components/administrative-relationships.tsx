@@ -60,6 +60,19 @@ export function AdministrativeRelationships({ partyId }: { partyId: string }) {
         </p>
       )}
       <div className="flex flex-wrap gap-3 text-sm">
+        {(hasCapability(scenario, "finance.billing") || income || outflow) && (
+          <Link
+            className="text-primary underline"
+            href={
+              "/administracion/comprobantes?contraparte=" +
+              encodeURIComponent(partyId) +
+              "&cartera=" +
+              (supplier ? "pagar" : "cobrar")
+            }
+          >
+            Consultar comprobantes relacionados
+          </Link>
+        )}
         {expense && (
           <Link
             className="text-primary underline"

@@ -25,6 +25,8 @@ export function administrativeReturn(value: string, fallback: string) {
             ? detail
               ? "Volver al movimiento"
               : "Volver a Movimientos"
-            : "Volver a Administración"
+            : href.startsWith("/administracion/carteras")
+              ? "Volver a la cartera"
+              : "Volver a Administración"
   return { href, label }
 }
