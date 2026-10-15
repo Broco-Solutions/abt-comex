@@ -1,5 +1,35 @@
 import { expect, test } from "../fixtures"
 
+test("@smoke V3 long organization forms keep the title and save action reachable on mobile", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto("/clientes/client-demo-norte")
+  await page
+    .getByRole("button", { name: "Editar organización", exact: true })
+    .click()
+  const dialog = page.getByRole("dialog")
+  await expect
+    .poll(async () => {
+      const box = await dialog.boundingBox()
+      return !!box && box.y >= 0 && box.y + box.height <= 844
+    })
+    .toBe(true)
+  await expect(
+    dialog.getByRole("heading", { name: "Editar organización", exact: true })
+  ).toBeInViewport()
+  const save = dialog.getByRole("button", {
+    name: "Guardar localmente",
+    exact: true,
+  })
+  await save.scrollIntoViewIfNeeded()
+  await expect(save).toBeInViewport()
+  await page.keyboard.press("Escape")
+  await expect(
+    page.getByRole("button", { name: "Editar organización", exact: true })
+  ).toBeFocused()
+})
+
 test("@smoke V3 creates a client inside a quote and keeps the draft and reusable identity", async ({
   page,
 }) => {
@@ -69,9 +99,7 @@ test("@smoke V3 reuses roles without duplicating organizations and preserves ina
     page.getByRole("heading", { name: "Proveedores de ABT", exact: true })
   ).toBeVisible()
   await expect(
-    page
-      .getByRole("list", { name: "Contrapartes de operaciones" })
-      .getByText("Vendedor Exterior de Ejemplo", { exact: true })
+    page.getByText("Vendedor Exterior de Ejemplo", { exact: true })
   ).toHaveCount(0)
   await page
     .getByRole("button", { name: "Nuevo proveedor de ABT", exact: true })
@@ -147,7 +175,9 @@ test("@smoke V3 supplier and operation-counterparty views remain distinct and fi
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto("/proveedores?ambito=operacion")
   await expect(
-    page.getByText("Vendedor Exterior de Ejemplo", { exact: true })
+    page
+      .getByRole("list", { name: "Contrapartes de operaciones" })
+      .getByText("Vendedor Exterior de Ejemplo", { exact: true })
   ).toBeVisible()
   await expect(
     page.getByText("Servicios Portuarios de Ejemplo", { exact: true })

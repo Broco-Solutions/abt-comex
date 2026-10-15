@@ -60,6 +60,7 @@ export function ClientsList({
     clientListHref(state.query, includeInactive)
   )
   const [feedback, setFeedback] = useState("")
+  const [lastSaved, setLastSaved] = useState("")
   const restricted = state.error === "sin-permiso"
   const failed = state.error === "lectura"
   const clients =
@@ -90,11 +91,12 @@ export function ClientsList({
         primaryAction={
           !restricted && !failed ? (
             <OrganizationEditor
-              onSaved={(organization) =>
+              onSaved={(organization) => {
+                setLastSaved(organization.id)
                 setFeedback(
                   `${organization.name} guardado. Disponible para cotizaciones y operaciones.`
                 )
-              }
+              }}
             />
           ) : undefined
         }
@@ -144,6 +146,14 @@ export function ClientsList({
         <p role="status" className="text-sm">
           {feedback}
         </p>
+      )}
+      {lastSaved && (
+        <Link
+          className="inline-flex min-h-9 items-center text-sm font-medium text-primary underline"
+          href={`/clientes/${lastSaved}?returnTo=${encodeURIComponent(clientListHref(state.query, includeInactive))}`}
+        >
+          Abrir organización guardada
+        </Link>
       )}
 
       <section aria-label="Búsqueda de clientes" className="max-w-5xl">

@@ -444,6 +444,8 @@ Suprimir descripciones obvias y avisos reiterados en todas las superficies. Iden
 
 ## Continuidad y composición V3
 
+Formularios en diálogo: el popup compartido limita altura al viewport dinámico menos el padding existente (2rem), con scroll interno. Título y acciones deben ser alcanzables en móvil/zoom, sin recorte superior. Comprobar con contenido extenso y teclado; no asumirlo por ausencia de overflow global.
+
 - Listados: búsqueda y filtro frecuente visibles; secundarios plegados, filtros activos removibles y una confirmación para rangos compuestos. No repetir el tipo fijado por una vista.
 - Actualizaciones locales de filtros/agrupación conservan foco y scroll mediante History API integrada con Next; URL conserva la consulta y Atrás/Adelante restaura el estado. Enlaces de detalle capturan origen/posición; retorno local restaura foco en el registro y posición, sin depender de back ambiguo.
 - Fecha de período siempre identifica evento: Actualización no equivale a arribo/oficialización/vencimiento.

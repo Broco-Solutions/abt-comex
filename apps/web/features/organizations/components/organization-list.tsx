@@ -63,6 +63,7 @@ export function OrganizationList({
     )
   }
   const [feedback, setFeedback] = useState("")
+  const [lastSaved, setLastSaved] = useState("")
   const title =
     role === "abt-supplier"
       ? "Proveedores de ABT"
@@ -141,11 +142,12 @@ export function OrganizationList({
         primaryAction={
           <OrganizationEditor
             role={role}
-            onSaved={(item) =>
+            onSaved={(item) => {
+              setLastSaved(item.id)
               setFeedback(
                 `${item.name} guardado. Disponible en las vistas relacionadas.`
               )
-            }
+            }}
           />
         }
       />
@@ -203,6 +205,14 @@ export function OrganizationList({
       <p role="status" className="text-sm">
         {feedback || `${list.length} organizaciones`}
       </p>
+      {lastSaved && (
+        <Link
+          className="inline-flex min-h-9 items-center text-sm font-medium text-primary underline"
+          href={`/proveedores/${lastSaved}?returnTo=${encodeURIComponent(path)}`}
+        >
+          Abrir organización guardada
+        </Link>
+      )}
       {!list.length ? (
         <p className="py-5 text-sm">
           No hay coincidencias. Revisá búsqueda y estado.

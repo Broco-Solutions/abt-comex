@@ -142,6 +142,12 @@ export function OrganizationEditor({
               onSubmit={(event) => {
                 event.preventDefault()
                 event.stopPropagation()
+                const invalidContact = contacts.findIndex(
+                  (contact) =>
+                    !contact.label.trim() ||
+                    (contact.email &&
+                      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email))
+                )
                 if (
                   !name.trim() ||
                   !selectedRoles.length ||
@@ -162,7 +168,9 @@ export function OrganizationEditor({
                         ? `${formId}-name`
                         : taxReference.trim() && !country.trim()
                           ? `${formId}-country`
-                          : `${formId}-roles`
+                          : invalidContact >= 0
+                            ? `${formId}-contact-${invalidContact}-${contacts[invalidContact]?.label.trim() ? "email" : "name"}`
+                            : `${formId}-roles`
                     )
                     ?.focus()
                   return
@@ -218,6 +226,7 @@ export function OrganizationEditor({
                 Nombre o razón social *
                 <Input
                   id={`${formId}-name`}
+                  required
                   aria-describedby={error ? `${formId}-error` : undefined}
                   value={name}
                   onChange={(event) => {
@@ -231,6 +240,11 @@ export function OrganizationEditor({
                 País
                 <Input
                   id={`${formId}-country`}
+                  required={Boolean(taxReference.trim())}
+                  aria-invalid={Boolean(
+                    error && taxReference.trim() && !country.trim()
+                  )}
+                  aria-describedby={error ? `${formId}-error` : undefined}
                   value={country}
                   onChange={(event) => {
                     setCountry(event.target.value)
@@ -274,9 +288,12 @@ export function OrganizationEditor({
                       <input
                         type="checkbox"
                         checked={selectedRoles.includes(entry)}
-                        disabled={organization?.roles.some(
-                          (existing) => existing.role === entry
-                        )}
+                        disabled={
+                          organization?.roles.some(
+                            (existing) => existing.role === entry
+                          ) ||
+                          (!organization && entry === role)
+                        }
                         onChange={(event) =>
                           setSelectedRoles((current) =>
                             event.target.checked
@@ -305,6 +322,10 @@ export function OrganizationEditor({
                     <label className="grid gap-1 text-xs font-medium sm:col-span-2">
                       Nombre del contacto {index + 1}
                       <Input
+                        id={`${formId}-contact-${index}-name`}
+                        required
+                        aria-invalid={Boolean(error && !contact.label.trim())}
+                        aria-describedby={error ? `${formId}-error` : undefined}
                         value={contact.label}
                         onChange={(event) =>
                           updateContact(index, "label", event.target.value)
@@ -315,6 +336,13 @@ export function OrganizationEditor({
                       Correo del contacto {index + 1}
                       <Input
                         type="email"
+                        id={`${formId}-contact-${index}-email`}
+                        aria-invalid={Boolean(
+                          error &&
+                          contact.email &&
+                          !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email)
+                        )}
+                        aria-describedby={error ? `${formId}-error` : undefined}
                         value={contact.email}
                         onChange={(event) =>
                           updateContact(index, "email", event.target.value)
@@ -350,17 +378,18 @@ export function OrganizationEditor({
                   type="button"
                   variant="outline"
                   size="sm"
-                  onClick={() =>
+                  onClick={() => {
+                    const id = `draft-contact-${nextContact.current++}`
                     setContacts((current) => [
                       ...current,
                       {
-                        id: `draft-contact-${nextContact.current++}`,
+                        id,
                         label: "",
                         email: "",
                         phone: "",
                       },
                     ])
-                  }
+                  }}
                 >
                   Agregar contacto
                 </Button>
