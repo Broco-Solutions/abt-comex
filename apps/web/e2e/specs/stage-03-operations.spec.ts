@@ -11,16 +11,13 @@ test("@smoke operations list filters, preserves URL context, and stays usable on
   await expect(page.getByText(/9 operaciones/)).toBeVisible()
   await expect(page.getByText(/honorarios|margen/i)).toHaveCount(0)
 
+  await page.getByText("Más filtros", { exact: true }).click()
   await page
     .locator('select[name="tipo"]')
     .selectOption("exportacion", { force: true })
   await page
     .locator('select[name="situacion"]')
     .selectOption("Pendiente documental", { force: true })
-  await page
-    .getByRole("button", { name: "Aplicar", exact: true })
-    .first()
-    .click()
   await expect(page).toHaveURL(/tipo=exportacion.*situacion=Pendiente/)
   await expect(
     page.getByRole("heading", { name: "Exportaciones" })
@@ -40,10 +37,6 @@ test("@smoke operations list filters, preserves URL context, and stays usable on
   await page
     .locator('select[name="agrupar"]')
     .selectOption("responsible", { force: true })
-  await page
-    .getByRole("button", { name: "Aplicar", exact: true })
-    .last()
-    .click()
   await expect(page).toHaveURL(/agrupar=responsible/)
   await expect(
     page.getByRole("heading", { name: /Equipo Expo A/ })

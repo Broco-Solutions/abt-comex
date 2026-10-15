@@ -5,10 +5,6 @@ test("@smoke grouping preserves selected sort and filters", async ({
 }) => {
   await page.goto("/operaciones?tipo=exportacion&orden=reference&direccion=asc")
   await page.locator('select[name="agrupar"]').selectOption("responsible")
-  await page
-    .getByRole("button", { name: "Aplicar", exact: true })
-    .last()
-    .click()
   await expect(page).toHaveURL(/orden=reference/)
   await expect(page).toHaveURL(/direccion=asc/)
   await expect(page).toHaveURL(/tipo=exportacion/)

@@ -103,17 +103,6 @@ export function FinanceOverview({
             </p>
           </article>
           <article className="space-y-2 border-y border-border py-4">
-            <h2 className="font-semibold">Microsoft 365</h2>
-            <p className="text-sm text-muted-foreground">
-              Plataforma prevista para correo y documentos relacionados con
-              operaciones; permisos, referencias e historial por definir.
-            </p>
-            <p className="text-xs text-muted-foreground">
-              No se representa automatización ni sincronización en esta
-              demostración.
-            </p>
-          </article>
-          <article className="space-y-2 border-y border-border py-4">
             <h2 className="font-semibold">Definiciones de negocio</h2>
             <p className="text-sm text-muted-foreground">
               Fórmulas, períodos, moneda, responsables, sensibilidad y fuentes

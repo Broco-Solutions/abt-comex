@@ -1,6 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useListContext } from "@/components/navigation/list-context"
+import { OperationsToolbar } from "./operations-toolbar"
 import Link from "next/link"
 import { ArrowDown, ArrowDownUp, ArrowUp } from "lucide-react"
 
@@ -30,20 +32,6 @@ const helper = createColumnHelper<
   DemonstrationOperation
 >()
 
-const situations = [
-  "Pre-embarque",
-  "En seguimiento",
-  "Requiere atención",
-  "Pendiente documental",
-  "Lista para revisión",
-]
-const teams = [
-  "Equipo Impo A",
-  "Equipo Impo B",
-  "Equipo Expo A",
-  "Equipo Expo B",
-]
-
 function SortLink({
   label,
   field,
@@ -67,6 +55,7 @@ function SortLink({
   )
   return (
     <Link
+      scroll={false}
       className="inline-flex min-h-9 w-full items-center gap-1 px-3 py-2 focus-visible:outline-2 focus-visible:outline-ring"
       href={operationHref(filters, { sort: nextSort, direction, page: 1 })}
       aria-label={`Ordenar por ${label}${active ? `, actual ${filters.direction === "asc" ? "ascendente" : "descendente"}` : ""}`}
@@ -94,25 +83,6 @@ const listColumnLabels: Record<(typeof listColumnIds)[number], string> = {
   updatedOn: "Actualizada",
 }
 
-function hiddenFilterInputs(filters: OperationListFilters) {
-  return (
-    <>
-      {filters.q && <input type="hidden" name="q" value={filters.q} />}
-      {filters.kind && <input type="hidden" name="tipo" value={filters.kind} />}
-      {filters.situation && (
-        <input type="hidden" name="situacion" value={filters.situation} />
-      )}
-      {filters.responsible && (
-        <input type="hidden" name="responsable" value={filters.responsible} />
-      )}
-      {filters.from && (
-        <input type="hidden" name="desde" value={filters.from} />
-      )}
-      {filters.to && <input type="hidden" name="hasta" value={filters.to} />}
-    </>
-  )
-}
-
 export function OperationsList({
   searchParams,
 }: {
@@ -122,17 +92,32 @@ export function OperationsList({
     ...listColumnIds,
   ])
   const { operations, ready } = useDemoOperations()
-  const filters = parseOperationFilters(searchParams)
-  const [filtersOpen, setFiltersOpen] = useState(true)
-  const [columnWidths, setColumnWidths] = useState<Record<string, number>>({})
+  const [filters, setFilters] = useState(() =>
+    parseOperationFilters(searchParams)
+  )
+  const queryKey = JSON.stringify(searchParams)
+  const [previousQueryKey, setPreviousQueryKey] = useState(queryKey)
+  if (previousQueryKey !== queryKey) {
+    setPreviousQueryKey(queryKey)
+    setFilters(parseOperationFilters(searchParams))
+  }
   useEffect(() => {
-    if (typeof window.matchMedia !== "function") return
-    const media = window.matchMedia("(min-width: 1024px)")
-    const refresh = () => setFiltersOpen(media.matches)
-    refresh()
-    media.addEventListener("change", refresh)
-    return () => media.removeEventListener("change", refresh)
+    const restore = () =>
+      setFilters(
+        parseOperationFilters(
+          Object.fromEntries(new URLSearchParams(window.location.search))
+        )
+      )
+    window.addEventListener("popstate", restore)
+    return () => window.removeEventListener("popstate", restore)
   }, [])
+  const captureContext = useListContext(ready, operationHref(filters))
+  const change = (patch: Partial<OperationListFilters>) => {
+    const next = { ...filters, ...patch }
+    window.history.pushState(null, "", operationHref(next))
+    setFilters(next)
+  }
+  const [columnWidths, setColumnWidths] = useState<Record<string, number>>({})
   const allFiltered = filterOperations(operations, filters)
   const pages = Math.max(1, Math.ceil(allFiltered.length / pageSize))
   const page = Math.min(filters.page, pages)
@@ -232,7 +217,7 @@ export function OperationsList({
   )
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4" onClickCapture={captureContext}>
       <PageHeader
         title={
           filters.kind === "importacion"
@@ -251,176 +236,24 @@ export function OperationsList({
         }
       />
 
-      <div className="flex flex-wrap items-center justify-between gap-2 border-y border-border py-3 text-sm">
-        <p>
-          {failed || restricted ? (
-            "No se confirma el total mientras la fuente no esté disponible."
-          ) : (
-            <>
-              <span className="font-medium">{allFiltered.length}</span>{" "}
-              operaciones
-            </>
-          )}
+      <OperationsToolbar filters={filters} change={change} />
+      <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
+        <p role="status">
+          {failed || restricted
+            ? "No se confirma el total mientras la fuente no esté disponible."
+            : `${allFiltered.length} operaciones`}
         </p>
-      </div>
-
-      {!restricted && !failed ? (
-        <div
-          className="flex gap-2 overflow-x-auto border-b border-border pb-3 sm:grid sm:grid-cols-3"
-          aria-label="Accesos por situación"
-        >
-          {(
-            [
-              ["Requiere atención", "Atención"],
-              ["Pendiente documental", "Documentación pendiente"],
-              ["Lista para revisión", "Listas para revisión"],
-            ] as const
-          ).map(([situation, label]) => {
-            const count = filterOperations(operations, {
-              ...filters,
-              situation,
-              page: 1,
-            }).length
-            return (
-              <Link
-                key={situation}
-                className={`flex min-h-11 shrink-0 items-center justify-between gap-2 rounded-md border px-3 text-sm font-medium hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${filters.situation === situation ? "border-primary bg-primary/10 text-primary" : "border-input bg-background"}`}
-                href={operationHref(filters, {
-                  situation: filters.situation === situation ? "" : situation,
-                  page: 1,
-                })}
-                aria-current={
-                  filters.situation === situation ? "page" : undefined
-                }
-              >
-                <span>{label}</span>
-                <span className="font-mono text-muted-foreground">{count}</span>
-              </Link>
-            )
-          })}
-        </div>
-      ) : null}
-
-      <form
-        key={JSON.stringify(filters)}
-        action="/operaciones"
-        method="get"
-        className="grid gap-3 border-b border-border pb-4 sm:grid-cols-2 xl:grid-cols-4"
-      >
-        <label className="grid gap-1 text-xs font-medium">
-          Buscar referencia, cliente, responsable o próxima acción
-          <input
-            name="q"
-            defaultValue={filters.q}
-            type="search"
-            placeholder="Ej.: OP-DEM-2048"
-            className="h-9 min-w-0 rounded-md border border-input bg-background px-3 text-sm font-normal focus-visible:outline-2 focus-visible:outline-ring"
-          />
-        </label>
-        <details
-          open={filtersOpen}
-          onToggle={(event) => setFiltersOpen(event.currentTarget.open)}
-          className="sm:col-span-2 xl:col-span-3"
-        >
-          <summary className="min-h-9 cursor-pointer py-2 text-sm font-medium lg:hidden">
-            Filtros y período
-          </summary>
-          <div className="grid min-w-0 gap-3 sm:grid-cols-2 xl:grid-cols-3">
-            <label className="grid min-w-0 gap-1 text-xs font-medium">
-              Tipo
-              <select
-                name="tipo"
-                defaultValue={filters.kind}
-                className="h-9 w-full min-w-0 rounded-md border border-input bg-background px-2 text-sm font-normal"
-              >
-                <option value="">Todos</option>
-                <option value="importacion">Importación</option>
-                <option value="exportacion">Exportación</option>
-              </select>
-            </label>
-            <label className="grid gap-1 text-xs font-medium">
-              Situación
-              <select
-                name="situacion"
-                defaultValue={filters.situation}
-                className="h-9 w-full min-w-0 rounded-md border border-input bg-background px-2 text-sm font-normal"
-              >
-                <option value="">Todas</option>
-                {situations.map((situation) => (
-                  <option key={situation}>{situation}</option>
-                ))}
-              </select>
-            </label>
-            <label className="grid gap-1 text-xs font-medium">
-              Responsable
-              <select
-                name="responsable"
-                defaultValue={filters.responsible}
-                className="h-9 w-full min-w-0 rounded-md border border-input bg-background px-2 text-sm font-normal"
-              >
-                <option value="">Todos</option>
-                {teams.map((team) => (
-                  <option key={team}>{team}</option>
-                ))}
-              </select>
-            </label>
-            <label className="grid gap-1 text-xs font-medium">
-              Actualizada desde
-              <input
-                name="desde"
-                type="date"
-                defaultValue={filters.from}
-                className="h-9 min-w-0 rounded-md border border-input bg-background px-2 text-sm font-normal"
-              />
-            </label>
-            <label className="grid gap-1 text-xs font-medium">
-              Actualizada hasta
-              <input
-                name="hasta"
-                type="date"
-                defaultValue={filters.to}
-                className="h-9 min-w-0 rounded-md border border-input bg-background px-2 text-sm font-normal"
-              />
-            </label>
-          </div>
-        </details>
-        <input type="hidden" name="orden" value={filters.sort || "ninguno"} />
-        <input type="hidden" name="direccion" value={filters.direction} />
-        <input type="hidden" name="agrupar" value={filters.group} />
-        <div className="flex items-end gap-2">
-          <button
-            className="h-9 rounded-md bg-primary px-3 text-sm text-primary-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-            type="submit"
-          >
-            Aplicar
-          </button>
-          <Link
-            className="inline-flex h-9 items-center px-3 text-sm underline-offset-4 hover:underline"
-            href={operationHref({
-              ...parseOperationFilters({}),
-              kind: filters.kind,
-            })}
-          >
-            Limpiar filtros
-          </Link>
-        </div>
-      </form>
-
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <form
-          key={JSON.stringify(filters)}
-          action="/operaciones"
-          method="get"
-          className="flex items-center gap-2 text-xs"
-        >
-          {hiddenFilterInputs(filters)}
-          <input type="hidden" name="orden" value={filters.sort || "ninguno"} />
-          <input type="hidden" name="direccion" value={filters.direction} />
-          <label htmlFor="operations-group">Agrupar por</label>
+        <label className="flex items-center gap-2 text-xs">
+          Agrupar por
           <select
-            id="operations-group"
             name="agrupar"
-            defaultValue={filters.group}
+            value={filters.group}
+            onChange={(event) =>
+              change({
+                group: event.target.value as OperationListFilters["group"],
+                page: 1,
+              })
+            }
             className="h-9 rounded-md border border-input bg-background px-2 text-sm"
           >
             <option value="">Sin agrupación</option>
@@ -428,28 +261,18 @@ export function OperationsList({
             <option value="situation">Situación</option>
             <option value="responsible">Responsable</option>
           </select>
-          <button className="h-9 rounded-md border border-border px-3 text-sm">
-            Aplicar
-          </button>
-        </form>
-      </div>
-
-      <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
-        <form action="/operaciones" method="get">
-          {hiddenFilterInputs(filters)}
-          <input type="hidden" name="orden" value="updatedOn" />
-          <input type="hidden" name="direccion" value="desc" />
-          <button
-            type="submit"
-            onClick={() => {
-              setVisibleColumns([...listColumnIds])
-              setColumnWidths({})
-            }}
-            className="min-h-9 text-sm text-primary hover:underline focus-visible:outline-2 focus-visible:outline-ring"
-          >
-            Restablecer vista
-          </button>
-        </form>
+        </label>
+        <button
+          type="button"
+          onClick={() => {
+            setVisibleColumns([...listColumnIds])
+            setColumnWidths({})
+            change({ sort: "updatedOn", direction: "desc", group: "", page: 1 })
+          }}
+          className="min-h-9 text-primary hover:underline focus-visible:outline-2 focus-visible:outline-ring"
+        >
+          Restablecer vista
+        </button>
         <details className="relative hidden lg:block">
           <summary className="min-h-9 cursor-pointer rounded-md border border-border px-3 py-2 focus-visible:outline-2 focus-visible:outline-ring">
             Columnas visibles
@@ -482,6 +305,44 @@ export function OperationsList({
           </fieldset>
         </details>
       </div>
+      {!restricted && !failed && (
+        <div
+          aria-label="Accesos por situación"
+          className="flex gap-2 overflow-x-auto pb-1"
+        >
+          {(
+            [
+              ["Requiere atención", "Atención"],
+              ["Pendiente documental", "Documentación pendiente"],
+              ["Lista para revisión", "Listas para revisión"],
+            ] as const
+          ).map(([situation, label]) => (
+            <button
+              key={situation}
+              type="button"
+              aria-pressed={filters.situation === situation}
+              onClick={() =>
+                change({
+                  situation: filters.situation === situation ? "" : situation,
+                  page: 1,
+                })
+              }
+              className={`min-h-9 shrink-0 rounded-md border px-3 text-sm font-medium hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring ${filters.situation === situation ? "border-primary bg-accent text-primary" : "border-input bg-card"}`}
+            >
+              {label}{" "}
+              <span className="ml-2 font-mono">
+                {
+                  filterOperations(operations, {
+                    ...filters,
+                    situation,
+                    page: 1,
+                  }).length
+                }
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
 
       {failed && (
         <section
@@ -494,6 +355,7 @@ export function OperationsList({
             total.
           </p>
           <Link
+            scroll={false}
             className="mt-2 inline-block text-sm underline"
             href={operationHref(filters, { error: "" })}
           >
@@ -528,6 +390,7 @@ export function OperationsList({
           </h2>
 
           <Link
+            scroll={false}
             className="mt-2 inline-block text-sm underline"
             href={operationHref({
               ...parseOperationFilters({}),
@@ -691,6 +554,7 @@ export function OperationsList({
             </p>
             <div className="flex gap-2">
               <Link
+                scroll={false}
                 aria-disabled={page <= 1}
                 className={`rounded-md border border-border px-3 py-2 ${page <= 1 ? "pointer-events-none opacity-50" : ""}`}
                 href={operationHref(filters, { page: Math.max(1, page - 1) })}
@@ -698,6 +562,7 @@ export function OperationsList({
                 Anterior
               </Link>
               <Link
+                scroll={false}
                 aria-disabled={page >= pages}
                 className={`rounded-md border border-border px-3 py-2 ${page >= pages ? "pointer-events-none opacity-50" : ""}`}
                 href={operationHref(filters, {

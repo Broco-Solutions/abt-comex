@@ -22,7 +22,7 @@ test("@smoke Portal uses a separate shell, a fictional identity and a restricted
     page.getByRole("heading", { name: "Hola, Cliente Demo Centro" })
   ).toBeVisible()
   await expect(page.getByText("OP-DEM-2054").first()).toBeVisible()
-  await expect(page.getByText("OP-DEM-3112")).toBeVisible()
+  await expect(page.getByText("OP-DEM-3112", { exact: true })).toBeVisible()
   await expect(page.getByText("OP-DEM-2048")).toHaveCount(0)
   await expect(page.getByText("Equipo Impo B")).toHaveCount(0)
   await expect(page.getByText("Revisar documentación pendiente")).toHaveCount(0)

@@ -35,6 +35,7 @@ import {
 import { formatDate, formatDateTime } from "@workspace/ui/lib/date"
 
 import { OperationsWorkspace } from "./data/operations-workspace"
+import { ComboboxReference } from "./data/combobox-reference"
 import { NavigationPatternReference } from "@/components/app-shell/navigation-pattern-reference"
 
 const navigation = [
@@ -303,6 +304,7 @@ export default function DesignSystemPage() {
           title="Formularios y validación"
           description="Labels visibles, ayuda contextual y errores que explican el problema y el siguiente paso."
         >
+          <div className="mb-5"><ComboboxReference /></div>
           <div className="grid max-w-4xl gap-x-6 gap-y-5 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="reference">Referencia interna</Label>

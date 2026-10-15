@@ -598,3 +598,18 @@ Stress-testear la arquitectura con:
 6. Consulta de Dirección con permisos sensibles.
 7. Acceso de un cliente al Portal.
 8. Consulta asistida con permisos restringidos.
+
+## Evolución V3 — aprobación interna 15/10/2026
+
+El responsable aprobó la dirección de la auditoría integral para construir y evaluar frontend, no reglas definitivas de ABT. Ejecución y gates: [plan V3](../frontend/PLAN_IMPLEMENTACION.md#v3--evolución-integral-autorizada-internamente-15102026).
+
+- Organización única con roles contextuales distintos: cliente de ABT; proveedor contratado por ABT; vendedor/proveedor extranjero, comprador u otra contraparte de una operación del cliente. Compartir identidad no comparte consecuencias: mencionar un vendedor en Importación **no crea una obligación de pago de ABT**.
+- Completar ABM de Clientes y Proveedores, contactos, estados por rol, detección de duplicados y reutilización contextual; campos fiscales/autoridad externa sujetos a relevamiento.
+- Separar persona, usuario, equipo, función, capacidades y ámbito. Incluir fecha de ingreso por solicitud del responsable (no evidencia previa), acceso demostrativo, suspensión y transición de pendientes. No publicar integrantes reales.
+- Completar categorías, gastos generales y operativos, anticipos/rendiciones, movimientos, comprobantes, aplicaciones y carteras sintéticos. Preparación local, registro externo, vinculación y saldo informado son conceptos distintos; no emitir, contabilizar ni escribir en Alpha2000.
+- Carteras al corte incluyen obligaciones anteriores abiertas; no se calcula deuda restando flujos del período. Notas, aplicaciones parciales y monedas deben conservar procedencia y límites.
+- Login convencional y recuperación únicamente de UX, con datos de prueba y escenarios secundarios; ninguna credencial real, correo enviado o autenticación productiva.
+- Dirección conserva necesidades de los 18 bloques del Excel, sin copiar sus fórmulas no validadas. Comparaciones equivalentes, monedas separadas y registros explicativos compartidos.
+- Microsoft 365 queda **excluido de la demo y de V3** (sustituye su consideración prospectiva anterior). La planilla organizativa sólo aporta contexto de personas/áreas, no gestión de correo, buzones, licencias ni tenant. COMEX360 continúa excluido.
+
+La confidencialidad de §7.2 no cambia. Las capacidades mock no constituyen autorización productiva. Sincronización del documento funcional de Drive pendiente: esta sesión sólo actualiza autoridades locales y no modifica originales.

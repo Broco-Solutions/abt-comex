@@ -346,3 +346,9 @@ El responsable autoriza UX-01–UX-07, PR y squash con gates verdes y revisión 
 ## 2026-10-15 — Coherencia del reinicio y referencias V2
 
 Decisión técnica UX dentro de la ejecución autorizada: concentrar el reinicio en el menú global para no dejar referencias huérfanas entre cotizaciones/versiones y operaciones temporales. Conserva confirmación ante cambios e inducción independiente; comportamiento en [Cotizaciones](screens/09-cotizaciones.md#ux-06--consulta-de-versiones-y-formulario). Referencias visuales del Shell actualizadas tras inspección técnica, no aprobación humana. Evidencia y límites del cierre en el [plan](PLAN_IMPLEMENTACION.md#regresión-transversal-ux-07).
+
+## 2026-10-15 — V3: evolución integral de producto/frontend
+
+Decisión interna del responsable: ejecutar V3-01 a V3-07 según el [plan](PLAN_IMPLEMENTACION.md#v3--evolución-integral-autorizada-internamente-15102026), con revisión técnica por incremento y aceptación humana integral pendiente. No aprobación formal ABT. Precisión funcional y exclusiones vigentes en [alcance V3](../product/ALCANCE_FUNCIONAL.md#evolución-v3--aprobación-interna-15102026).
+
+Decisión visual reversible V3-01: sidebar verde claro mediante el token accent existente y contenido sobre card; no nueva paleta ni identidad. Se prefiere sólido antes que degradado para mantener contraste y sobriedad. Filtros simples inmediatos, búsqueda confirmada y período avanzado agrupado; URL recuperable, sin recarga de documento. El combobox compartido se demuestra primero en DS y se aplica a Clientes en Cotización, no a selectores pequeños por inercia.
