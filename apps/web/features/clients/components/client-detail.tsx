@@ -10,6 +10,7 @@ import { OrganizationIdentity } from "@/features/organizations/components/organi
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
 import { PageHeader } from "@/components/navigation/page-header"
+import { isApplicationReturn } from "@/components/navigation/return-context"
 import { buttonVariants } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
 
@@ -23,6 +24,7 @@ function first(value: string | string[] | undefined) {
 }
 
 function safeReturnTo(value: string, operations: DemonstrationOperation[]) {
+  if (isApplicationReturn(value)) return value
   if (
     /^\/administracion\/(?:gastos|movimientos|rendiciones|comprobantes)\/[a-z0-9-]+(?:\?[^#]*)?(?:#.*)?$/.test(
       value

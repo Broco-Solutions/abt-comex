@@ -8,6 +8,7 @@ import { useScenario } from "@/features/demo/state/scenario-provider"
 import { ArrowLeft, CircleAlert, ShieldCheck, ChevronDown } from "lucide-react"
 
 import { PageHeader } from "@/components/navigation/page-header"
+import { isApplicationReturn } from "@/components/navigation/return-context"
 import { AssistedQueries } from "@/features/assisted/components/assisted-queries"
 import { Badge } from "@workspace/ui/components/badge"
 import { buttonVariants } from "@workspace/ui/components/button"
@@ -27,6 +28,7 @@ function safeReturnTo(
   value: string,
   operations: DemonstrationOperation[] = demonstrationOperations
 ) {
+  if (isApplicationReturn(value)) return value
   if (
     /^\/administracion\/(?:gastos|movimientos|rendiciones|comprobantes)\/[a-z0-9-]+(?:\?[^#]*)?(?:#.*)?$/.test(
       value
@@ -112,11 +114,13 @@ export function OperationDetail({
       ? "Volver a Mi trabajo"
       : returnTo.startsWith("/clientes/")
         ? "Volver al cliente"
-        : returnTo.startsWith("/gestion")
-          ? "Volver al análisis"
-          : returnTo.startsWith("/administracion")
-            ? "Volver a Administración"
-            : "Volver a resultados"
+        : returnTo.startsWith("/clientes")
+          ? "Volver a Clientes"
+          : returnTo.startsWith("/gestion")
+            ? "Volver al análisis"
+            : returnTo.startsWith("/administracion")
+              ? "Volver a Administración"
+              : "Volver a resultados"
 
   return (
     <div className="space-y-6">

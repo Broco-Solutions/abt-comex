@@ -957,6 +957,13 @@ Evidencia local inicial V3-05: lint/typecheck/build, 121 unitarias web, 37 axe y
 
 ### Avance del Shell — PR #32; V3-06/V3-07 siguen en ejecución
 
+PR visual #36 integrado con CI verde en `b7872df`; regresión Chromium completa
+105/105 y 37 axe. Sidebar vertical, superficies, scroll integrado y conteos
+administrativos compactos ya forman parte de main. PR B se ejecuta en
+`feat/v3-global-search` desde esa base: búsqueda navegable compartida, atajos,
+capacidades y retornos; gates se registran al concluir. Continuidad preservada
+en su rama, USD/Dirección pendientes de integración y regresión conjunta.
+
 PR #35 integrado con CI verde en `292585e`: grupos independientes persistentes,
 perfil inferior único, contador reactivo y variantes negativas oficiales. La
 precisión visual posterior se trabaja en `feat/v3-shell-surfaces`, con base en
