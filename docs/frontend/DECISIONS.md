@@ -1,5 +1,18 @@
 # Frontend Decisions
 
+## 2026-10-15 — Buscador global como navegación del estado compartido
+
+Decisión interna explícita del encargo: incorporar búsqueda funcional al header
+en un PR separado del contrato visual. Sin backend ni ejecución de acciones.
+Al abrir consulta los mismos registros de Operaciones, Cotizaciones y
+Organizaciones; resultados y pantallas se restringen por capacidades antes de
+filtrar o contar. No indexa importes, condiciones privadas o nómina laboral.
+No hay historial: vacío muestra accesos directos, evitando falsos recientes y
+traspaso de registros entre escenarios. El Portal conserva aislamiento y no
+monta este componente. Contrato de teclado, responsive y límites en el
+[estándar](FRONTEND_STANDARD.md#buscador-global-de-navegación-v3). Under review;
+no aprobación funcional formal ABT ni seguridad productiva.
+
 ## 2026-10-15 — Administración organizada por trabajo
 
 Decisión interna aprobada: Bandeja administrativa, Gastos y rendiciones,
