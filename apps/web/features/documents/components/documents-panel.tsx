@@ -58,6 +58,7 @@ export function DocumentsPanel({
         <label className="block max-w-sm text-xs font-medium">
           Buscar requisito o documento
           <Input
+            id={`documents-search-${operationId}`}
             value={query}
             onChange={(event) => {
               setQuery(event.target.value)
@@ -69,9 +70,27 @@ export function DocumentsPanel({
         </label>
       ) : null}
       {!documents.length ? (
-        <p className="text-sm text-muted-foreground">
-          No hay requisitos documentales disponibles para este contexto.
-        </p>
+        <div role="status" className="space-y-2 text-sm text-muted-foreground">
+          <p>
+            {allDocuments.length
+              ? "No hay coincidencias para esta búsqueda."
+              : "No hay requisitos documentales disponibles para este contexto."}
+          </p>
+          {query ? (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setQuery("")
+                document
+                  .getElementById(`documents-search-${operationId}`)
+                  ?.focus()
+              }}
+            >
+              Limpiar búsqueda
+            </Button>
+          ) : null}
+        </div>
       ) : (
         <ul className="divide-y divide-border">
           {documents.slice(0, limit).map((document) => (

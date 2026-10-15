@@ -15,6 +15,9 @@ test("@smoke importation keeps the customs source explicit and gates the local d
       .getByRole("region", { name: "Contexto de la operación" })
       .getByText("No conectada", { exact: true })
   ).toBeVisible()
+  await page
+    .getByRole("heading", { name: "Etapas y definiciones pendientes" })
+    .click()
   await expect(
     page.getByText(/no hay un checklist universal configurado/i)
   ).toBeVisible()

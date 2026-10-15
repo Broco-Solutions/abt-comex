@@ -29,6 +29,7 @@ export default function RootLayout({
   return (
     <html
       lang="es-AR"
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
       className={cn("font-sans antialiased", inter.variable, fontMono.variable)}
     >

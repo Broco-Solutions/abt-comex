@@ -12,7 +12,7 @@ test("@smoke administration keeps financial and operational states separate and 
     page.getByText("Sin referencia", { exact: true }).filter({ visible: true })
   ).toBeVisible()
   await expect(
-    page.getByText(/honorarios, costos, saldos y márgenes no se muestran/i)
+    page.getByRole("link", { name: "Fuentes y finanzas" })
   ).toBeVisible()
   await expect(page.getByText(/\$\s?\d/)).toHaveCount(0)
 
@@ -52,13 +52,13 @@ test("@smoke task without an operation opens its own context and finance sources
   await expect(
     page.getByText(/sin operación vinculada y sin importes/i)
   ).toBeVisible()
-  await page.getByText("Fuentes y definiciones pendientes", { exact: true }).click()
+  await page
+    .getByText("Fuentes y definiciones pendientes", { exact: true })
+    .click()
   await expect(page.getByText("Interbanking", { exact: true })).toBeVisible()
   await expect(page.getByText(/Fuera del alcance actual/)).toBeVisible()
   await expect(
-    page.getByText(
-      /Resultados, rentabilidad y márgenes no están definidos/i
-    )
+    page.getByText(/Resultados, rentabilidad y márgenes no están definidos/i)
   ).toBeVisible()
 })
 

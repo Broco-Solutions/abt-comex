@@ -85,12 +85,7 @@ export function AdministrationQueue({
           >
             <p className="text-sm">
               <span className="font-medium">{entries.length}</span> elementos
-              visibles en el fixture local.
-            </p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Los importes, honorarios, costos, saldos y márgenes no se
-              muestran. El responsable operativo no obtiene acceso comercial por
-              defecto.
+              visibles.
             </p>
           </section>
 
@@ -301,8 +296,7 @@ export function AdministrationQueue({
           )}
           <p className="text-xs text-muted-foreground">
             Facturada, cobrada, cumplida, post-embarque y cierre documental son
-            dimensiones separadas. Las referencias visibles son fixtures, no
-            comprobantes reales.
+            dimensiones separadas.
           </p>
         </>
       )}

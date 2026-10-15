@@ -8,6 +8,7 @@ it.each([
   { serie: "expense", dimension: "category", grupo: "Documentación" },
   { error: "lectura" },
   { desde: "2026-10-13", hasta: "2026-05-01" },
+  { desde: "2026-99-99", moneda: "USD" },
 ])("keeps finance charts and recovery accessible: %j", async (searchParams) => {
   const canvas = vi
     .spyOn(HTMLCanvasElement.prototype, "getContext")
