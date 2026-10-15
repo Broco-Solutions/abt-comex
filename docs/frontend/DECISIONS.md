@@ -1,5 +1,14 @@
 # Frontend Decisions
 
+## 2026-10-15 — Uso autorizado de la nómina laboral relevada
+
+Decisión interna explícita del responsable: usar nombres y correos laborales
+relevados para representar el equipo incluso en evaluación pública. No incluye
+secretos, datos bancarios, remuneraciones ni información personal ajena al
+trabajo. La nómina y los escenarios de capacidad son fuentes separadas; conocer
+un área o nombre no acredita acceso, permisos ni trabajo asignado. Autoridad
+vigente y fuentes: [Personas](screens/v3-personas-acceso.md).
+
 ## 2026-10-15 — V3: relación Clientes/Cotizaciones y navegación de organizaciones
 
 Clientes es la entrada primaria al maestro de clientes y Cotizaciones queda como

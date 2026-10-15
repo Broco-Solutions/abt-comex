@@ -16,9 +16,7 @@ export function TeamsList() {
   const options = [
     { value: "", label: "Sin asignación" },
     ...state.members
-      .filter(
-        (item) => item.access === "Activo" && item.perspective !== "client"
-      )
+      .filter((item) => item.perspective !== "client")
       .map((item) => ({
         value: item.id,
         label: item.name,
@@ -28,6 +26,10 @@ export function TeamsList() {
   return (
     <div className="max-w-5xl space-y-5">
       <PageHeader title="Equipos" />
+      <p className="text-sm text-muted-foreground">
+        Áreas y referentes del relevamiento; no implican acceso ni asignación a
+        operaciones. Suplencias y estructura definitiva pendientes.
+      </p>
       <div className="flex justify-between gap-3">
         <Link
           href="/configuracion/personas"

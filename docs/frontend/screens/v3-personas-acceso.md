@@ -1,5 +1,34 @@
 # Personas, equipos y acceso V3
 
+## Ampliación interna — nómina laboral relevada (15/10/2026)
+
+El responsable autorizó expresamente nombres y correos laborales en la
+evaluación pública. Se releyó `Equipo y referentes!A1:X28` y `A29:H50` de
+[la planilla fuente](https://docs.google.com/spreadsheets/d/1mLz1EsDesvCOeHffMAQyPW2nOI-eLNI7LQRdUxves2U/edit):
+16 personas en filas 2–17, 7 de Importación, 4 de Exportación, 2 de
+Administración y 3 de Dirección. Se excluyen cuentas sin referente, técnicas y
+buzones funcionales. La correspondencia nominal, ID estable y fila están en
+`features/people/data/team-roster.ts`; sólo incluye datos laborales necesarios.
+
+Se usa el correo individual **actual**, no el futuro propuesto para una
+migración. Magali queda sin correo individual; apellido ausente no se completa
+y la discrepancia Malvia/malvina se presenta pendiente. No se copian notas de
+infraestructura ni correos personales. Todos los accesos parten **No relevado**,
+capacidades vacías, ingreso/referente individual sin informar. El área no
+concede capacidades. Los referentes del relevamiento Sergio/Maria/Ramiro se
+contrastaron con [minuta de 28/09/2026](https://docs.google.com/document/d/1_ZHi54g_-N8TTRao_MbxX1dwobhBEt66RuzSX3o1EF4/edit)
+y respuesta operativa. Su función no equivale a asignación individual a un caso.
+
+Los escenarios y cuentas `@example.invalid` viven fuera de la nómina. Conservan
+login de evaluación y Portal aislado. Activar un acceso desde un formulario es
+una modificación local explícita, sin autenticación ni invitación real. Los
+trabajos anteriores con nombres ficticios quedan sin asignación individual.
+Los equipos operativos A/B son contextos sintéticos preexistentes y no se
+convierten en los equipos reales ni se asignan a personas por inferencia.
+
+Esta ampliación sustituye las menciones históricas de «personas sintéticas» de
+la primera versión de V3-03; las capacidades y tareas siguen siendo sintéticas.
+
 > Estado: Under review
 > Incremento: V3-03 · revisión técnica 15/10/2026; aceptación humana pendiente
 

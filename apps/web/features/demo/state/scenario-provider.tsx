@@ -14,6 +14,7 @@ import {
   loadPeople,
   savePeople,
   memberForPerspective,
+  evaluationUsers,
   selectedMemberKey,
   type Member,
 } from "@/features/people/data/people"
@@ -95,7 +96,9 @@ export function ScenarioProvider({ children }: { children: React.ReactNode }) {
         const selected = sessionStorage.getItem(selectionKey)
         const selectedId = sessionStorage.getItem(selectedMemberKey)
         const member = selectedId
-          ? loadPeople().members.find((item) => item.id === selectedId)
+          ? [...loadPeople().members, ...evaluationUsers].find(
+              (item) => item.id === selectedId
+            )
           : memberForPerspective((selected ?? "operations") as ScenarioId)
         setActive(
           scenarios.some((item) => item.id === selected) &&
@@ -120,7 +123,9 @@ export function ScenarioProvider({ children }: { children: React.ReactNode }) {
         /* Memory-only browsing. */
       }
       if (memberId) {
-        const member = loadPeople().members.find((item) => item.id === memberId)
+        const member = [...loadPeople().members, ...evaluationUsers].find(
+          (item) => item.id === memberId
+        )
         setActive(member?.access === "Activo")
         if (member) setScenario(memberScenario(member))
       }
@@ -165,7 +170,7 @@ export function ScenarioProvider({ children }: { children: React.ReactNode }) {
     }
   }
   function login(memberId: string) {
-    const member = loadPeople().members.find(
+    const member = [...loadPeople().members, ...evaluationUsers].find(
       (item) => item.id === memberId && item.access === "Activo"
     )
     if (!member || !confirmReset()) return false

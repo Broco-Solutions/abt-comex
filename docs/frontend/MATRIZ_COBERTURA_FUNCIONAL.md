@@ -6,6 +6,13 @@
 
 ## Ampliaciones V3 aprobadas internamente
 
+Ampliación del 15/10/2026: USR-001/USR-002 incluyen nómina laboral real con
+autorización explícita para la evaluación pública. Relectura de la planilla
+organizativa: 16 filas nominales, sin buzones ni cuentas sin referente. IDs y
+filas conservados en `team-roster.ts`; fuente, límites y correspondencia en
+[Personas](screens/v3-personas-acceso.md). Acceso, permisos y asignaciones
+individuales no se infieren. Las capacidades siguen siendo de evaluación.
+
 Fuente: solicitud explícita del responsable 15/10/2026, no aprobación formal ABT. Se conservan los 117 registros históricos; los siguientes son necesidades adicionales identificables. Alcance y restricciones: [V3](../product/ALCANCE_FUNCIONAL.md#evolución-v3--aprobación-interna-15102026).
 
 | ID | Necesidad / recorrido | Disposición actual | Validación pendiente |

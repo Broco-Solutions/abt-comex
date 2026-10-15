@@ -1,6 +1,7 @@
 import { expect, it } from "vitest"
 import {
-  initialPeople,
+  initialPeople as rosterPeople,
+  evaluationUsers,
   parsePeople,
   pendingAssignments,
   suspendAccess,
@@ -8,16 +9,42 @@ import {
 import { hasCapability } from "@/features/demo/data/capabilities"
 import { canVisit, getScenario } from "@/features/demo/data/scenarios"
 import { saveImportationScenarios } from "@/features/importation/data/importation-scenarios"
+const initialPeople = {
+  ...rosterPeople,
+  members: evaluationUsers,
+  assignments: {
+    "wrk-imp-control-01": "member-demo-01",
+    "wrk-quote-review-04": "member-demo-05",
+  },
+}
 it("keeps membership distinct from active access and does not infer economic access from responsibility", () => {
+  expect(rosterPeople.members).toHaveLength(16)
   expect(
-    initialPeople.members.find((item) => item.id === "member-demo-07")?.access
-  ).toBe("Sin acceso")
+    rosterPeople.members.every(
+      (person) =>
+        person.access === "No relevado" &&
+        person.capabilities.length === 0 &&
+        person.joinedOn === ""
+    )
+  ).toBe(true)
+  expect(rosterPeople.assignments).toEqual({})
+  expect(
+    rosterPeople.members.some(
+      (person) =>
+        person.email.includes("administracion@") ||
+        person.email.endsWith("@example.invalid")
+    )
+  ).toBe(false)
+  expect(new Set(rosterPeople.members.map((person) => person.id)).size).toBe(16)
+  expect(
+    rosterPeople.members.find((person) => person.id === "person-abt-004")?.email
+  ).toBe("")
   for (const id of ["import", "export", "operations"]) {
     expect(hasCapability(getScenario(id), "finance.billing")).toBe(false)
     expect(hasCapability(getScenario(id), "commercial.read")).toBe(false)
   }
   expect(parsePeople(JSON.stringify(initialPeople))).toEqual(initialPeople)
-  expect(parsePeople('{"members":[]}')).toEqual(initialPeople)
+  expect(parsePeople('{"members":[]}')).toEqual(rosterPeople)
 })
 it("suspends access and transfers current assignments without deleting the person or historical records", () => {
   const next = suspendAccess(initialPeople, "member-demo-01", "member-demo-03")

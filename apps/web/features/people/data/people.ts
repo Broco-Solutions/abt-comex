@@ -14,6 +14,7 @@ import { workItems, projectWorkItems } from "@/features/work/data/work-items"
 import { loadImportationScenarios } from "@/features/importation/data/importation-scenarios"
 import { loadDemoQuotes } from "@/features/quotes/data/quotes"
 import { demonstrationOperations } from "@/features/operations/data/operations"
+import { teamRoster } from "./team-roster"
 
 export type Member = {
   id: string
@@ -25,6 +26,7 @@ export type Member = {
   referentId: string
   teamIds: string[]
   access:
+    | "No relevado"
     | "Sin acceso"
     | "Invitación preparada"
     | "Activo"
@@ -33,6 +35,8 @@ export type Member = {
   perspective: ScenarioId
   capabilities: Capability[]
   clientId?: string
+  sourceRow?: number
+  sourceNote?: string
 }
 export type Team = {
   id: string
@@ -69,123 +73,119 @@ const member = (
   capabilities: presetCapabilities(perspective),
   ...(perspective === "client" ? { clientId: "client-demo-centro" } : {}),
 })
+/** Explicit evaluation accounts are separate from ABT's employee roster. */
+export const evaluationUsers: Member[] = [
+  member(
+    "member-demo-01",
+    "Operador de prueba Importación",
+    "importacion@example.invalid",
+    "Importación",
+    "import",
+    ["team-impo-a"]
+  ),
+  member(
+    "member-demo-02",
+    "Operador de prueba Exportación",
+    "exportacion@example.invalid",
+    "Exportación",
+    "export",
+    ["team-expo-a"]
+  ),
+  member(
+    "member-demo-03",
+    "Responsable operativo de prueba",
+    "operaciones@example.invalid",
+    "Operaciones",
+    "operations",
+    ["team-impo-a", "team-expo-a"]
+  ),
+  member(
+    "member-demo-04",
+    "Administración de prueba",
+    "administracion@example.invalid",
+    "Administración",
+    "administration",
+    ["team-admin"]
+  ),
+  member(
+    "member-demo-05",
+    "Dirección de prueba",
+    "direccion@example.invalid",
+    "Dirección",
+    "direction",
+    ["team-direction"]
+  ),
+  member(
+    "member-demo-06",
+    "Cliente externo de prueba",
+    "cliente@example.invalid",
+    "Externo",
+    "client",
+    []
+  ),
+]
 export const initialPeople: PeopleState = {
-  members: [
-    member(
-      "member-demo-01",
-      "Operador de prueba Importación",
-      "importacion@example.invalid",
-      "Importación",
-      "import",
-      ["team-impo-a"]
-    ),
-    member(
-      "member-demo-02",
-      "Operador de prueba Exportación",
-      "exportacion@example.invalid",
-      "Exportación",
-      "export",
-      ["team-expo-a"]
-    ),
-    member(
-      "member-demo-03",
-      "Responsable operativo de prueba",
-      "operaciones@example.invalid",
-      "Operaciones",
-      "operations",
-      ["team-impo-a", "team-expo-a"]
-    ),
-    member(
-      "member-demo-04",
-      "Administración de prueba",
-      "administracion@example.invalid",
-      "Administración",
-      "administration",
-      ["team-admin"]
-    ),
-    member(
-      "member-demo-05",
-      "Dirección de prueba",
-      "direccion@example.invalid",
-      "Dirección",
-      "direction",
-      ["team-direction"]
-    ),
-    member(
-      "member-demo-06",
-      "Cliente externo de prueba",
-      "cliente@example.invalid",
-      "Externo",
-      "client",
-      []
-    ),
-    member(
-      "member-demo-07",
-      "Integrante sin acceso",
-      "",
-      "Importación",
-      "import",
-      ["team-impo-b"],
-      "Sin acceso"
-    ),
-  ],
+  members: teamRoster.map((person) => ({
+    id: person.id,
+    name: person.name,
+    email: person.email,
+    area: person.area,
+    function: person.function,
+    joinedOn: "",
+    referentId: "",
+    teamIds: [
+      person.area === "Importación"
+        ? "team-impo"
+        : person.area === "Exportación"
+          ? "team-expo"
+          : person.area === "Administración"
+            ? "team-admin"
+            : "team-direction",
+    ],
+    access: "No relevado",
+    perspective: "operations",
+    capabilities: [],
+    sourceRow: person.row,
+    sourceNote: person.note,
+  })),
   teams: [
     {
-      id: "team-impo-a",
-      name: "Equipo Impo A",
+      id: "team-impo",
+      name: "Importación · área relevada",
       area: "Importación",
-      leadId: "member-demo-03",
-      backupId: "member-demo-01",
-    },
-    {
-      id: "team-impo-b",
-      name: "Equipo Impo B",
-      area: "Importación",
-      leadId: "member-demo-03",
+      leadId: "person-abt-002",
       backupId: "",
     },
     {
-      id: "team-expo-a",
-      name: "Equipo Expo A",
+      id: "team-expo",
+      name: "Exportación · área relevada",
       area: "Exportación",
-      leadId: "member-demo-03",
-      backupId: "member-demo-02",
-    },
-    {
-      id: "team-expo-b",
-      name: "Equipo Expo B",
-      area: "Exportación",
-      leadId: "member-demo-03",
+      leadId: "person-abt-003",
       backupId: "",
     },
     {
       id: "team-admin",
       name: "Administración",
       area: "Administración",
-      leadId: "member-demo-04",
+      leadId: "person-abt-001",
       backupId: "",
     },
     {
       id: "team-direction",
       name: "Dirección",
       area: "Dirección",
-      leadId: "member-demo-05",
+      leadId: "",
       backupId: "",
     },
   ],
-  assignments: {
-    "wrk-imp-control-01": "member-demo-01",
-    "wrk-exp-post-embarque-02": "member-demo-02",
-    "wrk-quote-review-04": "member-demo-05",
-    "wrk-admin-no-operation-05": "member-demo-04",
-    "wrk-export-exception-06": "member-demo-03",
-  },
+  assignments: {},
   activity: [],
 }
-const key = "abt-comex:demo:people:v1"
+const key = "abt-comex:demo:people:v2"
 export const selectedMemberKey = "abt-comex:demo:member:v1"
 let memory = initialPeople
 const accessStates = new Set([
+  "No relevado",
   "Sin acceso",
   "Invitación preparada",
   "Activo",
@@ -205,7 +205,7 @@ export function parsePeople(raw: string | null): PeopleState {
         (item) =>
           item &&
           typeof item.id === "string" &&
-          /^member-demo-\d+$/.test(item.id) &&
+          /^(?:person-abt|member-local|member-demo)-\d+$/.test(item.id) &&
           [
             item.name,
             item.email,
@@ -283,7 +283,8 @@ export function memberForPerspective(
   perspective: ScenarioId,
   state = loadPeople()
 ) {
-  return state.members.find(
+  void state
+  return evaluationUsers.find(
     (item) => item.perspective === perspective && item.access === "Activo"
   )
 }

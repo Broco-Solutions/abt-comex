@@ -57,6 +57,12 @@ export function MemberDetail({
         Volver a Personas
       </Link>
       <PageHeader title={member.name} />
+      {member.sourceRow && (
+        <p className="text-sm text-muted-foreground">
+          Fuente: Equipo y referentes · fila {member.sourceRow} · verificada
+          15/10/2026. {member.sourceNote}
+        </p>
+      )}
       <div className="flex flex-wrap items-center gap-3">
         <span className="rounded-md bg-muted px-3 py-2 text-sm">
           {member.access}

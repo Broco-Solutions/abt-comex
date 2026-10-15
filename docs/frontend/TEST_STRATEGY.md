@@ -416,6 +416,12 @@ UX-07 agrega ux-regression.spec.ts: identidad/acciones dentro del viewport útil
 
 ## Regresión V3
 
+Nómina laboral: contrastar las 16 filas nominales con IDs/fila de fuente, excluir
+buzones/cuentas técnicas y no inferir permisos/ingresos/tareas. Comprobar login
+de escenarios separado, acceso explícito local, suspensión, equipos,
+selectores y Portal aislado. Los tests de transferencia usan asignaciones
+sintéticas explícitas, nunca se atribuyen como trabajo efectivo a ABT.
+
 V3-03: people.test.ts valida persona/acceso distintos, suspensión con transferencia e historial y capacidades independientes del contexto. v3-people-access.spec.ts comprueba login sin almacenar contraseña, ojo accesible, recuperación sin envío/cambio real, creación de integrante/equipo, capacidades financieras parciales, suspensión y proyección de asignaciones; filtros URL locales y retorno con foco. people.a11y.tsx incluye diálogo largo, equipos y estados de acceso/recuperación. Las pruebas no acreditan autenticación ni autorización productivas. Escenarios previos pasan a /acceso/escenarios; /acceso queda para ingreso convencional visual. Chromium ejecutado; otros motores y revisión humana WCAG pendientes.
 
 V3-01 incorpora v3-continuity.spec.ts: filtros sin solicitudes de navegación de documento, Atrás/Adelante, orden conservado, retorno con foco/posición y misma disponibilidad documental en Portal. Combobox tiene pruebas de búsqueda/selección/Escape/sin coincidencias y axe expandido. Revisar flyout compacto sobre encabezados de tabla y geometría 390/768/1024/1440; cambiar superficies obliga a inspeccionar referencias visuales antes de actualizar sólo las afectadas. Un test que termina por tiempo se reproduce aislado; no se corrige ampliando timeouts ni forzando clics.
