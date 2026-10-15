@@ -9,7 +9,11 @@ import { PageHeader } from "@/components/navigation/page-header"
 import { useScenario } from "@/features/demo/state/scenario-provider"
 import { hasCapability } from "@/features/demo/data/capabilities"
 import { DEMONSTRATION_DATE } from "@/features/demo/data/scenarios"
-import { money } from "@/features/finance/data/financial-records"
+import {
+  money,
+  isFinancialDate,
+} from "@/features/finance/data/financial-records"
+import { UsdEquivalent } from "@/features/finance/components/usd-equivalent"
 import { useOrganizations } from "@/features/organizations/state/use-organizations"
 import { useDemoOperations } from "@/features/operations/state/use-demo-operations"
 import { useVouchers } from "../state/use-vouchers"
@@ -53,7 +57,10 @@ export function VoucherDetail({
     document.side === "Cobrar" ? "finance.collections" : "finance.treasury"
   )
   const canPrepare = canApply && hasCapability(scenario, "finance.prepare")
-  const balance = canApply ? voucherBalance(document, state) : undefined
+  const backParams = new URL(back.href, "https://abt.local").searchParams
+  const requestedCut = backParams.get("corte") ?? backParams.get("hasta") ?? ""
+  const cut = isFinancialDate(requestedCut) ? requestedCut : DEMONSTRATION_DATE
+  const balance = canApply ? voucherBalance(document, state, cut) : undefined
   const self = "/administracion/comprobantes/" + id
   const party = organizations.find((item) => item.id === document.partyId)
   const apps = canApply
@@ -115,6 +122,19 @@ export function VoucherDetail({
           <p className="font-mono text-xl font-semibold">
             {money(document.amount, document.currency)}
           </p>
+          <UsdEquivalent
+            amount={document.amount}
+            currency={document.currency}
+            date={document.issuedOn}
+          />
+          {canApply && document.kind !== "Nota de crédito" && (
+            <UsdEquivalent
+              amount={balance}
+              currency={document.currency}
+              date={cut}
+              balance
+            />
+          )}
           {canApply && (
             <p className="mt-2 text-sm">
               {document.kind === "Nota de crédito"
@@ -125,7 +145,8 @@ export function VoucherDetail({
                   )
                 : balance === undefined
                   ? "Saldo no disponible"
-                  : "Saldo del escenario: " + money(balance, document.currency)}
+                  : `Saldo del escenario al ${formatDate(cut)}: ` +
+                    money(balance, document.currency)}
             </p>
           )}
         </div>

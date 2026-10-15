@@ -10,6 +10,11 @@
 
 ## Propósito y alcance
 
+La ampliación interna V3 conserva el total y moneda de cada versión y muestra
+su equivalente de gestión USD, con referencia histórica según la fecha de esa
+versión. No transforma una cotización en facturación ni modifica descuentos,
+impuestos o gastos. [Regla compartida](10-administracion-finanzas.md#cotizaciones-de-gestión-y-equivalentes-usd-v3).
+
 Representar el circuito comercial previo y distinguir con claridad la aprobación
 interna, el envío y la aceptación o rechazo del cliente. Esta pasada es una
 demostración local con fixtures inventados; no registra un proceso comercial

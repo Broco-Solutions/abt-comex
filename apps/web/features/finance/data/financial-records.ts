@@ -1,6 +1,7 @@
 import { projectClients } from "@/features/organizations/data/organizations"
 import { demonstrationClients } from "@/features/clients/data/clients"
 import { DEMONSTRATION_DATE } from "@/features/demo/data/scenarios"
+import { isIsoCalendarDate } from "@workspace/ui/lib/date"
 export type Currency = "ARS" | "USD"
 export type FinancialRecord = {
   id: string
@@ -23,11 +24,7 @@ export type FinancialRecord = {
 export const FINANCIAL_CUTOFF = DEMONSTRATION_DATE
 // URL filters are untrusted presentation input, not confirmed business dates.
 export function isFinancialDate(value: string) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false
-  const date = new Date(`${value}T00:00:00.000Z`)
-  return (
-    Number.isFinite(date.getTime()) && date.toISOString().slice(0, 10) === value
-  )
+  return isIsoCalendarDate(value)
 }
 
 export const financialRecords: FinancialRecord[] = [

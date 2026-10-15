@@ -10,6 +10,31 @@
 
 ## Propósito y trazabilidad
 
+### Cotizaciones de gestión y equivalentes USD V3
+
+Configuración → `/configuracion/cotizaciones-gestion`, con `catalogs.manage` y
+`finance.prepare`, administra referencias sintéticas ARS por USD, fecha de
+vigencia, ID, fuente, validez y revisiones. No consulta ni define un proveedor de
+dólar. Una revisión conserva la anterior y recalcula sólo su intervalo; cambiar
+la fecha requiere nueva vigencia. Una referencia inválida deja un intervalo sin
+conversión: no se toma silenciosamente una anterior. Sesión, cambio de escenario
+y reinicio siguen el contrato demostrativo compartido.
+
+Regla provisional: última vigencia no posterior al evento para transacciones;
+última vigencia no posterior al corte para saldos. La revisión de una referencia
+es una corrección de gestión con propagación e historial, no un cierre contable
+ni una cotización productiva congelada. Los detalles de gastos, movimientos,
+comprobantes y cotizaciones conservan moneda original y permiten consultar el
+equivalente, fecha, ID/revisión y fuente aplicados. Saldo de comprobante reutiliza
+sus aplicaciones al corte recibido en el contexto de retorno. Falta de importe
+o referencia muestra pendiente. No genera deudas restando flujos del período.
+
+El cálculo común usa enteros en micro-USD (seis decimales), convierte centavos
+originales una vez y redondea al presentar. Totales incompletos deben declararse
+parciales, nunca confirmados. El corte de Dirección adapta sus agregaciones a
+este contrato, sin reconstruir registros administrativos. Fuente real, criterio
+contable y valoraciones definitivas siguen pendientes de validación ABT.
+
 V3-06 agrega al contexto administrativo una coordinación local compartida con
 Operación/Importación/Exportación: envío con observación obligatoria, recepción
 para revisión y devolución. La bandeja incluye también operaciones sin referencia

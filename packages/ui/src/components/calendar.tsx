@@ -13,6 +13,8 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
       labels={{
         labelNext: () => "Mes siguiente",
         labelPrevious: () => "Mes anterior",
+        labelMonthDropdown: () => "Mes",
+        labelYearDropdown: () => "Año",
         labelDayButton: (date) =>
           new Intl.DateTimeFormat("es-AR", { dateStyle: "full" }).format(date),
       }}
@@ -22,11 +24,11 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
         month: "space-y-3",
         month_caption:
           "relative flex h-8 items-center justify-center px-10 text-sm font-medium",
-        nav: "absolute inset-x-1 top-0 z-10 flex items-center justify-between",
+        nav: "pointer-events-none absolute inset-x-1 top-0 z-10 flex items-center justify-between",
         button_previous:
-          "inline-flex size-8 items-center justify-center rounded-md hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none",
+          "pointer-events-auto inline-flex size-8 items-center justify-center rounded-md hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none",
         button_next:
-          "inline-flex size-8 items-center justify-center rounded-md hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none",
+          "pointer-events-auto inline-flex size-8 items-center justify-center rounded-md hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none",
         month_grid: "w-full border-collapse",
         weekdays: "flex",
         weekday: "w-9 text-center text-xs font-normal text-muted-foreground",
@@ -39,7 +41,7 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
         range_middle: "rounded-none bg-accent text-accent-foreground",
         range_end: "rounded-r-md bg-primary text-primary-foreground",
         today: "font-semibold text-primary",
-        outside: "text-muted-foreground opacity-50",
+        outside: "text-muted-foreground",
         disabled: "text-muted-foreground opacity-40",
         ...classNames,
       }}

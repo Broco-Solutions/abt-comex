@@ -1,5 +1,19 @@
 # ABT Comex — Estrategia de Pruebas de Frontend
 
+`DateField` se prueba con escritura DD/MM/AAAA, fechas imposibles/bisiestas,
+borrador incompleto, estados de error y calendario español con mes/año.
+La referencia DS tiene axe con el popover abierto; el recorrido móvil verifica
+selección de mes/año, flechas/Enter, cierre y devolución de foco. La apariencia
+nativa del sistema operativo no se usa como evidencia de formato español.
+
+Moneda V3: `management-rates.test.ts` cubre conversión histórica, corte, USD/ARS,
+revisión/invalidación, ausencia de referencia/importe, precisión y entradas
+inválidas. `v3-management-rates.spec.ts` recorre edición → gasto sin cambiar su
+original → conversión pendiente, consulta al corte, restricción de capacidades,
+duplicados y diálogo móvil con retorno de foco. Axe cubre catálogo, disclosure y
+editor. La regresión de Dirección debe comprobar además tabla/gráfico/indicador
+con la misma población y valoración; estos casos no acreditan aún ese cierre.
+
 Continuidad V3-06: `operational-continuity.test.ts` verifica roles activos,
 deduplicación, reenvío/devolución, conservación de dimensiones y filtros por ID.
 `v3-continuity.spec.ts` recorre asignación explícita → ficha de persona/listado,

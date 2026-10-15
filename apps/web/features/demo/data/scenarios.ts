@@ -84,7 +84,10 @@ export function canVisit(scenario: Scenario, pathname: string) {
   if (pathname.startsWith("/portal"))
     return scenario.id === "client" && hasCapability(scenario, "portal.read")
   if (scenario.id === "client") return false
-  if (pathname.startsWith("/configuracion/categorias"))
+  if (
+    pathname.startsWith("/configuracion/categorias") ||
+    pathname.startsWith("/configuracion/cotizaciones-gestion")
+  )
     return (
       hasCapability(scenario, "catalogs.manage") &&
       hasCapability(scenario, "finance.prepare")
