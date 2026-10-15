@@ -601,6 +601,12 @@ Stress-testear la arquitectura con:
 
 ## Evolución V3 — aprobación interna 15/10/2026
 
+Ampliación interna: Administración se organiza por trabajo (Bandeja
+administrativa, Gastos y rendiciones, Ingresos y egresos, Comprobantes y cuentas).
+Dirección concentra la analítica transversal; G2/G3 siguen accesibles desde el
+contexto administrativo. Categorías y conceptos en Configuración, reutilizados
+por los formularios autorizados. No cambia el rol contable de Alpha2000.
+
 El responsable aprobó la dirección de la auditoría integral para construir y evaluar frontend, no reglas definitivas de ABT. Ejecución y gates: [plan V3](../frontend/PLAN_IMPLEMENTACION.md#v3--evolución-integral-autorizada-internamente-15102026).
 
 - Organización única con roles contextuales distintos: cliente de ABT; proveedor contratado por ABT; vendedor/proveedor extranjero, comprador u otra contraparte de una operación del cliente. Compartir identidad no comparte consecuencias: mencionar un vendedor en Importación **no crea una obligación de pago de ABT**.

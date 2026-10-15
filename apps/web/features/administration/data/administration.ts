@@ -8,7 +8,7 @@ export type AdministrationQueueStatus =
   | "Facturada"
   | "Con pendientes"
 
-export type AdministrationQueueEntry =
+export type AdministrationQueueEntry = (
   | {
       kind: "operation"
       id: string
@@ -30,6 +30,7 @@ export type AdministrationQueueEntry =
       detail: string
       status: AdministrationQueueStatus
     }
+) & { nextAction: string; responsible?: string; updatedOn?: string }
 
 export function getAdministrationQueue(
   operations: DemonstrationOperation[],
@@ -52,6 +53,9 @@ export function getAdministrationQueue(
           fulfilled: progress.fulfilled,
           postShipment: progress.postShipment,
           documentaryClose: progress.documentaryClose,
+          nextAction: operation.nextAction,
+          responsible: operation.responsible,
+          updatedOn: operation.updatedOn,
         },
       ]
     }
@@ -66,6 +70,8 @@ export function getAdministrationQueue(
       title: item.title,
       detail: item.reason,
       status: "Con pendientes" as const,
+      nextAction: item.nextStep,
+      responsible: item.owner,
     }))
 
   return [...operationEntries, ...independentWork]

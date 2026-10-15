@@ -17,13 +17,13 @@ export function FinanceOverview({
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Finanzas"
+        title="Gastos y vencimientos"
         secondaryActions={
           <Link
             href="/administracion"
             className={cn(buttonVariants({ variant: "outline" }))}
           >
-            Volver a la cola
+            Volver a la bandeja administrativa
           </Link>
         }
       />

@@ -282,6 +282,12 @@ Este mapa registra las Etapas 2–13 integradas técnicamente; no supone aprobac
 
 ## Continuidad V3
 
+Administración abre Bandeja administrativa y organiza Gastos/rendiciones,
+Ingresos/egresos y Comprobantes/cuentas. Las subconsultas conservan sus rutas
+históricas y las categorías se localizan en Configuración
+(`/configuracion/categorias`, alias histórico compatible). No se agregan módulos
+principales ni se reemplazan los recorridos J12/J13; se explicita su ubicación.
+
 ### Navegación comercial y de organizaciones
 
 Clientes es un destino primario con Cotizaciones como subopción relacionada;

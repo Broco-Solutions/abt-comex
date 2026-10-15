@@ -11,6 +11,20 @@ export function PresentationPreferences() {
   return (
     <div className="max-w-3xl space-y-6">
       <PageHeader title="Configuración" />
+      {hasCapability(scenario, "catalogs.manage") &&
+        hasCapability(scenario, "finance.prepare") && (
+          <nav
+            aria-label="Catálogos administrativos"
+            className="flex flex-wrap gap-4 border-b border-border pb-4 text-sm"
+          >
+            <Link
+              href="/configuracion/categorias"
+              className="inline-flex min-h-10 items-center font-medium text-primary underline"
+            >
+              Categorías y conceptos
+            </Link>
+          </nav>
+        )}
       {hasCapability(scenario, "people.manage") && (
         <nav
           aria-label="Administración del acceso"

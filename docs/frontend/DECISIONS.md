@@ -1,5 +1,14 @@
 # Frontend Decisions
 
+## 2026-10-15 — Administración organizada por trabajo
+
+Decisión interna aprobada: Bandeja administrativa, Gastos y rendiciones,
+Ingresos y egresos, Comprobantes y cuentas. Cuatro áreas con subconsultas
+pertinentes, selector compacto móvil y rutas históricas compatibles.
+Categorías/conceptos en Configuración con acceso contextual autorizado. G2/G3
+siguen en gastos/vencimientos; Dirección concentra análisis transversal. La
+registración de un gasto no acredita pago ni contabilidad externa.
+
 ## 2026-10-15 — Uso autorizado de la nómina laboral relevada
 
 Decisión interna explícita del responsable: usar nombres y correos laborales

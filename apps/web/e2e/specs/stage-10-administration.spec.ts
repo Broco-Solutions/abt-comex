@@ -12,7 +12,7 @@ test("@smoke administration keeps financial and operational states separate and 
     page.getByText("Sin referencia", { exact: true }).filter({ visible: true })
   ).toBeVisible()
   await expect(
-    page.getByRole("link", { name: "Fuentes y finanzas" })
+    page.getByRole("link", { name: "Gastos y vencimientos", exact: true })
   ).toBeVisible()
   await expect(page.getByText(/\$\s?\d/)).toHaveCount(0)
 

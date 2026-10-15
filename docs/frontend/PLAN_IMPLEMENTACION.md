@@ -894,6 +894,14 @@ USD/Dirección en PR focalizados. V3-06/V3-07 permanecen en ejecución hasta
 comprobar alcance y regresión completos. Personas: fuente verificada 15/10/2026,
 16 filas nominales; accesos/asignaciones pendientes, escenarios independientes.
 
+Nómina integrada por PR #33 a `781a897e74179943834f8b9cec88806702eb3441`,
+quality/e2e-smoke/Vercel verdes en `3ce932c`. Reorganización administrativa en
+corte propio: cuatro áreas y subconsultas contextuales, categorías en
+Configuración con ruta histórica compatible, próxima acción/responsable y
+actualización de la fuente en bandeja. Tipos/build/lint, 2 axe administrativos y
+14/15 E2E iniciales; se corrigió el nombre accesible del selector móvil y de
+Cartera, con 2/2 E2E focalizados verdes posteriores. Desktop/móvil inspeccionados.
+
 PR #32 integrado por squash a `1223cd7a2db84016506428779479507a3109bc3e`,
 checks quality/e2e-smoke/Vercel verdes en `52677dd`. Nómina laboral en corte
 propio: lint/tipos/build, 123 unitarias web, axe de Personas y 15 E2E Chromium

@@ -1,5 +1,6 @@
 "use client"
 import Link from "next/link"
+import { formatDate } from "@workspace/ui/lib/date"
 import { useWorkItems } from "@/features/work/state/use-work-items"
 import { useDemoOperations } from "@/features/operations/state/use-demo-operations"
 import { AdministrationNav } from "./administration-nav"
@@ -61,12 +62,13 @@ export function AdministrationQueue({
             href="/administracion/finanzas"
             className={cn(buttonVariants({ variant: "outline" }))}
           >
-            Fuentes y finanzas
+            Gastos y vencimientos
           </Link>
         }
       />
 
       <AdministrationNav />
+      <h2 className="text-base font-semibold">Bandeja administrativa</h2>
       {restricted || readError ? (
         <section
           className="max-w-3xl border-y border-border py-4"
@@ -208,6 +210,13 @@ export function AdministrationQueue({
                           </dd>
                         </div>
                       </dl>
+                      <p className="mt-2 text-sm">{entry.nextAction}</p>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        {entry.responsible || "Responsable pendiente"}
+                        {entry.updatedOn
+                          ? ` · Actualización ${formatDate(entry.updatedOn)}`
+                          : " · Fecha pendiente"}
+                      </p>
                     </li>
                   )
                 })}
@@ -269,7 +278,18 @@ export function AdministrationQueue({
                               {entry.reference}
                             </Link>
                           </th>
-                          <td className="px-3 py-3">{context}</td>
+                          <td className="max-w-sm px-3 py-3">
+                            <p>{context}</p>
+                            <p className="mt-1 text-xs text-muted-foreground">
+                              {entry.nextAction}
+                            </p>
+                            <p className="mt-1 text-xs text-muted-foreground">
+                              {entry.responsible || "Responsable pendiente"}
+                              {entry.updatedOn
+                                ? ` · Actualización ${formatDate(entry.updatedOn)}`
+                                : " · Fecha pendiente"}
+                            </p>
+                          </td>
                           <td className="px-3 py-3">
                             <Badge variant="outline">{billing}</Badge>
                           </td>
