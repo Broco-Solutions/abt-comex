@@ -413,3 +413,7 @@ Los escenarios 2/20/100 de documentos y DJVE son pruebas de diseño, no volúmen
 Probar recepción de copia en ficha/workspace/consulta sin completar original ni control; proyección externa antes de conteos/campos; salida y reinicio; versión histórica sin mutación de secuencia; errores enlazados y foco; cliente explícito/reutilizado desde contexto; regreso DJVE/Exportación/lista con búsqueda intacta. No se reemplazan aserciones funcionales por avisos genéricos de demo. Axe no certifica WCAG ni sustituye teclado/reflow/revisión visual.
 
 UX-07 agrega ux-regression.spec.ts: identidad/acciones dentro del viewport útil (320–1440), período financiero inválido/invertido sin cifras confirmadas y preferencias/ayuda secundaria. Contraste de experiencias/J1–J10 y límites en el plan. Cada referencia visual actualizada se inspecciona como base técnica Under review, no aprobación humana. No relajar timeouts, desactivar pruebas ni aceptar snapshots fallidos indiscriminadamente.
+
+## Regresión V3
+
+V3-01 incorpora v3-continuity.spec.ts: filtros sin solicitudes de navegación de documento, Atrás/Adelante, orden conservado, retorno con foco/posición y misma disponibilidad documental en Portal. Combobox tiene pruebas de búsqueda/selección/Escape/sin coincidencias y axe expandido. Revisar flyout compacto sobre encabezados de tabla y geometría 390/768/1024/1440; cambiar superficies obliga a inspeccionar referencias visuales antes de actualizar sólo las afectadas. Un test que termina por tiempo se reproduce aislado; no se corrige ampliando timeouts ni forzando clics.

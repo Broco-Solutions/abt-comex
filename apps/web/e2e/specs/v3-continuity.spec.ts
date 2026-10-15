@@ -45,6 +45,10 @@ test("@smoke V3 Portal summary and detail share documentary availability", async
   await page
     .getByRole("link", { name: "Factura comercial · OP-DEM-2054" })
     .click()
+  await expect(page).toHaveURL(/portal\/operaciones\/op-demo-2054/)
+  await expect(
+    page.getByRole("heading", { name: "OP-DEM-2054", exact: true })
+  ).toBeVisible()
   await expect(
     page.getByText("Copia disponible", { exact: false })
   ).toBeVisible()
