@@ -1,3 +1,4 @@
+import { projectClients } from "@/features/organizations/data/organizations"
 import { demonstrationClients } from "@/features/clients/data/clients"
 import { DEMONSTRATION_DATE } from "@/features/demo/data/scenarios"
 export type Currency = "ARS" | "USD"
@@ -165,8 +166,7 @@ export function buckets(
             : receivableBand(record)
     const label =
       dimension === "client"
-        ? (demonstrationClients.find((client) => client.id === key)?.name ??
-          key)
+        ? (projectClients().find((client) => client.id === key)?.name ?? key)
         : key
     const bucket = result.get(key) ?? { key, label, value: 0, ids: [] }
     bucket.value += dimension === "due" ? record.openBalance! : record.amount

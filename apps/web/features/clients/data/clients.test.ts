@@ -31,6 +31,7 @@ it("searches client names and related operation references", () => {
 it("accepts only known list states and trims the search term", () => {
   expect(parseClientListState({ q: " norte ", error: "lectura" })).toEqual({
     query: "norte",
+    includeInactive: false,
     error: "lectura",
   })
   expect(parseClientListState({ error: "otro" }).error).toBe("")

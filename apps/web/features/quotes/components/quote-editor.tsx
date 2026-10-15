@@ -10,7 +10,9 @@ import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { cn } from "@workspace/ui/lib/utils"
 import { SearchableCombobox } from "@workspace/ui/components/searchable-combobox"
-import { demonstrationClients } from "@/features/clients/data/clients"
+import { useOrganizations } from "@/features/organizations/state/use-organizations"
+import { projectClients } from "@/features/organizations/data/organizations"
+import { OrganizationEditor } from "@/features/organizations/components/organization-editor"
 
 import {
   calculateQuoteTotal,
@@ -45,11 +47,9 @@ export function QuoteEditor({
   const quote = quoteId ? quotes.find((item) => item.id === quoteId) : undefined
   const currentVersion = quote ? getCurrentQuoteVersion(quote) : undefined
   const [loaded, setLoaded] = useState(false)
-  const [clientId, setClientId] = useState(
-    demonstrationClients.some((client) => client.id === initialClientId)
-      ? initialClientId
-      : ""
-  )
+  const { organizations, ready: organizationsReady } = useOrganizations()
+  const demonstrationClients = projectClients(organizations)
+  const [clientId, setClientId] = useState(initialClientId)
   const [service, setService] = useState("")
   const [context, setContext] = useState("")
   const [currency, setCurrency] = useState<QuoteCurrency>("ARS")
@@ -59,7 +59,7 @@ export function QuoteEditor({
   const nextLineId = useRef(2)
 
   useEffect(() => {
-    if (!ready) return
+    if (!ready || !organizationsReady) return
     if (quoteId && currentVersion && quote) {
       // Initialize the form from the session-loaded quote version, not server markup.
       // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -79,7 +79,7 @@ export function QuoteEditor({
       nextLineId.current = currentVersion.lines.length + 1
     }
     setLoaded(true)
-  }, [ready, quoteId, quote, currentVersion])
+  }, [ready, organizationsReady, quoteId, quote, currentVersion])
 
   const validLines = lines.flatMap((line, index) => {
     const quantity = Number(line.quantity)
@@ -159,11 +159,17 @@ export function QuoteEditor({
   function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setSaveError("")
-    if (!clientId || !service.trim() || validLines.length !== lines.length) {
+    const validClient = demonstrationClients.some(
+      (client) =>
+        client.id === clientId &&
+        (Boolean(quote) ||
+          client.roles.some((entry) => entry.role === "client" && entry.active))
+    )
+    if (!validClient || !service.trim() || validLines.length !== lines.length) {
       setSaveError(
         "Completá cliente, servicio, descripción, cantidades enteras y precios válidos. No se guardó ningún cambio."
       )
-      const invalid = !clientId
+      const invalid = !validClient
         ? "quote-editor-client"
         : !service.trim()
           ? "quote-editor-service"
@@ -254,11 +260,26 @@ export function QuoteEditor({
               value={clientId}
               onChange={setClientId}
               disabled={Boolean(quote)}
-              options={demonstrationClients.map((client) => ({
-                value: client.id,
-                label: client.name,
-              }))}
+              options={demonstrationClients
+                .filter(
+                  (client) =>
+                    Boolean(quote) ||
+                    client.roles.some(
+                      (entry) => entry.role === "client" && entry.active
+                    )
+                )
+                .map((client) => ({
+                  value: client.id,
+                  label: client.name,
+                }))}
             />
+            {!quote && (
+              <div className="mt-2">
+                <OrganizationEditor
+                  onSaved={(organization) => setClientId(organization.id)}
+                />
+              </div>
+            )}
           </div>
           <div>
             <label

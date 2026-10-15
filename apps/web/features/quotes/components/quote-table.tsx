@@ -9,7 +9,8 @@ import {
   getDataTableColumnMeta,
 } from "@workspace/ui/components/data-table"
 import { formatDate } from "@workspace/ui/lib/date"
-import { demonstrationClients } from "@/features/clients/data/clients"
+import { useOrganizations } from "@/features/organizations/state/use-organizations"
+import { projectClients } from "@/features/organizations/data/organizations"
 import type { DemonstrationQuote } from "../types/quote"
 import { getCurrentQuoteVersion } from "../data/quotes"
 
@@ -24,6 +25,8 @@ export function QuoteTable({
   quotes: DemonstrationQuote[]
   returnTo: string
 }) {
+  const { organizations } = useOrganizations()
+  const demonstrationClients = projectClients(organizations)
   const href = (quote: DemonstrationQuote) =>
     `/cotizaciones/${quote.id}?returnTo=${encodeURIComponent(returnTo)}`
   const client = (quote: DemonstrationQuote) =>

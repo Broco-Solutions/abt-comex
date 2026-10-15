@@ -1,11 +1,11 @@
 "use client"
 import { Button } from "@workspace/ui/components/button"
 import { useScenario } from "@/features/demo/state/scenario-provider"
-import { demonstrationClients } from "@/features/clients/data/clients"
+import { projectClients } from "@/features/organizations/data/organizations"
 import { PORTAL_DEMO_CLIENT_ID } from "../data/portal"
 export function PortalAccess() {
   const { choose } = useScenario()
-  const client = demonstrationClients.find(
+  const client = projectClients().find(
     (item) => item.id === PORTAL_DEMO_CLIENT_ID
   )
   return (

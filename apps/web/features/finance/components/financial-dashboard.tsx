@@ -4,7 +4,8 @@ import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { cn } from "@workspace/ui/lib/utils"
 import { formatDate } from "@workspace/ui/lib/date"
-import { demonstrationClients } from "@/features/clients/data/clients"
+import { useOrganizations } from "@/features/organizations/state/use-organizations"
+import { projectClients } from "@/features/organizations/data/organizations"
 import { useScenario } from "@/features/demo/state/scenario-provider"
 import { BillingChart, DistributionChart, type Drill } from "./financial-charts"
 import {
@@ -32,6 +33,8 @@ export function FinancialDashboard({
   )
   const { scenario } = useScenario()
   const path = executive ? "/gestion" : "/administracion/finanzas"
+  const { organizations } = useOrganizations()
+  const demonstrationClients = projectClients(organizations)
   const from = params.get("desde") ?? "2026-05-01"
   const to = params.get("hasta") ?? FINANCIAL_CUTOFF
   const periodError =
@@ -315,6 +318,8 @@ function FinancialRecords({
   balance: boolean
   returnTo: string
 }) {
+  const { organizations } = useOrganizations()
+  const demonstrationClients = projectClients(organizations)
   return (
     <ul
       className="divide-y divide-border"

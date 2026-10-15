@@ -9,7 +9,8 @@ import { PageHeader } from "@/components/navigation/page-header"
 import { Badge } from "@workspace/ui/components/badge"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
-import { demonstrationClients } from "@/features/clients/data/clients"
+import { useOrganizations } from "@/features/organizations/state/use-organizations"
+import { projectClients } from "@/features/organizations/data/organizations"
 
 import {
   calculateQuoteTotal,
@@ -43,6 +44,8 @@ export function QuoteDetail({
   quoteId: string
   searchParams: SearchParams
 }) {
+  const { organizations } = useOrganizations()
+  const demonstrationClients = projectClients(organizations)
   const { quotes, ready, updateQuotes } = useDemoQuotes()
   const error = first(searchParams.error)
   const returnTo = safeReturnTo(first(searchParams.returnTo))

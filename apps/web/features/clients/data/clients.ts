@@ -48,6 +48,7 @@ export function parseClientListState(params: ClientSearchParams) {
   const error = first(params.error)
   return {
     query: first(params.q).trim(),
+    includeInactive: first(params.estado) === "todos",
     error: error === "lectura" || error === "sin-permiso" ? error : "",
   }
 }
@@ -75,9 +76,10 @@ export function filterClients(
   })
 }
 
-export function clientListHref(query: string) {
+export function clientListHref(query: string, includeInactive = false) {
   const params = new URLSearchParams()
   if (query) params.set("q", query)
+  if (includeInactive) params.set("estado", "todos")
   const search = params.toString()
   return `/clientes${search ? `?${search}` : ""}`
 }

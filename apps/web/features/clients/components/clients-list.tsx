@@ -1,6 +1,11 @@
 "use client"
 
 import { ClientTable } from "./client-table"
+import { useListContext } from "@/components/navigation/list-context"
+import { useEffect, useState } from "react"
+import { useOrganizations } from "@/features/organizations/state/use-organizations"
+import { projectClients } from "@/features/organizations/data/organizations"
+import { OrganizationEditor } from "@/features/organizations/components/organization-editor"
 
 import Link from "next/link"
 
@@ -11,7 +16,6 @@ import { cn } from "@workspace/ui/lib/utils"
 
 import {
   clientListHref,
-  demonstrationClients,
   filterClients,
   parseClientListState,
 } from "../data/clients"
@@ -23,15 +27,57 @@ export function ClientsList({
 }: {
   searchParams: ClientSearchParams
 }) {
-  const state = parseClientListState(searchParams)
+  const sourceState = parseClientListState(searchParams)
+  const sourceKey = JSON.stringify(sourceState)
+  const [state, setState] = useState(sourceState)
+  const [queryDraft, setQueryDraft] = useState(sourceState.query)
+  const [previousQuery, setPreviousQuery] = useState(state.query)
+  if (previousQuery !== state.query) {
+    setPreviousQuery(state.query)
+    setQueryDraft(state.query)
+  }
+  const [previousSource, setPreviousSource] = useState(sourceKey)
+  if (previousSource !== sourceKey) {
+    setPreviousSource(sourceKey)
+    setState(sourceState)
+  }
+  useEffect(() => {
+    const restore = () =>
+      setState(
+        parseClientListState(
+          Object.fromEntries(new URLSearchParams(window.location.search))
+        )
+      )
+    window.addEventListener("popstate", restore)
+    return () => window.removeEventListener("popstate", restore)
+  }, [])
   const { operations, ready } = useDemoOperations()
+  const { organizations, ready: organizationsReady } = useOrganizations()
+  const allClients = projectClients(organizations)
+  const includeInactive = state.includeInactive
+  const captureContext = useListContext(
+    ready && organizationsReady,
+    clientListHref(state.query, includeInactive)
+  )
+  const [feedback, setFeedback] = useState("")
+  const [lastSaved, setLastSaved] = useState("")
   const restricted = state.error === "sin-permiso"
   const failed = state.error === "lectura"
   const clients =
     restricted || failed || !ready
       ? []
-      : filterClients(state.query, demonstrationClients, operations)
-  if (!ready)
+      : filterClients(
+          state.query,
+          allClients.filter(
+            (client) =>
+              includeInactive ||
+              client.roles.some(
+                (entry) => entry.role === "client" && entry.active
+              )
+          ),
+          operations
+        )
+  if (!ready || !organizationsReady)
     return (
       <p role="status" className="text-sm text-muted-foreground">
         Cargando escenario local…
@@ -39,14 +85,93 @@ export function ClientsList({
     )
 
   return (
-    <div className="space-y-6">
-      <PageHeader title="Clientes" />
+    <div className="space-y-6" onClickCapture={captureContext}>
+      <PageHeader
+        title="Clientes"
+        primaryAction={
+          !restricted && !failed ? (
+            <OrganizationEditor
+              onSaved={(organization) => {
+                setLastSaved(organization.id)
+                setFeedback(
+                  `${organization.name} guardado. Disponible para cotizaciones y operaciones.`
+                )
+              }}
+            />
+          ) : undefined
+        }
+      />
+      <nav
+        aria-label="Maestros de organizaciones"
+        className="flex flex-wrap gap-2 text-sm"
+      >
+        <Link
+          href="/clientes"
+          className="rounded-md border px-3 py-2 text-primary"
+        >
+          Clientes
+        </Link>
+        <Link
+          href="/proveedores"
+          className="rounded-md border px-3 py-2 text-primary"
+        >
+          Proveedores de ABT
+        </Link>
+        <Link
+          href="/proveedores?ambito=operacion"
+          className="rounded-md border px-3 py-2 text-primary"
+        >
+          Contrapartes de operaciones
+        </Link>
+      </nav>
+      {!restricted && !failed && (
+        <label className="flex min-h-9 items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={includeInactive}
+            onChange={(event) => {
+              const includeInactive = event.target.checked
+              setState((current) => ({ ...current, includeInactive }))
+              window.history.pushState(
+                null,
+                "",
+                clientListHref(state.query, includeInactive)
+              )
+            }}
+          />
+          Incluir clientes inactivos
+        </label>
+      )}
+      {feedback && (
+        <p role="status" className="text-sm">
+          {feedback}
+        </p>
+      )}
+      {lastSaved && (
+        <Link
+          className="inline-flex min-h-9 items-center text-sm font-medium text-primary underline"
+          href={`/clientes/${lastSaved}?returnTo=${encodeURIComponent(clientListHref(state.query, includeInactive))}`}
+        >
+          Abrir organización guardada
+        </Link>
+      )}
 
       <section aria-label="Búsqueda de clientes" className="max-w-5xl">
         <form
-          key={JSON.stringify(state)}
           action="/clientes"
           method="get"
+          onSubmit={(event) => {
+            event.preventDefault()
+            const query = String(
+              new FormData(event.currentTarget).get("q") ?? ""
+            )
+            window.history.pushState(
+              null,
+              "",
+              clientListHref(query, includeInactive)
+            )
+            setState({ query, error: "", includeInactive })
+          }}
           className="grid gap-3 border-b border-border pb-4 sm:grid-cols-[minmax(14rem,32rem)_auto] sm:items-end"
         >
           <div>
@@ -60,7 +185,8 @@ export function ClientsList({
               id="client-search"
               type="search"
               name="q"
-              defaultValue={state.query}
+              value={queryDraft}
+              onChange={(event) => setQueryDraft(event.target.value)}
               placeholder="Ej.: Cliente Demo Norte u OP-DEM-2048"
             />
           </div>
@@ -122,13 +248,14 @@ export function ClientsList({
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border py-3 text-sm">
               <p role="status" aria-label="Resultados de clientes">
                 <span className="font-medium">{clients.length}</span> de{" "}
-                {demonstrationClients.length} clientes
+                {allClients.length} clientes
               </p>
             </div>
             <ClientTable
               clients={clients}
               operations={operations}
               query={state.query}
+              includeInactive={includeInactive}
             />
           </>
         )}

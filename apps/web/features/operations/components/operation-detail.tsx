@@ -28,7 +28,7 @@ function safeReturnTo(
   operations: DemonstrationOperation[] = demonstrationOperations
 ) {
   if (
-    !/^\/(tramites\/djve|operaciones|mi-trabajo|clientes|cotizaciones|administracion|gestion|inicio)(?:\/[a-z0-9-]+)?(\?.*)?(#.*)?$/.test(
+    !/^\/(tramites\/djve|operaciones|mi-trabajo|clientes|proveedores|cotizaciones|administracion|gestion|inicio)(?:\/[a-z0-9-]+)?(\?.*)?(#.*)?$/.test(
       value
     )
   ) {

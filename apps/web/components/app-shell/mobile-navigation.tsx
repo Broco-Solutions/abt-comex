@@ -42,7 +42,7 @@ export function MobileNavigation({
               return popupRef.current?.querySelector<HTMLElement>("nav a")
             }}
             closeLabel="Cerrar navegación"
-            className="h-dvh w-[min(22rem,calc(100vw-2rem))] max-w-none translate-x-0 overflow-hidden rounded-none border-y-0 border-l-0 p-0 data-ending-style:-translate-x-3 data-ending-style:scale-100 data-starting-style:-translate-x-3 data-starting-style:scale-100"
+            className="h-dvh max-h-none w-[min(22rem,calc(100vw-2rem))] max-w-none translate-x-0 overflow-hidden rounded-none border-y-0 border-l-0 p-0 data-ending-style:-translate-x-3 data-ending-style:scale-100 data-starting-style:-translate-x-3 data-starting-style:scale-100"
           >
             <DialogTitle className="sr-only">Navegación principal</DialogTitle>
             <DialogDescription className="sr-only">

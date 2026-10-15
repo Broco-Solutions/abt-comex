@@ -25,13 +25,15 @@ export function ClientTable({
   clients,
   operations,
   query,
+  includeInactive = false,
 }: {
   clients: DemonstrationClient[]
   operations: DemonstrationOperation[]
   query: string
+  includeInactive?: boolean
 }) {
   const href = (client: DemonstrationClient) =>
-    clientDetailHref(client.id, clientListHref(query))
+    clientDetailHref(client.id, clientListHref(query, includeInactive))
   const columns = helper.columns([
     helper.accessor("name", {
       header: "Cliente",
@@ -44,6 +46,16 @@ export function ClientTable({
         </Link>
       ),
       ...getDataTableColumnMeta("flexible", { priority: "critical" }),
+    }),
+    helper.display({
+      id: "state",
+      header: "Estado",
+      cell: (info) =>
+        info.row.original.roles?.find((entry) => entry.role === "client")
+          ?.active === false
+          ? "Inactivo"
+          : "Activo",
+      ...getDataTableColumnMeta("status"),
     }),
     helper.display({
       id: "operations",
@@ -100,6 +112,10 @@ export function ClientTable({
             >
               <div className="min-w-0">
                 <h2 className="font-medium">{client.name}</h2>
+                {client.roles?.find((entry) => entry.role === "client")
+                  ?.active === false && (
+                  <p className="text-xs text-muted-foreground">Inactivo</p>
+                )}
                 <p className="mt-1 text-sm text-muted-foreground">
                   {getClientOperations(client.id, operations).length}{" "}
                   operaciones

@@ -10,7 +10,10 @@ import { ArrowLeft, ArrowRight, Check } from "lucide-react"
 import { PageHeader } from "@/components/navigation/page-header"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
-import { demonstrationClients } from "@/features/clients/data/clients"
+import { useOrganizations } from "@/features/organizations/state/use-organizations"
+import { projectClients } from "@/features/organizations/data/organizations"
+import { OrganizationEditor } from "@/features/organizations/components/organization-editor"
+import { SearchableCombobox } from "@workspace/ui/components/searchable-combobox"
 import { useDemoQuotes } from "@/features/quotes/state/use-demo-quotes"
 
 import { nextDemoOperationIdentity } from "../data/operations"
@@ -51,6 +54,8 @@ export function OperationCreation({
   searchParams: SearchParams
 }) {
   const router = useRouter()
+  const { organizations, ready: organizationsReady } = useOrganizations()
+  const demonstrationClients = projectClients(organizations, true)
   const { scenario } = useScenario()
   const { quotes, ready: quotesReady } = useDemoQuotes()
   const {
@@ -73,7 +78,7 @@ export function OperationCreation({
   const [origin, setOrigin] = useState<"direct" | "quote">(
     quoteId ? "quote" : "direct"
   )
-  const [clientId, setClientId] = useState("")
+  const [clientId, setClientId] = useState(first(searchParams.cliente))
   const [kind, setKind] = useState<OperationKind | "">(
     scenarioKind(scenario) ?? ""
   )
@@ -83,7 +88,7 @@ export function OperationCreation({
   const [message, setMessage] = useState("")
   const returnTo = safeReturnTo(first(searchParams.returnTo))
 
-  if (!quotesReady || !operationsReady) {
+  if (!quotesReady || !operationsReady || !organizationsReady) {
     return (
       <p role="status" className="text-sm text-muted-foreground">
         Cargando escenario local…
@@ -320,25 +325,28 @@ export function OperationCreation({
             >
               Cliente y tipo
             </h2>
-            <label className="grid gap-1 text-xs font-medium">
-              Cliente
-              <select
+            <div>
+              <SearchableCombobox
                 id="creation-client"
-                aria-invalid={Boolean(message && !selectedClient)}
-                aria-describedby={message ? "creation-error" : undefined}
+                label="Cliente"
+                invalid={Boolean(message && !selectedClient)}
+                describedBy={message ? "creation-error" : undefined}
                 value={activeQuote?.clientId ?? clientId}
                 disabled={Boolean(activeQuote)}
-                onChange={(event) => setClientId(event.target.value)}
-                className="h-9 rounded-md border border-input bg-background px-2 text-sm"
-              >
-                <option value="">Seleccionar cliente</option>
-                {demonstrationClients.map((client) => (
-                  <option key={client.id} value={client.id}>
-                    {client.name}
-                  </option>
-                ))}
-              </select>
-            </label>
+                onChange={setClientId}
+                options={demonstrationClients.map((client) => ({
+                  value: client.id,
+                  label: client.name,
+                }))}
+              />
+              {!activeQuote && (
+                <div className="mt-2">
+                  <OrganizationEditor
+                    onSaved={(organization) => setClientId(organization.id)}
+                  />
+                </div>
+              )}
+            </div>
             <fieldset className="space-y-2">
               <legend className="text-xs font-medium">Tipo de operación</legend>
               {(["Importación", "Exportación"] as const)

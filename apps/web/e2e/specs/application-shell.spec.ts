@@ -58,13 +58,15 @@ test("@smoke redirects the root and navigates the complete application shell", a
   ] as const
 
   for (const [label, path] of destinations) {
-    await page.getByRole("link", { name: label, exact: true }).click()
+    await desktopNavigation
+      .getByRole("link", { name: label, exact: true })
+      .click()
     await expect(page).toHaveURL(new RegExp(`${path}$`))
     await expect(
       page.getByRole("heading", { level: 1, name: label })
     ).toBeVisible()
     await expect(
-      page.getByRole("link", { name: label, exact: true })
+      desktopNavigation.getByRole("link", { name: label, exact: true })
     ).toHaveAttribute("aria-current", "page")
   }
   expect(consoleErrors).toEqual([])

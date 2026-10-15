@@ -71,6 +71,14 @@ export const appNavigation: NavigationItem[] = [
     icon: Building2,
   },
   {
+    id: "proveedores",
+    label: "Proveedores",
+    href: "/proveedores",
+    description:
+      "Proveedores contratados por ABT y contrapartes diferenciadas.",
+    icon: Building2,
+  },
+  {
     id: "cotizaciones",
     label: "Cotizaciones",
     href: "/cotizaciones",
