@@ -965,6 +965,15 @@ histórico. V3-06 incorpora contrapartes por operación, responsable explícito 
 ID y envío/recepción para revisión/devolución con historial; sus gates finales
 se registran al cerrar el PR. USD y Dirección permanecen pendientes.
 
+V3-06 en [PR #38](https://github.com/Broco-Solutions/abt-comex/pull/38): 112/112
+Chromium, cuatro referencias visuales sin cambios y 38 axe pasan localmente.
+Se inspeccionaron capturas operativas reales en 390/768/1024/1440. Una prueba
+adicional contrasta apertura sintética contra gastos/movimientos/comprobantes
+relacionados: OP-DEM-3107 abre el 10/08, antes de su compra de agosto y pago de
+septiembre, sin modificar esos registros. Lint/tipos/build y documental/diff
+verificados; CI debe aprobar el último head antes del squash. Sin aprobación
+humana ni integración externa acreditadas.
+
 PR visual #36 integrado con CI verde en `b7872df`; regresión Chromium completa
 105/105 y 37 axe. Sidebar vertical, superficies, scroll integrado y conteos
 administrativos compactos ya forman parte de main. PR B se ejecuta en

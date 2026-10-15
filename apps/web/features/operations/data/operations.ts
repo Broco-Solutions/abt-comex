@@ -50,7 +50,7 @@ export const demonstrationOperations: DemonstrationOperation[] = [
   {
     id: "op-demo-3107",
     reference: "OP-DEM-3107",
-    openedOn: "2026-10-01",
+    openedOn: "2026-08-10",
     kind: "Exportación",
     clientId: "client-demo-norte",
     client: "Cliente Demo Norte",

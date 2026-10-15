@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest"
 import { initialOrganizations } from "@/features/organizations/data/organizations"
+import { initialAdministrativeLedger } from "@/features/administration/data/administrative-ledger"
+import { initialVoucherState } from "@/features/administration/data/vouchers"
 import {
   demonstrationOperations,
   filterOperations,
@@ -13,6 +15,25 @@ import {
 } from "./operational-continuity"
 
 describe("operational continuity", () => {
+  it("keeps explicit synthetic opening events before their related administrative events", () => {
+    const events = [
+      ...initialAdministrativeLedger.expenses,
+      ...initialAdministrativeLedger.movements,
+      ...initialVoucherState.documents.map((document) => ({
+        operationIds: document.operationIds,
+        date: document.issuedOn,
+      })),
+    ]
+    for (const event of events)
+      for (const id of event.operationIds) {
+        const operation = demonstrationOperations.find((item) => item.id === id)
+        expect(operation?.openedOn, `${id} before ${event.date}`).toBeDefined()
+        expect(
+          operation!.openedOn! <= event.date,
+          `${id} before ${event.date}`
+        ).toBe(true)
+      }
+  })
   it("links active operational roles once without treating ABT suppliers as counterparties", () => {
     const operation = demonstrationOperations[0]!
     const party = initialOrganizations.find(
