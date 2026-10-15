@@ -892,7 +892,7 @@ Fuente: aprobación explícita del responsable sobre la auditoría integral y su
 
 | Incremento | Estado | Entregable y dependencia |
 |---|---|---|
-| V3-01 | In implementation | Continuidad, filtros compactos/dinámicos, contexto, combobox reutilizable, Portal consistente y superficies ABT |
+| V3-01 | Under review | PR #27 contra main; cierre técnico local, CI y revisión humana separados |
 | V3-02 | Pendiente | Organizaciones multirrol, Clientes/Proveedores ABM y creación contextual; depende de V3-01 |
 | V3-03 | Pendiente | Personas, acceso/capacidades, equipos/reasignación, login y recuperación exclusivamente demostrativos |
 | V3-04 | Pendiente | Categorías, gastos generales/operativos, anticipos/rendiciones y movimientos sintéticos compartidos; depende de maestros |
@@ -904,6 +904,6 @@ Gates por incremento: lint, typecheck, unitarias/componentes, a11y, build, E2E p
 
 ### Checkpoint V3
 
-Base verificada: ca01e7fe8e8dd417a518ac8c4fae936cf14404b8. Trabajo en worktree separado del directorio histórico. V3-01 en ejecución: pruebas/evidencia y PR todavía pendientes de cierre. No hay API ni fuente externa conectada. Los otros seis incrementos no se consideran implementados.
+Base verificada: ca01e7fe8e8dd417a518ac8c4fae936cf14404b8. Worktree separado del directorio histórico, rama feat/v3-01-continuidad, [PR #27](https://github.com/Broco-Solutions/abt-comex/pull/27) contra main. V3-01: 103 unitarias web + 3 UI, 32 axe previas + 1 nueva de combobox expandido, lint/typecheck/build y validación documental pasaron localmente. Primera corrida smoke: 70/74; se corrigieron stacking del flyout compacto y dos localizadores ambiguos/asíncronos de Portal; una prueba larga pasó aislada sin modificar timeouts. Reejecución focalizada: 15/15, incluyendo Shell completo, Portal y nueva continuidad. Revisión visual 390/768/1024/1440; primer registro a 449px en 1024, sin overflow global ni errores de página observados. Cuatro referencias visuales ejecutadas; sólo las dos de Shell desktop/compacto cambiaron y fueron inspeccionadas. CI quality/e2e-smoke y preview Vercel READY para 6cbe1b2; confirmar checks sobre el commit documental/visual final antes de fusionar. No hay API ni fuente externa conectada. Los otros seis incrementos no se consideran implementados. La protección SSO all_except_custom_domains no acredita privacidad del dominio personalizado.
 
 La autoridad funcional V3 está en [alcance](../product/ALCANCE_FUNCIONAL.md#evolución-v3--aprobación-interna-15102026). Microsoft 365 queda fuera de esta ejecución; sus filas anteriores conservan historia, no trabajo autorizado.
