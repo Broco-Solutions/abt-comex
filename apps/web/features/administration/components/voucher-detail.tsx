@@ -61,7 +61,11 @@ export function VoucherDetail({
   const requestedCut = backParams.get("corte") ?? backParams.get("hasta") ?? ""
   const cut = isFinancialDate(requestedCut) ? requestedCut : DEMONSTRATION_DATE
   const balance = canApply ? voucherBalance(document, state, cut) : undefined
-  const self = "/administracion/comprobantes/" + id
+  const self =
+    "/administracion/comprobantes/" +
+    id +
+    "?returnTo=" +
+    encodeURIComponent(back.href)
   const party = organizations.find((item) => item.id === document.partyId)
   const apps = canApply
     ? state.applications.filter((item) => item.voucherId === id)

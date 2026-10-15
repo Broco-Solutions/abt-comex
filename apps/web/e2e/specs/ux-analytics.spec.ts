@@ -22,14 +22,16 @@ test("@smoke Direction charts drill into identical records and keep period and c
   })
   await expect(records.getByRole("listitem")).toHaveCount(4)
   await expect(records).toContainText("FAC-EVAL-3107")
-  await expect(records).not.toContainText("USD")
+  await expect(records).toContainText("USD")
+  await expect(records).toContainText("Original: ARS")
   await records.getByRole("link", { name: "Abrir operación" }).first().click()
   await page.getByRole("link", { name: "Volver al análisis" }).click()
   await expect(page).toHaveURL(/serie=invoice.*grupo=2026-10/)
-  await page.getByRole("link", { name: "Volver al análisis" }).click()
-  await expect(page).toHaveURL(/desde=2026-10-01.*moneda=ARS$/)
-  await page.getByLabel("Moneda", { exact: true }).selectOption("USD")
-  await page.getByRole("button", { name: "Aplicar análisis" }).click()
+  await page.getByRole("link", { name: "Quitar selección del gráfico" }).click()
+  await expect(page).toHaveURL(/desde=2026-10-01.*moneda=ARS/)
+  await page
+    .getByLabel("Filtrar moneda original", { exact: true })
+    .selectOption("USD")
   await expect(page).toHaveURL(/moneda=USD/)
   for (const width of [320, 390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 })
@@ -45,10 +47,10 @@ test("@smoke finance shows registered expenses and reported balances, never trea
 }) => {
   await page.goto("/administracion/finanzas")
   await expect(
-    page.getByRole("heading", { name: "Gastos registrados por categoría" })
+    page.getByRole("heading", { name: "Gastos por categoría" })
   ).toBeVisible()
   await expect(
-    page.getByText(/factura sin saldo informado; no se interpreta como cero/)
+    page.getByText(/saldos incompletos se omiten del gráfico/)
   ).toBeVisible()
   await page
     .getByRole("list", { name: /Registros de Gastos/ })

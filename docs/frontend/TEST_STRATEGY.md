@@ -1,5 +1,15 @@
 # ABT Comex — Estrategia de Pruebas de Frontend
 
+V3-07: `reporting.test.ts` contrasta población y USD entre indicador, tabla,
+gráficos y registros, cambios compartidos, conversión de evento frente a corte,
+historia parcial, proveedores/operaciones y capacidades negativas.
+`direction-queries.test.ts` cubre siete intenciones y variantes, ambigüedad de
+ingresos/cliente, rango, ausencia de FX, saldo incompleto, vacío, lectura y acceso.
+`v3-direction*.spec.ts` verifica filtros/comparaciones, consulta activa, fuentes
+exactas, original/USD/referencia, foco, retorno con contexto y móvil. Axe incluye
+respuestas/abstenciones y calendario/período DS. No basta HTTP/build ni se
+certifica WCAG por una herramienta; inspeccionar capturas y contraste efectivo.
+
 `DateField` se prueba con escritura DD/MM/AAAA, fechas imposibles/bisiestas,
 borrador incompleto, estados de error y calendario español con mes/año.
 La referencia DS tiene axe con el popover abierto; el recorrido móvil verifica

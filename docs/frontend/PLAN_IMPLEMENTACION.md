@@ -919,7 +919,7 @@ Fuente: aprobación explícita del responsable sobre la auditoría integral y su
 | V3-04 | Under review | Categorías, gastos generales/operativos, anticipos/rendiciones y movimientos sintéticos compartidos; depende de maestros |
 | V3-05 | Under review | Comprobantes preparados/referencias, aplicaciones parciales y carteras al corte; sin emisión ni contabilidad paralela |
 | V3-06 | Under review | PR #38 integrado en ca63d08; continuidad compartida, contrapartes y responsables explícitos; CI del PR verde, revisión humana pendiente |
-| V3-07 | En ejecución | Dirección USD, períodos comparables, análisis global de clientes/proveedores y regresión integral; cierre aún no acreditado |
+| V3-07 | En ejecución | Dirección USD compartida, períodos comparables, cartera completa, proveedores y consultas locales implementadas en rama feat/v3-07-direccion; regresión/CI/despliegue en verificación, sin cierre anticipado |
 
 Gates por incremento: lint, typecheck, unitarias/componentes, a11y, build, E2E proporcional, revisión visual desktop/tablet/móvil, validador documental y diff limpio. PR contra main actualizado; confirmar integración y deployment. Mantener Under review hasta revisión humana. Detener sólo reglas críticas no definidas.
 
@@ -956,6 +956,23 @@ PR #30 integrado a main 5090a27f950a3f0fdb0eb78336f756db8f543ce2 con todos los c
 Evidencia local inicial V3-05: lint/typecheck/build, 121 unitarias web, 37 axe y 93 E2E Chromium verdes. Revisión real de carteras 390/768/1024/1440, comprobante/aplicación desktop y diálogo móvil; sin overflow global ni errores de página observados. Se detectaron navegación secundaria de tres filas y aviso de vencido con contraste insuficiente sobre blanco; corregidos antes del cierre. Reejecutar regresión focalizada/visual y confirmar CI/preview en SHA final, no basarse sólo en esta primera pasada. 44 experiencias (32 históricas +12 V3), J1–J10 preservados y J11–J13 añadidos; 126 IDs. No revisión humana aprobatoria ni certificación AA.
 
 ### Avances de Shell, continuidad y USD
+
+PR #39 integrado por squash a `6d591a161837bc476e46c58fa2e084b28cc49a17`,
+CI quality/e2e-smoke/Vercel verdes en `d4b16c8`. La rama de Dirección se actualizó
+contra ese main, conservando el trabajo pendiente y el directorio histórico.
+V3-07 reutiliza su libro histórico y precisión micro-USD, sin otro dataset de
+tipos de cambio. Selector financiero compartido para Administración, Dirección,
+fichas y consultas determinísticas. Catálogo/indicadores/fuentes/permisos y
+abstenciones en la [especificación](screens/11-gestion-direccion.md).
+
+La ampliación Consultas (demo) se integra en el mismo corte de Dirección porque
+depende directamente de sus selectores, filtros, estados y retornos; el cambio
+monetario estructural quedó aislado en PR #39. No se toca el Shell ya integrado.
+Se mantienen los siete incrementos y todas las refinaciones previas, sin nuevo
+plan maestro. Primera regresión completa: 110/121 Chromium; detectó fecha
+inválida en metadatos de consulta, etiquetas exactas de selectores, expectativas
+previas de ARS y casos nuevos de retorno. Se corrigen sin retirar casos ni
+debilitar capacidades; el resultado final se registra tras repetir controles.
 
 Corte USD: 136 unitarias web + cuatro UI, 40 axe, lint/tipos/build y documental/
 diff pasan. Regresión focalizada 26 Chromium (Administración/comprobantes,

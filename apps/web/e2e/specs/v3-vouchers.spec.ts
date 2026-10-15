@@ -11,7 +11,10 @@ test("@smoke V3 payables include older obligations and retain cut/context withou
   ).toContainText("COMP-EVAL-001")
   await expect(
     page.getByRole("region", { name: "Resumen de cartera" })
-  ).toContainText("30.000,00")
+  ).toContainText("USD 22,64")
+  await expect(
+    page.getByRole("list", { name: "Obligaciones de cartera" })
+  ).toContainText("ARS 30.000,00")
   let documents = 0
   page.on("request", (request) => {
     if (request.isNavigationRequest() && request.frame() === page.mainFrame())
@@ -33,7 +36,10 @@ test("@smoke V3 payables include older obligations and retain cut/context withou
   await page.getByLabel("Fecha de corte").fill("2026-08-31")
   await expect(
     page.getByRole("region", { name: "Resumen de cartera" })
-  ).toContainText("50.000,00")
+  ).toContainText("USD 39,22")
+  await expect(
+    page.getByRole("list", { name: "Obligaciones de cartera" })
+  ).toContainText("ARS 50.000,00")
   expect(documents).toBe(0)
 })
 test("@smoke V3 credit application changes only scenario balance and is linked bidirectionally", async ({

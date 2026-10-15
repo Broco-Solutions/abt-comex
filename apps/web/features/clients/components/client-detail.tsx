@@ -3,6 +3,7 @@
 import { formatRecordedDate } from "@workspace/ui/lib/date"
 
 import Link from "next/link"
+import { PartySituation } from "@/features/finance/components/party-situation"
 import { AdministrativeRelationships } from "@/features/administration/components/administrative-relationships"
 import { useScenario } from "@/features/demo/state/scenario-provider"
 import { useOrganizations } from "@/features/organizations/state/use-organizations"
@@ -101,6 +102,11 @@ export function ClientDetail({
 
       <PageHeader title={client.name} />
       <OrganizationIdentity organization={client} />
+      <PartySituation
+        partyId={clientId}
+        origin={`/clientes/${clientId}?returnTo=${encodeURIComponent(returnTo)}`}
+        returnTo={returnTo}
+      />
 
       <section aria-labelledby="client-contacts-title" className="max-w-5xl">
         <div className="border-b border-border pb-3">
@@ -180,7 +186,10 @@ export function ClientDetail({
         )}
       </section>
 
-      <AdministrativeRelationships partyId={clientId} />
+      <AdministrativeRelationships
+        partyId={clientId}
+        origin={`/clientes/${clientId}?returnTo=${encodeURIComponent(returnTo)}`}
+      />
       {scenario.commercial ? (
         <section
           aria-labelledby="client-quotes-title"

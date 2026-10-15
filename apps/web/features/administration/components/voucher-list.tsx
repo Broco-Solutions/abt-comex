@@ -18,12 +18,19 @@ import {
 } from "@/features/finance/data/financial-records"
 import { useVouchers } from "../state/use-vouchers"
 import { portfolio } from "../data/vouchers"
+import { useManagementRates } from "@/features/finance/state/use-management-rates"
+import {
+  valueInUsd,
+  valuationTotal,
+} from "@/features/finance/data/management-rates"
+import { ReportAmount } from "@/features/finance/components/report-values"
 import { AdministrationNav } from "./administration-nav"
 import { VoucherEditor, canReadVoucher } from "./voucher-editor"
 export function VoucherList({ cartera = false }: { cartera?: boolean }) {
   const { state, ready } = useVouchers()
   const { scenario } = useScenario()
   const { organizations } = useOrganizations()
+  const { book } = useManagementRates()
   const [query, setQuery] = useState("")
   const [saved, setSaved] = useState("")
   useEffect(() => {
@@ -46,7 +53,12 @@ export function VoucherList({ cartera = false }: { cartera?: boolean }) {
   const side =
     params.get("cartera") === "pagar" || !receivables ? "Pagar" : "Cobrar"
   const allowed = side === "Cobrar" ? receivables : payables
-  const currency: Currency = params.get("moneda") === "USD" ? "USD" : "ARS"
+  const currency: Currency | "" =
+    params.get("moneda") === "USD"
+      ? "USD"
+      : params.get("moneda") === "ARS" || !cartera
+        ? "ARS"
+        : ""
   const cut = params.get("corte") ?? DEMONSTRATION_DATE
   const invalidCut = !isFinancialDate(cut) || cut > DEMONSTRATION_DATE
   const q = params.get("q")?.toLocaleLowerCase("es-AR") ?? ""
@@ -66,7 +78,12 @@ export function VoucherList({ cartera = false }: { cartera?: boolean }) {
   }
   const all = allowed
     ? (cartera
-        ? portfolio(state, side, cut, currency, party).map((item) => ({
+        ? (currency
+            ? portfolio(state, side, cut, currency, party)
+            : (["ARS", "USD"] as const).flatMap((original) =>
+                portfolio(state, side, cut, original, party)
+              )
+          ).map((item) => ({
             ...item.document,
             balance: item.balance,
           }))
@@ -119,9 +136,11 @@ export function VoucherList({ cartera = false }: { cartera?: boolean }) {
     window.history.pushState(null, "", path + url)
     setQuery(url)
   }
-  const total =
-    all.reduce((sum, item) => sum + Math.round((item.balance ?? 0) * 100), 0) /
-    100
+  const total = valuationTotal(
+    all.map((item) => ({
+      valuation: valueInUsd(item.balance, item.currency, cut, book),
+    }))
+  )
   if (!receivables && !payables)
     return (
       <p role="status">
@@ -170,12 +189,13 @@ export function VoucherList({ cartera = false }: { cartera?: boolean }) {
             </select>
           </label>
           <label className="text-xs font-medium">
-            Moneda
+            Moneda original
             <select
               className="mt-1 block h-9 rounded-md border border-input bg-background px-3 text-sm"
               value={currency}
               onChange={(event) => update("moneda", event.target.value)}
             >
+              {cartera && <option value="">Todas · reporte USD</option>}
               <option>ARS</option>
               <option>USD</option>
             </select>
@@ -271,10 +291,10 @@ export function VoucherList({ cartera = false }: { cartera?: boolean }) {
           >
             <div>
               <p className="text-xs text-muted-foreground">
-                Saldo conocido del escenario al {formatDate(cut)}
+                Saldo del escenario en USD al {formatDate(cut)}
               </p>
               <p className="font-mono text-xl font-semibold">
-                {money(total, currency)}
+                <ReportAmount total={total} />
               </p>
             </div>
             <p className="self-center text-sm">
@@ -296,7 +316,8 @@ export function VoucherList({ cartera = false }: { cartera?: boolean }) {
         ) : (
           <>
             <p role="status" className="text-xs text-muted-foreground">
-              {all.length} registros · {currency} · página {page} de {pages}
+              {all.length} registros · {cartera ? "reporte USD" : currency} ·
+              página {page} de {pages}
             </p>
             <ul
               aria-label={
@@ -345,12 +366,28 @@ export function VoucherList({ cartera = false }: { cartera?: boolean }) {
                       {cartera
                         ? item.balance === undefined
                           ? "Saldo no disponible"
-                          : money(item.balance, currency)
-                        : money(item.amount, currency)}
+                          : money(item.balance, item.currency)
+                        : money(item.amount, item.currency)}
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {cartera ? "Saldo del escenario" : "Importe original"}
                     </p>
+                    {cartera && (
+                      <p className="mt-1 font-mono">
+                        <ReportAmount
+                          total={valuationTotal([
+                            {
+                              valuation: valueInUsd(
+                                item.balance,
+                                item.currency,
+                                cut,
+                                book
+                              ),
+                            },
+                          ])}
+                        />
+                      </p>
+                    )}
                   </div>
                 </li>
               ))}

@@ -10,6 +10,18 @@
 
 ## Propósito y trazabilidad
 
+V3-07: G2 gastos por categoría y G3 obligaciones por vencimiento consumen el
+selector compartido `reporting.ts` y reportan USD de gestión sin selector manual
+de moneda de reporte. La URL histórica `moneda=ARS|USD` conserva su utilidad como
+filtro de moneda original. `serie/dimension/grupo#registros` y enlaces antiguos
+de facturación/cobros continúan abriendo sus registros autorizados. No se
+duplica el dashboard ejecutivo. Carteras inicia con ambas monedas originales,
+saldo USD al corte y original por comprobante; un filtro histórico de moneda
+conserva esa población. Total incompleto se señala parcial, no confirmado.
+Registro de gasto → listado → G2 → Dirección → gasto utiliza la misma fuente;
+aplicaciones y saldos al corte provienen de portfolio compartido. Los retornos
+anidados de comprobante/movimiento/gasto conservan consulta/ficha/período.
+
 ### Cotizaciones de gestión y equivalentes USD V3
 
 Configuración → `/configuracion/cotizaciones-gestion`, con `catalogs.manage` y

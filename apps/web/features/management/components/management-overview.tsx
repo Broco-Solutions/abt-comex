@@ -1,6 +1,9 @@
 "use client"
 
 import Link from "next/link"
+import { ExecutiveOverview } from "./executive-overview"
+import { useScenario } from "@/features/demo/state/scenario-provider"
+import { hasCapability } from "@/features/demo/data/capabilities"
 import { FinancialDashboard } from "@/features/finance/components/financial-dashboard"
 import { formatRecordedDate } from "@workspace/ui/lib/date"
 
@@ -48,6 +51,26 @@ function operationHref(
 }
 
 export function ManagementOverview({
+  searchParams,
+}: {
+  searchParams: SearchParams
+}) {
+  const { scenario } = useScenario()
+  if (scenario.id === "client" || !hasCapability(scenario, "management.read"))
+    return (
+      <p role="status">
+        Esta vista no confirma si existen registros o métricas.
+      </p>
+    )
+  const view = first(searchParams.vista)
+  return ["operaciones", "trabajo", "economia"].includes(view) ? (
+    <LegacyManagementOverview searchParams={searchParams} />
+  ) : (
+    <ExecutiveOverview searchParams={searchParams} />
+  )
+}
+
+function LegacyManagementOverview({
   searchParams,
 }: {
   searchParams: SearchParams

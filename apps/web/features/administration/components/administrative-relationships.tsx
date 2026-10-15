@@ -8,12 +8,21 @@ import { useOrganizations } from "@/features/organizations/state/use-organizatio
 import { useAdministrativeLedger } from "../state/use-administrative-ledger"
 import { movementDirection } from "../data/administrative-ledger"
 import { ExpenseEditor } from "./expense-editor"
-export function AdministrativeRelationships({ partyId }: { partyId: string }) {
+import { isApplicationReturn } from "@/components/navigation/return-context"
+export function AdministrativeRelationships({
+  partyId,
+  origin,
+}: {
+  partyId: string
+  origin?: string
+}) {
   const { state } = useAdministrativeLedger()
-  const context = usePathname() ?? ""
-  const returnQuery = /^\/(?:clientes|proveedores)\/[a-z0-9-]+$/.test(context)
-    ? "?returnTo=" + encodeURIComponent(context)
-    : ""
+  const path = usePathname() ?? ""
+  const context = origin && isApplicationReturn(origin) ? origin : path
+  const returnQuery =
+    /^\/(?:clientes|proveedores)\/[a-z0-9-]+(?:\?[^#]*)?$/.test(context)
+      ? "?returnTo=" + encodeURIComponent(context)
+      : ""
   const { scenario } = useScenario()
   const { organizations } = useOrganizations()
   const [saved, setSaved] = useState("")
