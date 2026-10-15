@@ -33,7 +33,9 @@ export function AbtBrand({ compact = false }: { compact?: boolean }) {
         height={compact ? 717 : 793}
         priority
         className={
-          compact ? "h-auto w-10 object-contain" : "h-auto w-32 object-contain"
+          compact
+            ? "h-auto w-10 object-contain brightness-0 invert"
+            : "h-auto w-32 object-contain brightness-0 invert"
         }
       />
     </Link>

@@ -69,6 +69,15 @@ export const appNavigation: NavigationItem[] = [
     href: "/clientes",
     description: "Contexto persistente de clientes.",
     icon: Building2,
+    children: [
+      {
+        id: "clientes-cotizaciones",
+        label: "Cotizaciones",
+        href: "/cotizaciones",
+        description: "Cotizaciones vinculadas al circuito comercial.",
+        icon: FileText,
+      },
+    ],
   },
   {
     id: "proveedores",
@@ -77,13 +86,6 @@ export const appNavigation: NavigationItem[] = [
     description:
       "Proveedores contratados por ABT y contrapartes diferenciadas.",
     icon: Building2,
-  },
-  {
-    id: "cotizaciones",
-    label: "Cotizaciones",
-    href: "/cotizaciones",
-    description: "Circuito comercial previo a una operación.",
-    icon: FileText,
   },
   {
     id: "administracion",
@@ -126,13 +128,21 @@ export function resolveActiveNavigation(
     return "operaciones"
   }
 
-  return (
-    appNavigation.find(
-      (item) =>
-        path === item.href ||
-        (path.startsWith(`${item.href}/`) && item.href !== "/")
-    )?.id ?? null
-  )
+  for (const item of appNavigation) {
+    if (
+      path === item.href ||
+      (path.startsWith(`${item.href}/`) && item.href !== "/")
+    ) {
+      return item.id
+    }
+    const child = item.children?.find(
+      (entry) =>
+        path === entry.href ||
+        (path.startsWith(`${entry.href}/`) && entry.href !== "/")
+    )
+    if (child) return child.id
+  }
+  return null
 }
 
 export function buildBreadcrumbs(

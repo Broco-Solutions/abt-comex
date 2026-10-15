@@ -108,14 +108,14 @@
 
   --radius: 0.5rem;
 
-  --sidebar: var(--accent);
-  --sidebar-foreground: var(--accent-foreground);
-  --sidebar-primary: #006030;
-  --sidebar-primary-foreground: #f7fffa;
-  --sidebar-accent: var(--background);
-  --sidebar-accent-foreground: var(--primary);
-  --sidebar-border: #e5e7eb;
-  --sidebar-ring: #0b7a45;
+  --sidebar: #075b3d;
+  --sidebar-foreground: #f2fbf6;
+  --sidebar-primary: #b5f0ce;
+  --sidebar-primary-foreground: #063b29;
+  --sidebar-accent: #0b7650;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgb(255 255 255 / 16%);
+  --sidebar-ring: #d1fae5;
 }
 
 .dark {

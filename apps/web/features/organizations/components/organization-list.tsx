@@ -153,22 +153,26 @@ export function OrganizationList({
       />
       <nav
         aria-label="Maestros de organizaciones"
-        className="flex flex-wrap gap-2 text-sm"
+        className="flex flex-wrap gap-1 border-b border-border pb-3 text-sm"
       >
         <Link
-          className="rounded-md border px-3 py-2 text-primary"
-          href="/clientes"
-        >
-          Clientes
-        </Link>
-        <Link
-          className="rounded-md border px-3 py-2 text-primary"
+          className={
+            role === "abt-supplier"
+              ? "rounded-md bg-accent px-3 py-2 font-medium text-accent-foreground"
+              : "rounded-md px-3 py-2 text-muted-foreground hover:bg-muted hover:text-foreground"
+          }
+          aria-current={role === "abt-supplier" ? "page" : undefined}
           href="/proveedores"
         >
           Proveedores de ABT
         </Link>
         <Link
-          className="rounded-md border px-3 py-2 text-primary"
+          className={
+            role === "operation-party"
+              ? "rounded-md bg-accent px-3 py-2 font-medium text-accent-foreground"
+              : "rounded-md px-3 py-2 text-muted-foreground hover:bg-muted hover:text-foreground"
+          }
+          aria-current={role === "operation-party" ? "page" : undefined}
           href="/proveedores?ambito=operacion"
         >
           Contrapartes de operaciones

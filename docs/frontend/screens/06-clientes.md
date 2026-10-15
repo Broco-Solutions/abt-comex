@@ -85,6 +85,16 @@ UX-02: referencia enlazada y apertura visible; detalles personales/procedencia e
 
 ## V3-02 — comportamiento vigente
 
+## V3-06/V3-07 — navegación relacionada
+
+Clientes no repite accesos globales a Proveedores. La navegación principal
+relaciona Clientes con Cotizaciones como subopción, sin retirar `/cotizaciones`.
+La ficha de Cliente conserva la acción para consultar sus cotizaciones y el
+listado sigue ofreciendo alta y búsqueda. Proveedores usa un selector local de
+dos vistas: proveedores contratados por ABT y contrapartes de operaciones; una
+organización puede tener ambos roles y la vista operativa no crea obligaciones
+financieras por sí sola.
+
 - Datos compartidos en features/organizations; fixtures iniciales preservan IDs históricos. Cambios temporales por sesión, reiniciados al cambiar escenario o salir.
 - Proveedores localizables desde navegación; subvista separada de contrapartes operativas. Un vendedor extranjero de mercadería no genera deuda de ABT.
 - Nombre y rol requeridos para preparación local. País requerido sólo cuando se informa identificación; no se valida CUIT/regla fiscal inexistente. Dirección y contactos opcionales. Campos y autoridad externa a validar.

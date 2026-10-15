@@ -27,6 +27,7 @@ describe("resolveActiveNavigation", () => {
     ["/inicio", "", "inicio"],
     ["/mi-trabajo", "", "mi-trabajo"],
     ["/clientes", "", "clientes"],
+    ["/cotizaciones", "", "clientes-cotizaciones"],
     ["/operaciones", "", "operaciones"],
     ["/operaciones", "tipo=importacion", "operaciones-importaciones"],
     [
@@ -73,6 +74,15 @@ describe("buildBreadcrumbs", () => {
   it("keeps the complete operations view at the first breadcrumb level", () => {
     expect(buildBreadcrumbs("/operaciones", new URLSearchParams())).toEqual([
       { label: "Operaciones", current: true },
+    ])
+  })
+
+  it("keeps Cotizaciones directly reachable below the client relationship", () => {
+    expect(
+      buildBreadcrumbs("/cotizaciones", new URLSearchParams())
+    ).toEqual([
+      { label: "Clientes", href: "/clientes", current: false },
+      { label: "Cotizaciones", current: true },
     ])
   })
 })
