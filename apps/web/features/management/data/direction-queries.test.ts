@@ -107,6 +107,15 @@ describe("closed local Direction queries", () => {
     expect(
       answer("Cuánto es el promedio facturado", input, context).status
     ).toBe("unsupported")
+    expect(
+      answer("Cuánto facturamos sin Cliente Demo Norte", input, context).status
+    ).toBe("unsupported")
+    expect(
+      answer("Cuánto es el margen de facturas", input, context).status
+    ).toBe("unsupported")
+    expect(
+      answer("Cuánto facturamos el próximo mes", input, context).status
+    ).toBe("invalid-date")
   })
   it("keeps receipt events distinct and operations unfiltered by event period", () => {
     const receipts = answer(

@@ -3,6 +3,7 @@ import { useRef, useState } from "react"
 import Link from "next/link"
 import { Button } from "@workspace/ui/components/button"
 import { formatDate, isIsoCalendarDate } from "@workspace/ui/lib/date"
+import type { AnalysisPreset } from "@workspace/ui/lib/analysis-period"
 import { hasCapability } from "@/features/demo/data/capabilities"
 import { DEMONSTRATION_DATE } from "@/features/demo/data/scenarios"
 import {
@@ -18,12 +19,14 @@ import {
 import {
   answerDirectionQuestion,
   directionQueryCatalog,
+  directionQueryPreset,
 } from "../data/direction-queries"
 
 export function DirectionConsultations({
   input,
   context,
   question,
+  preset,
   origin,
   change,
   readError = false,
@@ -31,6 +34,7 @@ export function DirectionConsultations({
   input: ReportInput
   context: ReportContext
   question: string
+  preset: AnalysisPreset
   origin: string
   change: (patch: Record<string, string | undefined>) => void
   readError?: boolean
@@ -73,7 +77,7 @@ export function DirectionConsultations({
       cliente: result.context?.clientId ?? clientId ?? context.clientId,
       desde: result.context?.from ?? context.from,
       hasta: result.context?.to ?? context.to,
-      periodo: "custom",
+      periodo: directionQueryPreset(text, preset),
     })
     requestAnimationFrame(() =>
       response.current?.focus({ preventScroll: true })
@@ -127,7 +131,7 @@ export function DirectionConsultations({
           <p className="text-xs font-medium text-muted-foreground">
             Ejemplos admitidos
           </p>
-          <ul className="mt-1 grid gap-1 sm:grid-cols-2">
+          <ul className="mt-1 grid grid-cols-2 gap-1">
             {Object.entries(directionQueryCatalog)
               .slice(0, 4)
               .filter(

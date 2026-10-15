@@ -45,6 +45,7 @@ import {
   answerDirectionQuestion,
   recognizeDirectionIntent,
   directionQueryCatalog,
+  directionQueryPreset,
 } from "../data/direction-queries"
 const views = {
   resumen: "Panorama",
@@ -108,7 +109,13 @@ export function ExecutiveOverview({
     if (resolved) {
       effectiveParams.set("desde", resolved.from)
       effectiveParams.set("hasta", resolved.to)
-      effectiveParams.set("periodo", "custom")
+      effectiveParams.set(
+        "periodo",
+        directionQueryPreset(
+          params.get("pregunta")!,
+          reportingContext(params, input).period.preset
+        )
+      )
       if (resolved.clientId) effectiveParams.set("cliente", resolved.clientId)
     }
   }
@@ -248,6 +255,7 @@ export function ExecutiveOverview({
           input={input}
           context={context}
           question={params.get("pregunta") ?? ""}
+          preset={state.period.preset}
           origin={href}
           change={change}
           readError={error}

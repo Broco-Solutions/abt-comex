@@ -913,13 +913,13 @@ Fuente: aprobación explícita del responsable sobre la auditoría integral y su
 
 | Incremento | Estado | Entregable y dependencia |
 |---|---|---|
-| V3-01 | Under review | PR #27 contra main; cierre técnico local, CI y revisión humana separados |
-| V3-02 | Under review | ABM local multirrol, contactos, coincidencias, estado por rol y creación contextual; PR #28 integrado; CI final verde, main 38be48e, deployment READY |
-| V3-03 | Under review | Personas, acceso/capacidades, equipos/reasignación, login y recuperación exclusivamente demostrativos |
-| V3-04 | Under review | Categorías, gastos generales/operativos, anticipos/rendiciones y movimientos sintéticos compartidos; depende de maestros |
-| V3-05 | Under review | Comprobantes preparados/referencias, aplicaciones parciales y carteras al corte; sin emisión ni contabilidad paralela |
+| V3-01 | Under review | PR #27 integrado en 1c5c4f4; refinamientos de Shell/sidebar y búsqueda integrados en #32/#35/#36/#37 |
+| V3-02 | Under review | PR #28 integrado en 38be48e; organizaciones multirrol, creación contextual y relación Clientes/Cotizaciones preservadas |
+| V3-03 | Under review | PR #29 integrado en eef8e0c; nómina real en #33 (781a897), 16 integrantes separados de acceso/escenarios |
+| V3-04 | Under review | PR #30 integrado en 5090a27; cuatro áreas administrativas en #34 (ed470eb); registro/control separado de pago |
+| V3-05 | Under review | PR #31 integrado en c115f89; aplicaciones/carteras al corte, cotizaciones históricas y equivalentes USD en #39 (6d591a1) |
 | V3-06 | Under review | PR #38 integrado en ca63d08; continuidad compartida, contrapartes y responsables explícitos; CI del PR verde, revisión humana pendiente |
-| V3-07 | En ejecución | Dirección USD compartida, períodos comparables, cartera completa, proveedores y consultas locales implementadas en rama feat/v3-07-direccion; regresión/CI/despliegue en verificación, sin cierre anticipado |
+| V3-07 | Under review | PR #40: Dirección USD, cartera completa, proveedores, períodos/comparaciones y consultas locales. Gates locales completos; integración y deployment sujetos al CI del último SHA, sin aprobación humana |
 
 Gates por incremento: lint, typecheck, unitarias/componentes, a11y, build, E2E proporcional, revisión visual desktop/tablet/móvil, validador documental y diff limpio. PR contra main actualizado; confirmar integración y deployment. Mantener Under review hasta revisión humana. Detener sólo reglas críticas no definidas.
 
@@ -956,6 +956,128 @@ PR #30 integrado a main 5090a27f950a3f0fdb0eb78336f756db8f543ce2 con todos los c
 Evidencia local inicial V3-05: lint/typecheck/build, 121 unitarias web, 37 axe y 93 E2E Chromium verdes. Revisión real de carteras 390/768/1024/1440, comprobante/aplicación desktop y diálogo móvil; sin overflow global ni errores de página observados. Se detectaron navegación secundaria de tres filas y aviso de vencido con contraste insuficiente sobre blanco; corregidos antes del cierre. Reejecutar regresión focalizada/visual y confirmar CI/preview en SHA final, no basarse sólo en esta primera pasada. 44 experiencias (32 históricas +12 V3), J1–J10 preservados y J11–J13 añadidos; 126 IDs. No revisión humana aprobatoria ni certificación AA.
 
 ### Avances de Shell, continuidad y USD
+
+### Informe integral del corte V3-07 — 15/10/2026
+
+Implementación de [PR #40](https://github.com/Broco-Solutions/abt-comex/pull/40),
+commit de producto `4dcd70f97f626fffffdbe3b761de39872c9c7f76`, con ajustes finales
+de abstención y sincronización de la prueba de continuidad. Base verificada
+`origin/main` 6d591a1, PR #39 ya fusionado; no se reiniciaron los cinco incrementos
+anteriores ni se tocó el worktree histórico con cambios preservados. PR #32 se
+completó y fusionó antes de los refinamientos focalizados posteriores.
+
+Estado de integración/CI y SHA final de main se confirman en GitHub y en la
+entrega después de los gates; no fusionar basándose en un commit anterior. La
+preview inicial de Vercel quedó READY para `4dcd70f`; el dominio existente debe
+corresponder al squash final antes de entregar. No hay infraestructura nueva.
+
+**Navegación y composición final.** Operación diaria: Inicio, Mi trabajo con
+contador compartido y Operaciones → Importaciones/Exportaciones. Registros:
+Clientes → Cotizaciones, Proveedores independiente. Gestión: Administración y
+Finanzas, Dirección. Configuración, único menú de perfil/escenario y Broco abajo.
+Padre navega y chevron expande; grupos independientes conservan estado. Rail,
+drawer, teclado y scroll central fino con carril transparente, sin tapar pie ni
+selección. Sidebar verde vertical #0F4429→#155C38, sin brillos, activos por fondo
+y texto; assets negativos oficiales. Se eligió continuidad y contraste, sin
+decoración ni cambio de fuente/iconos. Lienzo #F5F7F6 con radial 4% sólo interno,
+header blanco y superficies de trabajo discretas. Sin wrapper blanco universal.
+
+Clientes entra al listado y Cotizaciones conserva acceso directo `/cotizaciones`
+y vínculos bidireccionales con ficha. Proveedores mantiene selector contextual
+ABT/contrapartes, sin tres pestañas repetidas en ambas pantallas. Identidad
+multirrol preservada. Búsqueda global clic/Ctrl/Meta+K, teclado, filtros de
+capacidad previos a resultados y altas compartidas; sin acciones de negocio ni
+recientes inventados. Los conteos administrativos se integran a encabezados y
+resultados, eliminando banners que consumían altura.
+
+**Personas.** 16 filas nominales verificadas, 7 Importación/4 Exportación/2
+Administración/3 Dirección. [Fuente y correspondencia](screens/v3-personas-acceso.md):
+IDs estables, correos laborales actuales, áreas y referentes documentados; no
+buzones como personas. Magali sin correo individual; apellidos, funciones,
+fecha de ingreso y discrepancia Malvia/malvina permanecen pendientes donde la
+fuente no alcanza. Integrante, responsable explícito, acceso y escenario son
+conceptos distintos. No se activaron cuentas ni se asignó trabajo por cargo.
+
+**Administración y continuidad.** Bandeja administrativa; Gastos y rendiciones;
+Ingresos y egresos; Comprobantes y cuentas (comprobantes/cobrar/pagar separados).
+Categorías en Configuración con acceso contextual. G2/G3 se conservan como
+análisis especializados y Dirección concentra el ejecutivo. V3-06 conserva
+responsables por ID y contrapartes operativas, envío/devolución/recepción para
+revisión, historial y próxima acción en la misma bandeja. No cambia estados
+financieros ni aduaneros, doble control, autonomía DJVE o aislamiento Portal.
+
+**USD y Dirección.** Referencias sintéticas históricas con vigencia, validez y
+revisiones en Configuración, compartidas por evento/corte. Originales intactos,
+sin totales de monedas incompatibles. Panorama de seis métricas, vencidos y
+compromisos, cartera completa y proveedores con métricas nombradas por su fuente,
+evolución y obligaciones al corte. Este mes usa 01–14/10/2026, períodos rápidos,
+Desde/Hasta español y comparación equivalente; historia desde mayo, sin inventar
+comparaciones interanuales ni porcentajes con base insuficiente. Cliente →
+comprobante → operación y retorno conservan filtros, búsqueda, orden y corte.
+Nuevo gasto y aplicaciones se reflejan desde el mismo estado; no cifras
+independientes entre Administración/Dirección/fichas.
+
+**Consultas locales.** `/gestion?vista=consultas`, siete consultas operativas:
+ranking de facturación, total del período, facturación de cliente, cobros de
+cliente, existencia de operaciones de cliente, saldo abierto explícito de
+facturas y gastos por categoría. Una respuesta activa, ejemplos, aclaraciones,
+estados de abstención, fuente/corte/definición y registros exactos con original,
+USD y referencia aplicada. El parser no admite aritmética libre, exclusiones,
+promedios, proyecciones o fórmulas ajenas al catálogo. No usa IA/API/WhatsApp/MCP
+en el producto ni consulta sistemas externos. [Catálogo y metodología](screens/11-gestion-direccion.md).
+
+**Validación.** 154 unitarias/componentes web y 8 UI pasan; Chromium completo
+122/122, incluidas cuatro referencias visuales sin cambios de base. La primera
+corrida tuvo 110/121; se corrigieron estados de fecha, nombres accesibles y
+expectativas de conversión/retorno. Una corrida concurrente posterior fue
+interrumpida por el entorno (143), repetida aislada: 122/122. Primer CI de #40:
+quality verde; smoke 117/118 detectó una carrera de la prueba de continuidad que
+escribía antes de montar el formulario de destino. Se espera ahora el encabezado
+administrativo, sin aumentar tiempos ni retirar aserciones; repetición focalizada
+local pasa. Tras el ajuste móvil, 11/11 Chromium de Dirección/consultas/continuidad
+pasan, incluyendo los negativos monetarios y retorno completo. Revalidar todo
+en último HEAD. Lint, tipos, build, documental y diff
+se ejecutan. Axe completo 41/41 y repetición de consultas tras el refinamiento
+móvil pasan. La selección «este mes» conserva el atajo y no despliega fechas
+personalizadas innecesarias. Inspección real de 14 vistas en
+390/768/1024/1280/1440, altura 480, rail y drawer: sin overflow global ni errores
+de página observados, contraste automatizado sin infracciones. Viewport
+640×450 para reflow equivalente a 200%, sin atribuir zoom nativo.
+
+Capturas reales preservadas y revisadas (no mockups):
+
+| Evidencia | Captura |
+|---|---|
+| Shell previo / actual con sidebar expandido | [Antes](evidence/v3-final/shell-antes.png) · [Actual y Clientes](evidence/v3-final/clientes-1440.png) |
+| Sidebar compacto, altura reducida y móvil | [Rail](evidence/v3-final/sidebar-colapsado.png) · [480 px](evidence/v3-final/sidebar-altura-reducida.png) · [Drawer](evidence/v3-final/sidebar-movil.png) |
+| Proveedores y Cotizaciones | [Proveedores](evidence/v3-final/proveedores-1440.png) · [Cotizaciones](evidence/v3-final/cotizaciones-1440.png) |
+| Dirección y cartera completa | [Panorama](evidence/v3-final/direccion-1440.png) · [Clientes](evidence/v3-final/cartera-clientes-1440.png) · [Proveedores](evidence/v3-final/cartera-proveedores-1440.png) |
+| Consulta y respuesta activa, desktop/móvil | [1440](evidence/v3-final/consultas-1440.png) · [390](evidence/v3-final/consultas-390.png) |
+| Operación y tablet | [Exportación](evidence/v3-final/operacion-1440.png) · [Cartera 768](evidence/v3-final/cartera-clientes-768.png) |
+
+**Cobertura y revisión.** Se preservan 126 necesidades, 44 experiencias y 13
+recorridos; se verifica además la nueva consulta dentro de MGT-01/MGT-02. Se
+actualizan alcance, matriz, mapa, estándar, decisiones, estrategia, pantallas
+administrativa/Dirección y período DS. Firefox no pudo iniciar por perfil del
+host y WebKit carece de bibliotecas: no se acredita revisión visual efectiva en
+esos motores. El reflow de viewport equivalente a zoom no sustituye un ensayo
+de zoom nativo ni certificación WCAG. Revisión humana pendiente, producto
+**Under review**, sin declaración de producción.
+
+Pendientes formales ABT: fuente del dólar/criterio por evento, valoración de
+saldos, reglas y fuente Alpha2000, capacidades definitivas, datos laborales y
+asignaciones no comprobadas, fórmulas de resultados/rentabilidad y canal asistido.
+No bloquean la demo local acotada y no se presentan como decisiones contables
+aprobadas. Sin backend, base productiva, autenticación real, operaciones bancarias,
+Microsoft 365 ni datos económicos reales.
+
+Revisión humana sugerida: `/acceso/escenarios` → Dirección → `/gestion`,
+`/gestion?vista=clientes`, `?vista=proveedores`, `?vista=evolucion`,
+`?vista=obligaciones` y `?vista=consultas`; luego `/clientes`, `/cotizaciones`,
+`/proveedores`, las cuatro áreas de `/administracion`,
+`/configuracion/cotizaciones-gestion`, `/configuracion/personas` y
+`/operaciones/op-demo-3107/exportacion`. Cambiar a Importación y Portal para
+comprobar ausencia de datos económicos y aislamiento.
 
 PR #39 integrado por squash a `6d591a161837bc476e46c58fa2e084b28cc49a17`,
 CI quality/e2e-smoke/Vercel verdes en `d4b16c8`. La rama de Dirección se actualizó

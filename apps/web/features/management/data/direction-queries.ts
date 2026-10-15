@@ -1,7 +1,10 @@
 import { hasCapability } from "@/features/demo/data/capabilities"
 import { DEMONSTRATION_DATE } from "@/features/demo/data/scenarios"
 import { formatDate, parseSpanishDate } from "@workspace/ui/lib/date"
-import { presetPeriod } from "@workspace/ui/lib/analysis-period"
+import {
+  presetPeriod,
+  type AnalysisPreset,
+} from "@workspace/ui/lib/analysis-period"
 import { money } from "@/features/finance/data/financial-records"
 import { valuationTotal } from "@/features/finance/data/management-rates"
 import {
@@ -101,12 +104,29 @@ const normalize = (text: string) =>
     .replace(/[¿?.,;:]/g, " ")
     .replace(/\s+/g, " ")
     .trim()
+export function directionQueryPreset(
+  question: string,
+  fallback: AnalysisPreset
+): AnalysisPreset {
+  const text = normalize(question)
+  if (/este mes/.test(text)) return "this-month"
+  if (/mes (anterior|pasado)/.test(text)) return "previous-month"
+  if (/este trimestre/.test(text)) return "this-quarter"
+  if (/este ano/.test(text)) return "this-year"
+  if (
+    /\d|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre/.test(
+      text
+    )
+  )
+    return "custom"
+  return fallback
+}
 export function recognizeDirectionIntent(
   question: string
 ): DirectionIntent | undefined {
   const text = normalize(question)
   if (
-    /\b(margenes?|rentabilidad|resultados?|impuestos?|liquidez|bancos?|echeqs?|proveedores?|pagar|neto|promedio|variacion|proyeccion)\b/.test(
+    /\b(margen(?:es)?|rentabilidad|resultados?|impuestos?|liquidez|bancos?|echeqs?|proveedores?|pagar|pagos?|pagamos|compras?|costos?|neto|promedio|variacion|proyeccion|sin|excepto|excluir|menos|restar)\b/.test(
       text
     )
   )
@@ -204,7 +224,9 @@ function resolvedPeriod(question: string, base: ReportContext): ReportContext {
           : undefined
   if (
     !preset &&
-    /\b(20\d{2}|ayer|hoy|semanas?|dias?)\b|\d{1,2}[-/]\d{1,2}/.test(text)
+    /\b(20\d{2}|ayer|hoy|manana|proxim[oa]s?|siguiente|ultim[oa]s?|hace|semanas?|dias?)\b|\d{1,2}[-/]\d{1,2}/.test(
+      text
+    )
   )
     return { ...base, from: "invalid", to: "invalid" }
   return preset

@@ -21,8 +21,9 @@ revisión/invalidación, ausencia de referencia/importe, precisión y entradas
 inválidas. `v3-management-rates.spec.ts` recorre edición → gasto sin cambiar su
 original → conversión pendiente, consulta al corte, restricción de capacidades,
 duplicados y diálogo móvil con retorno de foco. Axe cubre catálogo, disclosure y
-editor. La regresión de Dirección debe comprobar además tabla/gráfico/indicador
-con la misma población y valoración; estos casos no acreditan aún ese cierre.
+editor. La regresión V3-07 comprueba además tabla/gráfico/indicador con la misma
+población y valoración; las pruebas del catálogo de cambios por sí solas no
+acreditan ese cierre.
 
 Continuidad V3-06: `operational-continuity.test.ts` verifica roles activos,
 deduplicación, reenvío/devolución, conservación de dimensiones y filtros por ID.
