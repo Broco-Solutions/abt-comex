@@ -42,3 +42,4 @@ Etapa 12: [Portal de Clientes](12-portal-clientes.md) · PR #17 integrado; ident
 Etapa 13: [Canales asistidos](13-canales-asistidos.md) · PR #18 integrado; consultas guiadas determinísticas, sin proveedor ni canal externos; Under review.
 
 Enlazar evidencia con namespace, necesidad de matriz, experiencia/recorrido, regla, escenario y etapa. Al implementar, agregar rutas reales de código y pruebas. Actualizar por cambios de comportamiento, información, acciones, estados, permisos, responsive, ayuda o aceptación; no por refactors sin impacto. No copiar las normas del estándar o los comandos de pruebas.
+V3: [Personas, equipos y acceso](v3-personas-acceso.md), ampliación proporcional de USR-001/USR-002/ACC-001; estado técnico y gates en el plan, revisión humana pendiente.

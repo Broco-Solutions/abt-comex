@@ -94,7 +94,7 @@ test("@smoke historical quote versions are explicit and do not mutate the curren
 test("@smoke form errors focus their field and the operational perspective skips an unavailable commercial choice", async ({
   page,
 }) => {
-  await page.goto("/acceso")
+  await page.goto("/acceso/escenarios")
   await page.getByRole("button", { name: /Operador de Importación/ }).click()
   await page.getByRole("link", { name: "Nueva operación", exact: true }).click()
   await expect(
@@ -110,7 +110,7 @@ test("@smoke form errors focus their field and the operational perspective skips
   await expect(page.locator("#creation-error")).toContainText(
     "Seleccioná cliente"
   )
-  await page.goto("/acceso")
+  await page.goto("/acceso/escenarios")
   await page.getByRole("button", { name: /Dirección/ }).click()
   await page.goto("/cotizaciones/nueva")
   await page.getByRole("button", { name: "Guardar borrador local" }).click()
@@ -147,7 +147,7 @@ test("@smoke form errors focus their field and the operational perspective skips
 test("@smoke external documents omit custody, internal actions and other clients, and exit resets the context", async ({
   page,
 }) => {
-  await page.goto("/acceso")
+  await page.goto("/acceso/escenarios")
   await page.getByRole("button", { name: /Cliente externo/ }).click()
   await page.getByRole("link", { name: "Ver estado" }).first().click()
   await expect(
@@ -166,7 +166,7 @@ test("@smoke external documents omit custody, internal actions and other clients
   await expect(page).toHaveURL(/acceso$/)
   await page.goto("/portal?cliente=client-demo-centro")
   await expect(
-    page.getByRole("heading", { name: "Elegí una perspectiva" })
+    page.getByRole("heading", { name: "Ingresar a ABT Comex" })
   ).toBeVisible()
   await expect(page.getByText("OP-DEM-2054", { exact: true })).toHaveCount(0)
 })

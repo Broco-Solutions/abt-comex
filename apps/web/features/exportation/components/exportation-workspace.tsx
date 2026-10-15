@@ -5,6 +5,7 @@ import { formatRecordedDate } from "@workspace/ui/lib/date"
 import Link from "next/link"
 import { DocumentsPanel } from "@/features/documents/components/documents-panel"
 import { useScenario } from "@/features/demo/state/scenario-provider"
+import { hasCapability } from "@/features/demo/data/capabilities"
 import { useState } from "react"
 import {
   ArrowLeft,
@@ -150,6 +151,7 @@ export function ExportationWorkspace({
   )
 
   function registerControl() {
+    if (!hasCapability(perspective, "operations.review")) return
     const control = { firstReviewer, secondReviewer, completed: true }
     if (!canCompleteExportDoubleControl(control)) {
       setMessage("Elegí dos personas diferentes para este escenario local.")
@@ -160,6 +162,7 @@ export function ExportationWorkspace({
   }
 
   function resetControl() {
+    if (!hasCapability(perspective, "operations.review")) return
     updateDoubleControl({
       firstReviewer: "",
       secondReviewer: "",
@@ -329,7 +332,11 @@ export function ExportationWorkspace({
               }
               . No registra una revisión real ni habilita oficialización.
             </p>
-            <Button variant="outline" onClick={resetControl}>
+            <Button
+              variant="outline"
+              disabled={!hasCapability(perspective, "operations.review")}
+              onClick={resetControl}
+            >
               Reiniciar escenario de control
             </Button>
           </div>
@@ -380,7 +387,12 @@ export function ExportationWorkspace({
               </select>
             </label>
             <div className="sm:col-span-2">
-              <Button type="submit">Registrar control de demostración</Button>
+              <Button
+                type="submit"
+                disabled={!hasCapability(perspective, "operations.review")}
+              >
+                Registrar control de demostración
+              </Button>
               {message ? (
                 <p role="status" className="mt-2 text-sm text-muted-foreground">
                   {message}

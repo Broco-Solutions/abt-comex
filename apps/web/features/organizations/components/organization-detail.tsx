@@ -15,6 +15,8 @@ import {
 } from "../data/organizations"
 import { OrganizationEditor } from "./organization-editor"
 import { useState } from "react"
+import { useScenario } from "@/features/demo/state/scenario-provider"
+import { hasCapability } from "@/features/demo/data/capabilities"
 
 export function OrganizationIdentity({
   organization,
@@ -22,6 +24,7 @@ export function OrganizationIdentity({
   organization: Organization
 }) {
   const [feedback, setFeedback] = useState("")
+  const {scenario}=useScenario()
   return (
     <section
       className="space-y-4 rounded-lg border border-border bg-card p-4"
@@ -69,6 +72,7 @@ export function OrganizationIdentity({
               {roleLabels[entry.role]} · {entry.active ? "Activo" : "Inactivo"}
             </span>
             <Button
+              disabled={!hasCapability(scenario,"catalogs.manage")}
               type="button"
               variant="outline"
               size="sm"

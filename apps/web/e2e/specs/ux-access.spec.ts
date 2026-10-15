@@ -9,10 +9,10 @@ test("@smoke changing a modified scenario can be cancelled and resets only tempo
   await page
     .getByRole("button", { name: "Registrar control de demostración" })
     .click()
-  await page.goto("/acceso")
+  await page.goto("/acceso/escenarios")
   page.once("dialog", (dialog) => dialog.dismiss())
   await page.getByRole("button", { name: /Operador de Importación/ }).click()
-  await expect(page).toHaveURL(/acceso$/)
+  await expect(page).toHaveURL(/acceso\/escenarios$/)
   page.once("dialog", (dialog) => dialog.accept())
   await page.getByRole("button", { name: /Operador de Importación/ }).click()
   await expect(page).toHaveURL(/inicio$/)
@@ -27,13 +27,13 @@ test("@smoke changing a modified scenario can be cancelled and resets only tempo
 test("@smoke without a selected perspective internal data is not presented", async ({
   page,
 }) => {
-  await page.goto("/acceso")
+  await page.goto("/acceso/escenarios")
   await page.evaluate(() =>
     sessionStorage.removeItem("abt-comex:demo:scenario:v1")
   )
   await page.goto("/inicio")
   await expect(
-    page.getByRole("heading", { name: "Elegí una perspectiva" })
+    page.getByRole("heading", { name: "Ingresar a ABT Comex" })
   ).toBeVisible()
   await expect(
     page.getByRole("navigation", { name: "Navegación principal", exact: true })
@@ -51,7 +51,7 @@ test("@smoke perspective changes preserve onboarding progress and recover its to
     .click()
   await expect(page.getByText("20%", { exact: true })).toBeVisible()
   await page.getByRole("button", { name: "Omitir por ahora" }).click()
-  await page.goto("/acceso")
+  await page.goto("/acceso/escenarios")
   await page.getByRole("button", { name: /Operador de Exportación/ }).click()
   await page.getByRole("button", { name: "Menú de usuario" }).click()
   await page
@@ -66,7 +66,7 @@ test("@smoke perspective changes preserve onboarding progress and recover its to
 test("@smoke operational scenario hides commercial content and filters shared objects", async ({
   page,
 }) => {
-  await page.goto("/acceso")
+  await page.goto("/acceso/escenarios")
   await page.getByRole("button", { name: /Operador de Importación/ }).click()
   await expect(page).toHaveURL(/inicio$/)
   const nav = page.getByRole("navigation", {
@@ -102,9 +102,11 @@ test("@smoke operational scenario hides commercial content and filters shared ob
 test("@smoke external scenario opens its own shell and authorized records", async ({
   page,
 }) => {
-  await page.goto("/acceso")
+  await page.goto("/acceso/escenarios")
   await page.getByRole("button", { name: /Cliente externo/ }).click()
-  await expect(page.getByText("OP-DEM-2054", { exact: true }).first()).toBeVisible()
+  await expect(
+    page.getByText("OP-DEM-2054", { exact: true }).first()
+  ).toBeVisible()
   await expect(page.getByText("OP-DEM-3112", { exact: true })).toBeVisible()
   await expect(page.getByText("OP-DEM-2048", { exact: true })).toHaveCount(0)
   await expect(page).toHaveURL(/portal\?cliente=client-demo-centro$/)

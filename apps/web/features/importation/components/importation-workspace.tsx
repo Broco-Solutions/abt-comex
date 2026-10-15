@@ -3,6 +3,8 @@
 import Link from "next/link"
 import { DocumentsPanel } from "@/features/documents/components/documents-panel"
 import { useState } from "react"
+import { useScenario } from "@/features/demo/state/scenario-provider"
+import { hasCapability } from "@/features/demo/data/capabilities"
 import { ArrowLeft, CircleAlert, ShieldCheck, ChevronDown } from "lucide-react"
 
 import { PageHeader } from "@/components/navigation/page-header"
@@ -52,6 +54,7 @@ export function ImportationWorkspace({
   searchParams: SearchParams
 }) {
   const { operations, ready: operationsReady } = useDemoOperations()
+  const { scenario: access } = useScenario()
   const {
     scenario,
     ready: scenarioReady,
@@ -117,6 +120,7 @@ export function ImportationWorkspace({
   const isControlComplete = scenario.doubleControl.completed
 
   function registerDemonstrationControl() {
+    if (!hasCapability(access, "operations.review")) return
     const control = {
       firstReviewer,
       secondReviewer,
@@ -131,6 +135,7 @@ export function ImportationWorkspace({
   }
 
   function resetDemonstrationControl() {
+    if (!hasCapability(access, "operations.review")) return
     updateDoubleControl({
       firstReviewer: "",
       secondReviewer: "",
@@ -237,6 +242,7 @@ export function ImportationWorkspace({
               variant="outline"
               size="sm"
               onClick={resetDemonstrationControl}
+              disabled={!hasCapability(access, "operations.review")}
             >
               Reiniciar escenario de control
             </Button>
@@ -292,6 +298,7 @@ export function ImportationWorkspace({
                 type="button"
                 onClick={registerDemonstrationControl}
                 disabled={
+                  !hasCapability(access, "operations.review") ||
                   !canCompleteDoubleControl({
                     firstReviewer,
                     secondReviewer,

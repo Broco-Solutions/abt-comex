@@ -39,7 +39,7 @@ export function UserMenu() {
           {scenario.label}
         </p>
         <Link
-          href="/acceso"
+          href="/acceso/escenarios"
           onClick={() => setOpen(false)}
           className={itemClass}
         >

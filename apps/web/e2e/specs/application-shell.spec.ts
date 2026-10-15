@@ -15,6 +15,9 @@ test("@smoke redirects the root and navigates the complete application shell", a
   const consoleErrors = collectConsoleErrors(page)
   await page.goto("/")
   await expect(page).toHaveURL(/\/acceso$/)
+  await page
+    .getByRole("link", { name: "Explorar escenarios de evaluación" })
+    .click()
   await page.getByRole("button", { name: /Dirección/ }).click()
   await expect(page).toHaveURL(/\/inicio$/)
   await expect(

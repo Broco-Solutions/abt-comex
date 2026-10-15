@@ -89,5 +89,5 @@ test("@smoke Portal navigation remains separate and responsive", async ({
     page.getByRole("link", { name: "Cambiar escenario" })
   ).toBeFocused()
   await page.getByRole("link", { name: "Cambiar escenario" }).click()
-  await expect(page).toHaveURL(/\/acceso$/)
+  await expect(page).toHaveURL(/\/acceso\/escenarios$/)
 })

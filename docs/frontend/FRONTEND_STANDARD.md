@@ -451,3 +451,7 @@ Formularios en diálogo: el popup compartido limita altura al viewport dinámico
 - Fecha de período siempre identifica evento: Actualización no equivale a arribo/oficialización/vencimiento.
 - Selector buscable compartido para catálogos potencialmente extensos: etiqueta persistente, consulta tolerante a acentos, opciones identificables, flechas/Inicio/Fin/Enter/Escape/Tab, selección conservada sin coincidencias. No crear registros ni ampliar capacidades desde el componente.
 - Sidebar claro usa accent/accent-foreground ABT; hover/activo/foco mantienen señales y contraste. Superficie de trabajo card sobre lienzo muted. DS y producto comparten tokens; no tipografías ni colores nuevos.
+
+### Personas y capacidades V3
+
+Acceso convencional visual en /acceso; escenarios ficticios en entrada secundaria /acceso/escenarios, sin presentar elección de rol como seguridad. Contraseña mostrar/ocultar con nombre accesible y estado pulsado, sin almacenamiento; recuperación informa ausencia de envío/cambio efectivo. El menú de usuario conserva inducción. Las capacidades son diferentes de área/cargo y de preferencias de columnas; filtrar poblaciones antes de conteos, gráficos y drill-down. Comportamiento particular y reinicio: [Personas](screens/v3-personas-acceso.md).

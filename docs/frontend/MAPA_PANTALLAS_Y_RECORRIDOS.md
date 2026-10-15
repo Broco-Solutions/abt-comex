@@ -81,17 +81,22 @@ Los estados y acciones de módulos pendientes son vocabulario de diseño, no cat
 | SUP-01 | Proveedores y contrapartes | Encontrar y gestionar organizaciones por rol sin confundir obligaciones de ABT con participantes de una operación. | `/proveedores`, `/proveedores?ambito=operacion` | V3-02 Under review | Buscar, crear, editar, reutilizar; filtrar activos/inactivos. | Organización multirrol, contactos | Loading, empty, error, inactive | Sin datos económicos por rol | 6, 10 |
 | SUP-02 | Ficha de organización multirrol | Consultar identidad/contactos/actividad y estado independiente de cada rol. | `/proveedores/[organizationId]` | V3-02 Under review | Editar, inactivar/reactivar con confirmación e historial; abrir relaciones autorizadas. | Organización, operación; administración en incrementos consumidores | Not found, inactive, read-only externo | No crea obligaciones por ser contraparte | 6, 10 |
 
-### Clasificación de experiencias (32 históricas + 2 V3)
+| USR-01 | Personas y acceso | Encontrar integrantes y preparar acceso separado de área/función | `/configuracion/personas` | V3-03 Under review | Buscar, filtrar acceso, alta y ficha | Persona, capacidades, equipo | Sin coincidencias, sin permiso | people.manage | V3 |
+| USR-02 | Ficha del integrante | Datos laborales, capacidades, pendientes e historial | `/configuracion/personas/[memberId]` | V3-03 Under review | Editar, suspensión/baja con transferencia, reactivación revisada | Persona, tareas, equipo | Sin acceso, suspendido, no encontrado | people.manage; sin credenciales reales | V3 |
+| TEAM-01 | Equipos y responsabilidades | Preparar equipos/responsables/suplentes sin otorgar capacidades | `/configuracion/equipos` | V3-03 Under review | Alta, edición, integrantes | Equipo, persona | Sin responsable, referente suspendido | people.manage | V3 |
+| ACCESS-01 | Acceso y recuperación | Ingreso convencional visual y escenarios secundarios | `/acceso`, `/acceso/escenarios`, `/acceso/recuperar`, `/acceso/restablecer` | V3-03 Under review | Contraseña efímera visible/oculta, recuperación sin envío | Identidad sintética, capacidades | Error, suspendido, confirmación, enlace vencido | No autenticación ni seguridad reales | V3 |
+
+### Clasificación de experiencias (32 históricas + 6 V3)
 
 La clasificación evita contar cada sección, diálogo o capacidad como una pantalla independiente:
 
-- **Pantallas internas:** `SUP-01`, `SUP-02`, `HOME-01`, `OPS-01`, `OPS-02`, `OPS-03`, `OPS-04`, `CLI-01`, `CLI-02`, `COT-01`, `COT-02`, `COT-03`, `DJV-01`, `ADM-02`, `ADM-03`, `MGT-01`, `CFG-01`.
+- **Pantallas internas:** `USR-01`, `USR-02`, `TEAM-01`, `SUP-01`, `SUP-02`, `HOME-01`, `OPS-01`, `OPS-02`, `OPS-03`, `OPS-04`, `CLI-01`, `CLI-02`, `COT-01`, `COT-02`, `COT-03`, `DJV-01`, `ADM-02`, `ADM-03`, `MGT-01`, `CFG-01`.
 - **Bandejas operativas:** `WORK-01`, `ADM-01`.
 - **Secciones de detalle o workspace:** `OPS-05`, `CLI-03`, `IMP-01`, `EXP-01`, `MGT-02`.
 - **Acciones contextuales y diálogos:** `COT-04`; la resolución de excepciones se presenta dentro de `OPS-05`, sin ruta propia.
 - **Capacidades transversales:** `SHELL-01`, `DOC-01`, `ALT-01`.
 - **Experiencias técnicas internas:** `DS-01`, `INT-01`.
-- **Experiencias externas:** `POR-01`, `POR-02`, `POR-03`, `AST-01`.
+- **Experiencias externas:** `ACCESS-01`, `POR-01`, `POR-02`, `POR-03`, `AST-01`.
 
 Esta taxonomía describe la composición propuesta. No aprueba rutas nuevas ni obliga a que cada ID sea una página independiente.
 
@@ -270,3 +275,7 @@ Este mapa registra las Etapas 2–13 integradas técnicamente; no supone aprobac
 ## Continuidad V3
 
 Se conservan las 32 experiencias y J1–J10; [plan V3](PLAN_IMPLEMENTACION.md#v3--evolución-integral-autorizada-internamente-15102026) amplía capacidades progresivamente sin renumerar. V3-01 no añade rutas: OPS-01/OPS-02 compactan consulta y restauran contexto con OPS-03; POR-02 y POR-03 comparten disponibilidad documental. La selección de Cliente en COT-03 utiliza el patrón buscable del DS. Nuevas rutas/experiencias de maestros/acceso se registrarán en su incremento, no se consideran cubiertas por esta nota. Microsoft 365 no forma parte de las superficies V3.
+
+### J11 — Personas y acceso de evaluación
+
+Configuración → Personas → alta/ficha → capacidades explícitas → equipo/responsabilidades → revisar pendientes → suspensión/baja y transferencia → acceso convencional o escenario autorizado. Conserva persona e historial; no identidad productiva, credenciales ni mensajes reales. Especificación y pruebas en [Personas V3](screens/v3-personas-acceso.md).

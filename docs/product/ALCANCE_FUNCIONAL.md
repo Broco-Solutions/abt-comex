@@ -613,3 +613,4 @@ El responsable aprobó la dirección de la auditoría integral para construir y 
 - Microsoft 365 queda **excluido de la demo y de V3** (sustituye su consideración prospectiva anterior). La planilla organizativa sólo aporta contexto de personas/áreas, no gestión de correo, buzones, licencias ni tenant. COMEX360 continúa excluido.
 
 La confidencialidad de §7.2 no cambia. Las capacidades mock no constituyen autorización productiva. Sincronización del documento funcional de Drive pendiente: esta sesión sólo actualiza autoridades locales y no modifica originales.
+Implementación frontend de personas/acceso: [especificación V3](../frontend/screens/v3-personas-acceso.md). Fecha de ingreso opcional solicitada por el responsable; personas sintéticas, no integrantes reales. Fuentes/ámbitos y capacidades definitivos requieren validación ABT. Sincronizar posteriormente el Google Doc funcional en la ampliación V3; Drive no actualizado en esta ejecución.

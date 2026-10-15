@@ -3,6 +3,7 @@ import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { useScenario } from "@/features/demo/state/scenario-provider"
 import { AccessPage } from "@/features/demo/components/access-page"
+import { canVisit } from "@/features/demo/data/scenarios"
 import { Button } from "@workspace/ui/components/button"
 import Link from "next/link"
 
@@ -12,7 +13,10 @@ import { PORTAL_DEMO_CLIENT_ID } from "../data/portal"
 export function PortalShell({ children }: { children: React.ReactNode }) {
   const { active, scenario, exit } = useScenario()
   const pathname = usePathname()
-  if ((!active || scenario.id !== "client") && pathname !== "/portal/acceso")
+  if (
+    (!active || !canVisit(scenario, pathname)) &&
+    pathname !== "/portal/acceso"
+  )
     return <AccessPage />
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -49,7 +53,7 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
               Mis operaciones
             </Link>
             <Link
-              href="/acceso"
+              href="/acceso/escenarios"
               className="min-h-10 rounded-sm py-2 text-muted-foreground underline-offset-4 hover:text-foreground hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
             >
               Cambiar escenario

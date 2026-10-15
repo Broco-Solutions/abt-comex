@@ -7,6 +7,7 @@ import { formatDate } from "@workspace/ui/lib/date"
 import { useOrganizations } from "@/features/organizations/state/use-organizations"
 import { projectClients } from "@/features/organizations/data/organizations"
 import { useScenario } from "@/features/demo/state/scenario-provider"
+import { hasCapability } from "@/features/demo/data/capabilities"
 import { BillingChart, DistributionChart, type Drill } from "./financial-charts"
 import {
   FINANCIAL_CUTOFF,
@@ -32,6 +33,16 @@ export function FinancialDashboard({
     )
   )
   const { scenario } = useScenario()
+  const billing = hasCapability(scenario, "finance.billing")
+  const collections = hasCapability(scenario, "finance.collections")
+  const expenses =
+    hasCapability(scenario, "finance.expenses") &&
+    hasCapability(scenario, "costs.internal")
+  const allowedTypes = [
+    ...(billing ? ["invoice"] : []),
+    ...(collections ? ["receipt"] : []),
+    ...(expenses ? ["expense"] : []),
+  ]
   const path = executive ? "/gestion" : "/administracion/finanzas"
   const { organizations } = useOrganizations()
   const demonstrationClients = projectClients(organizations)
@@ -81,7 +92,11 @@ export function FinancialDashboard({
         </Link>
       </section>
     )
-  const records = periodError ? [] : filterFinancialRecords(filters)
+  const records = periodError
+    ? []
+    : filterFinancialRecords(filters).filter((record) =>
+        allowedTypes.includes(record.type)
+      )
   const invoices = records.filter((r) => r.type === "invoice")
   const type = params.get("serie")
   const dimension = params.get("dimension")
@@ -194,71 +209,85 @@ export function FinancialDashboard({
           </p>
           {executive ? (
             <>
-              <BillingChart
-                records={records}
-                currency={currency}
-                drill={drill}
-              />
-              <DistributionChart
-                id="client-billing-chart"
-                title="Facturación por cliente"
-                data={buckets(invoices, "client")}
-                currency={currency}
-                href={(key) => drill("invoice", "client", key)}
-              />
+              {billing && collections && (
+                <BillingChart
+                  records={records}
+                  currency={currency}
+                  drill={drill}
+                />
+              )}
+              {billing && (
+                <DistributionChart
+                  id="client-billing-chart"
+                  title="Facturación por cliente"
+                  data={buckets(invoices, "client")}
+                  currency={currency}
+                  href={(key) => drill("invoice", "client", key)}
+                />
+              )}
             </>
           ) : (
             <div className="grid gap-6 xl:grid-cols-2">
-              <DistributionChart
-                id="expense-chart"
-                title="Gastos registrados por categoría"
-                data={buckets(
-                  records.filter((r) => r.type === "expense"),
-                  "category"
-                )}
-                currency={currency}
-                href={(key) => drill("expense", "category", key)}
-              />
-              <div className="min-w-0">
+              {expenses && (
                 <DistributionChart
-                  id="due-chart"
-                  title="Cuentas por cobrar · saldo informado al corte"
-                  data={buckets(invoices, "due")}
+                  id="expense-chart"
+                  title="Gastos registrados por categoría"
+                  data={buckets(
+                    records.filter((r) => r.type === "expense"),
+                    "category"
+                  )}
                   currency={currency}
-                  href={(key) => drill("invoice", "due", key)}
+                  href={(key) => drill("expense", "category", key)}
                 />
-                <p className="mt-3 text-xs text-muted-foreground">
-                  Facturas del período seleccionado; saldos informados al{" "}
-                  {formatDate(FINANCIAL_CUTOFF)}. Tramos temporales, no
-                  calificación de riesgo.{" "}
-                  {missing
-                    ? `${missing} factura sin saldo informado; no se interpreta como cero.`
-                    : "No incluye documentos sin saldo informado."}
-                </p>
-              </div>
+              )}
+              {billing && collections && (
+                <div className="min-w-0">
+                  <DistributionChart
+                    id="due-chart"
+                    title="Cuentas por cobrar · saldo informado al corte"
+                    data={buckets(invoices, "due")}
+                    currency={currency}
+                    href={(key) => drill("invoice", "due", key)}
+                  />
+                  <p className="mt-3 text-xs text-muted-foreground">
+                    Facturas del período seleccionado; saldos informados al{" "}
+                    {formatDate(FINANCIAL_CUTOFF)}. Tramos temporales, no
+                    calificación de riesgo.{" "}
+                    {missing
+                      ? `${missing} factura sin saldo informado; no se interpreta como cero.`
+                      : "No incluye documentos sin saldo informado."}
+                  </p>
+                </div>
+              )}
             </div>
           )}
           <nav
             aria-label="Consultar registros financieros"
             className="flex flex-wrap gap-2"
           >
-            {(["invoice", "receipt", "expense"] as const).map((value) => (
-              <Link
-                key={value}
-                className={cn(
-                  buttonVariants({ variant: "outline", size: "sm" })
-                )}
-                href={`${path}?${base}&serie=${value}&dimension=all#registros`}
-              >
-                {value === "invoice"
-                  ? "Ver facturas"
-                  : value === "receipt"
-                    ? "Ver cobros"
-                    : "Ver gastos"}
-              </Link>
-            ))}
+            {(["invoice", "receipt", "expense"] as const)
+              .filter((value) => allowedTypes.includes(value))
+              .map((value) => (
+                <Link
+                  key={value}
+                  className={cn(
+                    buttonVariants({ variant: "outline", size: "sm" })
+                  )}
+                  href={`${path}?${base}&serie=${value}&dimension=all#registros`}
+                >
+                  {value === "invoice"
+                    ? "Ver facturas"
+                    : value === "receipt"
+                      ? "Ver cobros"
+                      : "Ver gastos"}
+                </Link>
+              ))}
           </nav>
-          {type ? (
+          {type && !allowedTypes.includes(type) ? (
+            <p role="status">
+              Esta selección no está disponible para tus capacidades.
+            </p>
+          ) : type ? (
             <section
               id="registros"
               tabIndex={-1}
