@@ -888,6 +888,19 @@ Revisión sugerida desde /acceso: Importación→Inicio→Mi trabajo→control/c
 
 ## V3 — Evolución integral autorizada internamente (15/10/2026)
 
+Continuación autorizada del responsable: conservar PR #32 como refinamiento del
+Shell, luego integrar nómina laboral relevada, reorganización administrativa y
+USD/Dirección en PR focalizados. V3-06/V3-07 permanecen en ejecución hasta
+comprobar alcance y regresión completos. Personas: fuente verificada 15/10/2026,
+16 filas nominales; accesos/asignaciones pendientes, escenarios independientes.
+
+PR #32 integrado por squash a `1223cd7a2db84016506428779479507a3109bc3e`,
+checks quality/e2e-smoke/Vercel verdes en `52677dd`. Nómina laboral en corte
+propio: lint/tipos/build, 123 unitarias web, axe de Personas y 15 E2E Chromium
+(Personas/acceso, escenarios/Portal, Inicio/Mi trabajo) pasan; capturas reales
+1440/390 inspeccionadas. No se activaron accesos reales ni se atribuyeron
+pendientes a las personas relevadas. Producto permanece Under review.
+
 Fuente: aprobación explícita del responsable sobre la auditoría integral y sus tres precisiones. Autoriza ejecución frontend, PR independientes y squash con checks verdes; no constituye validación formal ABT ni autoriza backend/integraciones. No reiniciar UX V2 ni renumerar Etapas 0–13. Estados técnicos separados de aceptación humana.
 
 | Incremento | Estado | Entregable y dependencia |

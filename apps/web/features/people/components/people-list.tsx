@@ -36,6 +36,11 @@ export function PeopleList() {
   return (
     <div className="space-y-5" onClickCapture={capture}>
       <PageHeader title="Personas y acceso" />
+      <p className="text-sm text-muted-foreground">
+        Nómina relevada de ABT. El acceso al sistema y las asignaciones
+        individuales requieren confirmación; los escenarios de evaluación son
+        independientes.
+      </p>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <nav
           aria-label="Configuración de personas"
@@ -54,7 +59,7 @@ export function PeopleList() {
         <MemberEditor onSaved={setSaved} />
       </div>
       <div className="flex flex-wrap items-end gap-3">
-        <label className="min-w-0 flex-1 text-xs font-medium">
+        <label className="w-full min-w-0 text-xs font-medium sm:w-auto sm:flex-1">
           Buscar integrante
           <Input
             value={query}
@@ -72,6 +77,7 @@ export function PeopleList() {
           >
             <option value="">Todos</option>
             {[
+              "No relevado",
               "Sin acceso",
               "Invitación preparada",
               "Activo",

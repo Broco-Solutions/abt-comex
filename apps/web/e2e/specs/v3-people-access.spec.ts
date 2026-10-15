@@ -1,4 +1,20 @@
 import { expect, test } from "../fixtures"
+test("@smoke ABT roster excludes shared mailboxes, inferred access and fictional memberships", async ({ page }) => {
+  await page.goto("/configuracion/personas")
+  const roster = page.getByRole("list", { name: "Integrantes", exact: true })
+  await expect(roster.getByRole("listitem")).toHaveCount(16)
+  await expect(roster).toContainText("Ramiro Garcia")
+  await expect(roster).toContainText("Sergio Mentini")
+  await expect(roster).not.toContainText("@example.invalid")
+  await expect(roster).not.toContainText("administracion@")
+  await expect(roster.getByText("No relevado", { exact: true })).toHaveCount(16)
+  await page.getByRole("link", { name: "Magali", exact: true }).click()
+  await expect(page.getByRole("region", { name: "Datos del integrante" })).toContainText("Sin correo de acceso")
+  await expect(page.getByText("Sin capacidades asignadas.")).toBeVisible()
+  await page.goto("/mi-trabajo")
+  await expect(page.getByRole("main")).not.toContainText("Lucía Benítez")
+  await expect(page.getByRole("main")).not.toContainText("Ramiro Garcia")
+})
 test("@smoke people filters are local and the explicit return restores query and focus", async ({
   page,
 }) => {
@@ -11,23 +27,21 @@ test("@smoke people filters are local and the explicit return restores query and
   await page.getByLabel("Buscar integrante").fill("Importación")
   await expect(page).toHaveURL(/q=Import/)
   expect(documents).toBe(0)
-  await page
-    .getByRole("link", { name: "Operador de prueba Importación", exact: true })
-    .click()
+  await page.getByRole("link", { name: "Sergio Mentini", exact: true }).click()
   await page
     .getByRole("link", { name: "Volver a Personas", exact: true })
     .click()
   await expect(page.getByLabel("Buscar integrante")).toHaveValue("Importación")
   await expect(
     page.getByRole("link", {
-      name: "Operador de prueba Importación",
+      name: "Sergio Mentini",
       exact: true,
     })
   ).toBeFocused()
   await page.goBack()
   await expect(
     page.getByRole("heading", {
-      name: "Operador de prueba Importación",
+      name: "Sergio Mentini",
       exact: true,
     })
   ).toBeVisible()
@@ -101,10 +115,13 @@ test("@smoke recovery shows confirmation, mismatched fields, expiration and a sa
 test("@smoke membership edits persist, capabilities are independent of area and suspension reassigns work", async ({
   page,
 }) => {
-  await page.goto("/configuracion/personas/member-demo-01")
+  await page.goto("/configuracion/personas/person-abt-002")
   await page.getByRole("button", { name: "Editar integrante" }).click()
   const dialog = page.getByRole("dialog")
   await dialog.getByLabel("Área", { exact: true }).fill("Dirección")
+  await expect(
+    dialog.getByLabel("Fecha de ingreso", { exact: true })
+  ).toHaveValue("")
   await expect(
     dialog.getByLabel("Consultar condiciones", { exact: false })
   ).toHaveCount(0)
@@ -117,6 +134,7 @@ test("@smoke membership edits persist, capabilities are independent of area and 
   await dialog
     .getByLabel("Fecha de ingreso", { exact: true })
     .fill("2026-01-12")
+  await dialog.getByLabel("Acceso", { exact: true }).selectOption("Activo")
   await dialog.getByRole("button", { name: "Guardar integrante" }).click()
   await expect(
     page.getByRole("region", { name: "Datos del integrante" })
@@ -124,31 +142,27 @@ test("@smoke membership edits persist, capabilities are independent of area and 
   await page.getByRole("button", { name: "Revisar suspensión o baja" }).click()
   await page
     .getByRole("combobox", { name: "Transferir pendientes a" })
-    .fill("Operador de prueba Exportación")
-  await expect(
-    page.getByRole("option", { name: /Operador de prueba Exportación/ })
-  ).toHaveCount(0)
+    .fill("Maria Nasuti")
+  await expect(page.getByRole("option", { name: /Maria Nasuti/ })).toHaveCount(
+    0
+  )
   await page
     .getByRole("combobox", { name: "Transferir pendientes a" })
-    .fill("Responsable operativo")
-  await page
-    .getByRole("option", { name: /Responsable operativo de prueba/ })
-    .click()
+    .fill("Bandeja del equipo")
+  await page.getByRole("option", { name: /Bandeja del equipo/ }).click()
   await page.getByRole("button", { name: "Confirmar transición" }).click()
   await expect(page.getByRole("status")).toContainText("reasignados")
   await page.goto("/acceso")
   await page
     .getByLabel("Correo laboral", { exact: true })
-    .fill("importacion@example.invalid")
+    .fill("sergio@abtsisa.com.ar")
   await page.getByLabel("Contraseña", { exact: true }).fill("prueba")
   await page.getByRole("button", { name: "Ingresar", exact: true }).click()
   await expect(page.getByRole("main").getByRole("alert")).toContainText(
     "acceso activo"
   )
   await page.goto("/mi-trabajo?q=Segundo")
-  await expect(
-    page.getByText("Responsable operativo de prueba", { exact: true })
-  ).toBeVisible()
+  await expect(page.getByText("Sergio Mentini", { exact: true })).toHaveCount(0)
 })
 test("@smoke new member and team are usable, and partial financial capabilities do not reveal other records", async ({
   page,
@@ -160,7 +174,7 @@ test("@smoke new member and team are usable, and partial financial capabilities 
     .getByLabel("Nombre", { exact: true })
     .fill("Consulta limitada de prueba")
   await dialog
-    .getByLabel("Correo laboral de prueba")
+    .getByLabel("Correo laboral", { exact: true })
     .fill("limitada@example.invalid")
   await dialog.getByLabel("Acceso", { exact: true }).selectOption("Activo")
   await dialog

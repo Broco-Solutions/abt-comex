@@ -18,7 +18,7 @@ import {
 } from "@/features/administration/data/administrative-ledger"
 
 export const DEMO_DATE = DEMONSTRATION_DATE
-export const DEMO_PERSON = "Lucía Benítez"
+export const DEMO_PERSON = "Escenario de evaluación"
 
 // Synthetic examples only. They model work shapes and relationships, not ABT records.
 export const workItems: WorkItem[] = [
@@ -31,7 +31,7 @@ export const workItems: WorkItem[] = [
     origin: "Importación",
     reference: "OP-DEM-2048",
     relatedOperationId: "op-demo-2048",
-    owner: "Martín Ríos",
+    owner: "Sin asignación individual · Importación",
     dueDate: "2026-10-14",
     blocking: true,
     assignedToDemoUser: true,
@@ -51,7 +51,7 @@ export const workItems: WorkItem[] = [
     origin: "Exportación",
     reference: "OP-DEM-3107",
     relatedOperationId: "op-demo-3107",
-    owner: "Lucía Benítez",
+    owner: "Sin asignación individual · Exportación",
     dueDate: "2026-10-16",
     timeBand: "Próximo",
     assignedToDemoUser: true,
@@ -87,7 +87,7 @@ export const workItems: WorkItem[] = [
     origin: "Cotización",
     reference: "COT-DEM-001 · v1",
     relatedQuoteId: "quote-demo-001",
-    owner: "Lucía Benítez",
+    owner: "Sin asignación individual · Comercial",
     dueDate: "2026-10-13",
     timeBand: "Vencido",
     assignedToDemoUser: true,
@@ -107,7 +107,7 @@ export const workItems: WorkItem[] = [
       "La tarea administrativa no tiene una operación vinculada en este escenario.",
     origin: "Administración · tarea sin operación",
     reference: "REN-DEM-014",
-    owner: "Sofía Méndez",
+    owner: "Sin asignación individual · Administración",
     source: "ABT Comex · registro local",
     freshness: "Disponible",
     nextStep:
@@ -124,7 +124,7 @@ export const workItems: WorkItem[] = [
     origin: "Exportación",
     reference: "OP-DEM-3112",
     relatedOperationId: "op-demo-3112",
-    owner: "Martín Ríos",
+    owner: "Sin asignación individual · Exportación",
     dueDate: "2026-10-12",
     timeBand: "Vencido",
     source: "ABT Comex · registro local",

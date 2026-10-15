@@ -25,6 +25,7 @@ import {
 } from "@/features/demo/data/scenarios"
 import { loadPeople, savePeople, type Member } from "../data/people"
 import { usePeople } from "../state/use-people"
+import { isFinancialDate } from "@/features/finance/data/financial-records"
 
 export function MemberEditor({
   member,
@@ -90,18 +91,21 @@ export function MemberEditor({
                 }
                 if (
                   draft.email &&
-                  !/^[^\s@]+@example\.invalid$/.test(
+                  !/^[^\s@]+@(?:abtsisa\.com\.ar|abtcomex\.com\.ar|example\.invalid)$/.test(
                     draft.email.trim().toLowerCase()
                   )
                 ) {
                   setError(
-                    "Usá un correo de prueba @example.invalid, nunca un correo real."
+                    "Usá un correo laboral de ABT o @example.invalid para una prueba local."
                   )
                   return
                 }
-                if (draft.access !== "Sin acceso" && !draft.email.trim()) {
+                if (
+                  !["Sin acceso", "No relevado"].includes(draft.access) &&
+                  !draft.email.trim()
+                ) {
                   setError(
-                    "Para preparar acceso, completá un correo de prueba."
+                    "Para preparar acceso demostrativo, completá un correo individual."
                   )
                   return
                 }
@@ -119,18 +123,24 @@ export function MemberEditor({
                   )
                   return
                 }
-                const id =
-                  draft.id ||
-                  "member-demo-" +
-                    (
-                      Math.max(
-                        ...current.members.map((item) =>
-                          Number(item.id.split("-").at(-1))
-                        )
-                      ) + 1
-                    )
-                      .toString()
-                      .padStart(2, "0")
+                if (
+                  draft.joinedOn &&
+                  (!isFinancialDate(draft.joinedOn) ||
+                    draft.joinedOn > DEMONSTRATION_DATE)
+                ) {
+                  setError(
+                    "Revisá la fecha de ingreso; puede quedar sin informar."
+                  )
+                  return
+                }
+                let index = 1
+                while (
+                  current.members.some(
+                    (item) => item.id === `member-local-${index}`
+                  )
+                )
+                  index++
+                const id = draft.id || `member-local-${index}`
                 const next = {
                   ...draft,
                   id,
@@ -174,7 +184,7 @@ export function MemberEditor({
                 {(
                   [
                     ["name", "Nombre"],
-                    ["email", "Correo laboral de prueba"],
+                    ["email", "Correo laboral"],
                     ["area", "Área"],
                     ["function", "Función"],
                   ] as const
@@ -258,7 +268,11 @@ export function MemberEditor({
                     {[
                       ...(member?.access === "Activo"
                         ? []
-                        : ["Sin acceso", "Invitación preparada"]),
+                        : [
+                            "No relevado",
+                            "Sin acceso",
+                            "Invitación preparada",
+                          ]),
                       "Activo",
                       ...(member?.access === "Suspendido" ||
                       member?.access === "Baja de acceso"

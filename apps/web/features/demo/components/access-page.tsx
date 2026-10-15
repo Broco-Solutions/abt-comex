@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Eye, EyeOff } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
-import { loadPeople } from "@/features/people/data/people"
+import { loadPeople, evaluationUsers } from "@/features/people/data/people"
 import { useScenario } from "../state/scenario-provider"
 import { AccessFrame } from "./access-frame"
 export function PasswordField({
@@ -69,12 +69,10 @@ export function AccessPage() {
           const email = String(data.get("email") ?? "")
             .trim()
             .toLowerCase()
-          const member = email.endsWith("@example.invalid")
-            ? loadPeople().members.find(
-                (item) =>
-                  item.email.toLowerCase() === email && item.access === "Activo"
-              )
-            : undefined
+          const member = [...evaluationUsers, ...loadPeople().members].find(
+            (item) =>
+              item.email.toLowerCase() === email && item.access === "Activo"
+          )
           if (!member) {
             setError(
               "No se pudo ingresar. Usá una identidad de prueba con acceso activo o revisá su acceso en Personas."
