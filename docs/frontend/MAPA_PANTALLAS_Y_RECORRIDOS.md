@@ -86,11 +86,16 @@ Los estados y acciones de módulos pendientes son vocabulario de diseño, no cat
 | TEAM-01 | Equipos y responsabilidades | Preparar equipos/responsables/suplentes sin otorgar capacidades | `/configuracion/equipos` | V3-03 Under review | Alta, edición, integrantes | Equipo, persona | Sin responsable, referente suspendido | people.manage | V3 |
 | ACCESS-01 | Acceso y recuperación | Ingreso convencional visual y escenarios secundarios | `/acceso`, `/acceso/escenarios`, `/acceso/recuperar`, `/acceso/restablecer` | V3-03 Under review | Contraseña efímera visible/oculta, recuperación sin envío | Identidad sintética, capacidades | Error, suspendido, confirmación, enlace vencido | No autenticación ni seguridad reales | V3 |
 
-### Clasificación de experiencias (32 históricas + 6 V3)
+| CAT-01 | Catálogo administrativo | Preparar categorías y conservar su historia | `/administracion/categorias` | V3-04 Under review | Alta, edición, inactivación/reactivación | Categoría y usos locales | Duplicado, inactivo, sin permiso | Catálogo + preparación administrativa | V3 |
+| GAS-01 | Gastos y ficha | Preparar/consultar gasto general u operativo con evidencia y proveedor ABT | `/administracion/gastos`, `/administracion/gastos/[expenseId]` | V3-04 Under review | Alta/edición, categorías/proveedor contextuales, filtros, relaciones | Gasto, organización, operaciones, evidencias | Sin evidencia, sin proveedor, sin coincidencias | Gastos + costos internos; no implica pago | V3 |
+| MOV-01 | Movimientos y ficha | Diferenciar ingresos, egresos, cobros, pagos y anticipos del escenario | `/administracion/movimientos`, `/administracion/movimientos/[movementId]` | V3-04 Under review | Preparar/editar referencia, filtrar, consultar relaciones | Movimiento, contraparte, integrante, operaciones | Sin evidencia, sin vincular, sin permiso | Cobranzas o tesorería según dirección | V3 |
+| REN-01 | Anticipos y rendiciones | Relacionar referencias de fondos/gastos/evidencias para revisión | `/administracion/rendiciones`, `/administracion/rendiciones/[renditionId]` | V3-04 Under review | Preparar/editar, consultar diferencia y referencias | Anticipo, gastos, devolución | Incompleta, preparada para revisión, sin permiso | Gastos/costos/tesorería; no aprobación externa | V3 |
+
+### Clasificación de experiencias (32 históricas + 10 V3)
 
 La clasificación evita contar cada sección, diálogo o capacidad como una pantalla independiente:
 
-- **Pantallas internas:** `USR-01`, `USR-02`, `TEAM-01`, `SUP-01`, `SUP-02`, `HOME-01`, `OPS-01`, `OPS-02`, `OPS-03`, `OPS-04`, `CLI-01`, `CLI-02`, `COT-01`, `COT-02`, `COT-03`, `DJV-01`, `ADM-02`, `ADM-03`, `MGT-01`, `CFG-01`.
+- **Pantallas internas:** `CAT-01`, `GAS-01`, `MOV-01`, `REN-01`, `USR-01`, `USR-02`, `TEAM-01`, `SUP-01`, `SUP-02`, `HOME-01`, `OPS-01`, `OPS-02`, `OPS-03`, `OPS-04`, `CLI-01`, `CLI-02`, `COT-01`, `COT-02`, `COT-03`, `DJV-01`, `ADM-02`, `ADM-03`, `MGT-01`, `CFG-01`.
 - **Bandejas operativas:** `WORK-01`, `ADM-01`.
 - **Secciones de detalle o workspace:** `OPS-05`, `CLI-03`, `IMP-01`, `EXP-01`, `MGT-02`.
 - **Acciones contextuales y diálogos:** `COT-04`; la resolución de excepciones se presenta dentro de `OPS-05`, sin ruta propia.
@@ -279,3 +284,7 @@ Se conservan las 32 experiencias y J1–J10; [plan V3](PLAN_IMPLEMENTACION.md#v3
 ### J11 — Personas y acceso de evaluación
 
 Configuración → Personas → alta/ficha → capacidades explícitas → equipo/responsabilidades → revisar pendientes → suspensión/baja y transferencia → acceso convencional o escenario autorizado. Conserva persona e historial; no identidad productiva, credenciales ni mensajes reales. Especificación y pruebas en [Personas V3](screens/v3-personas-acceso.md).
+
+### J12 — Preparación administrativa relacionada
+
+Cliente/proveedor ABT o categoría → alta contextual preservando borrador → gasto general/operativo → ficha → gráfico y registros explicativos → retorno; anticipo → rendición → gasto/evidencia → actualización de pendiente. Ingreso/cobro o egreso/pago local → contraparte/operaciones → consulta. No crea obligaciones desde contrapartes operativas, no ejecuta ni contabiliza fondos. Comprobantes/aplicaciones/carteras: ampliación V3-05.

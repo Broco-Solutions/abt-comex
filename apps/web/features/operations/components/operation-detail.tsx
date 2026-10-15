@@ -28,6 +28,12 @@ function safeReturnTo(
   operations: DemonstrationOperation[] = demonstrationOperations
 ) {
   if (
+    /^\/administracion\/(?:gastos|movimientos|rendiciones|comprobantes)\/[a-z0-9-]+(?:\?[^#]*)?(?:#.*)?$/.test(
+      value
+    )
+  )
+    return value
+  if (
     !/^\/(tramites\/djve|operaciones|mi-trabajo|clientes|proveedores|cotizaciones|administracion|gestion|inicio)(?:\/[a-z0-9-]+)?(\?.*)?(#.*)?$/.test(
       value
     )

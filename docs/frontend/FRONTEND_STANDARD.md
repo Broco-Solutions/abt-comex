@@ -455,3 +455,9 @@ Formularios en diálogo: el popup compartido limita altura al viewport dinámico
 ### Personas y capacidades V3
 
 Acceso convencional visual en /acceso; escenarios ficticios en entrada secundaria /acceso/escenarios, sin presentar elección de rol como seguridad. Contraseña mostrar/ocultar con nombre accesible y estado pulsado, sin almacenamiento; recuperación informa ausencia de envío/cambio efectivo. El menú de usuario conserva inducción. Las capacidades son diferentes de área/cargo y de preferencias de columnas; filtrar poblaciones antes de conteos, gráficos y drill-down. Comportamiento particular y reinicio: [Personas](screens/v3-personas-acceso.md).
+
+### Colecciones y preparación administrativa V3
+
+Búsqueda local al escribir reemplaza la URL sin crear una entrada de historial por carácter; filtros discretos y página generan navegación recuperable. Retorno explícito conserva contexto/foco; no recargar documento ni desplazar arriba al filtrar. Paginación identifica página/total y se reinicia al cambiar filtros. En móvil el buscador ocupa ancho útil; ausencia de overflow no demuestra legibilidad. Tabla amplia y lista compacta pueden compartir exactamente la misma población/página.
+
+Importes completos conservan centavos y moneda; no sumas/conversiones implícitas. Dimensiones de gráficos usan ID estable y etiqueta humana, con compatibilidad de enlaces anteriores cuando sea posible. Renombrar catálogo no cambia la denominación histórica guardada en el registro. Preparación local y referencia externa por verificar no se muestran como contabilización, pago o conexión confirmados. Contrato particular: [Administración V3](screens/10-administracion-finanzas.md#v3-04--preparación-administrativa-local).

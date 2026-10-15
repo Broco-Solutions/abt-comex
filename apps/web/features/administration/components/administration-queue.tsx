@@ -1,4 +1,8 @@
+"use client"
 import Link from "next/link"
+import { useWorkItems } from "@/features/work/state/use-work-items"
+import { useDemoOperations } from "@/features/operations/state/use-demo-operations"
+import { AdministrationNav } from "./administration-nav"
 import { ArrowRight } from "lucide-react"
 
 import { PageHeader } from "@/components/navigation/page-header"
@@ -6,7 +10,6 @@ import { Badge } from "@workspace/ui/components/badge"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { cn } from "@workspace/ui/lib/utils"
-import { demonstrationOperations } from "@/features/operations/data/operations"
 import type { AdministrationQueueStatus } from "../data/administration"
 import {
   filterAdministrationQueue,
@@ -30,6 +33,8 @@ export function AdministrationQueue({
 }: {
   searchParams: SearchParams
 }) {
+  const work = useWorkItems()
+  const { operations } = useDemoOperations()
   const query = first(searchParams.q)
   const status = statuses.includes(
     first(searchParams.estado) as (typeof statuses)[number]
@@ -42,7 +47,7 @@ export function AdministrationQueue({
     restricted || readError
       ? []
       : filterAdministrationQueue(
-          getAdministrationQueue(demonstrationOperations),
+          getAdministrationQueue(operations, work),
           query,
           status
         )
@@ -61,6 +66,7 @@ export function AdministrationQueue({
         }
       />
 
+      <AdministrationNav />
       {restricted || readError ? (
         <section
           className="max-w-3xl border-y border-border py-4"

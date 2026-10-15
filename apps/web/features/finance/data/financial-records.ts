@@ -14,6 +14,11 @@ export type FinancialRecord = {
   dueDate?: string
   openBalance?: number
   category?: string
+  categoryId?: string
+  partyId?: string
+  operationIds?: string[]
+  description?: string
+  source?: string
 }
 export const FINANCIAL_CUTOFF = DEMONSTRATION_DATE
 // URL filters are untrusted presentation input, not confirmed business dates.
@@ -119,8 +124,11 @@ export type FinancialFilters = {
   to: string
   clientId: string
 }
-export function filterFinancialRecords(filters: FinancialFilters) {
-  return financialRecords.filter(
+export function filterFinancialRecords(
+  filters: FinancialFilters,
+  records: FinancialRecord[] = financialRecords
+) {
+  return records.filter(
     (record) =>
       record.currency === filters.currency &&
       record.date >= filters.from &&
@@ -162,14 +170,21 @@ export function buckets(
         : dimension === "client"
           ? record.clientId
           : dimension === "category"
-            ? (record.category ?? "Sin categoría")
+            ? (record.categoryId ?? record.category ?? "Sin categoría")
             : receivableBand(record)
     const label =
       dimension === "client"
         ? (projectClients().find((client) => client.id === key)?.name ?? key)
-        : key
+        : dimension === "category"
+          ? (record.category ?? key)
+          : key
     const bucket = result.get(key) ?? { key, label, value: 0, ids: [] }
-    bucket.value += dimension === "due" ? record.openBalance! : record.amount
+    bucket.value =
+      (Math.round(bucket.value * 100) +
+        Math.round(
+          (dimension === "due" ? record.openBalance! : record.amount) * 100
+        )) /
+      100
     bucket.ids.push(record.id)
     result.set(key, bucket)
   }
@@ -184,5 +199,6 @@ export const money = (value: number, currency: Currency) =>
     style: "currency",
     currency,
     currencyDisplay: "code",
-    maximumFractionDigits: 0,
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
   }).format(value)

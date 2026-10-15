@@ -19,7 +19,7 @@ export function PeopleList() {
     const next = new URLSearchParams(params.toString())
     if (value) next.set(key, value)
     else next.delete(key)
-    window.history.pushState(
+    window.history[key === "q" ? "replaceState" : "pushState"](
       null,
       "",
       "/configuracion/personas" + (next.size ? "?" + next.toString() : "")

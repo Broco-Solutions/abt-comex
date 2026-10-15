@@ -1,10 +1,11 @@
 import Link from "next/link"
+import { AdministrationNav } from "./administration-nav"
 import { FinancialDashboard } from "@/features/finance/components/financial-dashboard"
 
 import { PageHeader } from "@/components/navigation/page-header"
 import { buttonVariants } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
-import { visibleWorkItems } from "@/features/work/data/work-items"
+import { RenditionWorkContext } from "./rendition-work-context"
 
 export function FinanceOverview({
   workId,
@@ -13,7 +14,6 @@ export function FinanceOverview({
   workId: string
   searchParams?: Record<string, string | string[] | undefined>
 }) {
-  const task = visibleWorkItems().find((item) => item.id === workId)
   return (
     <div className="space-y-6">
       <PageHeader
@@ -27,21 +27,8 @@ export function FinanceOverview({
           </Link>
         }
       />
-      {workId ? (
-        <section className="border-y border-border py-4" aria-live="polite">
-          <h2 className="font-medium">
-            {task ? task.reference : "Tarea no disponible"}
-          </h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {task
-              ? `${task.title} · ${task.reason}`
-              : "No hay información autorizada para esta referencia."}
-          </p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Sin operación vinculada y sin importes en el escenario sintético.
-          </p>
-        </section>
-      ) : null}
+      <AdministrationNav />
+      {workId ? <RenditionWorkContext workId={workId} /> : null}
       <FinancialDashboard searchParams={searchParams} />
       <details>
         <summary className="cursor-pointer text-sm font-medium focus-visible:outline-2 focus-visible:outline-ring">

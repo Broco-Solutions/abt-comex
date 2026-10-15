@@ -1,5 +1,9 @@
 "use client"
 import { useRouter } from "next/navigation"
+import {
+  initialAdministrativeLedger,
+  saveAdministrativeLedger,
+} from "@/features/administration/data/administrative-ledger"
 import { hasCapability } from "../data/capabilities"
 import {
   initialPeople,
@@ -140,6 +144,7 @@ export function ScenarioProvider({ children }: { children: React.ReactNode }) {
     )
   }
   function resetData() {
+    saveAdministrativeLedger(initialAdministrativeLedger)
     saveOrganizations(initialOrganizations)
     saveDemoOperations(demonstrationOperations)
     saveDemoQuotes(initialDemoQuotes)

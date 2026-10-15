@@ -3,6 +3,7 @@
 import { formatRecordedDate } from "@workspace/ui/lib/date"
 
 import Link from "next/link"
+import { AdministrativeRelationships } from "@/features/administration/components/administrative-relationships"
 import { useScenario } from "@/features/demo/state/scenario-provider"
 import { useOrganizations } from "@/features/organizations/state/use-organizations"
 import { OrganizationIdentity } from "@/features/organizations/components/organization-detail"
@@ -22,6 +23,12 @@ function first(value: string | string[] | undefined) {
 }
 
 function safeReturnTo(value: string, operations: DemonstrationOperation[]) {
+  if (
+    /^\/administracion\/(?:gastos|movimientos|rendiciones|comprobantes)\/[a-z0-9-]+(?:\?[^#]*)?(?:#.*)?$/.test(
+      value
+    )
+  )
+    return value
   if (
     /^\/gestion(?:\?[^#]*)?(#.*)?$/.test(value) ||
     /^\/clientes(\?.*)?(#.*)?$/.test(value) ||
@@ -171,6 +178,7 @@ export function ClientDetail({
         )}
       </section>
 
+      <AdministrativeRelationships partyId={clientId} />
       {scenario.commercial ? (
         <section
           aria-labelledby="client-quotes-title"
