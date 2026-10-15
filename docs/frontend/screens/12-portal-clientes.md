@@ -22,7 +22,7 @@ Application Shell interno.
 Este corte incluye una entrada demostrativa, una única identidad de ejemplo
 (`Cliente Demo Centro`), una lista de operaciones relacionadas, un detalle
 externo limitado, situaciones del fixture, estados de documentación, ayuda y
-un aviso visible de que no se envían notificaciones. No implementa identidad,
+una identificación global discreta de evaluación. No implementa identidad,
 sesión segura, invitaciones, revocaciones, descargas/cargas, mensajería,
 notificaciones reales ni auditoría productiva.
 
@@ -32,7 +32,7 @@ notificaciones reales ni auditoría productiva.
 | ------------------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ----------------------- |
 | POR-001             | L1 §4.9; mapa POR-01. Requisito documentado; perfiles y visibilidad fina pendientes de ABT. | Acceso externo a Cliente/Operaciones autorizados     | Una identidad ficticia permitida por lista; no es autenticación ni decisión real de permisos.                       | POR-01; J8              |
 | POR-002             | L1 §4.9; mapa POR-02.                                                                       | Inicio, operaciones, hitos, pendientes, ayuda/avisos | Reutilizar relaciones estables del fixture; mostrar estado y fecha del registro, no tareas/notas internas.          | POR-02; J8, J10         |
-| POR-003             | L1 §4.9; mapa POR-03.                                                                       | Detalle externo, documentos compartidos y pendientes | Proyectar sólo campos explícitos; no existen documentos compartidos en este fixture. No inferir aprobación externa. | POR-03; J8, J10         |
+| POR-003             | L1 §4.9; mapa POR-03.                                                                       | Detalle externo, documentos compartidos y pendientes | Proyectar sólo campos y referencias de copias sintéticas explícitamente compartidas; no inferir aprobación externa. | POR-03; J8, J10         |
 
 La matriz conserva la autoridad sobre evidencia, certeza y validación. El
 alcance §4.9 mantiene honorarios, costos, cobranzas internas, comentarios y
@@ -51,10 +51,8 @@ o implementación mock acredita aprobación formal de ABT.
 - Las capacidades demostrativas permiten listar operaciones relacionadas y
   abrir su detalle externo. No permiten editar, aprobar, cargar, descargar,
   responder ni enviar mensajes.
-- El caso con estado `Pendiente documental` sólo comunica esa situación del
-  fixture. No inventa un documento solicitado ni expone instrucciones internas.
-- No hay documentos externos compartidos en los fixtures actuales. Se muestra
-  un empty state explícito; carga/descarga queda fuera de este corte.
+- Los pendientes documentales provienen de requisitos sintéticos explícitos, sin inferir un checklist universal ni una comunicación enviada al cliente.
+- UX-06 incorpora referencias de copias/requisitos compartidos del escenario. Se filtran por cliente y visibilidad antes de formar campos o conteos; originales/custodia quedan fuera de la proyección externa. No hay archivos reales ni carga/descarga.
 - La fecha y fuente local se identifican como datos sintéticos sin conexión.
   No se fabrican hitos históricos ni notificaciones entregadas.
 
@@ -102,15 +100,14 @@ y validación de visibilidad, auditoría y documentos.
 
 - POR-01: el selector sólo anuncia escenario ficticio y no pide credenciales.
 - POR-02: lista operaciones del cliente demo y no revela filas del resto de
-  clientes; muestra fuente/frescura y aviso de mensajes no enviados.
+  clientes; muestra fuente/frescura y no ofrece acciones de envío inexistentes.
 - POR-03: detalle sólo se abre cuando la relación con la identidad coincide;
   referencias ajenas/desconocidas son indistinguibles y no filtran campos.
 - No se muestran honorarios, gastos, cobranzas, costos, alertas, responsables,
   notas internas, actividades ni `nextAction`.
 - En 390, 768, 1024 y 1440 px no hay overflow horizontal global; links y
   navegación funcionan con teclado/foco visible.
-- Empty state documental no contiene acciones inertes y explica que no hay
-  documentos compartidos en el escenario.
+- Las referencias de copia abren un diálogo de metadatos de evaluación, con cierre/foco; no se presenta un archivo inexistente como PDF descargable. El vacío no contiene acciones inertes.
 
 ## Decisiones pendientes de ABT
 
@@ -129,3 +126,9 @@ responsive/teclado. Revisión técnica/documental por Codex; validación visual 
 funcional humana permanece pendiente.
 
 UX-03: /acceso ofrece entrada a Cliente externo → Portal con Shell propio. Indicador global discreto en footer. No incorpora contraseñas ni mezcla navegación interna con externa; el cliente sintético conserva su proyección autorizada.
+
+## UX-06 — continuidad externa
+
+Requiere selección del escenario externo para presentar datos. La entrada general conserva el cliente permitido; /portal sin parámetro usa esa identidad sintética, nunca una identidad arbitraria. /portal/acceso conserva su entrada compatible. Cambiar escenario y Salir retornan a /acceso; salida reinicia los cambios locales con confirmación sólo si existen, sin borrar inducción.
+
+Dos operaciones propias y sólo referencias documentales explícitamente compartidas, filtradas antes de renderizar. No recibe originales/custodia, datos financieros, responsables ni acciones internas. La referencia de copia abre metadatos, no un archivo real; no hay subida/descarga ni hitos aduaneros inventados.

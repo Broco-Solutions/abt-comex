@@ -24,7 +24,7 @@ test("@smoke Direction charts drill into identical records and keep period and c
   await expect(records).toContainText("FAC-EVAL-3107")
   await expect(records).not.toContainText("USD")
   await records.getByRole("link", { name: "Abrir operación" }).first().click()
-  await page.getByRole("link", { name: "Volver a resultados" }).click()
+  await page.getByRole("link", { name: "Volver al análisis" }).click()
   await expect(page).toHaveURL(/serie=invoice.*grupo=2026-10/)
   await page.getByRole("link", { name: "Volver al análisis" }).click()
   await expect(page).toHaveURL(/desde=2026-10-01.*moneda=ARS$/)

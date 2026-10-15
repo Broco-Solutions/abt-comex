@@ -98,9 +98,7 @@ a una auditoría manual WCAG 2.2 AA.
 
 Los fixtures `OP-DEM-*`, `DJVE-DEM-*` y `PE-DEM-*` son datos sintéticos
 determinísticos. Incluyen Exportación facturada pero activa, un permiso sin
-DJVE, una DJVE autónoma y una DJVE enlazada a más de un permiso. La única
-interacción que cambia estado es el doble control local en la sesión del
-navegador. No hay persistencia productiva, archivos, eventos externos ni reglas
+DJVE, una DJVE autónoma y una DJVE enlazada a más de un permiso. Las interacciones locales son el doble control y la recepción de referencias de copia, sin cambios a originales o eventos externos. No hay persistencia productiva, archivos, eventos externos ni reglas
 de cantidad. Fuente visible: fixture local; Alpha2000/MARÍA y ARCA/MOA no
 conectadas.
 
@@ -141,3 +139,9 @@ DJVE→Exportación; error/ausencia externos; viewports responsive y axe.
 ## UX-01 — relaciones
 
 PE-DEM-1404 referencia DJVE-DEM-2026-02. Los permisos son la autoridad relacional del fixture; DJVE deriva sus IDs de esa relación. PE-DEM-1403 conserva ausencia de DJVE. Sin tolerancias ni transiciones nuevas. Regresión bidireccional en work-projection.test.ts.
+
+## UX-06 — documentación y colecciones relacionadas
+
+Requisitos/copias se comparten con ficha y Portal cuando están expresamente habilitados; legajo aduanero y originales al exterior siguen separados. La recepción de copia no cambia custodia física, doble control, permiso, cumplido, factura ni cierre. Referencias de copias se consultan en diálogo de metadatos, no archivos aduaneros ficticiamente emitidos.
+
+DJVE mantiene lista compacta, búsqueda/página/retorno en URL y diez registros por página; orden del fixture estable. Permisos relacionados permanecen contextualizados, sin sumar una tabla general innecesaria. Pruebas de diseño con 2/20/100 registros sintéticos, no volúmenes de ABT; documentación usa búsqueda y revelado progresivo para colecciones extensas, sin tabla paralela.

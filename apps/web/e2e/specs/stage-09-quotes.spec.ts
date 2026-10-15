@@ -35,7 +35,7 @@ test("@smoke quote workflow keeps approval, sending, and customer response separ
 
   await page.getByRole("link", { name: "Crear versión" }).click()
   await page
-    .getByLabel("Servicio (propuesto)")
+    .getByLabel("Servicio", { exact: true })
     .fill("Servicio ajustado de demostración")
   await page
     .getByRole("button", { name: "Guardar nueva versión local" })
@@ -44,6 +44,7 @@ test("@smoke quote workflow keeps approval, sending, and customer response separ
   await expect(
     page.getByRole("heading", { name: "Versión 2 · líneas y cálculo" })
   ).toBeVisible()
+  await page.getByRole("heading", { name: "Historial de versiones" }).click()
   await expect(page.getByText("Versión 1").first()).toBeVisible()
   await expect(
     page.getByText(

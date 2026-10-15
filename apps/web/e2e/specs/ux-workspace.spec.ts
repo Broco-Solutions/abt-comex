@@ -18,7 +18,7 @@ test("@smoke contextual Inicio and direct work navigation preserve task context"
   await expect(
     page.getByRole("heading", { name: "OP-DEM-2048", exact: true })
   ).toBeVisible()
-  await page.getByRole("link", { name: "Volver a resultados" }).click()
+  await page.getByRole("link", { name: "Volver a Mi trabajo" }).click()
   await expect(page).toHaveURL(/q=control.*vista=controls.*trabajo=/)
 })
 

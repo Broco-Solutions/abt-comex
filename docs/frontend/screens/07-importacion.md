@@ -104,3 +104,7 @@ confidencialidad económica.
   checks `quality` y `e2e-smoke` verdes; deployment de producción
   `dpl_B4cuKdScKTggMHQq92BxrP2X6Za8` READY y ruta de Importación HTTP 200.
   Revisión funcional/visual integral y validación ABT: pendientes.
+
+## UX-06 — documentos y jerarquía
+
+Control antes del seguimiento secundario; requisitos/copias compartidos con la ficha. Los ejemplos documentales son específicos del escenario, no requisitos universales por cliente/régimen ni evidencia de archivo real. Registrar copia local no valida original, completa control ni produce oficialización/pase. Fuente aduanera no conectada visible; detalles de procedencia bajo demanda. Las respuestas guiadas leen la misma recepción local.

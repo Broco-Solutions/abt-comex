@@ -27,7 +27,6 @@ test("@smoke direct operation creation is guided, reversible, and appears in its
   await expect(
     page.getByText("No hay requisitos automáticos configurados")
   ).toBeVisible()
-  await page.getByRole("button", { name: /Continuar/ }).click()
   await expect(page.getByText("Alta directa")).toBeVisible()
   await expect(
     page.getByText("Contexto ficticio ingresado durante la demo")
@@ -80,7 +79,6 @@ test("@smoke accepted quote opens the guided creation with source version preser
   await page
     .getByLabel("Equipo responsable de referencia")
     .selectOption("Equipo Expo A")
-  await page.getByRole("button", { name: /Continuar/ }).click()
   await page.getByRole("button", { name: /Continuar/ }).click()
   await expect(
     page.getByText(/COT-DEM-003 · versión 1 \(aceptación simulada\)/)

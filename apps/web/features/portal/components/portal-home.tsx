@@ -34,28 +34,10 @@ export function PortalHome({
   return (
     <div className="space-y-8">
       <header className="space-y-2">
-        <p className="text-sm font-medium text-primary">Vista de cliente</p>
         <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
           Hola, {context.client.name}
         </h1>
-        <p className="max-w-2xl text-sm text-muted-foreground">
-          Consultá las operaciones incluidas en este escenario. La visibilidad y
-          la identidad son simuladas; no representan una cuenta real.
-        </p>
       </header>
-
-      <section
-        aria-label="Procedencia de la información"
-        className="flex flex-wrap items-center justify-between gap-2 border-y border-border py-3"
-      >
-        <p className="text-sm">
-          <span className="font-medium">Escenario ficticio</span> · datos
-          locales sin conexión externa.
-        </p>
-        <p className="text-xs text-muted-foreground">
-          Fixture actualizado: 14/10/2026
-        </p>
-      </section>
 
       {pending.length > 0 ? (
         <section aria-labelledby="portal-pending-title" className="space-y-3">
@@ -63,10 +45,6 @@ export function PortalHome({
             <h2 id="portal-pending-title" className="text-lg font-semibold">
               Situaciones documentales
             </h2>
-            <p className="text-sm text-muted-foreground">
-              El fixture señala documentación pendiente; no incluye el detalle
-              del requerimiento ni una notificación enviada.
-            </p>
           </div>
           <ul className="divide-y divide-border border-y border-border">
             {pending.map((operation) => (

@@ -10,7 +10,11 @@ test("@smoke importation keeps the customs source explicit and gates the local d
     page.getByRole("heading", { name: "Importación · OP-DEM-2048" })
   ).toBeVisible()
   await expect(page.getByText(/Alpha2000 \/ MARÍA/).first()).toBeVisible()
-  await expect(page.getByText(/No conectada/).last()).toBeVisible()
+  await expect(
+    page
+      .getByRole("region", { name: "Contexto de la operación" })
+      .getByText("No conectada", { exact: true })
+  ).toBeVisible()
   await expect(
     page.getByText(/no hay un checklist universal configurado/i)
   ).toBeVisible()
@@ -53,7 +57,7 @@ test("@smoke importation keeps the customs source explicit and gates the local d
   )
   await page.getByRole("link", { name: "Volver a la operación" }).click()
   await expect(page).toHaveURL(/\/operaciones\/op-demo-2048\?returnTo=/)
-  await page.getByRole("link", { name: "Volver a resultados" }).click()
+  await page.getByRole("link", { name: "Volver a Mi trabajo" }).click()
   await expect(page).toHaveURL(/mi-trabajo/)
 })
 

@@ -5,6 +5,7 @@ export type ScenarioId =
   | "administration"
   | "direction"
   | "client"
+export const DEMONSTRATION_DATE = "2026-10-14"
 export const scenarios = [
   {
     id: "import",
@@ -65,6 +66,11 @@ export function getScenario(id: string): Scenario {
 export function canVisit(scenario: Scenario, pathname: string) {
   if (pathname.startsWith("/portal")) return scenario.id === "client"
   if (scenario.id === "client") return false
+  if (
+    pathname.startsWith("/tramites/djve") &&
+    scenarioKind(scenario) === "Importación"
+  )
+    return false
   if (pathname.startsWith("/cotizaciones")) return scenario.commercial
   if (pathname.startsWith("/administracion")) return scenario.financial
   if (pathname.startsWith("/gestion")) return scenario.executive

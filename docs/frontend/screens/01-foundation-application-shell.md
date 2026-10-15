@@ -203,3 +203,7 @@ Entrada /acceso fuera del Shell; seis perspectivas ficticias para evaluación, s
 Las capacidades de cada preset se definen en features/demo/data/scenarios.ts como decisión UX interna reversible. Operadores/responsable no acceden a Cotizaciones, Finanzas o Dirección; Administración no recibe capacidad comercial. Portal usa Shell y proyección propios. Son filtros de presentación, no seguridad productiva. Identificación global discreta y explicaciones específicas sólo cuando importan para acción, bloqueo o fuente.
 
 Pruebas: ux-access.spec.ts, escenarios unitarios, suite de Shell/inducción y axe. Estado UX Under review hasta revisión humana integral.
+
+## UX-06 — preferencias y limpieza transversal
+
+Configuración presenta únicamente preferencias de navegación ya existentes (ampliada/compacta/restablecer) con efecto observable en este navegador. Los parámetros de negocio por cliente, regímenes y permisos siguen pendientes y no se simulan. La indicación global de evaluación también existe en móvil; no se multiplica en bloques. La inducción mantiene IDs/progreso y usa lenguaje vigente. No modifica marca ni rutas aprobadas.

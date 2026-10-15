@@ -43,9 +43,7 @@ equivale a aprobación formal de ABT. Los equipos y registros son sintéticos.
    confunde con instrucción aprobada ni crea tarea.
 4. Equipo responsable requerido. Las etiquetas existentes no son usuarios ni
    roles de acceso.
-5. Requisitos: informa que no hay reglas configuradas; la ausencia no se
-   presenta como cumplimiento ni se bloquea usando reglas inventadas.
-6. Revisión y creación local. El registro se refleja en Operaciones, detalle y
+5. Revisión, requisitos y creación local. La ausencia de reglas configuradas se informa en la revisión, sin un paso pasivo adicional; no representa cumplimiento ni introduce bloqueos inventados. El registro se refleja en Operaciones, detalle y
    relaciones del Cliente, y conserva el origen.
 
 La cardinalidad de cotizaciones se mantiene abierta: no se impide abrir más de
@@ -87,3 +85,7 @@ cotización respondieron HTTP 200. Gate local: lint, typecheck, build, 64
 unitarias, 17 axe, 25 E2E smoke Chromium, validador documental y
 `git diff --check`; capturas revisadas a 1440×1000 y 390×844. Revisión
 funcional/visual integral pendiente.
+
+## UX-06 — refinamiento
+
+Cinco pasos comunes; las perspectivas sin capacidad comercial comienzan en Cliente/tipo y mantienen alta directa, sin una elección comercial inservible. El tipo contextual no habilita otro dominio por accidente. La revisión incorpora el límite de requisitos no configurados; no se pierde un control de negocio. Los campos se conservan al retroceder; validación propia enlaza error, aria-invalid y foco al campo.

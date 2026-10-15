@@ -154,7 +154,7 @@ export function DjveDetail({
                   afectado {permit.affectedQuantity} {permit.quantityUnit}
                 </p>
                 <Link
-                  href={`/operaciones/${permit.operationId}/exportacion?returnTo=${encodeURIComponent(`/tramites/djve/${djve.id}`)}`}
+                  href={`/operaciones/${permit.operationId}/exportacion?returnTo=${encodeURIComponent(`/tramites/djve/${djve.id}?returnTo=${encodeURIComponent(backTo)}`)}`}
                   className="min-h-9 text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
                 >
                   Abrir Exportación vinculada

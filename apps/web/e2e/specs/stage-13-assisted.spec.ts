@@ -7,7 +7,7 @@ test("@smoke guided operation queries cite their source and abstain on missing f
   await expect(
     page.getByRole("heading", { name: "Consultas guiadas" })
   ).toBeVisible()
-  await expect(page.getByText(/Demostración · sin IA/)).toBeVisible()
+  await expect(page.getByText(/Sin IA/)).toBeVisible()
 
   for (const width of [1440, 1280, 1024, 768, 390]) {
     await page.setViewportSize({ width, height: 844 })
@@ -26,13 +26,15 @@ test("@smoke guided operation queries cite their source and abstain on missing f
   await expect(documentsQuestion).toBeFocused()
   await page.keyboard.press("Enter")
   await expect(
-    page.getByText(/no identifica qué documento falta/i)
+    page
+      .getByRole("status")
+      .getByText("Documento de transporte", { exact: true })
   ).toBeVisible()
   await expect(
-    page.getByText(/se abstiene de inferir documentos/i)
+    page.getByText(/No valida el documento ni infiere requisitos adicionales/i)
   ).toBeVisible()
   await expect(
-    page.getByText(/Situación de la operación en el fixture/)
+    page.getByText(/Requisitos documentales locales de esta operación/)
   ).toBeVisible()
 
   await page

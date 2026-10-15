@@ -32,13 +32,23 @@ function emptyLine(key: string): DraftLine {
   return { key, description: "", quantity: "1", unitPrice: "" }
 }
 
-export function QuoteEditor({ quoteId }: { quoteId?: string }) {
+export function QuoteEditor({
+  quoteId,
+  initialClientId = "",
+}: {
+  quoteId?: string
+  initialClientId?: string
+}) {
   const router = useRouter()
   const { quotes, ready, updateQuotes } = useDemoQuotes()
   const quote = quoteId ? quotes.find((item) => item.id === quoteId) : undefined
   const currentVersion = quote ? getCurrentQuoteVersion(quote) : undefined
   const [loaded, setLoaded] = useState(false)
-  const [clientId, setClientId] = useState(demonstrationClients[0]?.id ?? "")
+  const [clientId, setClientId] = useState(
+    demonstrationClients.some((client) => client.id === initialClientId)
+      ? initialClientId
+      : ""
+  )
   const [service, setService] = useState("")
   const [context, setContext] = useState("")
   const [currency, setCurrency] = useState<QuoteCurrency>("ARS")
@@ -75,6 +85,7 @@ export function QuoteEditor({ quoteId }: { quoteId?: string }) {
     const unitPrice = Number(line.unitPrice)
     if (
       !line.description.trim() ||
+      !line.unitPrice.trim() ||
       !Number.isSafeInteger(quantity) ||
       quantity < 1 ||
       !Number.isSafeInteger(unitPrice) ||
@@ -151,6 +162,23 @@ export function QuoteEditor({ quoteId }: { quoteId?: string }) {
       setSaveError(
         "Completá cliente, servicio, descripción, cantidades enteras y precios válidos. No se guardó ningún cambio."
       )
+      const invalid = !clientId
+        ? "quote-editor-client"
+        : !service.trim()
+          ? "quote-editor-service"
+          : lines.flatMap((line) =>
+              !line.description.trim()
+                ? [line.key + "-description"]
+                : !Number.isSafeInteger(Number(line.quantity)) ||
+                    Number(line.quantity) < 1
+                  ? [line.key + "-quantity"]
+                  : !line.unitPrice.trim() ||
+                      !Number.isSafeInteger(Number(line.unitPrice)) ||
+                      Number(line.unitPrice) < 0
+                    ? [line.key + "-unit-price"]
+                    : []
+            )[0]
+      if (invalid) document.getElementById(invalid)?.focus()
       return
     }
 
@@ -225,12 +253,15 @@ export function QuoteEditor({ quoteId }: { quoteId?: string }) {
             </label>
             <select
               id="quote-editor-client"
+              aria-invalid={Boolean(saveError && !clientId)}
+              aria-describedby={saveError ? "quote-editor-error" : undefined}
               value={clientId}
               onChange={(event) => setClientId(event.target.value)}
               required
               disabled={Boolean(quote)}
               className="h-9 w-full rounded-md border border-input bg-background px-2.5 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:bg-muted"
             >
+              <option value="">Seleccionar cliente</option>
               {demonstrationClients.map((client) => (
                 <option key={client.id} value={client.id}>
                   {client.name}
@@ -243,10 +274,12 @@ export function QuoteEditor({ quoteId }: { quoteId?: string }) {
               htmlFor="quote-editor-service"
               className="mb-1 block text-xs font-medium"
             >
-              Servicio (propuesto)
+              Servicio
             </label>
             <Input
               id="quote-editor-service"
+              aria-invalid={Boolean(saveError && !service.trim())}
+              aria-describedby={saveError ? "quote-editor-error" : undefined}
               value={service}
               onChange={(event) => setService(event.target.value)}
               required
@@ -317,6 +350,12 @@ export function QuoteEditor({ quoteId }: { quoteId?: string }) {
                   </label>
                   <Input
                     id={`${line.key}-description`}
+                    aria-invalid={Boolean(
+                      saveError && !line.description.trim()
+                    )}
+                    aria-describedby={
+                      saveError ? "quote-editor-error" : undefined
+                    }
                     value={line.description}
                     onChange={(event) =>
                       updateLine(line.key, "description", event.target.value)
@@ -334,6 +373,14 @@ export function QuoteEditor({ quoteId }: { quoteId?: string }) {
                   </label>
                   <Input
                     id={`${line.key}-quantity`}
+                    aria-invalid={Boolean(
+                      saveError &&
+                      (!Number.isSafeInteger(Number(line.quantity)) ||
+                        Number(line.quantity) < 1)
+                    )}
+                    aria-describedby={
+                      saveError ? "quote-editor-error" : undefined
+                    }
                     type="number"
                     min="1"
                     step="1"
@@ -350,10 +397,19 @@ export function QuoteEditor({ quoteId }: { quoteId?: string }) {
                     htmlFor={`${line.key}-unit-price`}
                     className="mb-1 block text-xs font-medium"
                   >
-                    Precio unitario ficticio ({currency})
+                    Precio unitario ({currency})
                   </label>
                   <Input
                     id={`${line.key}-unit-price`}
+                    aria-invalid={Boolean(
+                      saveError &&
+                      (!line.unitPrice.trim() ||
+                        !Number.isSafeInteger(Number(line.unitPrice)) ||
+                        Number(line.unitPrice) < 0)
+                    )}
+                    aria-describedby={
+                      saveError ? "quote-editor-error" : undefined
+                    }
                     type="number"
                     min="0"
                     step="1"
@@ -417,7 +473,11 @@ export function QuoteEditor({ quoteId }: { quoteId?: string }) {
         </section>
 
         {saveError ? (
-          <p role="alert" className="text-sm text-destructive">
+          <p
+            id="quote-editor-error"
+            role="alert"
+            className="text-sm text-destructive"
+          >
             {saveError}
           </p>
         ) : null}

@@ -60,3 +60,5 @@ Autoridad de registros: features/finance/data/financial-records.ts, con clientes
 | G4 | Mismas facturas de G1 por cliente, sin segundo dataset | Barra o enlace abre esos comprobantes |
 
 Filtros URL: desde/hasta (fecha del evento), moneda y cliente; drill-down agrega serie/dimensión/grupo. Retorno conserva filtros. Gráficos Recharts y ChartContainer existentes, tooltip con unidad/moneda, valores/enlaces disponibles sin hover, estado vacío/error/sin permiso. No se suman monedas, no se calcula rentabilidad ni se interpreta facturación menos cobranzas como deuda. Pruebas: financial-records.test.ts y ux-analytics.spec.ts.
+
+UX-06 añade accesos a facturas, cobros y gastos del período autorizado, derivados de los mismos registros/filtros analíticos; no exige acceso a Dirección para explorar registros administrativos. No hay emisión/pago ni asignación artificial de importes a la rendición sin operación.

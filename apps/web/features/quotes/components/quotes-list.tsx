@@ -45,7 +45,11 @@ export function QuotesList({
         title="Cotizaciones"
         primaryAction={
           <Link
-            href="/cotizaciones/nueva"
+            href={
+              state.clientId
+                ? `/cotizaciones/nueva?cliente=${encodeURIComponent(state.clientId)}`
+                : "/cotizaciones/nueva"
+            }
             className={cn(buttonVariants({ size: "sm" }))}
           >
             Nueva cotización
@@ -58,6 +62,7 @@ export function QuotesList({
         className="max-w-6xl"
       >
         <form
+          key={JSON.stringify(state)}
           action="/cotizaciones"
           method="get"
           className="grid gap-3 border-b border-border pb-4 sm:grid-cols-2 lg:grid-cols-[minmax(10rem,1fr)_minmax(9rem,12rem)_minmax(9rem,12rem)_auto] lg:items-end"

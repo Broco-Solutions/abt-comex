@@ -754,8 +754,8 @@ Autorización interna del responsable (14/10/2026): siete bloques frontend por P
 | UX-02 | Listados selectivos, DataTable y responsive; UX-01 | Under review — PR #21 integrado |
 | UX-03 | Acceso y escenarios, ayuda secundaria; UX-02 | Under review — PR #22 integrado |
 | UX-04 | Inicio contextual y preparación Dirección; UX-03 | Under review — PR #23 integrado |
-| UX-05 | G1–G5 y registros; completa Dirección junto a UX-04 | Under review |
-| UX-06 | Fichas, procesos, documentos, Portal y limpieza transversal | Pendiente |
+| UX-05 | G1–G5 y registros; completa Dirección junto a UX-04 | Under review — PR #24 integrado |
+| UX-06 | Fichas, procesos, documentos, Portal y limpieza transversal | Under review — validación técnica en curso |
 | UX-07 | Regresión 32 experiencias/J1–J10, capacidades y responsive | Pendiente |
 
 Gates por bloque: lint, tipos, pruebas proporcionales, build, E2E, inspección visual, validador y diff; CI verde antes de squash, contenido comprobado en main y deployment existente. Comandos en [estrategia de pruebas](TEST_STRATEGY.md).
@@ -774,16 +774,16 @@ Gates por bloque: lint, tipos, pruebas proporcionales, build, E2E, inspección v
 | V08 | Filtros rápidos poco reconocibles | UX-01/02 | Corregido técnicamente; revisión pendiente |
 | V09 | Agrupación pierde orden | UX-01/02 | Corregido técnicamente; revisión pendiente |
 | V10 | Retornos inconsistentes | UX-01/04 | Corregido técnicamente; revisión pendiente |
-| V11 | Fichas demasiado extensas | UX-04/06 | Pendiente |
-| V12 | Pasos y errores de formularios | UX-06 | Pendiente |
+| V11 | Fichas demasiado extensas | UX-04/06 | Jerarquía y secciones secundarias refinadas; revisión pendiente |
+| V12 | Pasos y errores de formularios | UX-06 | Requisitos en revisión y errores asociados/foco; revisión pendiente |
 | V13 | Fechas y referencias inconsistentes | UX-01/02 | Corregido técnicamente; revisión pendiente |
 | V14 | Iconografía ambigua | UX-01 | Corregido técnicamente; revisión pendiente |
-| V15 | Ayuda y textos reiterativos | UX-03/06 | Header y descripciones resueltos; limpieza particular en UX-06 |
+| V15 | Ayuda y textos reiterativos | UX-03/06 | Header, descripciones y avisos redundantes retirados; avisos sensibles conservados |
 | V16 | Ausencia de analítica financiera | UX-05 | G1–G4 implementados; revisión pendiente |
 | V17 | Inicio poco contextual | UX-04/05 | Acciones, vencimientos y G5 implementados; revisión pendiente |
 | V18 | Gestión sin propósito diferencial | UX-04/05 | Dirección con G1/G4 y registros; revisión pendiente |
 | V19 | Evaluación por capacidades | UX-03 | Implementada; Under review |
-| V20 | Documentación/Portal limitados | UX-06 | Pendiente |
+| V20 | Documentación/Portal limitados | UX-06 | Requisitos/copias compartidos; consulta de referencias, no archivos reales |
 | V21 | Semántica riesgosa en gráficos DS | UX-05 | Ejemplos limitados a cantidades; sin suma de monedas |
 
 ### Evidencia UX-01
@@ -813,3 +813,15 @@ G1/G4 diferencian Dirección en /gestion; G2/G3 en Finanzas; G5 en Inicio. Regis
 DS conserva Recharts/ChartContainer y limita sus ejemplos a cantidades; elimina el selector monetario global que sólo afectaba un gráfico y sumaba monedas. Capturas desktop/móvil inspeccionadas, animación innecesaria retirada. Unitarias de integridad/agregaciones, axe y E2E de gráfico→registros→operación→retorno y mobile. Estado Under review, sin validación financiera ABT.
 
 La regresión del escenario externo corrige su colección de operaciones: sólo registros del cliente permitido, no una colección vacía. Se comprueban presencia de registro propio y ausencia de referencias ajenas; no constituye autenticación real.
+
+UX-05 integrado por PR #24 en main a70ebfa; quality/e2e-smoke/Vercel verdes, producción dpl_8NJWV18A5Po8JCVTXkCfiXuTaYmS READY. La regresión incluyó las operaciones propias del escenario externo y ausencia de referencias ajenas.
+
+### Evidencia UX-06
+
+Documentos: modelo local compartido por ficha, workspaces, consultas y proyección externa. Registrar referencia de copia produce feedback y actualiza consumidores, sin completar original/control/cierre. Cliente recibe sólo campos compartidos; salida/cambio reinicia temporales y conserva inducción. Diálogo de metadatos, no visualizador de archivos reales.
+
+Fichas priorizan identidad/acción/control; fuentes e historial bajo demanda, Chevron consistente. Cotización consulta versión exacta e impide mutar su secuencia histórica; formulario no convierte precio vacío en cero y conserva cliente de contexto explícito. Alta consolida requisitos en revisión, conserva datos y asocia errores/foco; perspectiva operativa no ofrece una elección comercial inservible.
+
+DJVE: lista compacta con búsqueda/página/retorno URL, validada con colecciones de diseño 2/20/100; no son volúmenes de ABT. Documentos usa búsqueda y revelado progresivo, no DataTable indiscriminado. Se conserva retorno DJVE→Exportación→DJVE→lista filtrada. Se retiran botones de edición sin función; Configuración sólo ofrece preferencias reales del navegador y declara parámetros de negocio pendientes.
+
+Pruebas nuevas: documentos (integridad/proyección/volumen/axe/foco), DJVE volumen, ux-processes.spec.ts (recepción, controles, versiones, formularios, Portal y retorno). Se preservan dobles controles y separación facturada/cobrada/cumplida/cerrada; no hay transiciones nuevas ni reglas regulatorias. Capturas locales de ficha, Importación móvil e histórico de Cotización inspeccionadas; revisión humana integral pendiente.

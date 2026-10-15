@@ -3,10 +3,11 @@
 import { formatRecordedDate } from "@workspace/ui/lib/date"
 
 import Link from "next/link"
+import { useScenario } from "@/features/demo/state/scenario-provider"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
 import { PageHeader } from "@/components/navigation/page-header"
-import { Button, buttonVariants } from "@workspace/ui/components/button"
+import { buttonVariants } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
 
 import type { DemonstrationOperation } from "@/features/operations/types/operation"
@@ -46,6 +47,7 @@ export function ClientDetail({
   searchParams: Record<string, string | string[] | undefined>
 }) {
   const { operations: allOperations, ready } = useDemoOperations()
+  const { scenario } = useScenario()
   const client = demonstrationClients.find((item) => item.id === clientId)
   if (!ready)
     return (
@@ -138,7 +140,7 @@ export function ClientDetail({
           </ul>
         ) : (
           <p role="status" className="py-4 text-sm text-muted-foreground">
-            Este caso no tiene contactos cargados en el fixture.
+            Sin contactos registrados.
           </p>
         )}
       </section>
@@ -193,33 +195,30 @@ export function ClientDetail({
           </ul>
         ) : (
           <p role="status" className="py-4 text-sm text-muted-foreground">
-            No hay operaciones relacionadas en este fixture.
+            Sin operaciones relacionadas en esta vista.
           </p>
         )}
       </section>
 
-      <section
-        aria-labelledby="client-quotes-title"
-        className="max-w-5xl border-y border-border py-4"
-      >
-        <h2 id="client-quotes-title" className="font-semibold">
-          Cotizaciones
-        </h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Consultá el circuito comercial en la sección autorizada de
-          Cotizaciones. Esta ficha no muestra precios, honorarios ni conteos
-          comerciales.
-        </p>
-        <Link
-          href={`/cotizaciones?cliente=${encodeURIComponent(client.id)}`}
-          className={cn(
-            buttonVariants({ variant: "outline", size: "sm" }),
-            "mt-3"
-          )}
+      {scenario.commercial ? (
+        <section
+          aria-labelledby="client-quotes-title"
+          className="max-w-5xl border-y border-border py-4"
         >
-          Abrir Cotizaciones del cliente
-        </Link>
-      </section>
+          <h2 id="client-quotes-title" className="font-semibold">
+            Cotizaciones
+          </h2>
+          <Link
+            href={`/cotizaciones?cliente=${encodeURIComponent(client.id)}`}
+            className={cn(
+              buttonVariants({ variant: "outline", size: "sm" }),
+              "mt-3"
+            )}
+          >
+            Abrir Cotizaciones del cliente
+          </Link>
+        </section>
+      ) : null}
 
       <div className="flex flex-wrap gap-2">
         <Link
@@ -228,14 +227,6 @@ export function ClientDetail({
         >
           <ArrowLeft aria-hidden="true" /> Volver al listado
         </Link>
-        <Button
-          type="button"
-          variant="outline"
-          disabled
-          aria-describedby="client-readonly-note"
-        >
-          Editar datos
-        </Button>
       </div>
       <p
         id="client-readonly-note"

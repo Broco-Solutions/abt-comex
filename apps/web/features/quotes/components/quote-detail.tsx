@@ -3,7 +3,7 @@
 import { formatRecordedDate } from "@workspace/ui/lib/date"
 
 import Link from "next/link"
-import { ArrowLeft, ArrowRight, CircleAlert } from "lucide-react"
+import { ArrowLeft, ArrowRight, CircleAlert, ChevronDown } from "lucide-react"
 
 import { PageHeader } from "@/components/navigation/page-header"
 import { Badge } from "@workspace/ui/components/badge"
@@ -27,7 +27,11 @@ function first(value: string | string[] | undefined) {
 }
 
 function safeReturnTo(value: string) {
-  if (/^\/(?:mi-trabajo|cotizaciones)(\?[^#]*)?(#.*)?$/.test(value))
+  if (
+    /^\/(?:mi-trabajo|cotizaciones|operaciones\/op-demo-\d{4})(\?[^#]*)?(#.*)?$/.test(
+      value
+    )
+  )
     return value
   return "/cotizaciones"
 }
@@ -42,6 +46,11 @@ export function QuoteDetail({
   const { quotes, ready, updateQuotes } = useDemoQuotes()
   const error = first(searchParams.error)
   const returnTo = safeReturnTo(first(searchParams.returnTo))
+  const returnLabel = returnTo.startsWith("/operaciones/")
+    ? "Volver a la operación"
+    : returnTo.startsWith("/mi-trabajo")
+      ? "Volver a Mi trabajo"
+      : "Volver a Cotizaciones"
 
   if (error === "sin-permiso") {
     return (
@@ -116,7 +125,27 @@ export function QuoteDetail({
     )
   }
 
-  const version = getCurrentQuoteVersion(quote)
+  const currentVersion = getCurrentQuoteVersion(quote)
+  const requestedVersion = first(searchParams.version)
+  const version = requestedVersion
+    ? quote.versions.find((item) => String(item.number) === requestedVersion)
+    : currentVersion
+  if (!version)
+    return (
+      <section className="space-y-3">
+        <PageHeader title="Versión no disponible" />
+        <p role="status" className="text-sm">
+          No existe esa versión en el contexto autorizado.
+        </p>
+        <Link
+          href={`/cotizaciones/${quote.id}`}
+          className={cn(buttonVariants({ variant: "outline" }))}
+        >
+          Ver versión vigente
+        </Link>
+      </section>
+    )
+  const historical = version.number !== currentVersion.number
   const workflow = version.workflow
   const client = demonstrationClients.find((item) => item.id === quote.clientId)
   const currentTotal = calculateQuoteTotal(version.lines)
@@ -124,6 +153,7 @@ export function QuoteDetail({
   const currentQuoteId = quote.id
 
   function applyAction(action: "approve" | "send" | "accept" | "reject") {
+    if (historical) return
     updateQuotes((current) =>
       current.map((item) => {
         if (item.id !== currentQuoteId) return item
@@ -138,19 +168,27 @@ export function QuoteDetail({
         href={returnTo}
         className="inline-flex min-h-9 items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
       >
-        <ArrowLeft aria-hidden="true" className="size-4" /> Volver a
-        Cotizaciones
+        <ArrowLeft aria-hidden="true" className="size-4" /> {returnLabel}
       </Link>
 
       <PageHeader
         title={quote.reference}
-        status={<Badge variant="outline">{quoteStatus(quote)}</Badge>}
+        eyebrow={`Versión ${version.number}${historical ? " · histórica, sólo lectura" : " · vigente"}`}
+        status={
+          <Badge variant="outline">
+            {quoteStatus({ ...quote, versions: [version] })}
+          </Badge>
+        }
         secondaryActions={
           <Link
-            href={`/cotizaciones/${quote.id}/editar`}
+            href={
+              historical
+                ? `/cotizaciones/${quote.id}?returnTo=${encodeURIComponent(returnTo)}`
+                : `/cotizaciones/${quote.id}/editar`
+            }
             className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
           >
-            Crear versión
+            {historical ? "Ver versión vigente" : "Crear versión"}
           </Link>
         }
       />
@@ -160,7 +198,7 @@ export function QuoteDetail({
         className="max-w-6xl border-y border-border py-4"
       >
         <h2 id="quote-summary-title" className="text-base font-semibold">
-          Contexto comercial de demostración
+          Contexto comercial
         </h2>
         <dl className="mt-4 grid gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-4">
           <div>
@@ -196,6 +234,105 @@ export function QuoteDetail({
         <p className="mt-4 text-sm text-muted-foreground">{version.context}</p>
       </section>
 
+      <section
+        aria-labelledby="quote-workflow-title"
+        className="max-w-6xl border-y border-border py-4"
+      >
+        <div className="flex items-start gap-3">
+          <CircleAlert
+            aria-hidden="true"
+            className="mt-0.5 size-4 shrink-0 text-primary"
+          />
+          <div>
+            <h2 id="quote-workflow-title" className="font-semibold">
+              Secuencia de esta versión
+            </h2>
+            <dl className="mt-3 grid gap-3 sm:grid-cols-3">
+              <div>
+                <dt className="text-xs text-muted-foreground">
+                  Aprobación interna
+                </dt>
+                <dd className="mt-1 text-sm font-medium">
+                  {workflow.internalApproval}
+                </dd>
+              </div>
+              <div>
+                <dt className="text-xs text-muted-foreground">
+                  Envío al cliente
+                </dt>
+                <dd className="mt-1 text-sm font-medium">{workflow.send}</dd>
+              </div>
+              <div>
+                <dt className="text-xs text-muted-foreground">
+                  Respuesta del cliente
+                </dt>
+                <dd className="mt-1 text-sm font-medium">
+                  {workflow.clientResponse}
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Button
+            type="button"
+            size="sm"
+            disabled={
+              historical ||
+              workflow.internalApproval !== "Pendiente" ||
+              workflow.send !== "No enviado"
+            }
+            onClick={() => applyAction("approve")}
+          >
+            Simular aprobación interna
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            disabled={
+              historical ||
+              workflow.internalApproval !== "Aprobación simulada" ||
+              workflow.send !== "No enviado"
+            }
+            onClick={() => applyAction("send")}
+          >
+            Simular envío local
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            disabled={
+              historical ||
+              workflow.send !== "Envío simulado" ||
+              workflow.clientResponse !== "Sin respuesta"
+            }
+            onClick={() => applyAction("accept")}
+          >
+            Simular aceptación del cliente
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            disabled={
+              historical ||
+              workflow.send !== "Envío simulado" ||
+              workflow.clientResponse !== "Sin respuesta"
+            }
+            onClick={() => applyAction("reject")}
+          >
+            Simular rechazo del cliente
+          </Button>
+        </div>
+        <p className="mt-3 text-xs leading-5 text-muted-foreground">
+          Estas acciones sólo cambian la sesión local. No aprueban, envían
+          mensajes ni registran respuestas reales; los niveles de aprobación,
+          evidencia y capacidades requieren validación de ABT.
+        </p>
+      </section>
+
       <section aria-labelledby="quote-lines-title" className="max-w-6xl">
         <div className="flex flex-wrap items-end justify-between gap-3 border-b border-border pb-3">
           <div>
@@ -203,8 +340,7 @@ export function QuoteDetail({
               Versión {version.number} · líneas y cálculo
             </h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              Fórmula demostrativa: suma de cantidad × precio unitario, sin
-              otros conceptos.
+              Cálculo: suma de cantidad × precio unitario, sin otros conceptos.
             </p>
           </div>
           <p className="text-sm text-muted-foreground">
@@ -262,143 +398,63 @@ export function QuoteDetail({
       </section>
 
       <section aria-labelledby="quote-version-title" className="max-w-6xl">
-        <h2
-          id="quote-version-title"
-          className="border-b border-border pb-3 font-semibold"
-        >
-          Historial de versiones
-        </h2>
-        <ol className="divide-y divide-border">
-          {[...quote.versions]
-            .sort((left, right) => right.number - left.number)
-            .map((historical) => (
-              <li
-                key={historical.number}
-                className="grid gap-2 py-3 sm:grid-cols-[8rem_minmax(0,1fr)_auto] sm:items-center"
-              >
-                <p className="font-medium">Versión {historical.number}</p>
-                <div>
-                  <p className="text-sm">
-                    {historical.service} ·{" "}
-                    {formatQuoteAmount(
-                      calculateQuoteTotal(historical.lines),
-                      historical.currency
-                    )}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {historical.workflow.internalApproval} ·{" "}
-                    {historical.workflow.send} · respuesta:{" "}
-                    {historical.workflow.clientResponse}
-                  </p>
-                </div>
-                <time
-                  className="text-xs text-muted-foreground"
-                  dateTime={historical.updatedOn}
-                >
-                  {formatRecordedDate(historical.updatedOn)}
-                </time>
-              </li>
-            ))}
-        </ol>
-        <p className="mt-2 text-xs text-muted-foreground">
-          Una nueva edición crea una versión y conserva las anteriores. El
-          historial local no equivale a auditoría productiva.
-        </p>
-      </section>
-
-      <section
-        aria-labelledby="quote-workflow-title"
-        className="max-w-6xl border-y border-border py-4"
-      >
-        <div className="flex items-start gap-3">
-          <CircleAlert
-            aria-hidden="true"
-            className="mt-0.5 size-4 shrink-0 text-primary"
-          />
-          <div>
-            <h2 id="quote-workflow-title" className="font-semibold">
-              Secuencia de esta versión
+        <details className="group">
+          <summary className="flex cursor-pointer list-none items-center gap-2 rounded-sm focus-visible:outline-2 focus-visible:outline-ring [&::-webkit-details-marker]:hidden">
+            <ChevronDown
+              aria-hidden="true"
+              className="size-4 shrink-0 transition-transform group-open:rotate-180"
+            />
+            <h2
+              id="quote-version-title"
+              className="border-b border-border pb-3 font-semibold"
+            >
+              Historial de versiones
             </h2>
-            <dl className="mt-3 grid gap-3 sm:grid-cols-3">
-              <div>
-                <dt className="text-xs text-muted-foreground">
-                  Aprobación interna
-                </dt>
-                <dd className="mt-1 text-sm font-medium">
-                  {workflow.internalApproval}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-xs text-muted-foreground">
-                  Envío al cliente
-                </dt>
-                <dd className="mt-1 text-sm font-medium">{workflow.send}</dd>
-              </div>
-              <div>
-                <dt className="text-xs text-muted-foreground">
-                  Respuesta del cliente
-                </dt>
-                <dd className="mt-1 text-sm font-medium">
-                  {workflow.clientResponse}
-                </dd>
-              </div>
-            </dl>
+          </summary>
+          <div className="mt-3 space-y-3">
+            <ol className="divide-y divide-border">
+              {[...quote.versions]
+                .sort((left, right) => right.number - left.number)
+                .map((historical) => (
+                  <li
+                    key={historical.number}
+                    className="grid gap-2 py-3 sm:grid-cols-[8rem_minmax(0,1fr)_auto] sm:items-center"
+                  >
+                    <Link
+                      className="font-medium text-primary underline underline-offset-4"
+                      href={`/cotizaciones/${quote.id}?version=${historical.number}&returnTo=${encodeURIComponent(returnTo)}`}
+                    >
+                      Versión {historical.number}
+                    </Link>
+                    <div>
+                      <p className="text-sm">
+                        {historical.service} ·{" "}
+                        {formatQuoteAmount(
+                          calculateQuoteTotal(historical.lines),
+                          historical.currency
+                        )}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {historical.workflow.internalApproval} ·{" "}
+                        {historical.workflow.send} · respuesta:{" "}
+                        {historical.workflow.clientResponse}
+                      </p>
+                    </div>
+                    <time
+                      className="text-xs text-muted-foreground"
+                      dateTime={historical.updatedOn}
+                    >
+                      {formatRecordedDate(historical.updatedOn)}
+                    </time>
+                  </li>
+                ))}
+            </ol>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Una nueva edición crea una versión y conserva las anteriores. El
+              historial local no equivale a auditoría productiva.
+            </p>
           </div>
-        </div>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <Button
-            type="button"
-            size="sm"
-            disabled={
-              workflow.internalApproval !== "Pendiente" ||
-              workflow.send !== "No enviado"
-            }
-            onClick={() => applyAction("approve")}
-          >
-            Simular aprobación interna
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            disabled={
-              workflow.internalApproval !== "Aprobación simulada" ||
-              workflow.send !== "No enviado"
-            }
-            onClick={() => applyAction("send")}
-          >
-            Simular envío local
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            disabled={
-              workflow.send !== "Envío simulado" ||
-              workflow.clientResponse !== "Sin respuesta"
-            }
-            onClick={() => applyAction("accept")}
-          >
-            Simular aceptación del cliente
-          </Button>
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            disabled={
-              workflow.send !== "Envío simulado" ||
-              workflow.clientResponse !== "Sin respuesta"
-            }
-            onClick={() => applyAction("reject")}
-          >
-            Simular rechazo del cliente
-          </Button>
-        </div>
-        <p className="mt-3 text-xs leading-5 text-muted-foreground">
-          Estas acciones sólo cambian la sesión local. No aprueban, envían
-          mensajes ni registran respuestas reales; los niveles de aprobación,
-          evidencia y capacidades requieren validación de ABT.
-        </p>
+        </details>
       </section>
 
       <section aria-labelledby="quote-conversion-title" className="max-w-6xl">
@@ -446,12 +502,6 @@ export function QuoteDetail({
             : "El alta desde cotización requiere una versión con aceptación simulada del cliente; también podés iniciar una operación directa."}
         </p>
       </section>
-
-      <p className="max-w-6xl border-t border-border pt-4 text-xs text-muted-foreground">
-        Valores comerciales sólo visibles en este escenario con capacidad
-        simulada. El frontend no implementa autorización efectiva; la API futura
-        deberá filtrar antes de entregar estos datos.
-      </p>
     </div>
   )
 }

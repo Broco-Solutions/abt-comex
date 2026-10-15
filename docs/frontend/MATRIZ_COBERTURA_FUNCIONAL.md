@@ -331,4 +331,4 @@ La dirección de lectura o escritura es una propuesta para ordenar el relevamien
 9. Casos iniciales, canales y límites de interacción asistida.
 10. Completar lectura de elementos omitidos de Miro, interpretación BIFF/XLS y variantes de archivos originales. La consulta parcial no valida TO BE ni reglas regulatorias actuales.
 
-Esta matriz refleja la decisión interna de L1 §8/E17 sin atribuir aprobación formal de ABT ni cerrar decisiones pendientes. Junto con la especificación de Inicio + Mi trabajo, permite evaluar si Etapa 2 está lista para una implementación posterior con fixtures reversibles y revisión humana.
+Esta matriz refleja la decisión interna de L1 §8/E17 sin atribuir aprobación formal de ABT ni cerrar decisiones pendientes. El estado vigente de implementación y UX/UI se sigue en el [Plan](PLAN_IMPLEMENTACION.md); las Etapas 2–13 y la iteración UX permanecen Under review. La implementación de fixtures no cierra estos pendientes de negocio ni constituye aprobación formal.

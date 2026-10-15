@@ -66,13 +66,29 @@ export function ManagementOverview({
       </p>
     )
 
-  if (view === "resumen" && !restricted && !readError) return (
-    <div className="space-y-6">
-      <PageHeader title="Dirección" secondaryActions={<Link href="/administracion/finanzas" className={cn(buttonVariants({variant:"outline"}))}>Finanzas</Link>} />
-      <FinancialDashboard executive searchParams={searchParams} />
-      <Link href="/gestion?vista=economia" className="text-sm text-primary underline underline-offset-4">Fuentes y definiciones pendientes</Link>
-    </div>
-  )
+  if (view === "resumen" && !restricted && !readError)
+    return (
+      <div className="space-y-6">
+        <PageHeader
+          title="Dirección"
+          secondaryActions={
+            <Link
+              href="/administracion/finanzas"
+              className={cn(buttonVariants({ variant: "outline" }))}
+            >
+              Finanzas
+            </Link>
+          }
+        />
+        <FinancialDashboard executive searchParams={searchParams} />
+        <Link
+          href="/gestion?vista=economia"
+          className="text-sm text-primary underline underline-offset-4"
+        >
+          Fuentes y definiciones pendientes
+        </Link>
+      </div>
+    )
 
   const snapshot = getManagementSnapshot(
     operations,
@@ -187,10 +203,6 @@ function OverviewTable({
           <h2 id="management-snapshot-title" className="text-lg font-semibold">
             Cobertura del escenario operativo
           </h2>
-          <p className="text-sm text-muted-foreground">
-            Son conteos de fixtures para navegar y validar procesos; no
-            representan volumen, productividad ni resultados de ABT.
-          </p>
         </div>
         <dl className="grid gap-x-8 gap-y-3 border-y border-border py-4 sm:grid-cols-2 lg:grid-cols-4">
           <div>
@@ -286,10 +298,6 @@ function OperationsView({
         <h2 id="operation-breakdown-title" className="text-lg font-semibold">
           Situación de operaciones
         </h2>
-        <p className="text-sm text-muted-foreground">
-          Agrupación de registros sintéticos por tipo y situación actual del
-          fixture; no define productividad ni demora.
-        </p>
       </div>
       <p className="text-xs text-muted-foreground sm:hidden">
         Desplazá la tabla horizontalmente para ver todas las columnas.
@@ -365,10 +373,6 @@ function ClientsView({
         <h2 id="client-activity-title" className="text-lg font-semibold">
           Actividad relacionada con clientes
         </h2>
-        <p className="text-sm text-muted-foreground">
-          Relación entre fixtures de Cliente y Operación. No calcula ventas,
-          facturación, concentración económica ni rentabilidad.
-        </p>
       </div>
       <p className="text-xs text-muted-foreground sm:hidden">
         Desplazá la tabla horizontalmente para ver todas las columnas.
@@ -435,10 +439,6 @@ function WorkView({
         <h2 id="workload-title" className="text-lg font-semibold">
           Carga de trabajo y vencimientos
         </h2>
-        <p className="text-sm text-muted-foreground">
-          Sólo elementos visibles en el fixture local; no equivale a una
-          medición de capacidad del equipo.
-        </p>
       </div>
       <dl className="grid gap-x-8 gap-y-3 border-y border-border py-4 sm:grid-cols-3">
         <div>

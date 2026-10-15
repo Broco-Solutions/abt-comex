@@ -1,4 +1,5 @@
 import { demonstrationClients } from "@/features/clients/data/clients"
+import { DEMONSTRATION_DATE } from "@/features/demo/data/scenarios"
 export type Currency = "ARS" | "USD"
 export type FinancialRecord = {
   id: string
@@ -13,7 +14,7 @@ export type FinancialRecord = {
   openBalance?: number
   category?: string
 }
-export const FINANCIAL_CUTOFF = "2026-10-14"
+export const FINANCIAL_CUTOFF = DEMONSTRATION_DATE
 export const financialRecords: FinancialRecord[] = [
   ...["2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10"].flatMap(
     (month, index): FinancialRecord[] =>

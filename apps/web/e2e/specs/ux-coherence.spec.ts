@@ -43,7 +43,7 @@ test("@smoke client detail and work quote preserve their origins", async ({
     "/clientes/client-demo-norte?returnTo=%2Fclientes%3Fq%3Dnorte"
   )
   await page.getByRole("link", { name: "Abrir operación" }).first().click()
-  await page.getByRole("link", { name: "Volver a resultados" }).click()
+  await page.getByRole("link", { name: "Volver al cliente" }).click()
   await expect(page).toHaveURL(/clientes\/client-demo-norte/)
   await page.goto("/mi-trabajo?trabajo=wrk-quote-review-04")
   await page.getByRole("link", { name: "Abrir cotización" }).click()

@@ -1,6 +1,8 @@
 "use client"
 
 import { useState } from "react"
+import { useReceivedDocuments } from "@/features/documents/state/use-received-documents"
+import { projectDocuments } from "@/features/documents/data/documents"
 
 import { Badge } from "@workspace/ui/components/badge"
 import { Button } from "@workspace/ui/components/button"
@@ -19,7 +21,14 @@ export function AssistedQueries({
   operation: AssistedOperationContext
 }) {
   const [question, setQuestion] = useState<AssistedQuestion | null>(null)
-  const answer = question ? answerAssistedQuestion(question, operation) : null
+  const received = useReceivedDocuments()
+  const answer = question
+    ? answerAssistedQuestion(
+        question,
+        operation,
+        projectDocuments(operation.id, received)
+      )
+    : null
 
   return (
     <section
@@ -31,13 +40,8 @@ export function AssistedQueries({
           <h2 id="assisted-queries-title" className="font-semibold">
             Consultas guiadas
           </h2>
-          <Badge variant="outline">Demostración · sin IA</Badge>
+          <Badge variant="outline">Sin IA</Badge>
         </div>
-        <p className="text-sm text-muted-foreground">
-          Elegí una consulta. Las respuestas se construyen localmente con los
-          datos visibles de esta operación; no se envían ni registran como
-          actividad productiva.
-        </p>
       </div>
 
       <div
@@ -91,11 +95,6 @@ export function AssistedQueries({
           No se consultó información todavía.
         </p>
       )}
-
-      <p className="text-xs text-muted-foreground">
-        No hay proveedor de IA, canal externo, acción, integración ni auditoría
-        productiva conectados. Esta experiencia no acredita permisos reales.
-      </p>
     </section>
   )
 }

@@ -32,7 +32,7 @@ test("@smoke Inicio resume Mi trabajo and opens its local context safely", async
   await page.getByRole("link", { name: "Volver a la operación" }).click()
   await expect(page).toHaveURL(/\/operaciones\/op-demo-2048\?returnTo=/)
   await expect(page.getByRole("heading", { name: "OP-DEM-2048" })).toBeVisible()
-  await page.getByRole("link", { name: "Volver a resultados" }).click()
+  await page.getByRole("link", { name: "Volver a Mi trabajo" }).click()
   await expect(page).toHaveURL(/mi-trabajo/)
   await expect(page.getByRole("heading", { name: /Mi trabajo/ })).toBeVisible()
   await expect(
