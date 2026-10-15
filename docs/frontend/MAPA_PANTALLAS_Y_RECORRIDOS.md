@@ -282,6 +282,16 @@ Este mapa registra las Etapas 2–13 integradas técnicamente; no supone aprobac
 
 ## Continuidad V3
 
+### Navegación comercial y de organizaciones
+
+Clientes es un destino primario con Cotizaciones como subopción relacionada;
+la ruta directa `/cotizaciones` continúa disponible para favoritos, enlaces y
+recorridos sin cliente previo. Proveedores es un destino primario separado y
+su selector local distingue proveedores de ABT de contrapartes operativas. No
+se duplican esos tres accesos en ambas páginas: las relaciones se consultan en
+la ficha y en el contexto de la operación, preservando roles múltiples de una
+misma organización.
+
 Se conservan las 32 experiencias y J1–J10; [plan V3](PLAN_IMPLEMENTACION.md#v3--evolución-integral-autorizada-internamente-15102026) amplía capacidades progresivamente sin renumerar. V3-01 no añade rutas: OPS-01/OPS-02 compactan consulta y restauran contexto con OPS-03; POR-02 y POR-03 comparten disponibilidad documental. La selección de Cliente en COT-03 utiliza el patrón buscable del DS. Nuevas rutas/experiencias de maestros/acceso se registrarán en su incremento, no se consideran cubiertas por esta nota. Microsoft 365 no forma parte de las superficies V3.
 
 ### J11 — Personas y acceso de evaluación

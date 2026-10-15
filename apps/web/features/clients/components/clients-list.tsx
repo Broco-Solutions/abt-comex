@@ -101,29 +101,6 @@ export function ClientsList({
           ) : undefined
         }
       />
-      <nav
-        aria-label="Maestros de organizaciones"
-        className="flex flex-wrap gap-2 text-sm"
-      >
-        <Link
-          href="/clientes"
-          className="rounded-md border px-3 py-2 text-primary"
-        >
-          Clientes
-        </Link>
-        <Link
-          href="/proveedores"
-          className="rounded-md border px-3 py-2 text-primary"
-        >
-          Proveedores de ABT
-        </Link>
-        <Link
-          href="/proveedores?ambito=operacion"
-          className="rounded-md border px-3 py-2 text-primary"
-        >
-          Contrapartes de operaciones
-        </Link>
-      </nav>
       {!restricted && !failed && (
         <label className="flex min-h-9 items-center gap-2 text-sm">
           <input

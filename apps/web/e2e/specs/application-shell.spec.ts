@@ -270,6 +270,53 @@ test("@smoke recognizes every Operaciones variant and its breadcrumbs", async ({
   expect(consoleErrors).toEqual([])
 })
 
+test("@smoke relates Clients and Quotes without duplicating organization navigation", async ({
+  page,
+}) => {
+  await page.goto("/inicio")
+  const navigation = page.getByRole("navigation", {
+    name: "Navegación principal",
+  })
+  await navigation.getByRole("link", { name: "Clientes", exact: true }).click()
+  await expect(page).toHaveURL(/\/clientes$/)
+  await expect(
+    navigation.getByRole("link", { name: "Cotizaciones", exact: true })
+  ).toBeVisible()
+  await navigation
+    .getByRole("button", { name: "Contraer Clientes", exact: true })
+    .click()
+  await expect(
+    navigation.getByRole("link", { name: "Cotizaciones", exact: true })
+  ).toBeHidden()
+  await expect(page).toHaveURL(/\/clientes$/)
+  await navigation
+    .getByRole("button", { name: "Expandir Clientes", exact: true })
+    .focus()
+  await page.keyboard.press("Enter")
+  await navigation
+    .getByRole("link", { name: "Cotizaciones", exact: true })
+    .click()
+  await expect(page).toHaveURL(/\/cotizaciones$/)
+  await expect(page.getByLabel("Ruta de navegación")).toContainText("Clientes")
+  await page.goto("/clientes")
+  await expect(
+    page.getByRole("navigation", { name: "Maestros de organizaciones" })
+  ).toHaveCount(0)
+  await page.goto("/proveedores")
+  const organizationNav = page.getByRole("navigation", {
+    name: "Maestros de organizaciones",
+  })
+  await expect(
+    organizationNav.getByRole("link", { name: "Proveedores de ABT" })
+  ).toHaveAttribute("aria-current", "page")
+  await expect(
+    organizationNav.getByRole("link", { name: "Contrapartes de operaciones" })
+  ).toBeVisible()
+  await expect(
+    organizationNav.getByRole("link", { name: "Clientes" })
+  ).toHaveCount(0)
+})
+
 test("@smoke mobile drawer manages focus, Escape and route selection", async ({
   page,
 }) => {

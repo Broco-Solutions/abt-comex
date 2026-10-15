@@ -62,6 +62,9 @@ test("@smoke recovery shows confirmation, mismatched fields, expiration and a sa
 }) => {
   await page.goto("/acceso")
   await page.getByRole("link", { name: "Olvidé mi contraseña" }).click()
+  await expect(
+    page.getByRole("heading", { name: "Recuperar acceso", exact: true })
+  ).toBeVisible()
   await page
     .getByLabel("Correo laboral", { exact: true })
     .fill("persona@example.invalid")

@@ -110,14 +110,14 @@ BROCO_SOLUTIONS_isotype_gradient.svg
 El SVG `logo` contiene la marca completa y el SVG `isotype` contiene sólo el
 símbolo. Se sirven como SVG, sin rasterizar ni alterar sus colores.
 
-Sobre la superficie clara de la navegación, el patrón es:
+Sobre el pie neutro de la navegación institucional, el patrón es:
 
 - expandida y drawer: texto visible `Powered by` más logo completo;
 - rail compacto: sólo isotipo con tooltip y nombre accesible completos.
 
 No repetir `Broco Solutions` en texto visible junto al logo completo, porque el
-nombre ya forma parte del asset. La atribución no agrega una tarjeta ni fondo
-blanco propio: usa la superficie del sidebar/drawer. Se mantiene claramente
+nombre ya forma parte del asset. La atribución no agrega una tarjeta propia:
+usa el pie neutro del sidebar/drawer. Se mantiene claramente
 menor que la marca ABT. No recolorear, deformar ni rasterizar los SVG.
 
 ## 6. Powered by Broco Solutions

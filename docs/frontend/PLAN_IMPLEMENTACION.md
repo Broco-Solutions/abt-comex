@@ -897,8 +897,8 @@ Fuente: aprobación explícita del responsable sobre la auditoría integral y su
 | V3-03 | Under review | Personas, acceso/capacidades, equipos/reasignación, login y recuperación exclusivamente demostrativos |
 | V3-04 | Under review | Categorías, gastos generales/operativos, anticipos/rendiciones y movimientos sintéticos compartidos; depende de maestros |
 | V3-05 | Under review | Comprobantes preparados/referencias, aplicaciones parciales y carteras al corte; sin emisión ni contabilidad paralela |
-| V3-06 | Pendiente | Continuidad Importación/Exportación/DJVE/documentos/Administración/Portal e información externa contextual |
-| V3-07 | Pendiente | Dirección: períodos equivalentes, rankings precisos, carteras, indicadores explicables y regresión integral |
+| V3-06 | En ejecución | Continuidad Importación/Exportación/DJVE/documentos/Administración/Portal e información externa contextual; cierre aún no acreditado |
+| V3-07 | En ejecución | Dirección USD, períodos comparables, análisis global de clientes/proveedores y regresión integral; cierre aún no acreditado |
 
 Gates por incremento: lint, typecheck, unitarias/componentes, a11y, build, E2E proporcional, revisión visual desktop/tablet/móvil, validador documental y diff limpio. PR contra main actualizado; confirmar integración y deployment. Mantener Under review hasta revisión humana. Detener sólo reglas críticas no definidas.
 
@@ -933,3 +933,35 @@ V3-04 parte de ese main en worktree /tmp/abt-comex-v3-04, rama feat/v3-04-admini
 PR #30 integrado a main 5090a27f950a3f0fdb0eb78336f756db8f543ce2 con todos los checks verdes en 02e7ce9; deployment dpl_4KikbRTLoDURKULRWovBrrzBTghL READY para ese main. V3-05 parte de esa base en rama propia, sin trabajo histórico ni ramas apiladas. Contrato de comprobantes/carteras y pruebas: [pantalla responsable](screens/10-administracion-finanzas.md#v3-05--comprobantes-aplicaciones-y-carteras). Gates y evidencia del PR se registran al ejecutarlos; no se anticipan resultados ni aprobación humana.
 
 Evidencia local inicial V3-05: lint/typecheck/build, 121 unitarias web, 37 axe y 93 E2E Chromium verdes. Revisión real de carteras 390/768/1024/1440, comprobante/aplicación desktop y diálogo móvil; sin overflow global ni errores de página observados. Se detectaron navegación secundaria de tres filas y aviso de vencido con contraste insuficiente sobre blanco; corregidos antes del cierre. Reejecutar regresión focalizada/visual y confirmar CI/preview en SHA final, no basarse sólo en esta primera pasada. 44 experiencias (32 históricas +12 V3), J1–J10 preservados y J11–J13 añadidos; 126 IDs. No revisión humana aprobatoria ni certificación AA.
+
+### Avance del Shell — PR #32; V3-06/V3-07 siguen en ejecución
+
+La base `c115f89` contiene workspaces anteriores de Importación/Exportación,
+DJVE, documentos, Administración, Portal y Dirección. Su existencia y una
+regresión focalizada no acreditan el alcance completo de V3-06/V3-07.
+
+La navegación ajustada deja Clientes como entrada primaria y Cotizaciones como
+subopción directa, conserva `/cotizaciones` y mantiene Proveedores separado con
+selector contextual entre proveedor ABT y contraparte operativa. Se preservan
+parámetros, breadcrumbs, retorno y relaciones multirrol.
+
+El Shell usa una superficie ABT verde profunda, wordmark/isotipo oficial en
+variante blanca, estados activos/foco contrastados y la misma fuente para
+sidebar expandido, rail compacto y drawer. Se regeneraron las tres referencias
+visuales del Shell. La entrega anterior no registró inspección efectiva de esas
+imágenes; se deben revisar antes de consolidar las referencias.
+
+Gates locales del corte: typecheck, build, 121 unitarias y E2E Chromium
+focalizadas pasan. Firefox no pudo iniciar por un perfil del host y WebKit
+requiere bibliotecas ausentes; no se alteraron pruebas para ocultar esa
+limitación. La revisión humana visual sigue pendiente de aprobación formal.
+
+Corrección de continuidad del PR #32: el test de recuperación escribía en el
+formulario anterior por compartir etiqueta; espera ahora el encabezado de
+destino. Se revisaron capturas reales de Clientes con Shell 1440/390 y rail,
+usando assets blancos oficiales sin filtros CSS; pie neutro para Broco y cierre
+móvil contrastado. Lint/tipos, 17 pruebas unitarias focalizadas y 4 axe Shell
+pasaron. Regresión Chromium: 93/94; el restante falló al cerrar el contexto por
+un artefacto de trace eliminado por otra ejecución visual concurrente. Se
+repite aislado, sin debilitar aserciones. Las tres referencias visuales del
+Shell se regeneraron. CI debe pasar en el nuevo SHA antes del squash.

@@ -1,5 +1,24 @@
 # Frontend Decisions
 
+## 2026-10-15 — V3: relación Clientes/Cotizaciones y navegación de organizaciones
+
+Clientes es la entrada primaria al maestro de clientes y Cotizaciones queda como
+subopción directa del mismo dominio comercial. Cotizaciones mantiene la ruta
+`/cotizaciones` y sus enlaces existentes; la ficha de Cliente conserva el acceso
+filtrado y la creación contextual. Proveedores permanece como destino primario
+independiente y diferencia localmente proveedores de ABT y contrapartes
+operativas. No se repiten los tres accesos en ambas páginas: una organización
+puede mantener múltiples roles y sus relaciones siguen disponibles en fichas y
+operaciones.
+
+## 2026-10-15 — V3: profundidad visual del Application Shell
+
+El sidebar usa una superficie ABT verde profunda (`#075b3d`) con acento medio
+(`#0b7650`), bordes translúcidos y estados activos/foco basados en contraste.
+El wordmark/isotipo oficial ABT se presenta en blanco mediante el asset
+institucional existente; Broco continúa como atribución secundaria en el pie.
+La misma variante se inspecciona en sidebar expandido, rail compacto y drawer.
+
 ## 2026-10-15 — V3-05: preparación, aplicaciones y saldo al corte
 
 Decisión interna de experiencia conforme a aprobación V3, no definición contable ABT: documentos preparados se excluyen de análisis/cartera hasta identificarlos explícitamente como referencias sintéticas de evaluación. Aplicaciones parciales relacionan fondos/créditos con obligaciones en la misma moneda y contraparte; ninguna escribe externamente. Saldo informado de origen y saldo del escenario son distintos. La cartera no hereda el filtro de emisión del análisis de flujos: incluye obligaciones anteriores abiertas. Contrato, pendientes y pruebas en [Administración](screens/10-administracion-finanzas.md#v3-05--comprobantes-aplicaciones-y-carteras).

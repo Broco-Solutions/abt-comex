@@ -25,8 +25,8 @@ export function AbtBrand({ compact = false }: { compact?: boolean }) {
       <Image
         src={
           compact
-            ? "/brand/ABT_COMEX_isotype_green_transparent.png"
-            : "/brand/ABT_COMEX_logo_green_transparent.png"
+            ? "/brand/ABT_COMEX_isotype_white_transparent.png"
+            : "/brand/ABT_COMEX_logo_white_transparent.png"
         }
         alt=""
         width={compact ? 796 : 1983}

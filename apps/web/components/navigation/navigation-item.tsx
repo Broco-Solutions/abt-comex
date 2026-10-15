@@ -28,6 +28,8 @@ export function NavigationItem({
   depth?: 0 | 1
 }) {
   const isSelected = item.id === activeId
+  const [expanded, setExpanded] = React.useState(true)
+  const childrenId = React.useId()
   const isSectionActive = Boolean(
     !isSelected && item.children?.some((child) => child.id === activeId)
   )
@@ -37,7 +39,7 @@ export function NavigationItem({
       ? "section-active"
       : "inactive"
 
-  if (compact && item.children) {
+  if (compact && item.children?.length) {
     return (
       <CompactNavigationGroup
         item={item}
@@ -58,15 +60,39 @@ export function NavigationItem({
     )
   }
 
-  if (item.children) {
+  if (item.children?.length) {
     return (
       <li>
-        <ExpandedNavigationLink
-          item={item}
-          navigationState={navigationState}
-          onNavigate={onNavigate}
-        />
-        <ul className="ml-5 border-l border-sidebar-border py-1 pl-3">
+        <div className="flex items-center gap-1">
+          <div className="min-w-0 flex-1">
+            <ExpandedNavigationLink
+              item={item}
+              navigationState={navigationState}
+              onNavigate={onNavigate}
+            />
+          </div>
+          <button
+            type="button"
+            aria-label={`${expanded ? "Contraer" : "Expandir"} ${item.label}`}
+            aria-expanded={expanded}
+            aria-controls={childrenId}
+            onClick={() => setExpanded(!expanded)}
+            className="flex size-11 shrink-0 items-center justify-center rounded-md text-sidebar-foreground/85 hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sidebar-ring"
+          >
+            <ChevronRight
+              aria-hidden="true"
+              className={cn(
+                "size-4 transition-transform motion-reduce:transition-none",
+                expanded && "rotate-90"
+              )}
+            />
+          </button>
+        </div>
+        <ul
+          id={childrenId}
+          hidden={!expanded}
+          className="ml-5 border-l border-sidebar-border py-1 pl-3"
+        >
           {item.children.map((child) => (
             <NavigationItem
               key={child.id}
