@@ -31,6 +31,16 @@ export function recordHandoff(
   if (!note.trim())
     throw new Error("Indicá la próxima acción o la observación.")
   if (
+    note.trim().length > 500 ||
+    (operation.handoff?.history.length ?? 0) >= 200
+  )
+    throw new Error("La referencia supera el límite del escenario local.")
+  if (
+    status === "En revisión administrativa" &&
+    operation.handoff?.status === status
+  )
+    throw new Error("El envío ya está pendiente de revisión.")
+  if (
     status !== "En revisión administrativa" &&
     operation.handoff?.status !== "En revisión administrativa"
   )

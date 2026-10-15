@@ -147,7 +147,7 @@ export function AdministrationDetail({
         </dl>
       </section>
 
-      <OperationHandoff operationId={operationId} />
+      <OperationHandoff operationId={operationId} administrative />
       <section className="grid gap-6 lg:grid-cols-2">
         <div className="space-y-2">
           <h2 className="font-semibold">Documentación y referencias</h2>

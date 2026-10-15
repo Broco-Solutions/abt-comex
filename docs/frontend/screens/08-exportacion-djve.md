@@ -38,6 +38,12 @@ de pantalla son ilustrativos, ficticios y no derivados de declaraciones reales.
 
 ## Información, capacidades y acciones
 
+V3-06 incorpora los mismos vínculos y coordinación local de la ficha común
+([contrato compartido](04-operacion-detalle.md#información-acciones-y-navegación)).
+La recepción/devolución administrativa no modifica cumplido, facturación,
+cobranzas ni post-embarque. DJVE conserva autonomía, múltiples permisos y sus
+reglas anteriores; el envío no oficializa ni acredita un cierre.
+
 - La ficha toma cliente, modalidad, responsable y situación del fixture de
   Operación compartido. La entrada no expone honorarios, costos, cobranzas ni
   márgenes.

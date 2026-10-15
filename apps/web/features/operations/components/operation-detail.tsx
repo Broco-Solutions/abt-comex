@@ -4,6 +4,8 @@ import { formatRecordedDate } from "@workspace/ui/lib/date"
 
 import Link from "next/link"
 import { DocumentsPanel } from "@/features/documents/components/documents-panel"
+import { OperationRelationships } from "./operation-relationships"
+import { OperationHandoff } from "./operation-handoff"
 import { useScenario } from "@/features/demo/state/scenario-provider"
 import { ArrowLeft, CircleAlert, ShieldCheck, ChevronDown } from "lucide-react"
 
@@ -29,6 +31,12 @@ function safeReturnTo(
   operations: DemonstrationOperation[] = demonstrationOperations
 ) {
   if (isApplicationReturn(value)) return value
+  if (
+    /^\/configuracion\/personas\/(?:person-abt-\d{3}|member-local-\d+)(?:\?[^#]*)?$/.test(
+      value
+    )
+  )
+    return value
   if (
     /^\/administracion\/(?:gastos|movimientos|rendiciones|comprobantes)\/[a-z0-9-]+(?:\?[^#]*)?(?:#.*)?$/.test(
       value
@@ -110,17 +118,19 @@ export function OperationDetail({
   const returnTo = safeReturnTo(first(searchParams.returnTo), operations)
   const returnLabel = returnTo.startsWith("/tramites/djve")
     ? "Volver a DJVE"
-    : returnTo.startsWith("/mi-trabajo")
-      ? "Volver a Mi trabajo"
-      : returnTo.startsWith("/clientes/")
-        ? "Volver al cliente"
-        : returnTo.startsWith("/clientes")
-          ? "Volver a Clientes"
-          : returnTo.startsWith("/gestion")
-            ? "Volver al análisis"
-            : returnTo.startsWith("/administracion")
-              ? "Volver a Administración"
-              : "Volver a resultados"
+    : returnTo.startsWith("/configuracion/personas/")
+      ? "Volver al integrante"
+      : returnTo.startsWith("/mi-trabajo")
+        ? "Volver a Mi trabajo"
+        : returnTo.startsWith("/clientes/")
+          ? "Volver al cliente"
+          : returnTo.startsWith("/clientes")
+            ? "Volver a Clientes"
+            : returnTo.startsWith("/gestion")
+              ? "Volver al análisis"
+              : returnTo.startsWith("/administracion")
+                ? "Volver a Administración"
+                : "Volver a resultados"
 
   return (
     <div className="space-y-6">
@@ -296,6 +306,11 @@ export function OperationDetail({
         </details>
       </section>
 
+      <OperationRelationships operationId={operation.id} />
+      <OperationHandoff
+        operationId={operation.id}
+        origin={`/operaciones/${operation.id}?returnTo=${encodeURIComponent(returnTo)}`}
+      />
       <DocumentsPanel operationId={operation.id} />
       <div className="grid gap-4 xl:grid-cols-2">
         <section

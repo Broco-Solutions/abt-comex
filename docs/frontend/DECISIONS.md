@@ -1,5 +1,18 @@
 # Frontend Decisions
 
+## 2026-10-15 — Continuidad operativa local sin inferir estados ni personas
+
+V3-06 evoluciona los workspaces existentes: contrapartes por organización/rol,
+responsable individual por ID elegido explícitamente y coordinación con
+Administración. La referencia histórica de equipo no se transforma en empleado
+ni concede acceso. Recibir un envío significa recibirlo para revisión, sin
+aprobar carpeta completa, facturar, cobrar ni modificar cumplido. Se exige una
+observación, se conserva historia y se habilita devolución/reenvío. Criterios
+reales de completitud y aceptación siguen pendientes de ABT. El Portal conserva
+su proyección externa y el doble control sus actores de evaluación separados.
+La apertura sintética de operación es un evento explícito, independiente de la
+última actualización y de sus movimientos financieros. [Contrato de ficha](screens/04-operacion-detalle.md).
+
 ## 2026-10-15 — Buscador global como navegación del estado compartido
 
 Decisión interna explícita del encargo: incorporar búsqueda funcional al header

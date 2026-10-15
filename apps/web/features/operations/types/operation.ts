@@ -14,6 +14,8 @@ export type DemonstrationOperation = {
   clientId: string
   client: string
   responsible: string
+  /** Legacy synthetic team context, projected separately from an individual. */
+  responsibleReference?: string
   modality: "Marítima" | "Aérea" | "Terrestre"
   situation: OperationSituation
   updatedOn: string

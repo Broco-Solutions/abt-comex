@@ -10,6 +10,14 @@
 
 ## Propósito y trazabilidad
 
+V3-06 agrega al contexto administrativo una coordinación local compartida con
+Operación/Importación/Exportación: envío con observación obligatoria, recepción
+para revisión y devolución. La bandeja incluye también operaciones sin referencia
+de facturación cuando tienen un envío. Su próxima acción refleja el último
+estado; el historial conserva el escenario y la fecha demostrativa. Esto no
+acredita carpeta completa ni modifica estados contables o aduaneros. Las altas
+operativas de la sesión también abren un contexto administrativo válido.
+
 ### Navegación vigente V3 — decisión interna del 15/10/2026
 
 `/administracion` abre la Bandeja administrativa para ejecutar trabajo recibido,

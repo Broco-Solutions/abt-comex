@@ -2,6 +2,8 @@
 
 import Link from "next/link"
 import { DocumentsPanel } from "@/features/documents/components/documents-panel"
+import { OperationHandoff } from "@/features/operations/components/operation-handoff"
+import { OperationRelationships } from "@/features/operations/components/operation-relationships"
 import { useState } from "react"
 import { useScenario } from "@/features/demo/state/scenario-provider"
 import { hasCapability } from "@/features/demo/data/capabilities"
@@ -324,6 +326,11 @@ export function ImportationWorkspace({
         </p>
       </section>
 
+      <OperationRelationships operationId={operation.id} />
+      <OperationHandoff
+        operationId={operation.id}
+        origin={`/operaciones/${operation.id}/importacion?returnTo=${encodeURIComponent(returnTo)}`}
+      />
       <DocumentsPanel operationId={operation.id} />
 
       <section aria-labelledby="import-stage-title" className="max-w-5xl">
@@ -372,7 +379,8 @@ export function ImportationWorkspace({
               </span>
               <span className="text-sm text-muted-foreground">
                 El criterio de carpeta completa y aceptación del pase está
-                pendiente; no se crea un handoff ni se marca cerrado.
+                pendiente. El envío local para revisión no acredita carpeta
+                completa ni marca el cierre.
               </span>
             </li>
           </ol>

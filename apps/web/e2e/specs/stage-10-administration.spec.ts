@@ -26,7 +26,7 @@ test("@smoke administration keeps financial and operational states separate and 
       .getByRole("region", { name: "Contexto administrativo" })
       .getByText("Facturada", { exact: true })
   ).toBeVisible()
-  await expect(page.getByText("Cobranzas")).toBeVisible()
+  await expect(page.getByText("Cobranzas", { exact: true })).toBeVisible()
   await expect(
     page.locator("dd").filter({ hasText: /^Pendiente$/ })
   ).toHaveCount(3)

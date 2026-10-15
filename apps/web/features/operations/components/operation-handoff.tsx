@@ -11,7 +11,15 @@ import { useDemoOperations } from "../state/use-demo-operations"
 import { recordHandoff } from "../data/operational-continuity"
 import type { DemonstrationOperation } from "../types/operation"
 
-export function OperationHandoff({ operationId }: { operationId: string }) {
+export function OperationHandoff({
+  operationId,
+  origin,
+  administrative = false,
+}: {
+  operationId: string
+  origin?: string
+  administrative?: boolean
+}) {
   const { operations, updateOperations, ready } = useDemoOperations()
   const { scenario } = useScenario()
   const [note, setNote] = useState("")
@@ -109,9 +117,9 @@ export function OperationHandoff({ operationId }: { operationId: string }) {
           ) : null}
         </>
       ) : null}
-      {canReview ? (
+      {canReview && !administrative ? (
         <Link
-          href={`/administracion/${operationId}?returnTo=${encodeURIComponent(`/operaciones/${operationId}`)}`}
+          href={`/administracion/${operationId}?returnTo=${encodeURIComponent(origin ?? `/operaciones/${operationId}`)}`}
           className="inline-flex min-h-11 items-center text-sm font-medium text-primary hover:underline"
         >
           Abrir contexto administrativo

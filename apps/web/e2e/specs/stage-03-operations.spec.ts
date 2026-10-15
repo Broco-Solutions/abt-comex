@@ -39,7 +39,9 @@ test("@smoke operations list filters, preserves URL context, and stays usable on
     .selectOption("responsible", { force: true })
   await expect(page).toHaveURL(/agrupar=responsible/)
   await expect(
-    page.getByRole("heading", { name: /Equipo Expo A/ })
+    page.getByRole("heading", {
+      name: /Sin asignación individual · Exportación/,
+    })
   ).toBeVisible()
   await expect(
     page.getByRole("link", { name: "OP-DEM-3120", exact: true }).first()
@@ -56,7 +58,9 @@ test("@smoke operations list filters, preserves URL context, and stays usable on
     ).toBe(true)
   }
   await expect(
-    page.getByRole("heading", { name: /Equipo Expo A/ })
+    page.getByRole("heading", {
+      name: /Sin asignación individual · Exportación/,
+    })
   ).toBeVisible()
 })
 

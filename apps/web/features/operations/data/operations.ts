@@ -295,9 +295,16 @@ export function parseOperationFilters(
       operationSituations.find((item) => item === first(params.situacion)) ??
       "",
     responsible:
-      ["Equipo Impo A", "Equipo Impo B", "Equipo Expo A", "Equipo Expo B"].find(
-        (item) => item === first(params.responsable)
-      ) ?? "",
+      [
+        "Equipo Impo A",
+        "Equipo Impo B",
+        "Equipo Expo A",
+        "Equipo Expo B",
+        "pending",
+      ].includes(first(params.responsable)) ||
+      /^(?:person-abt-\d{3}|member-local-\d+)$/.test(first(params.responsable))
+        ? first(params.responsable)
+        : "",
     from: /^\d{4}-\d{2}-\d{2}$/.test(first(params.desde))
       ? first(params.desde)
       : "",
@@ -343,7 +350,13 @@ export function filterOperations(
       (item) => !filters.situation || item.situation === filters.situation
     )
     .filter(
-      (item) => !filters.responsible || item.responsible === filters.responsible
+      (item) =>
+        !filters.responsible ||
+        (filters.responsible === "pending"
+          ? !item.responsibleId
+          : item.responsibleId === filters.responsible ||
+            item.responsibleReference === filters.responsible ||
+            item.responsible === filters.responsible)
     )
     .filter((item) => !filters.from || item.updatedOn >= filters.from)
     .filter((item) => !filters.to || item.updatedOn <= filters.to)

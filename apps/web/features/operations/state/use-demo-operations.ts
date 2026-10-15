@@ -49,14 +49,11 @@ export function useDemoOperations() {
   const { state: people } = usePeople()
   const projectedOperations = operations.map((operation) => ({
     ...operation,
-    ...(operation.responsibleId
-      ? {
-          responsible:
-            people.members.find(
-              (person) => person.id === operation.responsibleId
-            )?.name ?? "Responsable pendiente de identificación",
-        }
-      : {}),
+    responsibleReference: operation.responsible,
+    responsible: operation.responsibleId
+      ? (people.members.find((person) => person.id === operation.responsibleId)
+          ?.name ?? "Responsable pendiente de identificación")
+      : `Sin asignación individual · ${operation.kind}`,
     client:
       organizations.find((item) => item.id === operation.clientId)?.name ??
       operation.client,
