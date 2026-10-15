@@ -16,9 +16,15 @@ test("@smoke exportation keeps double control separate from external customs eve
   await expect(
     page.getByRole("heading", { name: "Instrucción y provisorio" })
   ).toBeVisible()
+  await page.getByRole("heading", { name: "Instrucción y provisorio" }).click()
   await expect(
     page.getByText(/Alpha2000\/MARÍA no está conectada/)
   ).toBeVisible()
+  await page
+    .getByRole("heading", {
+      name: "Legajo aduanero y originales para el exterior",
+    })
+    .click()
   await expect(page.getByText(/Custodia física:/)).toBeVisible()
   await expect(page.getByText("Facturada", { exact: true })).toBeVisible()
   await expect(page.getByText("Pendiente", { exact: true })).toHaveCount(3)
@@ -52,6 +58,7 @@ test("@smoke autonomous DJVE supports multiple permits and links back to exporta
     page.getByRole("heading", { name: "DJVE y permisos" })
   ).toBeVisible()
   await page.getByLabel("Buscar DJVE o permiso").fill("DJVE-DEM-2026-01")
+  await page.getByRole("button", { name: "Buscar", exact: true }).click()
   await page.getByRole("link", { name: "Abrir detalle" }).first().click()
   await expect(
     page.getByRole("heading", { name: "DJVE-DEM-2026-01" })
@@ -87,7 +94,7 @@ test("@smoke Mi trabajo opens the matching exportation workspace and preserves i
   await expect(page).toHaveURL(
     /\/operaciones\/op-demo-3107\?returnTo=.*mi-trabajo/
   )
-  await page.getByRole("link", { name: "Volver a resultados" }).click()
+  await page.getByRole("link", { name: "Volver a Mi trabajo" }).click()
   await expect(page).toHaveURL(/\/mi-trabajo\?trabajo=wrk-exp-post-embarque-02/)
 })
 

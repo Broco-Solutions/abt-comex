@@ -3,8 +3,16 @@
 import { formatRecordedDate } from "@workspace/ui/lib/date"
 
 import Link from "next/link"
+import { DocumentsPanel } from "@/features/documents/components/documents-panel"
+import { useScenario } from "@/features/demo/state/scenario-provider"
 import { useState } from "react"
-import { ArrowLeft, CircleAlert, FileText, ShieldCheck } from "lucide-react"
+import {
+  ArrowLeft,
+  CircleAlert,
+  FileText,
+  ShieldCheck,
+  ChevronDown,
+} from "lucide-react"
 
 import { PageHeader } from "@/components/navigation/page-header"
 import {
@@ -43,6 +51,8 @@ function safeReturnTo(
 ) {
   const operationExists = operations.some((item) => item.id === operationId)
   if (!operationExists) return "/operaciones"
+  if (/^\/tramites\/djve(?:\/[a-z0-9-]+)?(?:\?[^#]*)?(?:#.*)?$/.test(value))
+    return value
   const prefix = `/operaciones/${operationId}`
   if (value === prefix) return prefix
   if (value.startsWith(`${prefix}?returnTo=`)) {
@@ -68,6 +78,7 @@ export function ExportationWorkspace({
   searchParams: SearchParams
 }) {
   const { operations, ready: operationsReady } = useDemoOperations()
+  const { scenario: perspective } = useScenario()
   const {
     scenario,
     ready: scenarioReady,
@@ -165,8 +176,10 @@ export function ExportationWorkspace({
         href={returnTo}
         className="inline-flex min-h-9 items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
       >
-        <ArrowLeft aria-hidden="true" className="size-4" /> Volver a la
-        operación
+        <ArrowLeft aria-hidden="true" className="size-4" />
+        {returnTo.startsWith("/tramites/djve")
+          ? "Volver a DJVE"
+          : "Volver a la operación"}
       </Link>
 
       <PageHeader
@@ -180,17 +193,19 @@ export function ExportationWorkspace({
               Ficha de Operación
             </Link>
             <Link
-              href={`/tramites/djve?returnTo=${encodeURIComponent(`/operaciones/${operation.id}/exportacion`)}`}
+              href={`/tramites/djve?returnTo=${encodeURIComponent(`/operaciones/${operation.id}/exportacion?returnTo=${encodeURIComponent(returnTo)}`)}`}
               className={cn(buttonVariants({ variant: "outline" }))}
             >
               Ver DJVE
             </Link>
-            <Link
-              href={`/administracion/${operation.id}?returnTo=${encodeURIComponent(`/operaciones/${operation.id}/exportacion`)}`}
-              className={cn(buttonVariants({ variant: "outline" }))}
-            >
-              Ver Administración
-            </Link>
+            {perspective.financial ? (
+              <Link
+                href={`/administracion/${operation.id}?returnTo=${encodeURIComponent(`/operaciones/${operation.id}/exportacion?returnTo=${encodeURIComponent(returnTo)}`)}`}
+                className={cn(buttonVariants({ variant: "outline" }))}
+              >
+                Ver Administración
+              </Link>
+            ) : null}
           </div>
         }
       />
@@ -253,15 +268,26 @@ export function ExportationWorkspace({
         aria-labelledby="export-instruction-title"
         className="space-y-2 border-t border-border pt-5"
       >
-        <h2 id="export-instruction-title" className="font-semibold">
-          Instrucción y provisorio
-        </h2>
-        <p className="max-w-4xl text-sm text-muted-foreground">
-          El contenido de la instrucción del cliente y del provisorio depende
-          del caso. Este fixture no incorpora esos documentos ni sus datos; no
-          se interpreta como faltante real. La preparación y oficialización se
-          realizan en Alpha2000/MARÍA, que no está conectada.
-        </p>
+        <details className="group">
+          <summary className="flex cursor-pointer list-none items-center gap-2 rounded-sm focus-visible:outline-2 focus-visible:outline-ring [&::-webkit-details-marker]:hidden">
+            <ChevronDown
+              aria-hidden="true"
+              className="size-4 shrink-0 transition-transform group-open:rotate-180"
+            />
+            <h2 id="export-instruction-title" className="font-semibold">
+              Instrucción y provisorio
+            </h2>
+          </summary>
+          <div className="mt-3 space-y-3">
+            <p className="max-w-4xl text-sm text-muted-foreground">
+              El contenido de la instrucción del cliente y del provisorio
+              depende del caso. Este fixture no incorpora esos documentos ni sus
+              datos; no se interpreta como faltante real. La preparación y
+              oficialización se realizan en Alpha2000/MARÍA, que no está
+              conectada.
+            </p>
+          </div>
+        </details>
       </section>
 
       <section
@@ -391,7 +417,7 @@ export function ExportationWorkspace({
                       {djve ? (
                         <Link
                           className="font-medium underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
-                          href={`/tramites/djve/${djve.id}?returnTo=${encodeURIComponent(`/operaciones/${operation.id}/exportacion`)}`}
+                          href={`/tramites/djve/${djve.id}?returnTo=${encodeURIComponent(`/operaciones/${operation.id}/exportacion?returnTo=${encodeURIComponent(returnTo)}`)}`}
                         >
                           {djve.reference}
                         </Link>
@@ -420,7 +446,7 @@ export function ExportationWorkspace({
             </p>
           ) : null}
           <Link
-            href={`/tramites/djve?returnTo=${encodeURIComponent(`/operaciones/${operation.id}/exportacion`)}`}
+            href={`/tramites/djve?returnTo=${encodeURIComponent(`/operaciones/${operation.id}/exportacion?returnTo=${encodeURIComponent(returnTo)}`)}`}
             className="inline-flex min-h-9 items-center text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
           >
             Abrir registro de DJVE y permisos
@@ -459,51 +485,63 @@ export function ExportationWorkspace({
         </section>
       </div>
 
+      <DocumentsPanel operationId={operation.id} />
       <section
         aria-labelledby="custody-title"
         className="space-y-3 border-t border-border pt-5"
       >
-        <h2
-          id="custody-title"
-          className="flex items-center gap-2 font-semibold"
-        >
-          <FileText aria-hidden="true" className="size-4" />
-          Legajo aduanero y originales para el exterior
-        </h2>
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="space-y-1 border-l-2 border-muted pl-3">
-            <h3 className="text-sm font-medium">Legajo aduanero</h3>
-            <p className="text-sm text-muted-foreground">
-              {progress.customsFile}. No se adjuntan ni conservan archivos en
-              este prototipo; cumplimiento y fuentes no están verificados.
-            </p>
+        <details className="group">
+          <summary className="flex cursor-pointer list-none items-center gap-2 rounded-sm focus-visible:outline-2 focus-visible:outline-ring [&::-webkit-details-marker]:hidden">
+            <ChevronDown
+              aria-hidden="true"
+              className="size-4 shrink-0 transition-transform group-open:rotate-180"
+            />
+            <h2
+              id="custody-title"
+              className="flex items-center gap-2 font-semibold"
+            >
+              <FileText aria-hidden="true" className="size-4" />
+              Legajo aduanero y originales para el exterior
+            </h2>
+          </summary>
+          <div className="mt-3 space-y-3">
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-1 border-l-2 border-muted pl-3">
+                <h3 className="text-sm font-medium">Legajo aduanero</h3>
+                <p className="text-sm text-muted-foreground">
+                  {progress.customsFile}. No se adjuntan ni conservan archivos
+                  en este prototipo; cumplimiento y fuentes no están
+                  verificados.
+                </p>
+              </div>
+              <div className="space-y-1 border-l-2 border-muted pl-3">
+                <h3 className="text-sm font-medium">
+                  Sobre de originales exteriores
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Custodia física: {progress.physicalOriginals}. Copia/registro
+                  digital: {progress.digitalCopy}. No hay ubicación, recepción
+                  ni entrega real registrada.
+                </p>
+              </div>
+              <div className="space-y-1 border-l-2 border-muted pl-3">
+                <h3 className="text-sm font-medium">Certificados y carga</h3>
+                <p className="text-sm text-muted-foreground">
+                  Documentación, organismo, hitos y responsables dependen de la
+                  modalidad y del caso; no hay checklist universal configurado.
+                </p>
+              </div>
+              <div className="space-y-1 border-l-2 border-muted pl-3">
+                <h3 className="text-sm font-medium">Fuente y actualización</h3>
+                <p className="text-sm text-muted-foreground">
+                  Fixture sintético local · actualización del registro{" "}
+                  {formatRecordedDate(operation.updatedOn)}. Alpha2000 y
+                  ARCA/MOA no están conectados.
+                </p>
+              </div>
+            </div>
           </div>
-          <div className="space-y-1 border-l-2 border-muted pl-3">
-            <h3 className="text-sm font-medium">
-              Sobre de originales exteriores
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              Custodia física: {progress.physicalOriginals}. Copia/registro
-              digital: {progress.digitalCopy}. No hay ubicación, recepción ni
-              entrega real registrada.
-            </p>
-          </div>
-          <div className="space-y-1 border-l-2 border-muted pl-3">
-            <h3 className="text-sm font-medium">Certificados y carga</h3>
-            <p className="text-sm text-muted-foreground">
-              Documentación, organismo, hitos y responsables dependen de la
-              modalidad y del caso; no hay checklist universal configurado.
-            </p>
-          </div>
-          <div className="space-y-1 border-l-2 border-muted pl-3">
-            <h3 className="text-sm font-medium">Fuente y actualización</h3>
-            <p className="text-sm text-muted-foreground">
-              Fixture sintético local · actualización del registro{" "}
-              {formatRecordedDate(operation.updatedOn)}. Alpha2000 y ARCA/MOA no
-              están conectados.
-            </p>
-          </div>
-        </div>
+        </details>
       </section>
 
       <section

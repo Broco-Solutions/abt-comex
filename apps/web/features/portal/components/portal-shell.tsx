@@ -1,10 +1,19 @@
+"use client"
 import Image from "next/image"
+import { usePathname } from "next/navigation"
+import { useScenario } from "@/features/demo/state/scenario-provider"
+import { AccessPage } from "@/features/demo/components/access-page"
+import { Button } from "@workspace/ui/components/button"
 import Link from "next/link"
 
 import { BrandAttribution } from "@/components/brand/brand-attribution"
 import { PORTAL_DEMO_CLIENT_ID } from "../data/portal"
 
 export function PortalShell({ children }: { children: React.ReactNode }) {
+  const { active, scenario, exit } = useScenario()
+  const pathname = usePathname()
+  if ((!active || scenario.id !== "client") && pathname !== "/portal/acceso")
+    return <AccessPage />
   return (
     <div className="min-h-screen bg-background text-foreground">
       <a
@@ -40,11 +49,14 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
               Mis operaciones
             </Link>
             <Link
-              href="/portal/acceso"
+              href="/acceso"
               className="min-h-10 rounded-sm py-2 text-muted-foreground underline-offset-4 hover:text-foreground hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
             >
               Cambiar escenario
             </Link>
+            <Button variant="ghost" size="sm" onClick={exit}>
+              Salir
+            </Button>
           </nav>
         </div>
       </header>

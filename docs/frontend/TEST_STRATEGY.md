@@ -405,3 +405,9 @@ Sólo cambiar documentación no requiere lint/typecheck/build/E2E. Si se modific
 ## Evaluación UX/UI V2 por capacidades
 
 La aplicación requiere seleccionar perspectiva. La fixture E2E común establece explícitamente Dirección como contexto de revisión integral una vez por contexto de navegador; no es un default del producto. Los tests UX de acceso cambian a perfiles operativos/externos y verifican ausencia de registros económicos, navegación propia, filtro por tipo y recuperación de inducción. Reinicio y cambio con modificaciones requieren confirmación; no se usan sleeps ni se deshabilitan escenarios previos. La visibilidad frontend no constituye autorización real.
+
+## Regresión documental y de procesos UX-06
+
+Los escenarios 2/20/100 de documentos y DJVE son pruebas de diseño, no volúmenes ni cuotas de ABT. Comprobar búsqueda, límite de filas/revelado y paginación sin activar capacidades avanzadas innecesarias. Las fechas relativas/cortes de evaluación comparten una referencia determinística; una actualización documental no se rotula como fecha de operación.
+
+Probar recepción de copia en ficha/workspace/consulta sin completar original ni control; proyección externa antes de conteos/campos; salida y reinicio; versión histórica sin mutación de secuencia; errores enlazados y foco; cliente explícito/reutilizado desde contexto; regreso DJVE/Exportación/lista con búsqueda intacta. No se reemplazan aserciones funcionales por avisos genéricos de demo. Axe no certifica WCAG ni sustituye teclado/reflow/revisión visual.

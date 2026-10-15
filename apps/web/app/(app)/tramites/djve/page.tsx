@@ -9,5 +9,11 @@ export default async function DjvePage({
   const returnTo = Array.isArray(query.returnTo)
     ? query.returnTo[0]
     : query.returnTo
-  return <DjveList returnTo={returnTo} />
+  return (
+    <DjveList
+      returnTo={returnTo}
+      query={typeof query.q === "string" ? query.q : ""}
+      page={typeof query.pagina === "string" ? Number(query.pagina) : 1}
+    />
+  )
 }

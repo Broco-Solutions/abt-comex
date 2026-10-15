@@ -44,9 +44,7 @@ identidad, permisos productivos ni servicios compartidos con ABT.
 - Próximo paso: muestra literalmente la orientación ya presente en el fixture,
   rotulada como referencia; no significa que exista una tarea asignada o se
   haya ejecutado.
-- Documento faltante: si el estado indica `Pendiente documental`, explica que
-  el fixture no identifica el documento; en otro caso informa que no hay
-  inventario. No inventa requisitos.
+- Documento faltante: consulta los requisitos/copias del mismo modelo documental de la ficha y workspace. Lista sólo copias pendientes conocidas y su fecha de referencia; no afirma originales completos ni cierre. Si no hay inventario, se abstiene en lugar de inferir requisitos.
 - Vencimiento: se abstiene, ya que el modelo compartido no ofrece una fecha
   límite confiable.
 - Estado aduanero: se abstiene; Alpha2000 y ARCA/MOA no están conectados en el

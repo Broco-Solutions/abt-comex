@@ -302,6 +302,7 @@ export function OperationsList({
       ) : null}
 
       <form
+        key={JSON.stringify(filters)}
         action="/operaciones"
         method="get"
         className="grid gap-3 border-b border-border pb-4 sm:grid-cols-2 xl:grid-cols-4"
@@ -407,6 +408,7 @@ export function OperationsList({
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <form
+          key={JSON.stringify(filters)}
           action="/operaciones"
           method="get"
           className="flex items-center gap-2 text-xs"
@@ -524,10 +526,7 @@ export function OperationsList({
               ? "No hay operaciones con estos filtros"
               : "No hay operaciones en este escenario"}
           </h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            La búsqueda sólo consulta registros sintéticos visibles en esta
-            demostración.
-          </p>
+
           <Link
             className="mt-2 inline-block text-sm underline"
             href={operationHref({

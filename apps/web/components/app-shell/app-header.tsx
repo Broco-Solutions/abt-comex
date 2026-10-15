@@ -21,8 +21,9 @@ export function AppHeader() {
           </Suspense>
         </div>
         <Suspense>
-          <span className="hidden text-xs text-muted-foreground md:inline">
-            Entorno de evaluación
+          <span className="shrink-0 text-xs text-muted-foreground">
+            <span className="hidden md:inline">Entorno de evaluación</span>
+            <span className="md:hidden">Evaluación</span>
           </span>
           <UserMenu />
         </Suspense>

@@ -16,7 +16,7 @@ Dar una ficha común desde la que la persona reconoce la operación, su cliente,
 | Necesidad                          | Evidencia / autoridad                                     | Experiencia y recorrido | Tratamiento de este corte                                                                                                         |
 | ---------------------------------- | --------------------------------------------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | COV-001, COV-002, OPE-003          | Matriz de cobertura; alcance §4.3; mapa OPS-03            | OPS-03; J1, J2, J3, J6  | Fixture con ID estable, cliente, tipo, responsable, situación y actualización sintéticos.                                         |
-| OPE-005, DOC-001–004, CTRL-001–003 | Matriz; procesos de Importación/Exportación               | OPS-05; J2, J3, J6, J10 | La ficha declara que detalle documental/control se completa en etapas posteriores; no infiere ausencia real ni transiciones.      |
+| OPE-005, DOC-001–004, CTRL-001–003 | Matriz; procesos de Importación/Exportación               | OPS-05; J2, J3, J6, J10 | La ficha comparte requisitos/copias sintéticas con los workspaces y deriva al control propio del proceso; no infiere transiciones.      |
 | FIN-001–009; COV-006               | Alcance §7.2; matriz; decisión económica vigente          | OPS-03; J3, J7          | No renderiza datos económicos. La sección explica límites y separación de situaciones; sin perfil ni permiso productivo simulado. |
 | COV-008, INT-001, ALP-001          | Matriz de cobertura; estrategia de integraciones del plan | OPS-03; J10             | Muestra escenario sintético local y que Alpha2000 no está conectada; no atribuye fuente externa.                                  |
 
@@ -25,11 +25,11 @@ Dar una ficha común desde la que la persona reconoce la operación, su cliente,
 - La cabecera identifica referencia ficticia, cliente, tipo, situación de referencia, equipo responsable, modalidad y fecha del escenario.
 - Si el registro se abrió durante la sesión local, muestra su contexto inicial y si nació de alta directa o de una versión de Cotización aceptada; el vínculo conserva el ID y versión de origen.
 - “Próximo paso” reproduce la orientación sintética existente; no crea una tarea ni afirma una acción cumplida.
-- “Documentación”, “Controles y seguimiento” y “Administración” explicitan qué no está modelado aún y qué etapas lo completarán; no son botones inertes.
-- En Importación hay un destino útil al workspace específico, desde la acción principal y las secciones de documentos/controles; el retorno conserva el contexto de esta ficha. Exportación mantiene el límite de etapa futura.
-- “Volver a resultados” conserva filtros del listado o el contexto de Mi trabajo. La ruta de retorno sólo admite paths internos de esas listas; ruta inválida vuelve al listado.
+- Documentación muestra requisitos, copias y originales por separado. Controles derivan al proceso específico; enlaces comerciales/administrativos sólo aparecen con las capacidades de evaluación correspondientes.
+- En Importación hay un destino útil al workspace específico, desde la acción principal y las secciones de documentos/controles; el retorno conserva el contexto de esta ficha. Exportación tiene el workspace correspondiente, conservando el retorno.
+- “Volver a resultados” conserva filtros del listado o el contexto de Mi trabajo. El retorno admite contextos internos conocidos (cliente, trabajo, análisis, Administración o listado), muestra un nombre acorde al destino y conserva URL; una ruta inválida vuelve al listado.
 - El enlace de tipo conduce al listado filtrado, destino existente y útil.
-- Edición se presenta deshabilitada con motivo. Ninguna acción escribe o contacta fuentes externas.
+- La ficha es de consulta; se retiró el botón de edición sin función. La recepción local de copias modifica sólo el escenario y no contacta fuentes externas.
 
 ## Reglas, privacidad y límites
 
@@ -70,3 +70,7 @@ La ficha reutiliza la fuente de operaciones sintéticas de Etapa 3, compartida e
 - Integración: enlaces de Operaciones y Mi trabajo reemplazan el contexto temporal por esta ficha, conservando retorno; Importación abre su workspace específico `/operaciones/[operationId]/importacion` sin consultar Alpha2000/MARÍA.
 - Estado técnico: PR #9 integrado (`80d7714`), checks requeridos verdes; deployment `dpl_AqoCyjYC3CYEnwNwz86kA1VZi2P7` READY. Lint, typecheck, 49 unitarias, 12 axe, build, validador documental y 17 E2E smoke Chromium pasan; revisión visual automatizada observada a 1440×1000 y 390×844, sin overflow horizontal. Revisión humana integral pendiente.
 - Validación formal/funcional ABT: pendiente.
+
+## UX-06 — refinamiento implementado
+
+Identidad y próximo paso permanecen visibles; procedencia secundaria se despliega con Chevron y teclado nativo. Documentación comparte el modelo de requisitos/copias con Importación/Exportación y consultas guiadas; no es una tabla general ni duplica el registro. Acciones sensibles se rotulan localmente y la identificación global evita avisos repetidos. El origen comercial abre su versión exacta, no la última por accidente; retorno explícito al contexto.

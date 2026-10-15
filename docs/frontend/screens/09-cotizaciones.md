@@ -106,3 +106,11 @@ midió sin overflow a 390, 768, 900, 1024, 1280 y 1440 px.
 ## UX-02 — colección comercial
 
 DataTable en ancho suficiente y registros compactos en móvil/tablet. Referencia, cliente, versión, aprobación interna, envío, respuesta y actualización son dimensiones separadas; precio no ocupa la vista inicial. Sin selección masiva ni estados definitivos nuevos. Se preservan búsqueda, filtros y retorno. Prueba responsive y comparativa en ux-lists.spec.ts y suites de Cotizaciones.
+
+## UX-06 — consulta de versiones y formulario
+
+La secuencia de aprobación/envío/respuesta aparece antes de líneas e historia. Historial compacto desplegable; cada versión se abre por parámetro version y conserva retorno. Una versión histórica es explícita y no permite mutar su secuencia; una versión desconocida no se sustituye silenciosamente por la vigente. El origen de una operación conserva la versión usada. La política definitiva de vigencia sigue pendiente de ABT, sin sobrescribir eventos anteriores.
+
+Errores del editor se asocian al campo y enfocan el primer dato inválido; un precio vacío no se interpreta como cero. Se conservan los límites enteros del escenario y cero explícito permitido, sin agregar impuestos, redondeos ni fórmulas nuevas. Las acciones de aprobación/envío siguen identificadas como sensibles y locales.
+
+La nueva cotización no presume un cliente arbitrario: sólo reutiliza un ID de cliente conocido desde contexto explícito del listado; sin él solicita selección. No cambia los requisitos del negocio ni define permisos definitivos.

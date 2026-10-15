@@ -93,12 +93,13 @@ export function FinancialDashboard({
               ? r.openBalance !== undefined &&
                 r.openBalance > 0 &&
                 receivableBand(r) === key
-              : false)
+              : dimension === "all")
   )
   const missing = invoices.filter((r) => r.openBalance === undefined).length
   return (
     <div className="space-y-6">
       <form
+        key={base.toString()}
         action={path}
         method="get"
         aria-label="Filtros del análisis"
@@ -215,6 +216,24 @@ export function FinancialDashboard({
           </div>
         </div>
       )}
+      <nav
+        aria-label="Consultar registros financieros"
+        className="flex flex-wrap gap-2"
+      >
+        {(["invoice", "receipt", "expense"] as const).map((value) => (
+          <Link
+            key={value}
+            className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+            href={`${path}?${base}&serie=${value}&dimension=all#registros`}
+          >
+            {value === "invoice"
+              ? "Ver facturas"
+              : value === "receipt"
+                ? "Ver cobros"
+                : "Ver gastos"}
+          </Link>
+        ))}
+      </nav>
       {type ? (
         <section
           id="registros"
@@ -242,7 +261,8 @@ export function FinancialDashboard({
               : type === "receipt"
                 ? "Cobros registrados"
                 : "Gastos registrados"}{" "}
-            · {key} · {selected.length} registros · {currency}
+            · {key ?? "Período seleccionado"} · {selected.length} registros ·{" "}
+            {currency}
           </p>
           {selected.length ? (
             <FinancialRecords

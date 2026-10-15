@@ -1,5 +1,6 @@
 "use client"
 import { useRouter } from "next/navigation"
+import { saveReceivedDocuments } from "@/features/documents/data/documents"
 import { createContext, Fragment, useContext, useEffect, useState } from "react"
 import {
   demonstrationOperations,
@@ -86,6 +87,7 @@ export function ScenarioProvider({ children }: { children: React.ReactNode }) {
     saveDemoQuotes(initialDemoQuotes)
     saveImportationScenarios([])
     saveExportationScenarios([])
+    saveReceivedDocuments([])
     setDirty(false)
     setGeneration((current) => current + 1)
     try {
@@ -105,7 +107,11 @@ export function ScenarioProvider({ children }: { children: React.ReactNode }) {
     } catch {
       /* Browser state stays available without storage. */
     }
-    router.replace(nextScenario.id === "client" ? `/portal?cliente=${nextScenario.clientId}` : "/inicio")
+    router.replace(
+      nextScenario.id === "client"
+        ? `/portal?cliente=${nextScenario.clientId}`
+        : "/inicio"
+    )
   }
   function exit() {
     if (!confirmReset()) return

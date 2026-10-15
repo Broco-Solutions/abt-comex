@@ -33,7 +33,12 @@ export const assistedQuestions: {
 
 export function answerAssistedQuestion(
   question: AssistedQuestion,
-  operation: AssistedOperationContext
+  operation: AssistedOperationContext,
+  documents?: Array<{
+    requirement: string
+    documentName?: string
+    updatedOn?: string
+  }>
 ): AssistedAnswer {
   switch (question) {
     case "status":
@@ -55,6 +60,24 @@ export function answerAssistedQuestion(
           "Es orientación demostrativa; no crea una tarea ni indica que alguien ya la haya ejecutado.",
       }
     case "documents":
+      if (documents?.length) {
+        const missing = documents.filter((d) => !d.documentName)
+        return {
+          title: missing.length ? "Copias pendientes" : "Copias disponibles",
+          message: missing.length
+            ? missing.map((d) => d.requirement).join("; ")
+            : "Los requisitos listados tienen copia. Esto no confirma originales ni cierre documental.",
+          source: "Requisitos documentales locales de esta operación",
+          updatedOn:
+            documents
+              .map((d) => d.updatedOn)
+              .filter((date): date is string => Boolean(date))
+              .sort()
+              .at(-1) ?? null,
+          limitation:
+            "No valida el documento ni infiere requisitos adicionales, custodia o controles.",
+        }
+      }
       return {
         title: "No hay detalle documental confiable",
         message:

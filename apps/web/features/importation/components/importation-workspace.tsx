@@ -1,8 +1,9 @@
 "use client"
 
 import Link from "next/link"
+import { DocumentsPanel } from "@/features/documents/components/documents-panel"
 import { useState } from "react"
-import { ArrowLeft, CircleAlert, ShieldCheck } from "lucide-react"
+import { ArrowLeft, CircleAlert, ShieldCheck, ChevronDown } from "lucide-react"
 
 import { PageHeader } from "@/components/navigation/page-header"
 import { Badge } from "@workspace/ui/components/badge"
@@ -183,57 +184,12 @@ export function ImportationWorkspace({
             <dd className="mt-1 font-medium">{operation.responsible}</dd>
           </div>
           <div>
-            <dt className="text-xs text-muted-foreground">Fuente del caso</dt>
-            <dd className="mt-1 font-medium">Escenario sintético local</dd>
+            <dt className="text-xs text-muted-foreground">Fuente aduanera</dt>
+            <dd className="mt-1 font-medium">
+              <span>Alpha2000 / MARÍA</span> · <span>No conectada</span>
+            </dd>
           </div>
         </dl>
-      </section>
-
-      <section aria-labelledby="import-stage-title" className="max-w-5xl">
-        <div className="flex flex-wrap items-center gap-2">
-          <h2 id="import-stage-title" className="font-semibold">
-            Seguimiento por etapas
-          </h2>
-          <Badge variant="outline">Definiciones parciales</Badge>
-        </div>
-        <ol className="mt-3 divide-y divide-border border-y border-border">
-          <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
-            <span className="text-sm font-medium">Clasificación inicial</span>
-            <span className="text-sm text-muted-foreground">
-              Tipo, Cliente y modalidad se reutilizan. Mercadería, origen,
-              destinos y requisitos aplicables requieren definición.
-            </span>
-          </li>
-          <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
-            <span className="text-sm font-medium">Pre-embarque</span>
-            <span className="text-sm text-muted-foreground">
-              No hay un checklist universal configurado. Documentación y
-              vencimientos dependen del caso; esta vista no afirma que falten
-              documentos en ABT.
-            </span>
-          </li>
-          <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
-            <span className="text-sm font-medium">Preparación provisoria</span>
-            <span className="text-sm text-muted-foreground">
-              La preparación aduanera continúa en Alpha2000/MARÍA. No se
-              muestran valores aduaneros ni se duplica esa preparación aquí.
-            </span>
-          </li>
-          <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
-            <span className="text-sm font-medium">Arribo y seguimiento</span>
-            <span className="text-sm text-muted-foreground">
-              Arribo/ETA, oficialización, canal, intervenciones y liberación:
-              sin consulta conectada; no hay estado externo confirmado.
-            </span>
-          </li>
-          <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
-            <span className="text-sm font-medium">Cierre y Administración</span>
-            <span className="text-sm text-muted-foreground">
-              El criterio de carpeta completa y aceptación del pase está
-              pendiente; no se crea un handoff ni se marca cerrado.
-            </span>
-          </li>
-        </ol>
       </section>
 
       <section
@@ -362,32 +318,93 @@ export function ImportationWorkspace({
         </p>
       </section>
 
+      <DocumentsPanel operationId={operation.id} />
+
+      <section aria-labelledby="import-stage-title" className="max-w-5xl">
+        <div className="flex flex-wrap items-center gap-2">
+          <h2 id="import-stage-title" className="font-semibold">
+            Seguimiento por etapas
+          </h2>
+          <Badge variant="outline">Definiciones parciales</Badge>
+        </div>
+        <ol className="mt-3 divide-y divide-border border-y border-border">
+          <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
+            <span className="text-sm font-medium">Clasificación inicial</span>
+            <span className="text-sm text-muted-foreground">
+              Tipo, Cliente y modalidad se reutilizan. Mercadería, origen,
+              destinos y requisitos aplicables requieren definición.
+            </span>
+          </li>
+          <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
+            <span className="text-sm font-medium">Pre-embarque</span>
+            <span className="text-sm text-muted-foreground">
+              No hay un checklist universal configurado. Documentación y
+              vencimientos dependen del caso; esta vista no afirma que falten
+              documentos en ABT.
+            </span>
+          </li>
+          <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
+            <span className="text-sm font-medium">Preparación provisoria</span>
+            <span className="text-sm text-muted-foreground">
+              La preparación aduanera continúa en Alpha2000/MARÍA. No se
+              muestran valores aduaneros ni se duplica esa preparación aquí.
+            </span>
+          </li>
+          <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
+            <span className="text-sm font-medium">Arribo y seguimiento</span>
+            <span className="text-sm text-muted-foreground">
+              Arribo/ETA, oficialización, canal, intervenciones y liberación:
+              sin consulta conectada; no hay estado externo confirmado.
+            </span>
+          </li>
+          <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
+            <span className="text-sm font-medium">Cierre y Administración</span>
+            <span className="text-sm text-muted-foreground">
+              El criterio de carpeta completa y aceptación del pase está
+              pendiente; no se crea un handoff ni se marca cerrado.
+            </span>
+          </li>
+        </ol>
+      </section>
+
       <section
         aria-labelledby="import-source-title"
         className="max-w-5xl space-y-2 border-t border-border pt-4"
       >
-        <h2 id="import-source-title" className="font-semibold">
-          Fuente aduanera y actualidad
-        </h2>
-        <dl className="grid gap-3 sm:grid-cols-2">
-          <div>
-            <dt className="text-xs text-muted-foreground">Sistema previsto</dt>
-            <dd className="mt-1 text-sm font-medium">Alpha2000 / MARÍA</dd>
+        <details className="group">
+          <summary className="flex cursor-pointer list-none items-center gap-2 rounded-sm focus-visible:outline-2 focus-visible:outline-ring [&::-webkit-details-marker]:hidden">
+            <ChevronDown
+              aria-hidden="true"
+              className="size-4 shrink-0 transition-transform group-open:rotate-180"
+            />
+            <h2 id="import-source-title" className="font-semibold">
+              Fuente aduanera y actualidad
+            </h2>
+          </summary>
+          <div className="mt-3 space-y-3">
+            <dl className="grid gap-3 sm:grid-cols-2">
+              <div>
+                <dt className="text-xs text-muted-foreground">
+                  Sistema previsto
+                </dt>
+                <dd className="mt-1 text-sm font-medium">Alpha2000 / MARÍA</dd>
+              </div>
+              <div>
+                <dt className="text-xs text-muted-foreground">
+                  Estado de conexión
+                </dt>
+                <dd className="mt-1 text-sm font-medium">
+                  No conectada · sin datos aduaneros confirmados
+                </dd>
+              </div>
+            </dl>
+            <p className="text-sm text-muted-foreground">
+              No se consultó ARCA/MOA ni Alpha2000. Los datos de referencia
+              visibles provienen exclusivamente del fixture local y no reflejan
+              el estado actual de una destinación.
+            </p>
           </div>
-          <div>
-            <dt className="text-xs text-muted-foreground">
-              Estado de conexión
-            </dt>
-            <dd className="mt-1 text-sm font-medium">
-              No conectada · sin datos aduaneros confirmados
-            </dd>
-          </div>
-        </dl>
-        <p className="text-sm text-muted-foreground">
-          No se consultó ARCA/MOA ni Alpha2000. Los datos de referencia visibles
-          provienen exclusivamente del fixture local y no reflejan el estado
-          actual de una destinación.
-        </p>
+        </details>
       </section>
     </div>
   )

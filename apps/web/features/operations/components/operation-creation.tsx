@@ -3,6 +3,8 @@
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { useScenario } from "@/features/demo/state/scenario-provider"
+import { scenarioKind } from "@/features/demo/data/scenarios"
 import { ArrowLeft, ArrowRight, Check } from "lucide-react"
 
 import { PageHeader } from "@/components/navigation/page-header"
@@ -29,7 +31,6 @@ const steps = [
   "Cliente y tipo",
   "Contexto",
   "Responsable",
-  "Requisitos",
   "Revisión",
 ]
 
@@ -50,13 +51,14 @@ export function OperationCreation({
   searchParams: SearchParams
 }) {
   const router = useRouter()
+  const { scenario } = useScenario()
   const { quotes, ready: quotesReady } = useDemoQuotes()
   const {
     operations,
     ready: operationsReady,
     updateOperations,
   } = useDemoOperations()
-  const quoteId = first(searchParams.cotizacion)
+  const quoteId = scenario.commercial ? first(searchParams.cotizacion) : ""
   const versionNumber = Number(first(searchParams.version))
   const requestedQuote = quoteId
     ? quotes.find((quote) => quote.id === quoteId)
@@ -66,12 +68,15 @@ export function OperationCreation({
   )
   const quoteAccepted =
     requestedVersion?.workflow.clientResponse === "Aceptación simulada"
-  const [step, setStep] = useState(1)
+  const firstStep = scenario.commercial ? 1 : 2
+  const [step, setStep] = useState(firstStep)
   const [origin, setOrigin] = useState<"direct" | "quote">(
     quoteId ? "quote" : "direct"
   )
   const [clientId, setClientId] = useState("")
-  const [kind, setKind] = useState<OperationKind | "">("")
+  const [kind, setKind] = useState<OperationKind | "">(
+    scenarioKind(scenario) ?? ""
+  )
   const [modality, setModality] = useState<(typeof modalities)[number] | "">("")
   const [context, setContext] = useState("")
   const [responsible, setResponsible] = useState("")
@@ -106,6 +111,17 @@ export function OperationCreation({
     const validation = canContinue()
     if (validation) {
       setMessage(validation)
+      const target =
+        step === 2
+          ? !selectedClient
+            ? "creation-client"
+            : !kind
+              ? "creation-kind"
+              : "creation-modality"
+          : step === 4
+            ? "operation-responsible"
+            : "creation-origin-quote"
+      document.getElementById(target)?.focus()
       return
     }
     setMessage("")
@@ -180,8 +196,8 @@ export function OperationCreation({
         className="max-w-5xl border-y border-border py-3"
       >
         <ol className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
-          {steps.map((label, index) => {
-            const number = index + 1
+          {steps.slice(firstStep - 1).map((label, index) => {
+            const number = index + firstStep
             return (
               <li
                 key={label}
@@ -199,7 +215,7 @@ export function OperationCreation({
                   {number < step ? (
                     <Check aria-hidden="true" className="size-3.5" />
                   ) : (
-                    number
+                    number - firstStep + 1
                   )}
                 </span>
                 {label}
@@ -210,6 +226,7 @@ export function OperationCreation({
       </nav>
 
       <form
+        noValidate
         className="max-w-5xl space-y-5"
         onSubmit={(event) => {
           event.preventDefault()
@@ -244,27 +261,30 @@ export function OperationCreation({
                 </span>
               </span>
             </label>
-            <label className="flex min-h-12 items-start gap-3 border border-border p-3">
-              <input
-                type="radio"
-                name="origin"
-                value="quote"
-                checked={origin === "quote"}
-                onChange={() => {
-                  setOrigin("quote")
-                  setMessage("")
-                }}
-              />
-              <span>
-                <span className="block font-medium">
-                  Desde una versión aceptada
+            {scenario.commercial ? (
+              <label className="flex min-h-12 items-start gap-3 border border-border p-3">
+                <input
+                  type="radio"
+                  name="origin"
+                  id="creation-origin-quote"
+                  value="quote"
+                  checked={origin === "quote"}
+                  onChange={() => {
+                    setOrigin("quote")
+                    setMessage("")
+                  }}
+                />
+                <span>
+                  <span className="block font-medium">
+                    Desde una versión aceptada
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    Sólo reutiliza la versión específica cuya respuesta de
+                    cliente está aceptada en el escenario.
+                  </span>
                 </span>
-                <span className="text-sm text-muted-foreground">
-                  Sólo reutiliza la versión específica cuya respuesta de cliente
-                  está aceptada en el escenario.
-                </span>
-              </span>
-            </label>
+              </label>
+            ) : null}
             {origin === "quote" ? (
               quoteId && quoteAccepted && requestedQuote && requestedVersion ? (
                 <p
@@ -303,6 +323,9 @@ export function OperationCreation({
             <label className="grid gap-1 text-xs font-medium">
               Cliente
               <select
+                id="creation-client"
+                aria-invalid={Boolean(message && !selectedClient)}
+                aria-describedby={message ? "creation-error" : undefined}
                 value={activeQuote?.clientId ?? clientId}
                 disabled={Boolean(activeQuote)}
                 onChange={(event) => setClientId(event.target.value)}
@@ -318,24 +341,37 @@ export function OperationCreation({
             </label>
             <fieldset className="space-y-2">
               <legend className="text-xs font-medium">Tipo de operación</legend>
-              {(["Importación", "Exportación"] as const).map((option) => (
-                <label
-                  key={option}
-                  className="flex min-h-9 items-center gap-2 text-sm"
-                >
-                  <input
-                    type="radio"
-                    name="kind"
-                    checked={kind === option}
-                    onChange={() => setKind(option)}
-                  />
-                  {option}
-                </label>
-              ))}
+              {(["Importación", "Exportación"] as const)
+                .filter(
+                  (option) =>
+                    !scenarioKind(scenario) || option === scenarioKind(scenario)
+                )
+                .map((option) => (
+                  <label
+                    key={option}
+                    className="flex min-h-9 items-center gap-2 text-sm"
+                  >
+                    <input
+                      id={
+                        option === "Importación" ? "creation-kind" : undefined
+                      }
+                      aria-invalid={Boolean(message && !kind)}
+                      aria-describedby={message ? "creation-error" : undefined}
+                      type="radio"
+                      name="kind"
+                      checked={kind === option}
+                      onChange={() => setKind(option)}
+                    />
+                    {option}
+                  </label>
+                ))}
             </fieldset>
             <label className="grid gap-1 text-xs font-medium sm:col-span-2">
               Modalidad de referencia
               <select
+                id="creation-modality"
+                aria-invalid={Boolean(message && !modality)}
+                aria-describedby={message ? "creation-error" : undefined}
                 value={modality}
                 onChange={(event) =>
                   setModality(event.target.value as typeof modality)
@@ -415,6 +451,8 @@ export function OperationCreation({
             <select
               id="operation-responsible"
               required
+              aria-invalid={Boolean(message && !responsible)}
+              aria-describedby={message ? "creation-error" : undefined}
               value={responsible}
               onChange={(event) => setResponsible(event.target.value)}
               className="h-9 w-full max-w-md rounded-md border border-input bg-background px-2 text-sm"
@@ -424,10 +462,6 @@ export function OperationCreation({
                 <option key={team}>{team}</option>
               ))}
             </select>
-            <p className="text-xs text-muted-foreground">
-              Los equipos son etiquetas ficticias existentes en el escenario; no
-              son usuarios, roles ni permisos reales.
-            </p>
           </section>
         ) : null}
 
@@ -457,7 +491,7 @@ export function OperationCreation({
           </section>
         ) : null}
 
-        {step === 6 ? (
+        {step === 5 ? (
           <section
             aria-labelledby="creation-review-title"
             className="space-y-4"
@@ -513,7 +547,11 @@ export function OperationCreation({
         ) : null}
 
         {message ? (
-          <p role="alert" className="text-sm text-destructive">
+          <p
+            id="creation-error"
+            role="alert"
+            className="text-sm text-destructive"
+          >
             {message}
           </p>
         ) : null}
@@ -521,10 +559,10 @@ export function OperationCreation({
           <Button
             type="button"
             variant="outline"
-            disabled={step === 1}
+            disabled={step === firstStep}
             onClick={() => {
               setMessage("")
-              setStep((current) => Math.max(1, current - 1))
+              setStep((current) => Math.max(firstStep, current - 1))
             }}
           >
             Anterior

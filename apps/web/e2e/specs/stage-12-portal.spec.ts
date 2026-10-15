@@ -1,14 +1,21 @@
 import { expect, test } from "../fixtures"
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    sessionStorage.setItem("abt-comex:demo:scenario:v1", "client")
+    sessionStorage.setItem("abt:test:scenario-initialized", "true")
+  })
+})
+
 test("@smoke Portal uses a separate shell, a fictional identity and a restricted operation projection", async ({
   page,
 }) => {
   await page.goto("/portal/acceso")
   await expect(
-    page.getByRole("heading", { name: "Acceso de demostración" })
+    page.getByRole("heading", { name: "Acceso al Portal" })
   ).toBeVisible()
-  await expect(page.getByText(/no inicia una sesión segura/i)).toBeVisible()
-  await page.getByRole("link", { name: "Abrir escenario del Portal" }).click()
+  await expect(page.getByLabel(/contraseña/i)).toHaveCount(0)
+  await page.getByRole("button", { name: "Entrar al Portal" }).click()
   await expect(page).toHaveURL(/\/portal\?cliente=client-demo-centro/)
 
   await expect(
@@ -19,9 +26,7 @@ test("@smoke Portal uses a separate shell, a fictional identity and a restricted
   await expect(page.getByText("OP-DEM-2048")).toHaveCount(0)
   await expect(page.getByText("Equipo Impo B")).toHaveCount(0)
   await expect(page.getByText("Revisar documentación pendiente")).toHaveCount(0)
-  await expect(
-    page.getByText(/No se envían emails ni notificaciones/)
-  ).toBeVisible()
+  await expect(page.getByRole("button", { name: /Enviar/i })).toHaveCount(0)
   await expect(
     page.getByRole("navigation", { name: "Navegación principal" })
   ).toHaveCount(0)
@@ -34,12 +39,12 @@ test("@smoke Portal uses a separate shell, a fictional identity and a restricted
     page.getByText("Pendiente documental", { exact: true })
   ).toBeVisible()
   await expect(
-    page.getByText(/no contiene el detalle del requerimiento/)
+    page.getByRole("heading", { name: "Documentos y pendientes" })
   ).toBeVisible()
-  await expect(page.getByText(/No hay archivos habilitados/)).toBeVisible()
   await expect(
-    page.getByText(/No hay historial de hitos disponible/)
+    page.getByRole("button", { name: /Ver referencia/ })
   ).toBeVisible()
+  await expect(page.getByText(/Sin hitos informados/)).toBeVisible()
 })
 
 test("@smoke Portal denies another client's operation without disclosing its identity", async ({
@@ -58,6 +63,12 @@ test("@smoke Portal navigation remains separate and responsive", async ({
   page,
 }) => {
   await page.goto("/portal?cliente=client-demo-centro")
+  await expect(
+    page.getByRole("heading", {
+      name: "Hola, Cliente Demo Centro",
+      exact: true,
+    })
+  ).toBeVisible()
   for (const width of [1440, 1280, 1024, 768, 390]) {
     await page.setViewportSize({ width, height: 844 })
     expect(
@@ -78,5 +89,5 @@ test("@smoke Portal navigation remains separate and responsive", async ({
     page.getByRole("link", { name: "Cambiar escenario" })
   ).toBeFocused()
   await page.getByRole("link", { name: "Cambiar escenario" }).click()
-  await expect(page).toHaveURL(/\/portal\/acceso$/)
+  await expect(page).toHaveURL(/\/acceso$/)
 })

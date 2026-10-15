@@ -5,6 +5,7 @@ import type {
   WorkSummary,
 } from "../types/work-item"
 import type { ImportationScenario } from "@/features/importation/types/importation"
+import { DEMONSTRATION_DATE } from "@/features/demo/data/scenarios"
 
 import {
   initialDemoQuotes,
@@ -12,7 +13,7 @@ import {
 } from "@/features/quotes/data/quotes"
 import type { DemonstrationQuote } from "@/features/quotes/types/quote"
 
-export const DEMO_DATE = "2026-10-14"
+export const DEMO_DATE = DEMONSTRATION_DATE
 export const DEMO_PERSON = "Lucía Benítez"
 
 // Synthetic examples only. They model work shapes and relationships, not ABT records.
@@ -30,7 +31,7 @@ export const workItems: WorkItem[] = [
     dueDate: "2026-10-14",
     blocking: true,
     assignedToDemoUser: true,
-    source: "ABT Comex · fixture local",
+    source: "ABT Comex · registro local",
     freshness: "Disponible",
     nextStep:
       "Abrí el espacio de Importación para revisar el control pendiente. La oficialización se realiza externamente.",
@@ -50,7 +51,7 @@ export const workItems: WorkItem[] = [
     dueDate: "2026-10-16",
     timeBand: "Próximo",
     assignedToDemoUser: true,
-    source: "ABT Comex · fixture local",
+    source: "ABT Comex · registro local",
     freshness: "Disponible",
     nextStep:
       "Revisá originales, cumplido y documentación en el espacio de Exportación.",
@@ -66,7 +67,7 @@ export const workItems: WorkItem[] = [
     origin: "Cliente",
     reference: "CLI-DEM-018",
     dueDate: "2026-10-20",
-    source: "ABT Comex · fixture local",
+    source: "ABT Comex · registro local",
     freshness: "Disponible",
     nextStep:
       "La revisión documental se representa aquí; no modifica una carpeta real.",
@@ -86,7 +87,7 @@ export const workItems: WorkItem[] = [
     dueDate: "2026-10-13",
     timeBand: "Vencido",
     assignedToDemoUser: true,
-    source: "ABT Comex · fixture local",
+    source: "ABT Comex · registro local",
     freshness: "Disponible",
     nextStep:
       "Revisar la versión vigente antes de registrar el envío al cliente.",
@@ -103,7 +104,7 @@ export const workItems: WorkItem[] = [
     origin: "Administración · tarea sin operación",
     reference: "REN-DEM-014",
     owner: "Sofía Méndez",
-    source: "ABT Comex · fixture local",
+    source: "ABT Comex · registro local",
     freshness: "Disponible",
     nextStep:
       "Revisá la referencia pendiente en Administración; no se ha vinculado una operación.",
@@ -122,7 +123,7 @@ export const workItems: WorkItem[] = [
     owner: "Martín Ríos",
     dueDate: "2026-10-12",
     timeBand: "Vencido",
-    source: "ABT Comex · fixture local",
+    source: "ABT Comex · registro local",
     freshness: "Parcial",
     nextStep:
       "La evidencia y resolución se trabajan en el detalle de Exportación. No se simula una conformidad.",
@@ -157,7 +158,7 @@ export const workItems: WorkItem[] = [
       "Este registro no está disponible para la capacidad de demostración actual.",
     origin: "Administración · contenido no autorizado",
     reference: "Se omite",
-    source: "ABT Comex · fixture local",
+    source: "ABT Comex · registro local",
     freshness: "Disponible",
     nextStep: "",
     visible: false,

@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { DocumentsPanel } from "@/features/documents/components/documents-panel"
 
 import { Badge } from "@workspace/ui/components/badge"
 import { buttonVariants } from "@workspace/ui/components/button"
@@ -43,13 +44,10 @@ export function PortalOperationDetail({
       </Link>
 
       <header className="space-y-2">
-        <p className="text-sm font-medium text-primary">Detalle externo</p>
         <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
           {operation.reference}
         </h1>
-        <p className="text-sm text-muted-foreground">
-          {operation.kind} · escenario de demostración
-        </p>
+        <p className="text-sm text-muted-foreground">{operation.kind}</p>
       </header>
 
       <section
@@ -62,16 +60,10 @@ export function PortalOperationDetail({
         <div className="flex flex-wrap items-center gap-3">
           <Badge variant="outline">{operation.situation}</Badge>
           <p className="text-sm text-muted-foreground">
-            Fixture actualizado {formatDate(operation.updatedOn)} · sin consulta
+            Actualización {formatDate(operation.updatedOn)} · sin consulta
             externa.
           </p>
         </div>
-        {operation.situation === "Pendiente documental" ? (
-          <p className="text-sm text-muted-foreground">
-            El estado del escenario menciona documentación pendiente, pero no
-            contiene el detalle del requerimiento ni una comunicación enviada.
-          </p>
-        ) : null}
       </section>
 
       <section aria-labelledby="portal-milestones-title" className="space-y-2">
@@ -79,23 +71,12 @@ export function PortalOperationDetail({
           Hitos
         </h2>
         <p className="text-sm text-muted-foreground">
-          No hay historial de hitos disponible en este fixture. La situación
-          actual no representa una cronología completa.
+          Sin hitos informados. La actualización del registro no implica un
+          evento aduanero.
         </p>
       </section>
 
-      <section
-        aria-labelledby="portal-documents-title"
-        className="space-y-2 border-y border-border py-4"
-      >
-        <h2 id="portal-documents-title" className="font-semibold">
-          Documentos compartidos
-        </h2>
-        <p className="text-sm text-muted-foreground">
-          No hay archivos habilitados para consulta. No se simulan cargas ni
-          descargas.
-        </p>
-      </section>
+      <DocumentsPanel operationId={operation.id} external />
     </div>
   )
 }

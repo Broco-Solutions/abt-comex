@@ -122,6 +122,7 @@ export function Worklist({
         </div>
 
         <form
+          key={JSON.stringify(filters)}
           action="/mi-trabajo"
           method="get"
           className="grid gap-3 border-y border-border py-3 sm:grid-cols-[minmax(12rem,1fr)_12rem_auto] sm:items-end"
@@ -220,9 +221,9 @@ export function Worklist({
               No hay información disponible en esta vista
             </h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              La capacidad de demostración no permite mostrar elementos ni
-              confirmar si hay otros pendientes. No se publican conteos ni
-              referencias restringidas.
+              Esta perspectiva no permite mostrar elementos ni confirmar si hay
+              otros pendientes. No se publican conteos ni referencias
+              restringidas.
             </p>
             <Link
               href="/inicio"
@@ -366,7 +367,9 @@ function WorkRow({
           <p className="mt-1 max-w-4xl text-sm leading-5">{item.reason}</p>
           {item.freshness !== "Disponible" ? (
             <p className="mt-1 text-xs text-muted-foreground">
-              {item.source}; la fuente no está conectada en esta demostración.
+              {item.freshness === "Desactualizado"
+                ? item.source + "; no está conectada."
+                : "Evidencia parcial; revisá el contexto antes de actuar."}
             </p>
           ) : null}
         </div>
@@ -428,14 +431,14 @@ function WorkRow({
                 <p className="mt-1 leading-5 text-muted-foreground">
                   {item.source}
                   {item.sourceUpdatedAt
-                    ? ` · última fecha simulada ${formatDate(item.sourceUpdatedAt)}`
-                    : " · fixture local"}
+                    ? ` · Actualización ${formatDate(item.sourceUpdatedAt)}`
+                    : " · Sin fecha de actualización"}
                   .{" "}
                   {item.freshness === "Desactualizado"
                     ? "Dato desactualizado; no confirma el estado actual."
                     : item.freshness === "Parcial"
                       ? "Información parcial; falta evidencia de origen."
-                      : "Dato sintético disponible sólo en esta demostración."}
+                      : ""}
                 </p>
                 <p className="mt-2 font-medium">Próximo paso</p>
                 <p className="mt-1 leading-5 text-muted-foreground">
@@ -483,8 +486,7 @@ function WorkRow({
                     </Link>
                   ) : (
                     <span className="self-center text-xs text-muted-foreground">
-                      La acción del proceso estará disponible en una etapa
-                      posterior.
+                      El requisito particular aún necesita definición con ABT.
                     </span>
                   )
                 ) : null}

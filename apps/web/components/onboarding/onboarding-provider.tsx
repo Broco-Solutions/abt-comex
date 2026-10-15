@@ -6,7 +6,7 @@ export const ONBOARDING_STORAGE_KEY = "abt-comex:onboarding:v1"
 
 export const onboardingSteps = [
   { id: "navigation", label: "Conocer la navegación principal" },
-  { id: "home", label: "Entender qué concentrará Inicio" },
+  { id: "home", label: "Conocer Inicio" },
   { id: "work", label: "Conocer la sección Mi trabajo" },
   { id: "help", label: "Encontrar la ayuda contextual" },
   { id: "modules", label: "Revisar los módulos disponibles" },

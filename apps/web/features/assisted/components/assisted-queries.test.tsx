@@ -25,6 +25,6 @@ it("answers only the selected guided query and exposes its source and limits", a
   )
   expect(rendered.getByText("Sin consulta a fuente externa")).toBeVisible()
   expect(rendered.getByText("No disponible")).toBeVisible()
-  expect(rendered.getByText(/no acredita permisos reales/i)).toBeVisible()
+  expect(rendered.getByText(/no equivale a una oficialización/i)).toBeVisible()
   expect(rendered.queryByText(/\$\s?\d/)).not.toBeInTheDocument()
 })

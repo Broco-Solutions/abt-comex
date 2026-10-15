@@ -44,6 +44,7 @@ export function ClientsList({
 
       <section aria-label="Búsqueda de clientes" className="max-w-5xl">
         <form
+          key={JSON.stringify(state)}
           action="/clientes"
           method="get"
           className="grid gap-3 border-b border-border pb-4 sm:grid-cols-[minmax(14rem,32rem)_auto] sm:items-end"
