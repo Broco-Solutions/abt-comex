@@ -1,5 +1,9 @@
 # Frontend Decisions
 
+## 2026-10-15 — V3-05: preparación, aplicaciones y saldo al corte
+
+Decisión interna de experiencia conforme a aprobación V3, no definición contable ABT: documentos preparados se excluyen de análisis/cartera hasta identificarlos explícitamente como referencias sintéticas de evaluación. Aplicaciones parciales relacionan fondos/créditos con obligaciones en la misma moneda y contraparte; ninguna escribe externamente. Saldo informado de origen y saldo del escenario son distintos. La cartera no hereda el filtro de emisión del análisis de flujos: incluye obligaciones anteriores abiertas. Contrato, pendientes y pruebas en [Administración](screens/10-administracion-finanzas.md#v3-05--comprobantes-aplicaciones-y-carteras).
+
 ## 2026-09-28 — Arquitectura
 
 ABT Comex se desarrolla como monorepo de producto con Turborepo y pnpm.

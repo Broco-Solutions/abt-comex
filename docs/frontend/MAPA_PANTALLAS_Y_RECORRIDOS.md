@@ -91,11 +91,14 @@ Los estados y acciones de módulos pendientes son vocabulario de diseño, no cat
 | MOV-01 | Movimientos y ficha | Diferenciar ingresos, egresos, cobros, pagos y anticipos del escenario | `/administracion/movimientos`, `/administracion/movimientos/[movementId]` | V3-04 Under review | Preparar/editar referencia, filtrar, consultar relaciones | Movimiento, contraparte, integrante, operaciones | Sin evidencia, sin vincular, sin permiso | Cobranzas o tesorería según dirección | V3 |
 | REN-01 | Anticipos y rendiciones | Relacionar referencias de fondos/gastos/evidencias para revisión | `/administracion/rendiciones`, `/administracion/rendiciones/[renditionId]` | V3-04 Under review | Preparar/editar, consultar diferencia y referencias | Anticipo, gastos, devolución | Incompleta, preparada para revisión, sin permiso | Gastos/costos/tesorería; no aprobación externa | V3 |
 
-### Clasificación de experiencias (32 históricas + 10 V3)
+| COM-01 | Comprobantes y relaciones | Entender importe, aplicaciones y saldo | `/administracion/comprobantes` y `/administracion/comprobantes/[voucherId]` | Under review | Preparar, editar, consultar y aplicar referencias sintéticas | Contraparte, operaciones, fondos, crédito | Preparado, referencia, saldo desconocido, sin permiso | Facturación/cobranzas o tesorería; preparación explícita | V3 |
+| CAR-01 | Carteras al corte | Consultar obligaciones abiertas incluso anteriores | `/administracion/carteras` | Under review | Filtrar cartera, moneda, contraparte, corte y vencimiento; abrir comprobante | Obligaciones y aplicaciones | Con saldo, sin saldo, vencida, sin permiso | Cobranzas o tesorería | V3 |
+
+### Clasificación de experiencias (32 históricas + 12 V3)
 
 La clasificación evita contar cada sección, diálogo o capacidad como una pantalla independiente:
 
-- **Pantallas internas:** `CAT-01`, `GAS-01`, `MOV-01`, `REN-01`, `USR-01`, `USR-02`, `TEAM-01`, `SUP-01`, `SUP-02`, `HOME-01`, `OPS-01`, `OPS-02`, `OPS-03`, `OPS-04`, `CLI-01`, `CLI-02`, `COT-01`, `COT-02`, `COT-03`, `DJV-01`, `ADM-02`, `ADM-03`, `MGT-01`, `CFG-01`.
+- **Pantallas internas:** `COM-01`, `CAR-01`, `CAT-01`, `GAS-01`, `MOV-01`, `REN-01`, `USR-01`, `USR-02`, `TEAM-01`, `SUP-01`, `SUP-02`, `HOME-01`, `OPS-01`, `OPS-02`, `OPS-03`, `OPS-04`, `CLI-01`, `CLI-02`, `COT-01`, `COT-02`, `COT-03`, `DJV-01`, `ADM-02`, `ADM-03`, `MGT-01`, `CFG-01`.
 - **Bandejas operativas:** `WORK-01`, `ADM-01`.
 - **Secciones de detalle o workspace:** `OPS-05`, `CLI-03`, `IMP-01`, `EXP-01`, `MGT-02`.
 - **Acciones contextuales y diálogos:** `COT-04`; la resolución de excepciones se presenta dentro de `OPS-05`, sin ruta propia.
@@ -288,3 +291,7 @@ Configuración → Personas → alta/ficha → capacidades explícitas → equip
 ### J12 — Preparación administrativa relacionada
 
 Cliente/proveedor ABT o categoría → alta contextual preservando borrador → gasto general/operativo → ficha → gráfico y registros explicativos → retorno; anticipo → rendición → gasto/evidencia → actualización de pendiente. Ingreso/cobro o egreso/pago local → contraparte/operaciones → consulta. No crea obligaciones desde contrapartes operativas, no ejecuta ni contabiliza fondos. Comprobantes/aplicaciones/carteras: ampliación V3-05.
+
+### J13 — Comprobantes y carteras al corte
+
+Administración/Dirección → cartera/moneda/corte → obligación abierta, incluso anterior al período → comprobante → aplicaciones parciales/fondos/crédito → contraparte/operación → retorno con filtros/foco. Preparar referencia local no emite comprobante ni ejecuta pago. Saldo ausente no se interpreta como cero; datos y agregados comparten fuente. [Contrato y pruebas](screens/10-administracion-finanzas.md#v3-05--comprobantes-aplicaciones-y-carteras).

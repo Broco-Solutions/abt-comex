@@ -7,6 +7,12 @@ import {
 } from "@/features/finance/data/financial-records"
 import { loadOrganizations } from "@/features/organizations/data/organizations"
 import { loadDemoOperations } from "@/features/operations/data/operations"
+import {
+  supplementalMovements,
+  loadVouchers,
+  voucherFinancialRecords,
+  type VoucherState,
+} from "./vouchers"
 
 export type AdministrativeCategory = {
   id: string
@@ -148,6 +154,7 @@ export const initialAdministrativeLedger: AdministrativeLedger = {
     },
   ],
   movements: [
+    ...supplementalMovements,
     ...financialRecords
       .filter((record) => record.type === "receipt")
       .map((record) => ({
@@ -404,6 +411,20 @@ export function validateMovement(
   if (!movementNatures.includes(movement.nature))
     return "Elegí la naturaleza del movimiento."
   const previous = state.movements.find((item) => item.id === movement.id)
+  const applications = loadVouchers().applications.filter(
+    (item) => item.origin === "movement" && item.originId === movement.id
+  )
+  if (
+    applications.length &&
+    previous &&
+    (movement.currency !== previous.currency ||
+      movement.partyId !== previous.partyId ||
+      movement.nature !== previous.nature ||
+      movement.date !== previous.date ||
+      cents(movement.amount) <
+        cents(sumAmounts(applications.map((item) => item.amount))))
+  )
+    return "El movimiento tiene aplicaciones. Conservá moneda, contraparte, naturaleza y fecha; el importe no puede ser menor al aplicado."
   if (
     movement.operationIds.some(
       (id) => !loadDemoOperations().some((item) => item.id === id)
@@ -551,10 +572,11 @@ export function validateRendition(
 }
 /** One population for charts and their explanatory records, no external writes. */
 export function projectAdministrativeFinancialRecords(
-  state: AdministrativeLedger
+  state: AdministrativeLedger,
+  vouchers: VoucherState = loadVouchers()
 ): FinancialRecord[] {
   return [
-    ...financialRecords.filter((record) => record.type === "invoice"),
+    ...voucherFinancialRecords(vouchers),
     ...state.expenses.map(
       (item): FinancialRecord => ({
         id: item.id,

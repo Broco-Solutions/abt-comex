@@ -1,10 +1,23 @@
 "use client"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useEffect, useRef } from "react"
 import { useScenario } from "@/features/demo/state/scenario-provider"
 import { hasCapability } from "@/features/demo/data/capabilities"
 export function AdministrationNav() {
   const pathname = usePathname() ?? "/administracion"
+  const navigation = useRef<HTMLElement>(null)
+  useEffect(() => {
+    const nav = navigation.current
+    const current = nav?.querySelector<HTMLElement>('[aria-current="page"]')
+    if (
+      nav &&
+      current &&
+      current.offsetLeft + current.offsetWidth >
+        nav.scrollLeft + nav.clientWidth
+    )
+      nav.scrollLeft = current.offsetLeft - nav.offsetLeft
+  }, [pathname])
   const { scenario } = useScenario()
   const expense =
     hasCapability(scenario, "finance.expenses") &&
@@ -26,11 +39,20 @@ export function AdministrationNav() {
       show: expense && hasCapability(scenario, "finance.treasury"),
     },
     { href: "/administracion/finanzas", label: "Análisis", show: true },
+    {
+      href: "/administracion/comprobantes",
+      label: "Comprobantes",
+      show:
+        hasCapability(scenario, "finance.billing") ||
+        hasCapability(scenario, "finance.treasury"),
+    },
+    { href: "/administracion/carteras", label: "Carteras", show: movement },
   ]
   return (
     <nav
+      ref={navigation}
       aria-label="Secciones de Administración"
-      className="flex flex-wrap gap-1 border-b border-border pb-3"
+      className="flex max-w-full gap-1 overflow-x-auto border-b border-border pb-3"
     >
       {entries
         .filter((item) => item.show)
@@ -46,7 +68,7 @@ export function AdministrationNav() {
               scroll={false}
               aria-current={active ? "page" : undefined}
               className={
-                "inline-flex min-h-10 items-center rounded-md px-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-ring " +
+                "inline-flex min-h-10 shrink-0 items-center rounded-md px-3 text-sm font-medium whitespace-nowrap focus-visible:outline-2 focus-visible:outline-ring " +
                 (active
                   ? "bg-accent text-accent-foreground"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground")

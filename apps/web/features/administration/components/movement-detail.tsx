@@ -13,6 +13,9 @@ import { useAdministrativeLedger } from "../state/use-administrative-ledger"
 import { movementDirection } from "../data/administrative-ledger"
 import { MovementEditor } from "./movement-editor"
 import { AdministrationNav } from "./administration-nav"
+import { VoucherRelations } from "./voucher-relations"
+import { useVouchers } from "../state/use-vouchers"
+import { originAvailable } from "../data/vouchers"
 export function MovementDetail({
   id,
   returnTo = "",
@@ -21,6 +24,7 @@ export function MovementDetail({
   returnTo?: string
 }) {
   const { state, ready } = useAdministrativeLedger()
+  const { state: vouchers } = useVouchers()
   const { scenario } = useScenario()
   const { organizations } = useOrganizations()
   const { state: people } = usePeople()
@@ -60,6 +64,7 @@ export function MovementDetail({
         primaryAction={<MovementEditor movement={item} />}
       />
       <AdministrationNav />
+      <VoucherRelations movementId={id} returnTo={self} />
       <section className="rounded-lg border border-border bg-accent/40 p-4">
         <h2 className="text-lg font-semibold">
           {item.nature} · {movementDirection(item.nature)}
@@ -70,6 +75,15 @@ export function MovementDetail({
         <p className="mt-2 text-sm">
           {formatDate(item.date)} · {item.source}
         </p>
+        {["Cobro", "Pago"].includes(item.nature) && (
+          <p className="mt-2 text-sm">
+            Disponible sin aplicar:{" "}
+            {money(
+              originAvailable("movement", item.id, vouchers, state),
+              item.currency
+            )}
+          </p>
+        )}
       </section>
       <dl className="grid gap-5 text-sm sm:grid-cols-2">
         <div>
