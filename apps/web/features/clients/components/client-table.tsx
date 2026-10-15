@@ -66,6 +66,7 @@ export function ClientTable({
       cell: (info) => (
         <Link
           href={href(info.row.original)}
+          aria-label={`Abrir ${info.row.original.name}`}
           className="inline-flex min-h-9 items-center text-primary hover:underline focus-visible:outline-2 focus-visible:outline-ring"
         >
           Abrir ficha
@@ -106,6 +107,7 @@ export function ClientTable({
               </div>
               <Link
                 href={href(client)}
+                aria-label={`Abrir ${client.name}`}
                 className="inline-flex min-h-11 shrink-0 items-center text-sm font-medium text-primary hover:underline focus-visible:outline-2 focus-visible:outline-ring"
               >
                 Abrir ficha

@@ -342,3 +342,7 @@ Sin cambios a confidencialidad económica, secuencia integral 2 → 3 → 4 → 
 ## 2026-10-14 — UX/UI V2 autorizada internamente
 
 El responsable autoriza UX-01–UX-07, PR y squash con gates verdes y revisión humana final. Seguimiento y V01–V21 en [plan](PLAN_IMPLEMENTACION.md#iteración-uxui-v2); criterios en [estándar](FRONTEND_STANDARD.md#criterios-uxui-v2). Se aprueban internamente acceso demostrativo /acceso, presets sintéticos de capacidades, ayuda secundaria y redefinir Gestión como Dirección conservando /gestion, sólo junto al contenido analítico G1–G5. No son roles ni reglas financieras aprobadas por ABT. Alcance exclusivamente frontend.
+
+## 2026-10-15 — Coherencia del reinicio y referencias V2
+
+Decisión técnica UX dentro de la ejecución autorizada: concentrar el reinicio en el menú global para no dejar referencias huérfanas entre cotizaciones/versiones y operaciones temporales. Conserva confirmación ante cambios e inducción independiente; comportamiento en [Cotizaciones](screens/09-cotizaciones.md#ux-06--consulta-de-versiones-y-formulario). Referencias visuales del Shell actualizadas tras inspección técnica, no aprobación humana. Evidencia y límites del cierre en el [plan](PLAN_IMPLEMENTACION.md#regresión-transversal-ux-07).

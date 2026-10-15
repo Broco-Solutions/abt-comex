@@ -114,3 +114,5 @@ La secuencia de aprobación/envío/respuesta aparece antes de líneas e historia
 Errores del editor se asocian al campo y enfocan el primer dato inválido; un precio vacío no se interpreta como cero. Se conservan los límites enteros del escenario y cero explícito permitido, sin agregar impuestos, redondeos ni fórmulas nuevas. Las acciones de aprobación/envío siguen identificadas como sensibles y locales.
 
 La nueva cotización no presume un cliente arbitrario: sólo reutiliza un ID de cliente conocido desde contexto explícito del listado; sin él solicita selección. No cambia los requisitos del negocio ni define permisos definitivos.
+
+UX-07 elimina el aviso genérico de demo del listado y concentra el reinicio en el menú global, con confirmación si hay cambios. No se ofrece reiniciar sólo Cotizaciones dejando operaciones locales con referencias huérfanas. La ficha conserva alcance del cálculo y consecuencias de acciones sensibles.

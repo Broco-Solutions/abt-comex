@@ -755,8 +755,8 @@ Autorización interna del responsable (14/10/2026): siete bloques frontend por P
 | UX-03 | Acceso y escenarios, ayuda secundaria; UX-02 | Under review — PR #22 integrado |
 | UX-04 | Inicio contextual y preparación Dirección; UX-03 | Under review — PR #23 integrado |
 | UX-05 | G1–G5 y registros; completa Dirección junto a UX-04 | Under review — PR #24 integrado |
-| UX-06 | Fichas, procesos, documentos, Portal y limpieza transversal | Under review — validación técnica en curso |
-| UX-07 | Regresión 32 experiencias/J1–J10, capacidades y responsive | Pendiente |
+| UX-06 | Fichas, procesos, documentos, Portal y limpieza transversal | Under review — PR #25 integrado |
+| UX-07 | Regresión 32 experiencias/J1–J10, capacidades y responsive | Under review — cierre técnico, revisión humana pendiente; PR #26 |
 
 Gates por bloque: lint, tipos, pruebas proporcionales, build, E2E, inspección visual, validador y diff; CI verde antes de squash, contenido comprobado en main y deployment existente. Comandos en [estrategia de pruebas](TEST_STRATEGY.md).
 
@@ -825,3 +825,63 @@ Fichas priorizan identidad/acción/control; fuentes e historial bajo demanda, Ch
 DJVE: lista compacta con búsqueda/página/retorno URL, validada con colecciones de diseño 2/20/100; no son volúmenes de ABT. Documentos usa búsqueda y revelado progresivo, no DataTable indiscriminado. Se conserva retorno DJVE→Exportación→DJVE→lista filtrada. Se retiran botones de edición sin función; Configuración sólo ofrece preferencias reales del navegador y declara parámetros de negocio pendientes.
 
 Pruebas nuevas: documentos (integridad/proyección/volumen/axe/foco), DJVE volumen, ux-processes.spec.ts (recepción, controles, versiones, formularios, Portal y retorno). Se preservan dobles controles y separación facturada/cobrada/cumplida/cerrada; no hay transiciones nuevas ni reglas regulatorias. Capturas locales de ficha, Importación móvil e histórico de Cotización inspeccionadas; revisión humana integral pendiente.
+
+UX-06 integrado por PR #25 en main 4c752d7, quality/e2e-smoke/Vercel verdes. Deployment dpl_Aa8SXJkyNVYCv48qwv5DYbykqf7i READY; documentos y versiones comprobados en main. Regresión local contra producción: 64 E2E Chromium pasaron. La prueba de fuente local conserva la ausencia de timestamp con etiqueta actualizada; el fallo inicial no se omitió.
+
+### Regresión transversal UX-07
+
+No es una nueva etapa de producto ni aprobación ABT. Corrige extremos de V2: fechas de análisis imposibles/invertidas sin confirmar gráficos/totales, búsqueda documental recuperable, navegación compatible con Next instalado, definiciones secundarias de Importación bajo demanda y copy sin avisos redundantes. Se conservan advertencias sensibles.
+
+#### Contraste de las 32 experiencias
+
+Cada ID conserva su alcance: no equivale a una pantalla independiente ni a una funcionalidad aprobada. Evidencia en suites existentes y nuevas, sin inventar reglas para cerrar pendientes.
+
+| Experiencias | Superficie / suites de evidencia | Frontera o pendiente |
+|---|---|---|
+| DS-01, SHELL-01 | DS, Shell, menú; design-system/application-shell/ux-access | Marca y navegación base preservadas |
+| HOME-01, WORK-01 | Inicio/G5/bandeja; stage-02/ux-workspace/coherence | No oficialización implícita |
+| OPS-01, OPS-02 | Lista/variantes; stage-03/ux-lists/regression | Identidad no ocultable, sin totales económicos |
+| OPS-03, OPS-05 | Ficha/controles; stage-07/08/ux-processes | Control local, no evento externo |
+| OPS-04 | Alta directa/desde versión; stage-05/ux-processes | Requisitos específicos/cardinalidad pendientes |
+| CLI-01, CLI-02 | Tabla/ficha y relaciones; stage-06/ux-processes | Sin CRM ni edición maestra ficticia |
+| CLI-03 | Necesidad conservada, límite explícito en ficha | Configurador por cliente no implementado |
+| COT-01, COT-02, COT-03, COT-04 | Tabla/ficha/editor/conversión; stage-09/05/ux-processes | Eventos separados; sin ampliar reglas comerciales |
+| IMP-01, EXP-01 | Workspaces; stage-07/08 | Preparación/oficialización externas |
+| DJV-01 | Lista/ficha/relaciones; stage-08/ux-processes | Sin tolerancias ni alta regulatoria inventada |
+| DOC-01 | Requisitos/copias/originales; documentos/ux-processes | Referencias, no archivos reales ni custodia productiva |
+| ADM-01, ADM-02, ADM-03 | Bandeja/detalle/G2/G3; stage-10/ux-analytics | Sin emitir/pagar; tarea sin operación conservada |
+| MGT-01, MGT-02 | Dirección/G1/G4/registros; stage-11/ux-analytics | 18 bloques conservados, no fórmulas definitivas |
+| CFG-01 | Preferencias del navegador; ux-regression | Parámetros de negocio pendientes |
+| ALT-01 | Alertas en Inicio/trabajo/objeto; stage-02/ux-coherence | Centro global y notificaciones no implementados |
+| INT-01 | Fuente/frescura/error en consumidores; stage-02/07/08/10 | Panel global propuesto, sin conectores |
+| POR-01, POR-02, POR-03 | Acceso/Shell/objetos propios; stage-12/ux-access/processes | Sin identidad real, cargas ni envíos |
+| AST-01 | Consulta sobre proyección común; stage-13/ux-processes | Sin IA ni escrituras |
+
+#### Recorridos J1–J10: parte frontend y límites
+
+| Recorrido | Suites / continuidad comprobable | No se declara ejecutado |
+|---|---|---|
+| J1 | stage-05/06/09/10, ux-coherence/analytics: cliente→versión→alta→objeto y navegación entre áreas | Pase automático, contabilidad o autorización definitiva |
+| J2 | stage-07, ux-coherence/processes: tarea→Importación→control/copia→proyección/retorno | Oficialización, canal o liberación reales |
+| J3 | stage-08/10: Exportación→permisos/documentos→Administración y continuidad facturada/no cumplida | Cumplido/post-embarque/cierre externo ejecutado |
+| J4 | stage-08/ux-processes: DJVE autónoma, permisos múltiples/sin DJVE y retorno | Tolerancias y aceptación definitiva de Facturación |
+| J5 | stage-06/05/09/ux-processes: contexto Cliente→cotización/alta | Configurador versionado por cliente |
+| J6 | ux-coherence/processes, stage-02: bloqueo→control/copia→consumidores y error recuperable | Solicitud/aprobación de excepción no definida |
+| J7 | stage-10/ux-analytics: bandeja→detalle→finanzas→gráfico→registros | Pagos, impuestos, conciliación y emisión |
+| J8 | stage-12/ux-access/processes: acceso→objetos propios→documentos→salida | Invitaciones, credenciales y transferencias documentales |
+| J9 | stage-13/ux-processes: consulta→fuente/fecha/límite/abstención, copia compartida | Modelo de IA, canal externo o acción sensible |
+| J10 | stage-02/03/07/08/10/11: fuentes no conectadas/parciales/desactualizadas/error/sin permiso | Sincronización, migración o datos reales |
+
+Perspectivas: operadores comparten componentes con contexto de tipo; responsable operativo sin capacidades económicas implícitas; Administración con bandeja y lectura financiera; Dirección con análisis; Portal separado. El recorrido comercial se evalúa con la perspectiva integral, no un rol Comercial aprobado inexistente. Se comprueban objetos propios y ausencia de referencias/importes ajenos, no sólo menú oculto.
+
+Nuevo ux-regression: identidad/apertura dentro del ancho útil a 320/430/768/1024/1280/1440 px, primer resultado móvil tras filtros compactos, consola, fechas inválidas y ayuda/preferencias. Viewport comprueba reflow, no certifica zoom de cada motor. Las referencias visuales se inspeccionan antes de incorporarlas y quedan Under review. Firefox no inicia por perfil del host; WebKit informa bibliotecas faltantes: no se declaran validados ni se alteran sus pruebas para ocultarlo.
+
+#### Evidencia final y revisión humana
+
+Lint, tipos, build, 101 unitarias/componentes web + 3 de UI, 32 axe y 72 E2E Chromium pasaron; CI quality/e2e-smoke/Vercel verde. La primera ejecución unitaria local saturó la concurrencia y tuvo tres timeouts: se repitió con dos workers, sin aumentar tiempos ni cambiar aserciones; CI ejecutó sus comandos originales. Validador y self-test mantienen 117 IDs, 32 experiencias y J1–J10.
+
+Comparación visual inicial: DS coincide con su referencia; tres referencias del Shell/Inicio fundacionales quedan obsoletas por contenido real, menú de usuario y nombre Dirección. Se inspeccionaron imágenes reales y diferencias antes de actualizar sólo esas tres bases técnicas, sin declarar aprobación humana. Capturas adicionales inspeccionadas: /acceso 1440, Inicio 430, Importaciones 1024, Administración 320, Dirección 1366, Cotización y Portal 390. Sin overflow global ni errores de navegador en esa pasada. Controles de fecha nativos respetan la configuración del navegador; registros y período explicativo usan DD/MM/AAAA. No se afirma localización forzada de controles del sistema operativo ni prueba de zoom nativo.
+
+No se detectaron P0/P1 en los escenarios Chromium ejecutados. Persisten límites, no funcionalidades ficticiamente terminadas: parametrización por cliente, centro global de alertas/integraciones, excepciones que necesitan reglas ABT, archivos documentales reales, fórmulas financieras e identidad reales. Cobertura frontend por tramos no equivale a ejecutar procesos externos. La protección del dominio personalizado no está acreditada; no se modifica infraestructura ni se presenta la selección de perspectiva como seguridad real.
+
+Revisión sugerida desde /acceso: Importación→Inicio→Mi trabajo→control/copia→retorno; Exportación→permiso/DJVE→documentos→continuidad administrativa; Administración→bandeja/finanzas→G2/G3→registros; Dirección→G1/G4→registros→operación→retorno; recorrido comercial con perspectiva integral→cliente/cotización/versiones/alta; Cliente externo→Portal→documentos→salida. Comprobar comprensión, densidad, zoom/teclado/contraste y criterios pendientes con ABT antes de cualquier aprobación.

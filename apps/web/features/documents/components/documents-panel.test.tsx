@@ -26,6 +26,15 @@ it.each([2, 20, 100])(
         target: { value: "prueba " + (count - 1) },
       })
       expect(screen.getAllByRole("listitem")).toHaveLength(1)
+      fireEvent.change(screen.getByRole("searchbox"), {
+        target: { value: "sin coincidencias" },
+      })
+      expect(screen.getByRole("status")).toHaveTextContent(
+        "No hay coincidencias"
+      )
+      fireEvent.click(screen.getByRole("button", { name: "Limpiar búsqueda" }))
+      expect(screen.getByRole("searchbox")).toHaveFocus()
+      expect(screen.getAllByRole("listitem")).toHaveLength(Math.min(count, 20))
     } else expect(screen.queryByRole("searchbox")).not.toBeInTheDocument()
   }
 )

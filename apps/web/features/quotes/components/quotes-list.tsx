@@ -33,7 +33,7 @@ export function QuotesList({
   searchParams: QuoteSearchParams
 }) {
   const state = parseQuoteListState(searchParams)
-  const { quotes, ready, resetQuotes } = useDemoQuotes()
+  const { quotes, ready } = useDemoQuotes()
   const restricted = state.error === "sin-permiso"
   const failed = state.error === "lectura"
   const visibleQuotes =
@@ -176,7 +176,7 @@ export function QuotesList({
             <p className="mt-1 text-sm text-muted-foreground">
               {state.query || state.status || state.clientId
                 ? "Cambiá o limpiá los filtros para continuar."
-                : "Este fixture no contiene cotizaciones para mostrar."}
+                : "No hay cotizaciones disponibles en esta vista."}
             </p>
           </div>
         ) : (
@@ -197,30 +197,6 @@ export function QuotesList({
             />
           </>
         )}
-      </section>
-
-      <section
-        aria-labelledby="quote-demo-note"
-        className="max-w-6xl border-t border-border pt-4"
-      >
-        <h2 id="quote-demo-note" className="text-sm font-medium">
-          Alcance demostrativo
-        </h2>
-        <p className="mt-1 text-xs leading-5 text-muted-foreground">
-          El cálculo visible es cantidad × precio unitario, en una sola moneda y
-          sin descuentos, impuestos ni conversión. Los hitos que permiten
-          avanzar se simulan sólo en esta pestaña; no se envía correo ni se
-          registra una aprobación o respuesta real.
-        </p>
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          className="mt-2"
-          onClick={resetQuotes}
-        >
-          Reiniciar escenario de cotizaciones
-        </Button>
       </section>
     </div>
   )

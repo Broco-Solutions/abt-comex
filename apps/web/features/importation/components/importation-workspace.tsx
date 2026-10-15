@@ -6,7 +6,6 @@ import { useState } from "react"
 import { ArrowLeft, CircleAlert, ShieldCheck, ChevronDown } from "lucide-react"
 
 import { PageHeader } from "@/components/navigation/page-header"
-import { Badge } from "@workspace/ui/components/badge"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
 import type { DemonstrationOperation } from "@/features/operations/types/operation"
@@ -321,50 +320,56 @@ export function ImportationWorkspace({
       <DocumentsPanel operationId={operation.id} />
 
       <section aria-labelledby="import-stage-title" className="max-w-5xl">
-        <div className="flex flex-wrap items-center gap-2">
-          <h2 id="import-stage-title" className="font-semibold">
-            Seguimiento por etapas
-          </h2>
-          <Badge variant="outline">Definiciones parciales</Badge>
-        </div>
-        <ol className="mt-3 divide-y divide-border border-y border-border">
-          <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
-            <span className="text-sm font-medium">Clasificación inicial</span>
-            <span className="text-sm text-muted-foreground">
-              Tipo, Cliente y modalidad se reutilizan. Mercadería, origen,
-              destinos y requisitos aplicables requieren definición.
-            </span>
-          </li>
-          <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
-            <span className="text-sm font-medium">Pre-embarque</span>
-            <span className="text-sm text-muted-foreground">
-              No hay un checklist universal configurado. Documentación y
-              vencimientos dependen del caso; esta vista no afirma que falten
-              documentos en ABT.
-            </span>
-          </li>
-          <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
-            <span className="text-sm font-medium">Preparación provisoria</span>
-            <span className="text-sm text-muted-foreground">
-              La preparación aduanera continúa en Alpha2000/MARÍA. No se
-              muestran valores aduaneros ni se duplica esa preparación aquí.
-            </span>
-          </li>
-          <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
-            <span className="text-sm font-medium">Arribo y seguimiento</span>
-            <span className="text-sm text-muted-foreground">
-              Arribo/ETA, oficialización, canal, intervenciones y liberación:
-              sin consulta conectada; no hay estado externo confirmado.
-            </span>
-          </li>
-          <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
-            <span className="text-sm font-medium">Cierre y Administración</span>
-            <span className="text-sm text-muted-foreground">
-              El criterio de carpeta completa y aceptación del pase está
-              pendiente; no se crea un handoff ni se marca cerrado.
-            </span>
-          </li>
-        </ol>
+        <details>
+          <summary className="flex cursor-pointer list-none items-center gap-2 py-2 focus-visible:outline-2 focus-visible:outline-ring">
+            <ChevronDown aria-hidden="true" className="size-4 shrink-0" />
+            <h2 id="import-stage-title" className="font-semibold">
+              Etapas y definiciones pendientes
+            </h2>
+          </summary>
+          <ol className="mt-3 divide-y divide-border border-y border-border">
+            <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
+              <span className="text-sm font-medium">Clasificación inicial</span>
+              <span className="text-sm text-muted-foreground">
+                Tipo, Cliente y modalidad se reutilizan. Mercadería, origen,
+                destinos y requisitos aplicables requieren definición.
+              </span>
+            </li>
+            <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
+              <span className="text-sm font-medium">Pre-embarque</span>
+              <span className="text-sm text-muted-foreground">
+                No hay un checklist universal configurado. Documentación y
+                vencimientos dependen del caso; esta vista no afirma que falten
+                documentos en ABT.
+              </span>
+            </li>
+            <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
+              <span className="text-sm font-medium">
+                Preparación provisoria
+              </span>
+              <span className="text-sm text-muted-foreground">
+                La preparación aduanera continúa en Alpha2000/MARÍA. No se
+                muestran valores aduaneros ni se duplica esa preparación aquí.
+              </span>
+            </li>
+            <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
+              <span className="text-sm font-medium">Arribo y seguimiento</span>
+              <span className="text-sm text-muted-foreground">
+                Arribo/ETA, oficialización, canal, intervenciones y liberación:
+                sin consulta conectada; no hay estado externo confirmado.
+              </span>
+            </li>
+            <li className="grid gap-1 py-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
+              <span className="text-sm font-medium">
+                Cierre y Administración
+              </span>
+              <span className="text-sm text-muted-foreground">
+                El criterio de carpeta completa y aceptación del pase está
+                pendiente; no se crea un handoff ni se marca cerrado.
+              </span>
+            </li>
+          </ol>
+        </details>
       </section>
 
       <section

@@ -6,7 +6,15 @@ import {
   filterFinancialRecords,
   financialRecords,
   FINANCIAL_CUTOFF,
+  isFinancialDate,
 } from "./financial-records"
+
+it("rejects impossible dates and accepts real calendar days without coercion", () => {
+  for (const value of ["2026-99-99", "2026-02-30", "2026-02-29", "invalid", ""])
+    expect(isFinancialDate(value)).toBe(false)
+  for (const value of ["2026-10-14", "2024-02-29", "2026-01-01"])
+    expect(isFinancialDate(value)).toBe(true)
+})
 
 it("keeps synthetic identifiers, clients and operation states consistent", () => {
   expect(new Set(financialRecords.map((r) => r.id)).size).toBe(

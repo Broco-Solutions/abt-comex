@@ -114,7 +114,7 @@ export function ClientsList({
             <p className="mt-1 text-sm text-muted-foreground">
               {state.query
                 ? "Probá con otro nombre o referencia y volvé a buscar."
-                : "El fixture local todavía no contiene registros para mostrar."}
+                : "No hay clientes disponibles en esta vista."}
             </p>
           </div>
         ) : (

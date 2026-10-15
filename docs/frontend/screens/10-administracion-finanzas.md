@@ -62,3 +62,5 @@ Autoridad de registros: features/finance/data/financial-records.ts, con clientes
 Filtros URL: desde/hasta (fecha del evento), moneda y cliente; drill-down agrega serie/dimensión/grupo. Retorno conserva filtros. Gráficos Recharts y ChartContainer existentes, tooltip con unidad/moneda, valores/enlaces disponibles sin hover, estado vacío/error/sin permiso. No se suman monedas, no se calcula rentabilidad ni se interpreta facturación menos cobranzas como deuda. Pruebas: financial-records.test.ts y ux-analytics.spec.ts.
 
 UX-06 añade accesos a facturas, cobros y gastos del período autorizado, derivados de los mismos registros/filtros analíticos; no exige acceso a Dirección para explorar registros administrativos. No hay emisión/pago ni asignación artificial de importes a la rendición sin operación.
+
+UX-07 valida fechas calendario de la URL y rango Desde/Hasta: un valor imposible o invertido ofrece corrección y restablecimiento, conserva moneda/cliente, no renderiza gráficos ni confirma totales. No se convierten fechas inválidas en un período distinto silenciosamente. Se comparte el comportamiento con Dirección.

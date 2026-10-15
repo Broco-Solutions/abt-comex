@@ -534,7 +534,7 @@ export function ExportationWorkspace({
               <div className="space-y-1 border-l-2 border-muted pl-3">
                 <h3 className="text-sm font-medium">Fuente y actualización</h3>
                 <p className="text-sm text-muted-foreground">
-                  Fixture sintético local · actualización del registro{" "}
+                  ABT Comex · actualización del registro{" "}
                   {formatRecordedDate(operation.updatedOn)}. Alpha2000 y
                   ARCA/MOA no están conectados.
                 </p>
@@ -558,33 +558,23 @@ export function ExportationWorkspace({
         </p>
         <dl className="grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           <div>
-            <dt className="text-xs text-muted-foreground">
-              Facturación · fixture
-            </dt>
+            <dt className="text-xs text-muted-foreground">Facturación</dt>
             <dd className="mt-1 font-medium">{progress.billing}</dd>
           </div>
           <div>
-            <dt className="text-xs text-muted-foreground">
-              Cobranza · fixture
-            </dt>
+            <dt className="text-xs text-muted-foreground">Cobranza</dt>
             <dd className="mt-1 font-medium">{progress.collection}</dd>
           </div>
           <div>
-            <dt className="text-xs text-muted-foreground">
-              Cumplido · fixture
-            </dt>
+            <dt className="text-xs text-muted-foreground">Cumplido</dt>
             <dd className="mt-1 font-medium">{progress.fulfilled}</dd>
           </div>
           <div>
-            <dt className="text-xs text-muted-foreground">
-              Post-embarque · fixture
-            </dt>
+            <dt className="text-xs text-muted-foreground">Post-embarque</dt>
             <dd className="mt-1 font-medium">{progress.postShipment}</dd>
           </div>
           <div>
-            <dt className="text-xs text-muted-foreground">
-              Cierre documental · fixture
-            </dt>
+            <dt className="text-xs text-muted-foreground">Cierre documental</dt>
             <dd className="mt-1 font-medium">{progress.documentaryClose}</dd>
           </div>
         </dl>

@@ -108,3 +108,5 @@ confidencialidad económica.
 ## UX-06 — documentos y jerarquía
 
 Control antes del seguimiento secundario; requisitos/copias compartidos con la ficha. Los ejemplos documentales son específicos del escenario, no requisitos universales por cliente/régimen ni evidencia de archivo real. Registrar copia local no valida original, completa control ni produce oficialización/pase. Fuente aduanera no conectada visible; detalles de procedencia bajo demanda. Las respuestas guiadas leen la misma recepción local.
+
+UX-07 conserva las definiciones por etapa en un disclosure secundario. Identidad, fuente no conectada, documentos y control siguen visibles; abrir el disclosure permite revisar las reglas pendientes sin ocupar toda la ficha inicial.

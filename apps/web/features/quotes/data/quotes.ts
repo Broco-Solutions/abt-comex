@@ -23,12 +23,12 @@ export const initialDemoQuotes: DemonstrationQuote[] = [
         number: 1,
         updatedOn: "2026-10-14",
         service: "Servicio de coordinación de ejemplo",
-        context: "Solicitud ficticia para escenario de demostración.",
+        context: "Coordinación de una importación marítima.",
         currency: "ARS",
         lines: [
           {
             id: "quote-demo-001-line-1",
-            description: "Gestión demostrativa",
+            description: "Coordinación operativa",
             quantity: 1,
             unitPrice: 24000,
           },

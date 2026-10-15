@@ -63,7 +63,7 @@ test("@smoke autonomous DJVE supports multiple permits and links back to exporta
   await expect(
     page.getByRole("heading", { name: "DJVE-DEM-2026-01" })
   ).toBeVisible()
-  await expect(page.getByText("Autónoma en fixture")).toBeVisible()
+  await expect(page.getByText("Autónoma", { exact: true })).toBeVisible()
   await expect(
     page.getByRole("link", { name: "Abrir Exportación vinculada" })
   ).toHaveCount(2)

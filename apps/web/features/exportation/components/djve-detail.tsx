@@ -83,7 +83,7 @@ export function DjveDetail({
         title={djve.reference}
         secondaryActions={
           <Badge variant="outline">
-            {djve.autonomous ? "Autónoma en fixture" : "Relacionada en fixture"}
+            {djve.autonomous ? "Autónoma" : "Relacionada"}
           </Badge>
         }
       />
@@ -98,9 +98,7 @@ export function DjveDetail({
             <dd className="mt-1 font-medium">{djve.description}</dd>
           </div>
           <div>
-            <dt className="text-xs text-muted-foreground">
-              Vencimiento ilustrativo
-            </dt>
+            <dt className="text-xs text-muted-foreground">Vencimiento</dt>
             <dd className="mt-1 font-medium">
               <time dateTime={djve.expirationDate}>
                 {formatRecordedDate(djve.expirationDate)}
@@ -109,7 +107,7 @@ export function DjveDetail({
           </div>
           <div>
             <dt className="text-xs text-muted-foreground">
-              Cantidad declarada · fixture
+              Cantidad declarada
             </dt>
             <dd className="mt-1 font-medium">
               {djve.declaredQuantity} {djve.quantityUnit}
@@ -117,7 +115,7 @@ export function DjveDetail({
           </div>
           <div>
             <dt className="text-xs text-muted-foreground">
-              Afectación registrada · fixture
+              Afectación registrada
             </dt>
             <dd className="mt-1 font-medium">
               {djve.affectedQuantity} {djve.quantityUnit}

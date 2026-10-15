@@ -227,7 +227,7 @@ export function QuoteDetail({
               Fuente y actualización
             </dt>
             <dd className="mt-1 font-medium">
-              Fixture local · {formatRecordedDate(version.updatedOn)}
+              ABT Comex · {formatRecordedDate(version.updatedOn)}
             </dd>
           </div>
         </dl>
@@ -344,7 +344,7 @@ export function QuoteDetail({
             </p>
           </div>
           <p className="text-sm text-muted-foreground">
-            Moneda: {version.currency} · valores enteros sintéticos
+            Moneda: {version.currency}
           </p>
         </div>
         <ul
@@ -449,10 +449,6 @@ export function QuoteDetail({
                   </li>
                 ))}
             </ol>
-            <p className="mt-2 text-xs text-muted-foreground">
-              Una nueva edición crea una versión y conserva las anteriores. El
-              historial local no equivale a auditoría productiva.
-            </p>
           </div>
         </details>
       </section>
@@ -461,11 +457,7 @@ export function QuoteDetail({
         <h2 id="quote-conversion-title" className="font-semibold">
           Continuidad hacia Operaciones
         </h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          La apertura desde cotización requiere la aceptación del cliente en una
-          versión específica. También se admite alta directa y no se presupone
-          cardinalidad uno a uno.
-        </p>
+
         <div className="mt-3 flex flex-wrap items-center gap-3">
           {hasAcceptedResponse ? (
             <Link

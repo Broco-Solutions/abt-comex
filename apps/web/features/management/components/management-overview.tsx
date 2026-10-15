@@ -166,12 +166,9 @@ export function ManagementOverview({
             className="flex flex-wrap items-center justify-between gap-3 border-y border-border py-3"
             aria-label="Procedencia del panorama"
           >
-            <p className="text-sm">
-              <span className="font-medium">Escenario ficticio</span> ·
-              operaciones, clientes y trabajo en fixtures compartidos.
-            </p>
+            <p className="text-sm">ABT Comex · registros locales.</p>
             <p className="text-xs text-muted-foreground">
-              Actualización del fixture: 14/10/2026 · sin consulta externa.
+              Actualización: 14/10/2026 · sin consulta externa.
             </p>
           </section>
 
@@ -420,10 +417,6 @@ function ClientsView({
           </tbody>
         </table>
       </div>
-      <p className="text-xs text-muted-foreground">
-        Los nombres y relaciones son sintéticos y no reflejan una clasificación
-        real de clientes.
-      </p>
     </section>
   )
 }
@@ -442,15 +435,11 @@ function WorkView({
       </div>
       <dl className="grid gap-x-8 gap-y-3 border-y border-border py-4 sm:grid-cols-3">
         <div>
-          <dt className="text-xs text-muted-foreground">
-            Pendientes de ejemplo
-          </dt>
+          <dt className="text-xs text-muted-foreground">Pendientes</dt>
           <dd className="mt-1 font-semibold">{snapshot.workCount}</dd>
         </div>
         <div>
-          <dt className="text-xs text-muted-foreground">
-            Marcados vencidos en fixture
-          </dt>
+          <dt className="text-xs text-muted-foreground">Marcados vencidos</dt>
           <dd className="mt-1 font-semibold">{snapshot.overdueCount}</dd>
         </div>
         <div>
